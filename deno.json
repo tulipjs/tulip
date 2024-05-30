@@ -1,0 +1,14 @@
+{
+  "tasks": {
+    "build": "deno run --allow-read --allow-write --allow-env --allow-run --allow-net build.ts ",
+    "start": "deno run -A debug.ts & deno fmt --watch"
+  },
+  "imports": {
+    "deno/": "https://deno.land/std@0.194.0/",
+    "game_serve": "https://deno.land/x/game_serve@v1.0.8/mod.ts",
+    "deno_web_serve": "https://deno.land/x/deno_web_serve@v2.8.1/mod.ts",
+    "loadenv": "https://deno.land/x/loadenv@v1.0.1/mod.ts"
+  },
+  "lock": false,
+  "nodeModulesDir": true
+}
