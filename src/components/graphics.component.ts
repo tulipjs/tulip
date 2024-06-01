@@ -1,4 +1,4 @@
-import * as PIXI from "../libs/pixi.mjs";
+import * as PIXI from "pixi.js";
 import { Component, DisplayObjectMutable, Graphics } from "../types";
 import { ContainerProps } from "./container.component";
 import { getDisplayObjectMutable, setDisplayObjectProps } from "../utils";

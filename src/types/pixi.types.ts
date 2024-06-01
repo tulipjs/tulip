@@ -1,9 +1,11 @@
-import * as PIXI from "../libs/pixi.mjs";
+import * as PIXI from "pixi.js";
 
-export type Container = typeof PIXI.Container;
-export type Graphics = typeof PIXI.Graphics;
-export type Sprite = typeof PIXI.Sprite;
+export type Container = PIXI.Container;
+export type Graphics = PIXI.Graphics;
+export type Sprite = PIXI.Sprite;
 
-export type DisplayObject = Container | Graphics | Sprite;
+export type DisplayObject = (Container | Graphics | Sprite) & {
+	id?: string
+};
 
 export type Texture = typeof PIXI.Texture;

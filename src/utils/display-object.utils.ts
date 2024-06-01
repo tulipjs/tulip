@@ -1,4 +1,4 @@
-import { DisplayObject, DisplayObjectProps } from "../types";
+import {DisplayObject, DisplayObjectProps, Point} from "../types";
 import { getValueMutableFunction } from "./mutables.utils";
 import { DISPLAY_OBJECT_DEFAULT_PROPS } from "../consts";
 
@@ -6,7 +6,7 @@ export const getDisplayObjectMutable = (displayObject: DisplayObject) => ({
   getDisplayObject: () => displayObject,
   //position
   setPosition: async (data) =>
-    displayObject.position = await getValueMutableFunction<number>(
+    displayObject.position = await getValueMutableFunction<Point>(
       data,
       displayObject.position,
     ),
@@ -23,9 +23,9 @@ export const getDisplayObjectMutable = (displayObject: DisplayObject) => ({
   getPosition: () => displayObject.position,
   //pivot
   setPivot: async (data) =>
-    displayObject.pivot = await getValueMutableFunction<number>(
+    displayObject.pivot = await getValueMutableFunction<Point>(
       data,
-      displayObject.position,
+      displayObject.pivot,
     ),
   setPivotX: async (data) =>
     displayObject.pivot.x = await getValueMutableFunction<number>(
@@ -42,7 +42,7 @@ export const getDisplayObjectMutable = (displayObject: DisplayObject) => ({
   on: (event, callback) => displayObject.on(event, callback),
   //visible
   setVisible: async (data) =>
-    displayObject.visible = await getValueMutableFunction<number>(
+    displayObject.visible = await getValueMutableFunction<boolean>(
       data,
       displayObject.visible,
     ),

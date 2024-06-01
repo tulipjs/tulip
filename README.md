@@ -1,7 +1,7 @@
 # 🌷 tulip
 
-A web library for a procedural game creation. If you are familiar with react,
-now you can create games!
+A web library for procedural game creation. If you are familiar with React,
+now you can create games with 🌷 tulip!
 
 ### ⚠️This library is under heavy development ⚠️
 

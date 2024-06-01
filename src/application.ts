@@ -1,4 +1,4 @@
-import * as PIXI from "./libs/pixi.mjs";
+import * as PIXI from "pixi.js";
 import { ApplicationProps, DisplayObject, DisplayObjectMutable } from "./types";
 
 export const application = async (

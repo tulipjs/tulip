@@ -1,4 +1,4 @@
-import { application } from "tulip.js";
+import { application } from "@darkaqua/tulip";
 import { app } from "./app";
 
 application({

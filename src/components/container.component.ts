@@ -1,4 +1,4 @@
-import * as PIXI from "../libs/pixi.mjs";
+import * as PIXI from "pixi.js";
 import {
   Component,
   Container,

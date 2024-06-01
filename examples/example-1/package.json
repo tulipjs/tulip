@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "tulip.js": "../../"
+    "@darkaqua/tulip": "../../"
   }
 }

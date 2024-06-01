@@ -5,7 +5,7 @@ import {
   DisplayObjectMutable,
   EventMode,
   spriteComponent,
-} from "tulip.js";
+} from "@darkaqua/tulip";
 
 type Mutable = {} & DisplayObjectMutable<Container>;
 
