@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
     "moduleResolution": "node",
-    "module": "es2023",
-    "target": "es2022",
-    "esModuleInterop": true,
+    "module": "CommonJS",
+    "target": "ES6",
     "sourceMap": false,
     "noUnusedLocals": true,
-    "lib": ["es2023", "DOM"],
-    "baseUrl": "./src",
-    "rootDir": "./src"
+    "lib": ["es2022", "DOM"],
+    "esModuleInterop": true,
+    "emitDeclarationOnly": true
   }
 }

@@ -1,13 +1,12 @@
-type SyncComponent<DisplayObject, Props, Mutable> = (
+type SyncComponent<Props, Mutable> = (
   props?: Props,
-) => [DisplayObject, Mutable];
+) => Mutable;
 
-export type AsyncComponent<DisplayObject, Props, Mutable> = (
+export type AsyncComponent<Props, Mutable> = (
   props?: Props,
-) => Promise<[DisplayObject, Mutable]>;
+) => Promise<Mutable>;
 
-export type Component<DisplayObject, Props, Mutable> = SyncComponent<
-  DisplayObject,
+export type Component<Props, Mutable> = SyncComponent<
   Props,
   Mutable
 >;

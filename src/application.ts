@@ -1,13 +1,15 @@
-import * as PIXI from "libs/pixi.mjs";
-import { app } from "app";
+import * as PIXI from "./libs/pixi.mjs";
+import { ApplicationProps, DisplayObject, DisplayObjectMutable } from "./types";
 
-const load = async () => {
+export const application = async (
+  { backgroundColor, sharedTicker, antialias }: ApplicationProps,
+) => {
   const application = new PIXI.Application();
 
   await application.init({
-    backgroundColor: 0xff00ff,
-    antialias: true,
-    sharedTicker: true,
+    backgroundColor,
+    antialias,
+    sharedTicker,
     resizeTo: window,
   });
 
@@ -25,9 +27,13 @@ const load = async () => {
   // PIXI.settings.FAIL_IF_MAJOR_PERFORMANCE_CAVEAT = true;
   PIXI.AbstractRenderer.defaultOptions.failIfMajorPerformanceCaveat = true;
 
+  application.renderer.resolution = Math.round(devicePixelRatio);
+
   document.body.appendChild(application.canvas);
 
-  const [appContainer] = await app();
-  application.stage.addChild(appContainer);
+  return {
+    addChild: (displayObjectMutable: DisplayObjectMutable<DisplayObject>) => {
+      application.stage.addChild(displayObjectMutable.getDisplayObject());
+    },
+  };
 };
-load();

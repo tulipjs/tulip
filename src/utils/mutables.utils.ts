@@ -1,4 +1,4 @@
-import { MutableFunction } from "types";
+import { MutableFunction } from "../types";
 
 export const getValueMutableFunction = async <Type>(
   data: MutableFunction<Type>,

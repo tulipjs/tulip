@@ -1,42 +1,42 @@
 /*!
- * PixiJS - v8.0.0
- * Compiled Tue, 05 Mar 2024 17:44:00 UTC
+ * PixiJS - v8.1.5
+ * Compiled Tue, 21 May 2024 10:29:08 UTC
  *
  * PixiJS is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
  */
 "use strict";
-var __defProp$11 = Object.defineProperty;
-var __defProps$o = Object.defineProperties;
-var __getOwnPropDescs$o = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$11 = Object.getOwnPropertySymbols;
-var __hasOwnProp$11 = Object.prototype.hasOwnProperty;
-var __propIsEnum$11 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$11 = (obj, key, value) =>
+var __defProp$10 = Object.defineProperty;
+var __defProps$n = Object.defineProperties;
+var __getOwnPropDescs$n = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$10 = Object.getOwnPropertySymbols;
+var __hasOwnProp$10 = Object.prototype.hasOwnProperty;
+var __propIsEnum$10 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$10 = (obj, key, value) =>
   key in obj
-    ? __defProp$11(obj, key, {
+    ? __defProp$10(obj, key, {
       enumerable: true,
       configurable: true,
       writable: true,
       value,
     })
     : obj[key] = value;
-var __spreadValues$11 = (a, b) => {
+var __spreadValues$10 = (a, b) => {
   for (var prop in b || (b = {})) {
-    if (__hasOwnProp$11.call(b, prop)) {
-      __defNormalProp$11(a, prop, b[prop]);
+    if (__hasOwnProp$10.call(b, prop)) {
+      __defNormalProp$10(a, prop, b[prop]);
     }
   }
-  if (__getOwnPropSymbols$11) {
-    for (var prop of __getOwnPropSymbols$11(b)) {
-      if (__propIsEnum$11.call(b, prop)) {
-        __defNormalProp$11(a, prop, b[prop]);
+  if (__getOwnPropSymbols$10) {
+    for (var prop of __getOwnPropSymbols$10(b)) {
+      if (__propIsEnum$10.call(b, prop)) {
+        __defNormalProp$10(a, prop, b[prop]);
       }
     }
   }
   return a;
 };
-var __spreadProps$o = (a, b) => __defProps$o(a, __getOwnPropDescs$o(b));
+var __spreadProps$n = (a, b) => __defProps$n(a, __getOwnPropDescs$n(b));
 var ExtensionType = /* @__PURE__ */ ((ExtensionType2) => {
   ExtensionType2["Application"] = "application";
   ExtensionType2["WebGLPipes"] = "webgl-pipes";
@@ -67,10 +67,10 @@ const normalizeExtension = (ext) => {
     const metadata = typeof ext.extension !== "object"
       ? { type: ext.extension }
       : ext.extension;
-    ext = __spreadProps$o(__spreadValues$11({}, metadata), { ref: ext });
+    ext = __spreadProps$n(__spreadValues$10({}, metadata), { ref: ext });
   }
   if (typeof ext === "object") {
-    ext = __spreadValues$11({}, ext);
+    ext = __spreadValues$10({}, ext);
   } else {
     throw new Error("Invalid extension type");
   }
@@ -1139,7 +1139,7 @@ function namesPlugin(e, f) {
     if (n) return n;
     if (null == f ? void 0 : f.closest) {
       var o = this.toRgb(), t = 1 / 0, b = "black";
-      if (!l.length) for (var c in a) l[c] = new e(a[c]).toRgb();
+      if (!l.length) { for (var c in a) l[c] = new e(a[c]).toRgb(); }
       for (var g in a) {
         var u =
           (d = o,
@@ -1158,29 +1158,29 @@ function namesPlugin(e, f) {
 }
 
 "use strict";
-var __defProp$10 = Object.defineProperty;
-var __getOwnPropSymbols$10 = Object.getOwnPropertySymbols;
-var __hasOwnProp$10 = Object.prototype.hasOwnProperty;
-var __propIsEnum$10 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$10 = (obj, key, value) =>
+var __defProp$$ = Object.defineProperty;
+var __getOwnPropSymbols$$ = Object.getOwnPropertySymbols;
+var __hasOwnProp$$ = Object.prototype.hasOwnProperty;
+var __propIsEnum$$ = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$$ = (obj, key, value) =>
   key in obj
-    ? __defProp$10(obj, key, {
+    ? __defProp$$(obj, key, {
       enumerable: true,
       configurable: true,
       writable: true,
       value,
     })
     : obj[key] = value;
-var __spreadValues$10 = (a, b) => {
+var __spreadValues$$ = (a, b) => {
   for (var prop in b || (b = {})) {
-    if (__hasOwnProp$10.call(b, prop)) {
-      __defNormalProp$10(a, prop, b[prop]);
+    if (__hasOwnProp$$.call(b, prop)) {
+      __defNormalProp$$(a, prop, b[prop]);
     }
   }
-  if (__getOwnPropSymbols$10) {
-    for (var prop of __getOwnPropSymbols$10(b)) {
-      if (__propIsEnum$10.call(b, prop)) {
-        __defNormalProp$10(a, prop, b[prop]);
+  if (__getOwnPropSymbols$$) {
+    for (var prop of __getOwnPropSymbols$$(b)) {
+      if (__propIsEnum$$.call(b, prop)) {
+        __defNormalProp$$(a, prop, b[prop]);
       }
     }
   }
@@ -1269,7 +1269,7 @@ const _Color = class _Color {
     } else if (Array.isArray(value) || ArrayBuffer.isView(value)) {
       return value.slice(0);
     } else if (typeof value === "object" && value !== null) {
-      return __spreadValues$10({}, value);
+      return __spreadValues$$({}, value);
     }
     return value;
   }
@@ -2058,6 +2058,14 @@ class Matrix {
     this.ty = matrix.ty;
     return this;
   }
+  /**
+   * check to see if two matrices are the same
+   * @param matrix - The matrix to compare to.
+   */
+  equals(matrix) {
+    return matrix.a === this.a && matrix.b === this.b && matrix.c === this.c &&
+      matrix.d === this.d && matrix.tx === this.tx && matrix.ty === this.ty;
+  }
   toString() {
     return `[pixi.js:Matrix a=${this.a} b=${this.b} c=${this.c} d=${this.d} tx=${this.tx} ty=${this.ty}]`;
   }
@@ -2270,13 +2278,14 @@ const childrenHelperMixin = {
         if (!child) {
           continue;
         }
-        if (this.renderGroup) {
-          this.renderGroup.removeChild(child);
-        }
         removed.push(child);
         child.parent = null;
       }
       removeItems(this.children, beginIndex, end);
+      const renderGroup = this.renderGroup || this.parentRenderGroup;
+      if (renderGroup) {
+        renderGroup.removeChildren(removed);
+      }
       for (let i = 0; i < removed.length; ++i) {
         this.emit("childRemoved", removed[i], this, i);
         removed[i].emit("removed", this);
@@ -2378,8 +2387,9 @@ const childrenHelperMixin = {
     child.didChange = true;
     child.didViewUpdate = false;
     child._updateFlags = 15;
-    if (this.renderGroup) {
-      this.renderGroup.addChild(child);
+    const renderGroup = this.renderGroup || this.parentRenderGroup;
+    if (renderGroup) {
+      renderGroup.addChild(child);
     }
     if (this.sortableChildren) {
       this.sortDirty = true;
@@ -2414,11 +2424,11 @@ const childrenHelperMixin = {
 
 "use strict";
 class FilterEffect {
-  constructor(options) {
+  constructor() {
+    /** the pipe that knows how to handle this effect */
     this.pipe = "filter";
+    /** the priority of this effect */
     this.priority = 1;
-    this.filters = options == null ? void 0 : options.filters;
-    this.filterArea = options == null ? void 0 : options.filterArea;
   }
   destroy() {
     for (let i = 0; i < this.filters.length; i++) {
@@ -2427,17 +2437,6 @@ class FilterEffect {
     this.filters = null;
     this.filterArea = null;
   }
-}
-const filterEffectsPool = [];
-function getFilterEffect(filters, filterArea) {
-  const filterEffect = filterEffectsPool.pop() || new FilterEffect();
-  filterEffect.filters = filters;
-  filterEffect.filterArea = filterArea;
-  return filterEffect;
-}
-function returnFilterEffect(effect) {
-  effect.filters = null;
-  filterEffectsPool.push(effect);
 }
 
 "use strict";
@@ -2635,8 +2634,8 @@ extensions.handleByList(
 
 "use strict";
 const effectsMixin = {
-  _mask: null,
-  _filters: null,
+  _maskEffect: null,
+  _filterEffect: null,
   /**
    * @todo Needs docs.
    * @memberof scene.Container#
@@ -2656,8 +2655,9 @@ const effectsMixin = {
     }
     this.effects.push(effect);
     this.effects.sort((a, b) => a.priority - b.priority);
-    if (this.renderGroup) {
-      this.renderGroup.structureDidChange = true;
+    const renderGroup = this.renderGroup || this.parentRenderGroup;
+    if (renderGroup) {
+      renderGroup.structureDidChange = true;
     }
     this._updateIsSimple();
   },
@@ -2673,28 +2673,26 @@ const effectsMixin = {
       return;
     }
     this.effects.splice(index, 1);
-    if (!this.isRenderGroupRoot && this.renderGroup) {
-      this.renderGroup.structureDidChange = true;
+    if (this.parentRenderGroup) {
+      this.parentRenderGroup.structureDidChange = true;
     }
     this._updateIsSimple();
   },
   set mask(value) {
-    this._mask || (this._mask = { mask: null, effect: null });
-    if (this._mask.mask === value) {
+    const effect = this._maskEffect;
+    if ((effect == null ? void 0 : effect.mask) === value) {
       return;
     }
-    if (this._mask.effect) {
-      this.removeEffect(this._mask.effect);
-      MaskEffectManager.returnMaskEffect(this._mask.effect);
-      this._mask.effect = null;
+    if (effect) {
+      this.removeEffect(effect);
+      MaskEffectManager.returnMaskEffect(effect);
+      this._maskEffect = null;
     }
-    this._mask.mask = value;
     if (value === null || value === void 0) {
       return;
     }
-    const effect = MaskEffectManager.getMaskEffect(value);
-    this._mask.effect = effect;
-    this.addEffect(effect);
+    this._maskEffect = MaskEffectManager.getMaskEffect(value);
+    this.addEffect(this._maskEffect);
   },
   /**
    * Sets a mask for the displayObject. A mask is an object that limits the visibility of an
@@ -2719,27 +2717,27 @@ const effectsMixin = {
    */
   get mask() {
     var _a;
-    return (_a = this._mask) == null ? void 0 : _a.mask;
+    return (_a = this._maskEffect) == null ? void 0 : _a.mask;
   },
   set filters(value) {
+    var _a;
     if (!Array.isArray(value) && value) {
       value = [value];
     }
-    this._filters ||
-      (this._filters = { filters: null, effect: null, filterArea: null });
-    const hasFilters = value && value.length > 0;
-    const didChange = this._filters.effect && !hasFilters ||
-      !this._filters.effect && hasFilters;
-    this._filters.filters = Object.freeze(value);
+    const effect = this._filterEffect ||
+      (this._filterEffect = new FilterEffect());
+    value = value;
+    const hasFilters = (value == null ? void 0 : value.length) > 0;
+    const hadFilters = ((_a = effect.filters) == null ? void 0 : _a.length) > 0;
+    const didChange = hasFilters !== hadFilters;
+    value = Array.isArray(value) ? value.slice(0) : value;
+    effect.filters = Object.freeze(value);
     if (didChange) {
       if (hasFilters) {
-        const effect = getFilterEffect(value, this.filterArea);
-        this._filters.effect = effect;
         this.addEffect(effect);
       } else {
-        this.removeEffect(this._filters.effect);
-        returnFilterEffect(this._filters.effect);
-        this._filters.effect = null;
+        this.removeEffect(effect);
+        effect.filters = value != null ? value : null;
       }
     }
   },
@@ -2751,12 +2749,11 @@ const effectsMixin = {
    */
   get filters() {
     var _a;
-    return (_a = this._filters) == null ? void 0 : _a.filters;
+    return (_a = this._filterEffect) == null ? void 0 : _a.filters;
   },
   set filterArea(value) {
-    this._filters ||
-      (this._filters = { filters: null, effect: null, filterArea: null });
-    this._filters.filterArea = value;
+    this._filterEffect || (this._filterEffect = new FilterEffect());
+    this._filterEffect.filterArea = value;
   },
   /**
    * The area the filter is applied to. This is used as more of an optimization
@@ -2767,7 +2764,7 @@ const effectsMixin = {
    */
   get filterArea() {
     var _a;
-    return (_a = this._filters) == null ? void 0 : _a.filterArea;
+    return (_a = this._filterEffect) == null ? void 0 : _a.filterArea;
   },
 };
 
@@ -3387,6 +3384,28 @@ class Bounds {
     return this;
   }
   /**
+   * Resizes the bounds object to include the given bounds.
+   * @param left - The left value of the bounds.
+   * @param right - The right value of the bounds.
+   * @param top - The top value of the bounds.
+   * @param bottom - The bottom value of the bounds.
+   */
+  fitBounds(left, right, top, bottom) {
+    if (this.minX < left) {
+      this.minX = left;
+    }
+    if (this.maxX > right) {
+      this.maxX = right;
+    }
+    if (this.minY < top) {
+      this.minY = top;
+    }
+    if (this.maxY > bottom) {
+      this.maxY = bottom;
+    }
+    return this;
+  }
+  /**
    * Pads bounds object, making it grow in all directions.
    * If paddingY is omitted, both paddingX and paddingY will be set to paddingX.
    * @param paddingX - The horizontal padding amount.
@@ -3797,7 +3816,7 @@ const measureMixin = {
 const onRenderMixin = {
   _onRender: null,
   set onRender(func) {
-    const renderGroup = this.renderGroup;
+    const renderGroup = this.renderGroup || this.parentRenderGroup;
     if (!func) {
       if (this._onRender) {
         renderGroup == null ? void 0 : renderGroup.removeOnRender(this);
@@ -3877,8 +3896,8 @@ const sortMixin = {
       this.parent.sortableChildren = true;
       this.parent.sortDirty = true;
     }
-    if (this.renderGroup && !this.isRenderGroupRoot) {
-      this.renderGroup.structureDidChange = true;
+    if (this.parentRenderGroup) {
+      this.parentRenderGroup.structureDidChange = true;
     }
   },
   /**
@@ -3997,7 +4016,6 @@ class RenderGroup {
     this.canBundle = false;
     this.renderGroupParent = null;
     this.renderGroupChildren = [];
-    this._children = [];
     this.worldTransform = new Matrix();
     this.worldColorAlpha = 4294967295;
     this.worldColor = 16777215;
@@ -4012,7 +4030,14 @@ class RenderGroup {
     this.instructionSet = new InstructionSet();
     this._onRenderContainers = [];
     this.root = root;
-    this.addChild(root);
+    if (root._onRender) {
+      this.addOnRender(root);
+    }
+    root.didChange = true;
+    const children = root.children;
+    for (let i = 0; i < children.length; i++) {
+      this.addChild(children[i]);
+    }
   }
   get localTransform() {
     return this.root.localTransform;
@@ -4024,13 +4049,9 @@ class RenderGroup {
       );
     }
     renderGroupChild.renderGroupParent = this;
-    this.onChildUpdate(renderGroupChild.root);
     this.renderGroupChildren.push(renderGroupChild);
   }
   _removeRenderGroupChild(renderGroupChild) {
-    if (renderGroupChild.root.didChange) {
-      this._removeChildFromUpdate(renderGroupChild.root);
-    }
     const index = this.renderGroupChildren.indexOf(renderGroupChild);
     if (index > -1) {
       this.renderGroupChildren.splice(index, 1);
@@ -4039,32 +4060,24 @@ class RenderGroup {
   }
   addChild(child) {
     this.structureDidChange = true;
-    if (child !== this.root) {
-      this._children.push(child);
-      child.updateTick = -1;
-      if (child.parent === this.root) {
-        child.relativeRenderGroupDepth = 1;
-      } else {
-        child.relativeRenderGroupDepth = child.parent.relativeRenderGroupDepth +
-          1;
-      }
-      if (child._onRender) {
-        this.addOnRender(child);
-      }
-    }
-    if (child.renderGroup) {
-      if (child.renderGroup.root === child) {
-        this.addRenderGroupChild(child.renderGroup);
-        return;
-      }
+    child.parentRenderGroup = this;
+    child.updateTick = -1;
+    if (child.parent === this.root) {
+      child.relativeRenderGroupDepth = 1;
     } else {
-      child.renderGroup = this;
-      child.didChange = true;
+      child.relativeRenderGroupDepth = child.parent.relativeRenderGroupDepth +
+        1;
+    }
+    child.didChange = true;
+    this.onChildUpdate(child);
+    if (child.renderGroup) {
+      this.addRenderGroupChild(child.renderGroup);
+      return;
+    }
+    if (child._onRender) {
+      this.addOnRender(child);
     }
     const children = child.children;
-    if (!child.isRenderGroupRoot) {
-      this.onChildUpdate(child);
-    }
     for (let i = 0; i < children.length; i++) {
       this.addChild(children[i]);
     }
@@ -4072,23 +4085,23 @@ class RenderGroup {
   removeChild(child) {
     this.structureDidChange = true;
     if (child._onRender) {
-      this.removeOnRender(child);
+      if (!child.renderGroup) {
+        this.removeOnRender(child);
+      }
     }
-    if (child.renderGroup.root !== child) {
-      const children = child.children;
-      for (let i = 0; i < children.length; i++) {
-        this.removeChild(children[i]);
-      }
-      if (child.didChange) {
-        child.renderGroup._removeChildFromUpdate(child);
-      }
-      child.renderGroup = null;
-    } else {
+    child.parentRenderGroup = null;
+    if (child.renderGroup) {
       this._removeRenderGroupChild(child.renderGroup);
+      return;
     }
-    const index = this._children.indexOf(child);
-    if (index > -1) {
-      this._children.splice(index, 1);
+    const children = child.children;
+    for (let i = 0; i < children.length; i++) {
+      this.removeChild(children[i]);
+    }
+  }
+  removeChildren(children) {
+    for (let i = 0; i < children.length; i++) {
+      this.removeChild(children[i]);
     }
   }
   onChildUpdate(child) {
@@ -4118,18 +4131,6 @@ class RenderGroup {
     this.childrenRenderablesToUpdate
       .list[this.childrenRenderablesToUpdate.index++] = child;
   }
-  _removeChildFromUpdate(child) {
-    const childrenToUpdate =
-      this.childrenToUpdate[child.relativeRenderGroupDepth];
-    if (!childrenToUpdate) {
-      return;
-    }
-    const index = childrenToUpdate.list.indexOf(child);
-    if (index > -1) {
-      childrenToUpdate.list.splice(index, 1);
-    }
-    childrenToUpdate.index--;
-  }
   get isRenderable() {
     return this.root.localDisplayStatus === 7 && this.worldAlpha > 0;
   }
@@ -4151,6 +4152,24 @@ class RenderGroup {
     for (let i = 0; i < this._onRenderContainers.length; i++) {
       this._onRenderContainers[i]._onRender();
     }
+  }
+  getChildren(out = []) {
+    const children = this.root.children;
+    for (let i = 0; i < children.length; i++) {
+      this._getChildren(children[i], out);
+    }
+    return out;
+  }
+  _getChildren(container, out = []) {
+    out.push(container);
+    if (container.renderGroup) {
+      return out;
+    }
+    const children = container.children;
+    for (let i = 0; i < children.length; i++) {
+      this._getChildren(children[i], out);
+    }
+    return out;
   }
 }
 
@@ -4179,13 +4198,15 @@ class Container extends EventEmitter {
     this.uid = uid("renderable");
     /** @private */
     this._updateFlags = 15;
-    // is this container the root of a renderGroup?
-    // TODO implement this in a few more places
-    /** @private */
-    this.isRenderGroupRoot = false;
-    // the render group this container belongs to OR owns
+    // the render group this container owns
     /** @private */
     this.renderGroup = null;
+    // the render group this container belongs to
+    /** @private */
+    this.parentRenderGroup = null;
+    // the index of the container in the render group
+    /** @private */
+    this.parentRenderGroupIndex = 0;
     // set to true if the container has changed. It is reset once the changes have been applied
     // by the transform system
     // its here to stop ensure that when things change, only one update gets registers with the transform system
@@ -4345,7 +4366,9 @@ class Container extends EventEmitter {
     /**
      * A value that increments each time the container is modified
      * the first 12 bits represent the container changes (eg transform, alpha, visible etc)
-     * the second 12 bits represent the view changes (eg texture swap, geometry change etc)
+     * the second 12 bits represent:
+     *      - for view changes (eg texture swap, geometry change etc)
+     *      - containers changes (eg children added, removed etc)
      *
      *  view          container
      * [000000000000][00000000000]
@@ -4402,8 +4425,8 @@ class Container extends EventEmitter {
     if (child.parent === this) {
       this.children.splice(this.children.indexOf(child), 1);
       this.children.push(child);
-      if (this.renderGroup && !this.isRenderGroupRoot) {
-        this.renderGroup.structureDidChange = true;
+      if (this.parentRenderGroup) {
+        this.parentRenderGroup.structureDidChange = true;
       }
       return child;
     }
@@ -4418,11 +4441,13 @@ class Container extends EventEmitter {
     child.didChange = true;
     child.didViewUpdate = false;
     child._updateFlags = 15;
-    if (this.renderGroup) {
-      this.renderGroup.addChild(child);
+    const renderGroup = this.renderGroup || this.parentRenderGroup;
+    if (renderGroup) {
+      renderGroup.addChild(child);
     }
     this.emit("childAdded", child, this, this.children.length - 1);
     child.emit("added", this);
+    this._didChangeId += 1 << 12;
     if (child._zIndex !== 0) {
       child.depthOfChildModified();
     }
@@ -4443,14 +4468,17 @@ class Container extends EventEmitter {
     const child = children[0];
     const index = this.children.indexOf(child);
     if (index > -1) {
+      this._didChangeId += 1 << 12;
       this.children.splice(index, 1);
       if (this.renderGroup) {
         this.renderGroup.removeChild(child);
+      } else if (this.parentRenderGroup) {
+        this.parentRenderGroup.removeChild(child);
       }
+      child.parent = null;
+      this.emit("childRemoved", child, this, index);
+      child.emit("removed", this);
     }
-    child.parent = null;
-    this.emit("childRemoved", child, this, index);
-    child.emit("removed", this);
     return child;
   }
   /** @ignore */
@@ -4465,17 +4493,12 @@ class Container extends EventEmitter {
       return;
     }
     this.didChange = true;
-    if (this.isRenderGroupRoot) {
-      const renderGroupParent = this.renderGroup.renderGroupParent;
-      if (renderGroupParent) {
-        renderGroupParent.onChildUpdate(this);
-      }
-    } else if (this.renderGroup) {
-      this.renderGroup.onChildUpdate(this);
+    if (this.parentRenderGroup) {
+      this.parentRenderGroup.onChildUpdate(this);
     }
   }
   set isRenderGroup(value) {
-    if (this.isRenderGroupRoot && value === false) {
+    if (this.renderGroup && value === false) {
       throw new Error("[Pixi] cannot undo a render group just yet");
     }
     if (value) {
@@ -4487,39 +4510,27 @@ class Container extends EventEmitter {
    * This means that it will be rendered as a separate pass, with its own set of instructions
    */
   get isRenderGroup() {
-    return this.isRenderGroupRoot;
+    return !!this.renderGroup;
   }
   /** This enables the container to be rendered as a render group. */
   enableRenderGroup() {
-    if (this.renderGroup && this.renderGroup.root === this) {
+    if (this.renderGroup) {
       return;
     }
-    this.isRenderGroupRoot = true;
-    const parentRenderGroup = this.renderGroup;
+    const parentRenderGroup = this.parentRenderGroup;
     if (parentRenderGroup) {
       parentRenderGroup.removeChild(this);
     }
     this.renderGroup = new RenderGroup(this);
     if (parentRenderGroup) {
-      for (let i = 0; i < parentRenderGroup.renderGroupChildren.length; i++) {
-        const childRenderGroup = parentRenderGroup.renderGroupChildren[i];
-        let parent = childRenderGroup.root;
-        while (parent) {
-          if (parent === this) {
-            this.renderGroup.addRenderGroupChild(childRenderGroup);
-            break;
-          }
-          parent = parent.parent;
-        }
-      }
-      parentRenderGroup.addRenderGroupChild(this.renderGroup);
+      parentRenderGroup.addChild(this);
     }
     this._updateIsSimple();
     this.groupTransform = Matrix.IDENTITY;
   }
   /** @ignore */
   _updateIsSimple() {
-    this.isSimple = !this.isRenderGroupRoot && this.effects.length === 0;
+    this.isSimple = !this.renderGroup && this.effects.length === 0;
   }
   /**
    * Current transform of the object based on world (parent) factors.
@@ -4528,14 +4539,12 @@ class Container extends EventEmitter {
   get worldTransform() {
     this._worldTransform || (this._worldTransform = new Matrix());
     if (this.renderGroup) {
-      if (this.isRenderGroupRoot) {
-        this._worldTransform.copyFrom(this.renderGroup.worldTransform);
-      } else {
-        this._worldTransform.appendFrom(
-          this.relativeGroupTransform,
-          this.renderGroup.worldTransform,
-        );
-      }
+      this._worldTransform.copyFrom(this.renderGroup.worldTransform);
+    } else if (this.parentRenderGroup) {
+      this._worldTransform.appendFrom(
+        this.relativeGroupTransform,
+        this.parentRenderGroup.worldTransform,
+      );
     }
     return this._worldTransform;
   }
@@ -4824,8 +4833,8 @@ class Container extends EventEmitter {
     if (this.localBlendMode === value) {
       return;
     }
-    if (this.renderGroup && !this.isRenderGroupRoot) {
-      this.renderGroup.structureDidChange = true;
+    if (this.parentRenderGroup) {
+      this.parentRenderGroup.structureDidChange = true;
     }
     this._updateFlags |= UPDATE_BLEND;
     this.localBlendMode = value;
@@ -4848,8 +4857,8 @@ class Container extends EventEmitter {
     if ((this.localDisplayStatus & 2) >> 1 === valueNumber) {
       return;
     }
-    if (this.renderGroup && !this.isRenderGroupRoot) {
-      this.renderGroup.structureDidChange = true;
+    if (this.parentRenderGroup) {
+      this.parentRenderGroup.structureDidChange = true;
     }
     this._updateFlags |= UPDATE_VISIBLE;
     this.localDisplayStatus ^= 2;
@@ -4865,8 +4874,8 @@ class Container extends EventEmitter {
     if ((this.localDisplayStatus & 4) >> 2 === valueNumber) {
       return;
     }
-    if (this.renderGroup && !this.isRenderGroupRoot) {
-      this.renderGroup.structureDidChange = true;
+    if (this.parentRenderGroup) {
+      this.parentRenderGroup.structureDidChange = true;
     }
     this._updateFlags |= UPDATE_VISIBLE;
     this.localDisplayStatus ^= 4;
@@ -4883,8 +4892,8 @@ class Container extends EventEmitter {
     }
     this._updateFlags |= UPDATE_VISIBLE;
     this.localDisplayStatus ^= 1;
-    if (this.renderGroup && !this.isRenderGroupRoot) {
-      this.renderGroup.structureDidChange = true;
+    if (this.parentRenderGroup) {
+      this.parentRenderGroup.structureDidChange = true;
     }
     this._onUpdate();
   }
@@ -4911,10 +4920,11 @@ class Container extends EventEmitter {
       return;
     }
     this.destroyed = true;
+    const oldChildren = this.removeChildren(0, this.children.length);
     this.removeFromParent();
     this.parent = null;
-    this._mask = null;
-    this._filters = null;
+    this._maskEffect = null;
+    this._filterEffect = null;
     this.effects = null;
     this._position = null;
     this._scale = null;
@@ -4927,7 +4937,6 @@ class Container extends EventEmitter {
       : options == null
       ? void 0
       : options.children;
-    const oldChildren = this.removeChildren(0, this.children.length);
     if (destroyChildren) {
       for (let i = 0; i < oldChildren.length; ++i) {
         oldChildren[i].destroy(options);
@@ -5429,19 +5438,19 @@ class AccessibilitySystem {
             div.title !== child.accessibleTitle &&
             child.accessibleTitle !== null
           ) {
-            div.title = child.accessibleTitle;
+            div.title = child.accessibleTitle || "";
           }
           if (
             div.getAttribute("aria-label") !== child.accessibleHint &&
             child.accessibleHint !== null
           ) {
-            div.setAttribute("aria-label", child.accessibleHint);
+            div.setAttribute("aria-label", child.accessibleHint || "");
           }
         }
         if (
           child.accessibleTitle !== div.title || child.tabIndex !== div.tabIndex
         ) {
-          div.title = child.accessibleTitle;
+          div.title = child.accessibleTitle || "";
           div.tabIndex = child.tabIndex;
           if (this.debug) {
             this._updateDebugHTML(div);
@@ -6963,7 +6972,10 @@ class EventBoundary {
     return int === "static" || int === "dynamic";
   }
   _interactivePrune(container) {
-    if (!container || !container.visible || !container.renderable) {
+    if (
+      !container || !container.visible || !container.renderable ||
+      !container.includeInBuild || !container.measurable
+    ) {
       return true;
     }
     if (container.eventMode === "none") {
@@ -6978,7 +6990,7 @@ class EventBoundary {
    * Checks whether the container or any of its children cannot pass the hit test at all.
    *
    * {@link EventBoundary}'s implementation uses the {@link Container.hitArea hitArea}
-   * and {@link Container._mask} for pruning.
+   * and {@link Container._maskEffect} for pruning.
    * @param container - The container to prune.
    * @param location - The location to test for overlap.
    */
@@ -7686,29 +7698,29 @@ class EventBoundary {
 }
 
 "use strict";
-var __defProp$$ = Object.defineProperty;
-var __getOwnPropSymbols$$ = Object.getOwnPropertySymbols;
-var __hasOwnProp$$ = Object.prototype.hasOwnProperty;
-var __propIsEnum$$ = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$$ = (obj, key, value) =>
+var __defProp$_ = Object.defineProperty;
+var __getOwnPropSymbols$_ = Object.getOwnPropertySymbols;
+var __hasOwnProp$_ = Object.prototype.hasOwnProperty;
+var __propIsEnum$_ = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$_ = (obj, key, value) =>
   key in obj
-    ? __defProp$$(obj, key, {
+    ? __defProp$_(obj, key, {
       enumerable: true,
       configurable: true,
       writable: true,
       value,
     })
     : obj[key] = value;
-var __spreadValues$$ = (a, b) => {
+var __spreadValues$_ = (a, b) => {
   for (var prop in b || (b = {})) {
-    if (__hasOwnProp$$.call(b, prop)) {
-      __defNormalProp$$(a, prop, b[prop]);
+    if (__hasOwnProp$_.call(b, prop)) {
+      __defNormalProp$_(a, prop, b[prop]);
     }
   }
-  if (__getOwnPropSymbols$$) {
-    for (var prop of __getOwnPropSymbols$$(b)) {
-      if (__propIsEnum$$.call(b, prop)) {
-        __defNormalProp$$(a, prop, b[prop]);
+  if (__getOwnPropSymbols$_) {
+    for (var prop of __getOwnPropSymbols$_(b)) {
+      if (__propIsEnum$_.call(b, prop)) {
+        __defNormalProp$_(a, prop, b[prop]);
       }
     }
   }
@@ -7750,7 +7762,7 @@ const _EventSystem = class _EventSystem {
       pointer: "pointer",
     };
     this.features = new Proxy(
-      __spreadValues$$({}, _EventSystem.defaultEventFeatures),
+      __spreadValues$_({}, _EventSystem.defaultEventFeatures),
       {
         set: (target, key, value) => {
           if (key === "globalMove") {
@@ -9503,29 +9515,29 @@ function createStringVariations(string) {
 const isSingleItem = (item) => !Array.isArray(item);
 
 "use strict";
-var __defProp$_ = Object.defineProperty;
-var __getOwnPropSymbols$_ = Object.getOwnPropertySymbols;
-var __hasOwnProp$_ = Object.prototype.hasOwnProperty;
-var __propIsEnum$_ = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$_ = (obj, key, value) =>
+var __defProp$Z = Object.defineProperty;
+var __getOwnPropSymbols$Z = Object.getOwnPropertySymbols;
+var __hasOwnProp$Z = Object.prototype.hasOwnProperty;
+var __propIsEnum$Z = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$Z = (obj, key, value) =>
   key in obj
-    ? __defProp$_(obj, key, {
+    ? __defProp$Z(obj, key, {
       enumerable: true,
       configurable: true,
       writable: true,
       value,
     })
     : obj[key] = value;
-var __spreadValues$_ = (a, b) => {
+var __spreadValues$Z = (a, b) => {
   for (var prop in b || (b = {})) {
-    if (__hasOwnProp$_.call(b, prop)) {
-      __defNormalProp$_(a, prop, b[prop]);
+    if (__hasOwnProp$Z.call(b, prop)) {
+      __defNormalProp$Z(a, prop, b[prop]);
     }
   }
-  if (__getOwnPropSymbols$_) {
-    for (var prop of __getOwnPropSymbols$_(b)) {
-      if (__propIsEnum$_.call(b, prop)) {
-        __defNormalProp$_(a, prop, b[prop]);
+  if (__getOwnPropSymbols$Z) {
+    for (var prop of __getOwnPropSymbols$Z(b)) {
+      if (__propIsEnum$Z.call(b, prop)) {
+        __defNormalProp$Z(a, prop, b[prop]);
       }
     }
   }
@@ -9784,7 +9796,7 @@ class Resolver {
         if (typeof src === "string" || Array.isArray(src)) {
           return { alias, src };
         }
-        return __spreadValues$_({ alias }, src);
+        return __spreadValues$Z({ alias }, src);
       });
     }
     convertedAssets.forEach((asset) => {
@@ -9802,7 +9814,7 @@ class Resolver {
         assetNames.push(...bundleIds);
         ids = [...aliases, ...bundleIds];
       }
-      this.add(__spreadValues$_(__spreadValues$_({}, asset), {
+      this.add(__spreadValues$Z(__spreadValues$Z({}, asset), {
         alias: ids,
         src: srcs,
       }));
@@ -9881,8 +9893,8 @@ class Resolver {
             data = (_a = src2.data) != null ? _a : data;
             format = (_b = src2.format) != null ? _b : format;
             loadParser = (_c = src2.loadParser) != null ? _c : loadParser;
-            formattedAsset = __spreadValues$_(
-              __spreadValues$_({}, formattedAsset),
+            formattedAsset = __spreadValues$Z(
+              __spreadValues$Z({}, formattedAsset),
               src2,
             );
           }
@@ -10074,8 +10086,8 @@ class Resolver {
         ? _a
         : [formattedAsset.src];
     formattedAsset.src = this._appendDefaultSearchParams(formattedAsset.src);
-    formattedAsset.data = __spreadValues$_(
-      __spreadValues$_({}, assetData || {}),
+    formattedAsset.data = __spreadValues$Z(
+      __spreadValues$Z({}, assetData || {}),
       formattedAsset.data,
     );
     formattedAsset.loadParser = loadParser != null
@@ -10109,100 +10121,6 @@ const copySearchParams = (targetUrl, sourceUrl) => {
   }
   return targetUrl;
 };
-
-"use strict";
-class CacheClass {
-  constructor() {
-    this._parsers = [];
-    this._cache = /* @__PURE__ */ new Map();
-    this._cacheMap = /* @__PURE__ */ new Map();
-  }
-  /** Clear all entries. */
-  reset() {
-    this._cacheMap.clear();
-    this._cache.clear();
-  }
-  /**
-   * Check if the key exists
-   * @param key - The key to check
-   */
-  has(key) {
-    return this._cache.has(key);
-  }
-  /**
-   * Fetch entry by key
-   * @param key - The key of the entry to get
-   */
-  get(key) {
-    const result = this._cache.get(key);
-    if (!result) {
-      warn(`[Assets] Asset id ${key} was not found in the Cache`);
-    }
-    return result;
-  }
-  /**
-   * Set a value by key or keys name
-   * @param key - The key or keys to set
-   * @param value - The value to store in the cache or from which cacheable assets will be derived.
-   */
-  set(key, value) {
-    const keys = convertToList(key);
-    let cacheableAssets;
-    for (let i = 0; i < this.parsers.length; i++) {
-      const parser = this.parsers[i];
-      if (parser.test(value)) {
-        cacheableAssets = parser.getCacheableAssets(keys, value);
-        break;
-      }
-    }
-    const cacheableMap = new Map(Object.entries(cacheableAssets || {}));
-    if (!cacheableAssets) {
-      keys.forEach((key2) => {
-        cacheableMap.set(key2, value);
-      });
-    }
-    const cacheKeys = [...cacheableMap.keys()];
-    const cachedAssets = {
-      cacheKeys,
-      keys,
-    };
-    keys.forEach((key2) => {
-      this._cacheMap.set(key2, cachedAssets);
-    });
-    cacheKeys.forEach((key2) => {
-      const val = cacheableAssets ? cacheableAssets[key2] : value;
-      if (this._cache.has(key2) && this._cache.get(key2) !== val) {
-        warn("[Cache] already has key:", key2);
-      }
-      this._cache.set(key2, cacheableMap.get(key2));
-    });
-  }
-  /**
-   * Remove entry by key
-   *
-   * This function will also remove any associated alias from the cache also.
-   * @param key - The key of the entry to remove
-   */
-  remove(key) {
-    if (!this._cacheMap.has(key)) {
-      warn(`[Assets] Asset id ${key} was not found in the Cache`);
-      return;
-    }
-    const cacheMap = this._cacheMap.get(key);
-    const cacheKeys = cacheMap.cacheKeys;
-    cacheKeys.forEach((key2) => {
-      this._cache.delete(key2);
-    });
-    cacheMap.keys.forEach((key2) => {
-      this._cacheMap.delete(key2);
-    });
-  }
-  /** All loader parsers registered */
-  get parsers() {
-    return this._parsers;
-  }
-}
-const Cache = new CacheClass();
 
 "use strict";
 const ux = [1, 1, 0, -1, -1, -1, 0, 1, 1, 1, 0, -1, -1, -1, 0, 1];
@@ -10509,29 +10427,29 @@ function definedProps(obj) {
 }
 
 "use strict";
-var __defProp$Z = Object.defineProperty;
-var __getOwnPropSymbols$Z = Object.getOwnPropertySymbols;
-var __hasOwnProp$Z = Object.prototype.hasOwnProperty;
-var __propIsEnum$Z = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$Z = (obj, key, value) =>
+var __defProp$Y = Object.defineProperty;
+var __getOwnPropSymbols$Y = Object.getOwnPropertySymbols;
+var __hasOwnProp$Y = Object.prototype.hasOwnProperty;
+var __propIsEnum$Y = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$Y = (obj, key, value) =>
   key in obj
-    ? __defProp$Z(obj, key, {
+    ? __defProp$Y(obj, key, {
       enumerable: true,
       configurable: true,
       writable: true,
       value,
     })
     : obj[key] = value;
-var __spreadValues$Z = (a, b) => {
+var __spreadValues$Y = (a, b) => {
   for (var prop in b || (b = {})) {
-    if (__hasOwnProp$Z.call(b, prop)) {
-      __defNormalProp$Z(a, prop, b[prop]);
+    if (__hasOwnProp$Y.call(b, prop)) {
+      __defNormalProp$Y(a, prop, b[prop]);
     }
   }
-  if (__getOwnPropSymbols$Z) {
-    for (var prop of __getOwnPropSymbols$Z(b)) {
-      if (__propIsEnum$Z.call(b, prop)) {
-        __defNormalProp$Z(a, prop, b[prop]);
+  if (__getOwnPropSymbols$Y) {
+    for (var prop of __getOwnPropSymbols$Y(b)) {
+      if (__propIsEnum$Y.call(b, prop)) {
+        __defNormalProp$Y(a, prop, b[prop]);
       }
     }
   }
@@ -10563,8 +10481,13 @@ const _TextureStyle = class _TextureStyle extends EventEmitter {
      * @ignore
      */
     this._maxAnisotropy = 1;
-    options = __spreadValues$Z(
-      __spreadValues$Z({}, _TextureStyle.defaultOptions),
+    /**
+     * Has the style been destroyed?
+     * @readonly
+     */
+    this.destroyed = false;
+    options = __spreadValues$Y(
+      __spreadValues$Y({}, _TextureStyle.defaultOptions),
       options,
     );
     this.addressMode = options.addressMode;
@@ -10642,7 +10565,9 @@ const _TextureStyle = class _TextureStyle extends EventEmitter {
   }
   /** Destroys the style */
   destroy() {
+    this.destroyed = true;
     this.emit("destroy", this);
+    this.emit("change", this);
     this.removeAllListeners();
   }
 };
@@ -10654,29 +10579,29 @@ _TextureStyle.defaultOptions = {
 let TextureStyle = _TextureStyle;
 
 "use strict";
-var __defProp$Y = Object.defineProperty;
-var __getOwnPropSymbols$Y = Object.getOwnPropertySymbols;
-var __hasOwnProp$Y = Object.prototype.hasOwnProperty;
-var __propIsEnum$Y = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$Y = (obj, key, value) =>
+var __defProp$X = Object.defineProperty;
+var __getOwnPropSymbols$X = Object.getOwnPropertySymbols;
+var __hasOwnProp$X = Object.prototype.hasOwnProperty;
+var __propIsEnum$X = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$X = (obj, key, value) =>
   key in obj
-    ? __defProp$Y(obj, key, {
+    ? __defProp$X(obj, key, {
       enumerable: true,
       configurable: true,
       writable: true,
       value,
     })
     : obj[key] = value;
-var __spreadValues$Y = (a, b) => {
+var __spreadValues$X = (a, b) => {
   for (var prop in b || (b = {})) {
-    if (__hasOwnProp$Y.call(b, prop)) {
-      __defNormalProp$Y(a, prop, b[prop]);
+    if (__hasOwnProp$X.call(b, prop)) {
+      __defNormalProp$X(a, prop, b[prop]);
     }
   }
-  if (__getOwnPropSymbols$Y) {
-    for (var prop of __getOwnPropSymbols$Y(b)) {
-      if (__propIsEnum$Y.call(b, prop)) {
-        __defNormalProp$Y(a, prop, b[prop]);
+  if (__getOwnPropSymbols$X) {
+    for (var prop of __getOwnPropSymbols$X(b)) {
+      if (__propIsEnum$X.call(b, prop)) {
+        __defNormalProp$X(a, prop, b[prop]);
       }
     }
   }
@@ -10771,8 +10696,8 @@ const _TextureSource = class _TextureSource extends EventEmitter {
      * @protected
      */
     this._textureBindLocation = -1;
-    options = __spreadValues$Y(
-      __spreadValues$Y({}, _TextureSource.defaultOptions),
+    options = __spreadValues$X(
+      __spreadValues$X({}, _TextureSource.defaultOptions),
       options,
     );
     this.label = (_a = options.label) != null ? _a : "";
@@ -10898,6 +10823,7 @@ const _TextureSource = class _TextureSource extends EventEmitter {
   destroy() {
     this.destroyed = true;
     this.emit("destroy", this);
+    this.emit("change", this);
     if (this._style) {
       this._style.destroy();
       this._style = null;
@@ -11028,37 +10954,37 @@ _TextureSource.defaultOptions = {
 let TextureSource = _TextureSource;
 
 "use strict";
-var __defProp$X = Object.defineProperty;
-var __defProps$n = Object.defineProperties;
-var __getOwnPropDescs$n = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$X = Object.getOwnPropertySymbols;
-var __hasOwnProp$X = Object.prototype.hasOwnProperty;
-var __propIsEnum$X = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$X = (obj, key, value) =>
+var __defProp$W = Object.defineProperty;
+var __defProps$m = Object.defineProperties;
+var __getOwnPropDescs$m = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$W = Object.getOwnPropertySymbols;
+var __hasOwnProp$W = Object.prototype.hasOwnProperty;
+var __propIsEnum$W = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$W = (obj, key, value) =>
   key in obj
-    ? __defProp$X(obj, key, {
+    ? __defProp$W(obj, key, {
       enumerable: true,
       configurable: true,
       writable: true,
       value,
     })
     : obj[key] = value;
-var __spreadValues$X = (a, b) => {
+var __spreadValues$W = (a, b) => {
   for (var prop in b || (b = {})) {
-    if (__hasOwnProp$X.call(b, prop)) {
-      __defNormalProp$X(a, prop, b[prop]);
+    if (__hasOwnProp$W.call(b, prop)) {
+      __defNormalProp$W(a, prop, b[prop]);
     }
   }
-  if (__getOwnPropSymbols$X) {
-    for (var prop of __getOwnPropSymbols$X(b)) {
-      if (__propIsEnum$X.call(b, prop)) {
-        __defNormalProp$X(a, prop, b[prop]);
+  if (__getOwnPropSymbols$W) {
+    for (var prop of __getOwnPropSymbols$W(b)) {
+      if (__propIsEnum$W.call(b, prop)) {
+        __defNormalProp$W(a, prop, b[prop]);
       }
     }
   }
   return a;
 };
-var __spreadProps$n = (a, b) => __defProps$n(a, __getOwnPropDescs$n(b));
+var __spreadProps$m = (a, b) => __defProps$m(a, __getOwnPropDescs$m(b));
 class BufferImageSource extends TextureSource {
   constructor(options) {
     const buffer = options.resource ||
@@ -11081,7 +11007,7 @@ class BufferImageSource extends TextureSource {
         format = "bgra8unorm";
       }
     }
-    super(__spreadProps$n(__spreadValues$X({}, options), {
+    super(__spreadProps$m(__spreadValues$W({}, options), {
       resource: buffer,
       format,
     }));
@@ -11095,42 +11021,6 @@ class BufferImageSource extends TextureSource {
   }
 }
 BufferImageSource.extension = ExtensionType.TextureSource;
-
-"use strict";
-const sources = [];
-extensions.handleByList(ExtensionType.TextureSource, sources);
-function autoDetectSource(options = {}) {
-  const hasResource = options && options.resource;
-  const res = hasResource ? options.resource : options;
-  const opts = hasResource ? options : { resource: options };
-  for (let i = 0; i < sources.length; i++) {
-    const Source = sources[i];
-    if (Source.test(res)) {
-      return new Source(opts);
-    }
-  }
-  throw new Error(
-    `Could not find a source type for resource: ${opts.resource}`,
-  );
-}
-function resourceToTexture(options = {}, skipCache = false) {
-  const hasResource = options && options.resource;
-  const resource = hasResource ? options.resource : options;
-  const opts = hasResource ? options : { resource: options };
-  if (!skipCache && Cache.has(resource)) {
-    return Cache.get(resource);
-  }
-  const texture = new Texture({ source: autoDetectSource(opts) });
-  texture.on("destroy", () => {
-    if (Cache.has(resource)) {
-      Cache.remove(resource);
-    }
-  });
-  if (!skipCache) {
-    Cache.set(resource, texture);
-  }
-  return texture;
-}
 
 "use strict";
 const tempMat = new Matrix();
@@ -11250,6 +11140,7 @@ class Texture extends EventEmitter {
     defaultAnchor,
     defaultBorders,
     rotate,
+    dynamic,
   } = {}) {
     var _a;
     super();
@@ -11275,6 +11166,12 @@ class Texture extends EventEmitter {
      * texture.on('update', () => {});
      */
     this.noFrame = false;
+    /**
+     * Set to true if you plan on modifying the uvs of this texture.
+     * When this is the case, sprites and other objects using the texture will
+     * make sure to listen for changes to the uvs and update their vertices accordingly.
+     */
+    this.dynamic = false;
     /** is it a texture? yes! used for type checking */
     this.isTexture = true;
     this.label = label;
@@ -11295,22 +11192,8 @@ class Texture extends EventEmitter {
     this.defaultAnchor = defaultAnchor;
     this.defaultBorders = defaultBorders;
     this.destroyed = false;
+    this.dynamic = dynamic || false;
     this.updateUvs();
-  }
-  /**
-   * Helper function that creates a returns Texture based on the source you provide.
-   * The source should be loaded and ready to go. If not its best to grab the asset using Assets.
-   * @param id - String or Source to create texture from
-   * @param skipCache - Skip adding the texture to the cache
-   * @returns The texture based on the Id provided
-   */
-  static from(id, skipCache = false) {
-    if (typeof id === "string") {
-      return Cache.get(id);
-    } else if (id instanceof TextureSource) {
-      return new Texture({ source: id });
-    }
-    return resourceToTexture(id, skipCache);
   }
   set source(value) {
     if (this._source) {
@@ -11736,8 +11619,9 @@ const spritesheetAsset = {
       }
       return spritesheet;
     },
-    unload(spritesheet) {
-      spritesheet.destroy(true);
+    async unload(spritesheet, _resolvedAsset, loader) {
+      await loader.unload(spritesheet.textureSource._sourceOrigin);
+      spritesheet.destroy(false);
     },
   },
 };
@@ -11766,29 +11650,29 @@ function updateQuadBounds(bounds, anchor, texture, padding) {
 }
 
 "use strict";
-var __defProp$W = Object.defineProperty;
-var __getOwnPropSymbols$W = Object.getOwnPropertySymbols;
-var __hasOwnProp$W = Object.prototype.hasOwnProperty;
-var __propIsEnum$W = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$W = (obj, key, value) =>
+var __defProp$V = Object.defineProperty;
+var __getOwnPropSymbols$V = Object.getOwnPropertySymbols;
+var __hasOwnProp$V = Object.prototype.hasOwnProperty;
+var __propIsEnum$V = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$V = (obj, key, value) =>
   key in obj
-    ? __defProp$W(obj, key, {
+    ? __defProp$V(obj, key, {
       enumerable: true,
       configurable: true,
       writable: true,
       value,
     })
     : obj[key] = value;
-var __spreadValues$W = (a, b) => {
+var __spreadValues$V = (a, b) => {
   for (var prop in b || (b = {})) {
-    if (__hasOwnProp$W.call(b, prop)) {
-      __defNormalProp$W(a, prop, b[prop]);
+    if (__hasOwnProp$V.call(b, prop)) {
+      __defNormalProp$V(a, prop, b[prop]);
     }
   }
-  if (__getOwnPropSymbols$W) {
-    for (var prop of __getOwnPropSymbols$W(b)) {
-      if (__propIsEnum$W.call(b, prop)) {
-        __defNormalProp$W(a, prop, b[prop]);
+  if (__getOwnPropSymbols$V) {
+    for (var prop of __getOwnPropSymbols$V(b)) {
+      if (__propIsEnum$V.call(b, prop)) {
+        __defNormalProp$V(a, prop, b[prop]);
       }
     }
   }
@@ -11797,13 +11681,13 @@ var __spreadValues$W = (a, b) => {
 var __objRest$h = (source, exclude) => {
   var target = {};
   for (var prop in source) {
-    if (__hasOwnProp$W.call(source, prop) && exclude.indexOf(prop) < 0) {
+    if (__hasOwnProp$V.call(source, prop) && exclude.indexOf(prop) < 0) {
       target[prop] = source[prop];
     }
   }
-  if (source != null && __getOwnPropSymbols$W) {
-    for (var prop of __getOwnPropSymbols$W(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$W.call(source, prop)) {
+  if (source != null && __getOwnPropSymbols$V) {
+    for (var prop of __getOwnPropSymbols$V(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$V.call(source, prop)) {
         target[prop] = source[prop];
       }
     }
@@ -11819,7 +11703,7 @@ class Sprite extends Container {
       options = { texture: options };
     }
     const _a = options,
-      { texture, anchor, roundPixels, width, height } = _a,
+      { texture = Texture.EMPTY, anchor, roundPixels, width, height } = _a,
       rest = __objRest$h(_a, [
         "texture",
         "anchor",
@@ -11827,7 +11711,7 @@ class Sprite extends Container {
         "width",
         "height",
       ]);
-    super(__spreadValues$W({
+    super(__spreadValues$V({
       label: "Sprite",
     }, rest));
     this.renderPipeId = "sprite";
@@ -11847,6 +11731,8 @@ class Sprite extends Container {
     );
     if (anchor) {
       this.anchor = anchor;
+    } else if (texture.defaultAnchor) {
+      this.anchor = texture.defaultAnchor;
     }
     this.texture = texture;
     this.allowChildren = false;
@@ -11873,8 +11759,15 @@ class Sprite extends Container {
   }
   set texture(value) {
     value || (value = Texture.EMPTY);
-    if (this._texture === value) {
+    const currentTexture = this._texture;
+    if (currentTexture === value) {
       return;
+    }
+    if (currentTexture && currentTexture.dynamic) {
+      currentTexture.off("update", this.onViewUpdate, this);
+    }
+    if (value.dynamic) {
+      value.on("update", this.onViewUpdate, this);
     }
     this._texture = value;
     this.onViewUpdate();
@@ -11934,8 +11827,9 @@ class Sprite extends Container {
       return;
     }
     this.didViewUpdate = true;
-    if (this.renderGroup) {
-      this.renderGroup.onChildViewUpdate(this);
+    const renderGroup = this.renderGroup || this.parentRenderGroup;
+    if (renderGroup) {
+      renderGroup.onChildViewUpdate(this);
     }
   }
   _updateBounds() {
@@ -12342,37 +12236,37 @@ async function detectVideoAlphaMode() {
 }
 
 "use strict";
-var __defProp$V = Object.defineProperty;
-var __defProps$m = Object.defineProperties;
-var __getOwnPropDescs$m = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$V = Object.getOwnPropertySymbols;
-var __hasOwnProp$V = Object.prototype.hasOwnProperty;
-var __propIsEnum$V = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$V = (obj, key, value) =>
+var __defProp$U = Object.defineProperty;
+var __defProps$l = Object.defineProperties;
+var __getOwnPropDescs$l = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$U = Object.getOwnPropertySymbols;
+var __hasOwnProp$U = Object.prototype.hasOwnProperty;
+var __propIsEnum$U = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$U = (obj, key, value) =>
   key in obj
-    ? __defProp$V(obj, key, {
+    ? __defProp$U(obj, key, {
       enumerable: true,
       configurable: true,
       writable: true,
       value,
     })
     : obj[key] = value;
-var __spreadValues$V = (a, b) => {
+var __spreadValues$U = (a, b) => {
   for (var prop in b || (b = {})) {
-    if (__hasOwnProp$V.call(b, prop)) {
-      __defNormalProp$V(a, prop, b[prop]);
+    if (__hasOwnProp$U.call(b, prop)) {
+      __defNormalProp$U(a, prop, b[prop]);
     }
   }
-  if (__getOwnPropSymbols$V) {
-    for (var prop of __getOwnPropSymbols$V(b)) {
-      if (__propIsEnum$V.call(b, prop)) {
-        __defNormalProp$V(a, prop, b[prop]);
+  if (__getOwnPropSymbols$U) {
+    for (var prop of __getOwnPropSymbols$U(b)) {
+      if (__propIsEnum$U.call(b, prop)) {
+        __defNormalProp$U(a, prop, b[prop]);
       }
     }
   }
   return a;
 };
-var __spreadProps$m = (a, b) => __defProps$m(a, __getOwnPropDescs$m(b));
+var __spreadProps$l = (a, b) => __defProps$l(a, __getOwnPropDescs$l(b));
 const _VideoSource = class _VideoSource extends TextureSource {
   constructor(options) {
     var _a;
@@ -12382,8 +12276,8 @@ const _VideoSource = class _VideoSource extends TextureSource {
     this.isReady = false;
     /** The upload method for this texture. */
     this.uploadMethodId = "video";
-    options = __spreadValues$V(
-      __spreadValues$V({}, _VideoSource.defaultOptions),
+    options = __spreadValues$U(
+      __spreadValues$U({}, _VideoSource.defaultOptions),
       options,
     );
     this._autoUpdate = true;
@@ -12435,7 +12329,7 @@ const _VideoSource = class _VideoSource extends TextureSource {
     if (this.destroyed) {
       this._videoFrameRequestCallbackHandle = null;
     } else {
-      this._videoFrameRequestCallbackHandle = this.source
+      this._videoFrameRequestCallbackHandle = this.resource
         .requestVideoFrameCallback(
           this._videoFrameRequestCallback,
         );
@@ -12636,21 +12530,21 @@ const _VideoSource = class _VideoSource extends TextureSource {
    */
   _configureAutoUpdate() {
     if (this._autoUpdate && this._isSourcePlaying()) {
-      if (!this._updateFPS && this.source.requestVideoFrameCallback) {
+      if (!this._updateFPS && this.resource.requestVideoFrameCallback) {
         if (this._isConnectedToTicker) {
           Ticker.shared.remove(this.updateFrame, this);
           this._isConnectedToTicker = false;
           this._msToNextUpdate = 0;
         }
         if (this._videoFrameRequestCallbackHandle === null) {
-          this._videoFrameRequestCallbackHandle = this.source
+          this._videoFrameRequestCallbackHandle = this.resource
             .requestVideoFrameCallback(
               this._videoFrameRequestCallback,
             );
         }
       } else {
         if (this._videoFrameRequestCallbackHandle !== null) {
-          this.source.cancelVideoFrameCallback(
+          this.resource.cancelVideoFrameCallback(
             this._videoFrameRequestCallbackHandle,
           );
           this._videoFrameRequestCallbackHandle = null;
@@ -12663,7 +12557,7 @@ const _VideoSource = class _VideoSource extends TextureSource {
       }
     } else {
       if (this._videoFrameRequestCallbackHandle !== null) {
-        this.source.cancelVideoFrameCallback(
+        this.resource.cancelVideoFrameCallback(
           this._videoFrameRequestCallbackHandle,
         );
         this._videoFrameRequestCallbackHandle = null;
@@ -12683,8 +12577,8 @@ const _VideoSource = class _VideoSource extends TextureSource {
 };
 _VideoSource.extension = ExtensionType.TextureSource;
 /** The default options for video sources. */
-_VideoSource.defaultOptions = __spreadProps$m(
-  __spreadValues$V({}, TextureSource.defaultOptions),
+_VideoSource.defaultOptions = __spreadProps$l(
+  __spreadValues$U({}, TextureSource.defaultOptions),
   {
     /** If true, the video will start loading immediately. */
     autoLoad: true,
@@ -12714,6 +12608,145 @@ _VideoSource.MIME_TYPES = {
   m4v: "video/mp4",
 };
 let VideoSource = _VideoSource;
+
+"use strict";
+class CacheClass {
+  constructor() {
+    this._parsers = [];
+    this._cache = /* @__PURE__ */ new Map();
+    this._cacheMap = /* @__PURE__ */ new Map();
+  }
+  /** Clear all entries. */
+  reset() {
+    this._cacheMap.clear();
+    this._cache.clear();
+  }
+  /**
+   * Check if the key exists
+   * @param key - The key to check
+   */
+  has(key) {
+    return this._cache.has(key);
+  }
+  /**
+   * Fetch entry by key
+   * @param key - The key of the entry to get
+   */
+  get(key) {
+    const result = this._cache.get(key);
+    if (!result) {
+      warn(`[Assets] Asset id ${key} was not found in the Cache`);
+    }
+    return result;
+  }
+  /**
+   * Set a value by key or keys name
+   * @param key - The key or keys to set
+   * @param value - The value to store in the cache or from which cacheable assets will be derived.
+   */
+  set(key, value) {
+    const keys = convertToList(key);
+    let cacheableAssets;
+    for (let i = 0; i < this.parsers.length; i++) {
+      const parser = this.parsers[i];
+      if (parser.test(value)) {
+        cacheableAssets = parser.getCacheableAssets(keys, value);
+        break;
+      }
+    }
+    const cacheableMap = new Map(Object.entries(cacheableAssets || {}));
+    if (!cacheableAssets) {
+      keys.forEach((key2) => {
+        cacheableMap.set(key2, value);
+      });
+    }
+    const cacheKeys = [...cacheableMap.keys()];
+    const cachedAssets = {
+      cacheKeys,
+      keys,
+    };
+    keys.forEach((key2) => {
+      this._cacheMap.set(key2, cachedAssets);
+    });
+    cacheKeys.forEach((key2) => {
+      const val = cacheableAssets ? cacheableAssets[key2] : value;
+      if (this._cache.has(key2) && this._cache.get(key2) !== val) {
+        warn("[Cache] already has key:", key2);
+      }
+      this._cache.set(key2, cacheableMap.get(key2));
+    });
+  }
+  /**
+   * Remove entry by key
+   *
+   * This function will also remove any associated alias from the cache also.
+   * @param key - The key of the entry to remove
+   */
+  remove(key) {
+    if (!this._cacheMap.has(key)) {
+      warn(`[Assets] Asset id ${key} was not found in the Cache`);
+      return;
+    }
+    const cacheMap = this._cacheMap.get(key);
+    const cacheKeys = cacheMap.cacheKeys;
+    cacheKeys.forEach((key2) => {
+      this._cache.delete(key2);
+    });
+    cacheMap.keys.forEach((key2) => {
+      this._cacheMap.delete(key2);
+    });
+  }
+  /** All loader parsers registered */
+  get parsers() {
+    return this._parsers;
+  }
+}
+const Cache = new CacheClass();
+
+"use strict";
+const sources = [];
+extensions.handleByList(ExtensionType.TextureSource, sources);
+function autoDetectSource(options = {}) {
+  const hasResource = options && options.resource;
+  const res = hasResource ? options.resource : options;
+  const opts = hasResource ? options : { resource: options };
+  for (let i = 0; i < sources.length; i++) {
+    const Source = sources[i];
+    if (Source.test(res)) {
+      return new Source(opts);
+    }
+  }
+  throw new Error(
+    `Could not find a source type for resource: ${opts.resource}`,
+  );
+}
+function resourceToTexture(options = {}, skipCache = false) {
+  const hasResource = options && options.resource;
+  const resource = hasResource ? options.resource : options;
+  const opts = hasResource ? options : { resource: options };
+  if (!skipCache && Cache.has(resource)) {
+    return Cache.get(resource);
+  }
+  const texture = new Texture({ source: autoDetectSource(opts) });
+  texture.on("destroy", () => {
+    if (Cache.has(resource)) {
+      Cache.remove(resource);
+    }
+  });
+  if (!skipCache) {
+    Cache.set(resource, texture);
+  }
+  return texture;
+}
+function textureFrom(id, skipCache = false) {
+  if (typeof id === "string") {
+    return Cache.get(id);
+  } else if (id instanceof TextureSource) {
+    return new Texture({ source: id });
+  }
+  return resourceToTexture(id, skipCache);
+}
+Texture.from = textureFrom;
 
 "use strict";
 extensions.add(
@@ -12804,6 +12837,11 @@ class Buffer extends EventEmitter {
      * @default true
      */
     this.shrinkToFit = true;
+    /**
+     * Has the buffer been destroyed?
+     * @readonly
+     */
+    this.destroyed = false;
     if (data instanceof Array) {
       data = new Float32Array(data);
     }
@@ -12883,7 +12921,9 @@ class Buffer extends EventEmitter {
   }
   /** Destroys the buffer */
   destroy() {
+    this.destroyed = true;
     this.emit("destroy", this);
+    this.emit("change", this);
     this._data = null;
     this.descriptor = null;
     this.removeAllListeners();
@@ -13217,14 +13257,41 @@ class BindGroup {
     }
     this.resources = null;
   }
-  onResourceChange() {
+  onResourceChange(resource) {
     this._dirty = true;
-    this._updateKey();
+    if (resource.destroyed) {
+      const resources = this.resources;
+      for (const i in resources) {
+        if (resources[i] === resource) {
+          resources[i] = null;
+        }
+      }
+    } else {
+      this._updateKey();
+    }
   }
 }
 
 "use strict";
-const MAX_TEXTURES = 16;
+let context;
+function getTestContext() {
+  if (!context || (context == null ? void 0 : context.isContextLost())) {
+    const canvas = DOMAdapter.get().createCanvas();
+    context = canvas.getContext("webgl", {});
+  }
+  return context;
+}
+
+"use strict";
+let maxRecommendedTexturesCache = null;
+function maxRecommendedTextures() {
+  if (maxRecommendedTexturesCache) {
+    return maxRecommendedTexturesCache;
+  }
+  const gl = getTestContext();
+  maxRecommendedTexturesCache = gl.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS);
+  return maxRecommendedTexturesCache;
+}
 
 "use strict";
 const cachedGroups = {};
@@ -13235,10 +13302,14 @@ function getTextureBatchBindGroup(textures, size) {
   }
   return cachedGroups[uid] || generateTextureBatchBindGroup(textures, uid);
 }
+let maxTextures = 0;
 function generateTextureBatchBindGroup(textures, key) {
   const bindGroupResources = {};
   let bindIndex = 0;
-  for (let i = 0; i < MAX_TEXTURES; i++) {
+  if (!maxTextures) {
+    maxTextures = maxRecommendedTextures();
+  }
+  for (let i = 0; i < maxTextures; i++) {
     const texture = i < textures.length ? textures[i] : Texture.EMPTY.source;
     bindGroupResources[bindIndex++] = texture.source;
     bindGroupResources[bindIndex++] = texture.style;
@@ -13419,29 +13490,29 @@ class BatchTextureArray {
 }
 
 "use strict";
-var __defProp$U = Object.defineProperty;
-var __getOwnPropSymbols$U = Object.getOwnPropertySymbols;
-var __hasOwnProp$U = Object.prototype.hasOwnProperty;
-var __propIsEnum$U = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$U = (obj, key, value) =>
+var __defProp$T = Object.defineProperty;
+var __getOwnPropSymbols$T = Object.getOwnPropertySymbols;
+var __hasOwnProp$T = Object.prototype.hasOwnProperty;
+var __propIsEnum$T = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$T = (obj, key, value) =>
   key in obj
-    ? __defProp$U(obj, key, {
+    ? __defProp$T(obj, key, {
       enumerable: true,
       configurable: true,
       writable: true,
       value,
     })
     : obj[key] = value;
-var __spreadValues$U = (a, b) => {
+var __spreadValues$T = (a, b) => {
   for (var prop in b || (b = {})) {
-    if (__hasOwnProp$U.call(b, prop)) {
-      __defNormalProp$U(a, prop, b[prop]);
+    if (__hasOwnProp$T.call(b, prop)) {
+      __defNormalProp$T(a, prop, b[prop]);
     }
   }
-  if (__getOwnPropSymbols$U) {
-    for (var prop of __getOwnPropSymbols$U(b)) {
-      if (__propIsEnum$U.call(b, prop)) {
-        __defNormalProp$U(a, prop, b[prop]);
+  if (__getOwnPropSymbols$T) {
+    for (var prop of __getOwnPropSymbols$T(b)) {
+      if (__propIsEnum$T.call(b, prop)) {
+        __defNormalProp$T(a, prop, b[prop]);
       }
     }
   }
@@ -13481,8 +13552,8 @@ const _Batcher = class _Batcher {
     this._batchPoolIndex = 0;
     this._textureBatchPool = [];
     this._textureBatchPoolIndex = 0;
-    options = __spreadValues$U(
-      __spreadValues$U({}, _Batcher.defaultOptions),
+    options = __spreadValues$T(
+      __spreadValues$T({}, _Batcher.defaultOptions),
       options,
     );
     const { vertexSize, indexSize } = options;
@@ -13490,6 +13561,7 @@ const _Batcher = class _Batcher {
       vertexSize * this._vertexSize * 4,
     );
     this.indexBuffer = new Uint16Array(indexSize);
+    this._maxTextures = maxRecommendedTextures();
   }
   begin() {
     this.batchIndex = 0;
@@ -13560,6 +13632,7 @@ const _Batcher = class _Batcher {
     let start = this._batchIndexStart;
     let action = "startBatch";
     let batch = this._batchPool[this._batchPoolIndex++] || new Batch();
+    const maxTextures = this._maxTextures;
     for (let i = this.elementStart; i < this.elementSize; ++i) {
       const element = elements[i];
       elements[i] = null;
@@ -13583,7 +13656,7 @@ const _Batcher = class _Batcher {
         continue;
       }
       source._batchTick = BATCH_TICK;
-      if (textureBatch.count >= MAX_TEXTURES || blendModeChange) {
+      if (textureBatch.count >= maxTextures || blendModeChange) {
         this._finishBatch(
           batch,
           start,
@@ -13778,49 +13851,23 @@ function transformVertices(vertices, m, offset, stride, size) {
 }
 
 "use strict";
-function mixHexColors(color1, color2, ratio) {
+function multiplyHexColors(color1, color2) {
+  if (color1 === 16777215 || !color2) {
+    return color2;
+  }
+  if (color2 === 16777215 || !color1) {
+    return color1;
+  }
   const r1 = color1 >> 16 & 255;
   const g1 = color1 >> 8 & 255;
   const b1 = color1 & 255;
   const r2 = color2 >> 16 & 255;
   const g2 = color2 >> 8 & 255;
   const b2 = color2 & 255;
-  const r = r1 + (r2 - r1) * ratio;
-  const g = g1 + (g2 - g1) * ratio;
-  const b = b1 + (b2 - b1) * ratio;
+  const r = r1 * r2 / 255;
+  const g = g1 * g2 / 255;
+  const b = b1 * b2 / 255;
   return (r << 16) + (g << 8) + b;
-}
-
-"use strict";
-const WHITE_WHITE = 16777215 + (16777215 << 32);
-function mixColors(localBGRColor, parentBGRColor) {
-  if (localBGRColor + (parentBGRColor << 32) !== WHITE_WHITE) {
-    if (localBGRColor === 16777215) {
-      return parentBGRColor;
-    } else if (parentBGRColor === 16777215) {
-      return localBGRColor;
-    }
-    return mixHexColors(localBGRColor, parentBGRColor, 0.5);
-  }
-  return 16777215;
-}
-function mixStandardAnd32BitColors(localColorRGB, localAlpha, parentColor) {
-  const parentAlpha = (parentColor >> 24 & 255) / 255;
-  const globalAlpha = localAlpha * parentAlpha * 255;
-  const localBGRColor = ((localColorRGB & 255) << 16) +
-    (localColorRGB & 65280) + (localColorRGB >> 16 & 255);
-  const parentBGRColor = parentColor & 16777215;
-  let sharedBGRColor = 16777215;
-  if (localBGRColor + (parentBGRColor << 32) !== WHITE_WHITE) {
-    if (localBGRColor === 16777215) {
-      sharedBGRColor = parentBGRColor;
-    } else if (parentBGRColor === 16777215) {
-      sharedBGRColor = localBGRColor;
-    } else {
-      sharedBGRColor = mixHexColors(localBGRColor, parentBGRColor, 0.5);
-    }
-  }
-  return sharedBGRColor + (globalAlpha << 24);
 }
 
 "use strict";
@@ -13854,7 +13901,7 @@ class BatchableGraphics {
     const rgb = this.color;
     const bgr = rgb >> 16 | rgb & 65280 | (rgb & 255) << 16;
     if (this.applyTransform) {
-      const argb = mixColors(bgr, graphics.groupColor) +
+      const argb = multiplyHexColors(bgr, graphics.groupColor) +
         (this.alpha * graphics.groupAlpha * 255 << 24);
       const wt = graphics.groupTransform;
       const textureIdAndRound = textureId << 16 | this.roundPixels & 65535;
@@ -14639,7 +14686,7 @@ function isEar(ear) {
   while (p !== a) {
     if (
       p.x >= x0 && p.x <= x1 && p.y >= y0 && p.y <= y1 &&
-      pointInTriangle(ax, ay, bx, by, cx, cy, p.x, p.y) &&
+      pointInTriangle$1(ax, ay, bx, by, cx, cy, p.x, p.y) &&
       area(p.prev, p, p.next) >= 0
     ) return false;
     p = p.next;
@@ -14674,14 +14721,14 @@ function isEarHashed(ear, minX, minY, invSize) {
   while (p && p.z >= minZ && n && n.z <= maxZ) {
     if (
       p.x >= x0 && p.x <= x1 && p.y >= y0 && p.y <= y1 && p !== a && p !== c &&
-      pointInTriangle(ax, ay, bx, by, cx, cy, p.x, p.y) &&
+      pointInTriangle$1(ax, ay, bx, by, cx, cy, p.x, p.y) &&
       area(p.prev, p, p.next) >= 0
     ) return false;
     p = p.prevZ;
 
     if (
       n.x >= x0 && n.x <= x1 && n.y >= y0 && n.y <= y1 && n !== a && n !== c &&
-      pointInTriangle(ax, ay, bx, by, cx, cy, n.x, n.y) &&
+      pointInTriangle$1(ax, ay, bx, by, cx, cy, n.x, n.y) &&
       area(n.prev, n, n.next) >= 0
     ) return false;
     n = n.nextZ;
@@ -14691,7 +14738,7 @@ function isEarHashed(ear, minX, minY, invSize) {
   while (p && p.z >= minZ) {
     if (
       p.x >= x0 && p.x <= x1 && p.y >= y0 && p.y <= y1 && p !== a && p !== c &&
-      pointInTriangle(ax, ay, bx, by, cx, cy, p.x, p.y) &&
+      pointInTriangle$1(ax, ay, bx, by, cx, cy, p.x, p.y) &&
       area(p.prev, p, p.next) >= 0
     ) return false;
     p = p.prevZ;
@@ -14701,7 +14748,7 @@ function isEarHashed(ear, minX, minY, invSize) {
   while (n && n.z <= maxZ) {
     if (
       n.x >= x0 && n.x <= x1 && n.y >= y0 && n.y <= y1 && n !== a && n !== c &&
-      pointInTriangle(ax, ay, bx, by, cx, cy, n.x, n.y) &&
+      pointInTriangle$1(ax, ay, bx, by, cx, cy, n.x, n.y) &&
       area(n.prev, n, n.next) >= 0
     ) return false;
     n = n.nextZ;
@@ -14847,7 +14894,7 @@ function findHoleBridge(hole, outerNode) {
   do {
     if (
       hx >= p.x && p.x >= mx && hx !== p.x &&
-      pointInTriangle(
+      pointInTriangle$1(
         hy < my ? hx : qx,
         hy,
         mx,
@@ -14982,7 +15029,7 @@ function getLeftmost(start) {
 }
 
 // check if a point lies within a convex triangle
-function pointInTriangle(ax, ay, bx, by, cx, cy, px, py) {
+function pointInTriangle$1(ax, ay, bx, by, cx, cy, px, py) {
   return (cx - px) * (ay - py) >= (ax - px) * (cy - py) &&
     (ax - px) * (by - py) >= (bx - px) * (ay - py) &&
     (bx - px) * (cy - py) >= (cx - px) * (by - py);
@@ -15360,16 +15407,12 @@ const buildMap$1 = {
   roundedRectangle: buildCircle,
 };
 const tempRect$1 = new Rectangle();
-function buildContextBatches(context) {
-  const vertices = [];
-  const uvs = [];
-  const indices = [];
-  const geometryData = {
-    vertices,
-    uvs,
-    indices,
-  };
-  const batches = [];
+function buildContextBatches(context, gpuContext) {
+  const { geometryData, batches } = gpuContext;
+  batches.length = 0;
+  geometryData.indices.length = 0;
+  geometryData.vertices.length = 0;
+  geometryData.uvs.length = 0;
   for (let i = 0; i < context.instructions.length; i++) {
     const instruction = context.instructions[i];
     if (instruction.action === "texture") {
@@ -15401,7 +15444,6 @@ function buildContextBatches(context) {
       );
     }
   }
-  return batches;
 }
 function addTextureToGeometryData(data, batches, geometryData) {
   const { vertices, uvs, indices } = geometryData;
@@ -15559,6 +15601,14 @@ function getHoleArrays(shape) {
 
 "use strict";
 class GpuGraphicsContext {
+  constructor() {
+    this.batches = [];
+    this.geometryData = {
+      vertices: [],
+      uvs: [],
+      indices: [],
+    };
+  }
 }
 class GraphicsContextRenderData {
   constructor() {
@@ -15577,7 +15627,6 @@ const _GraphicsContextSystem = class _GraphicsContextSystem {
     this._gpuContextHash = {};
     // used for non-batchable graphics
     this._graphicsDataContextHash = /* @__PURE__ */ Object.create(null);
-    this._needsContextNeedsRebuild = [];
   }
   /**
    * Runner init called, update the default options
@@ -15607,25 +15656,13 @@ const _GraphicsContextSystem = class _GraphicsContextSystem {
       } else {
         gpuContext = this._initContext(context);
       }
-      const contextBatches = buildContextBatches(context);
-      let size = 0;
+      buildContextBatches(context, gpuContext);
       const batchMode = context.batchMode;
-      let isBatchable = true;
       if (context.customShader || batchMode === "no-batch") {
-        isBatchable = false;
+        gpuContext.isBatchable = false;
       } else if (batchMode === "auto") {
-        for (let i = 0; i < contextBatches.length; i++) {
-          size += contextBatches[i].vertexSize;
-          if (size > 400) {
-            isBatchable = false;
-            break;
-          }
-        }
+        gpuContext.isBatchable = gpuContext.geometryData.vertices.length < 400;
       }
-      gpuContext = this._gpuContextHash[context.uid] = {
-        isBatchable,
-        batches: contextBatches,
-      };
       context.dirty = false;
     }
     return gpuContext;
@@ -15641,14 +15678,12 @@ const _GraphicsContextSystem = class _GraphicsContextSystem {
   }
   _initContextRenderData(context) {
     const graphicsData = BigPool.get(GraphicsContextRenderData);
-    const batches = this._gpuContextHash[context.uid].batches;
-    let vertexSize = 0;
-    let indexSize = 0;
-    batches.forEach((batch) => {
-      batch.applyTransform = false;
-      vertexSize += batch.geometryData.vertices.length;
-      indexSize += batch.geometryData.indices.length;
-    });
+    const { batches, geometryData } = this._gpuContextHash[context.uid];
+    const vertexSize = geometryData.vertices.length;
+    const indexSize = geometryData.indices.length;
+    for (let i = 0; i < batches.length; i++) {
+      batches[i].applyTransform = false;
+    }
     const batcher = BigPool.get(Batcher);
     this._activeBatchers.push(batcher);
     batcher.ensureAttributeBuffer(vertexSize);
@@ -15683,17 +15718,13 @@ const _GraphicsContextSystem = class _GraphicsContextSystem {
   }
   _initContext(context) {
     const gpuContext = new GpuGraphicsContext();
+    gpuContext.context = context;
     this._gpuContextHash[context.uid] = gpuContext;
-    context.on("update", this.onGraphicsContextUpdate, this);
     context.on("destroy", this.onGraphicsContextDestroy, this);
     return this._gpuContextHash[context.uid];
   }
-  onGraphicsContextUpdate(context) {
-    this._needsContextNeedsRebuild.push(context);
-  }
   onGraphicsContextDestroy(context) {
     this._cleanGraphicsContextData(context);
-    context.off("update", this.onGraphicsContextUpdate, this);
     context.off("destroy", this.onGraphicsContextDestroy, this);
     this._gpuContextHash[context.uid] = null;
   }
@@ -15712,12 +15743,11 @@ const _GraphicsContextSystem = class _GraphicsContextSystem {
     }
   }
   destroy() {
-    for (const context of this._needsContextNeedsRebuild) {
-      if (this._gpuContextHash[context.uid]) {
-        this.onGraphicsContextDestroy(context);
+    for (const i in this._gpuContextHash) {
+      if (this._gpuContextHash[i]) {
+        this.onGraphicsContextDestroy(this._gpuContextHash[i].context);
       }
     }
-    this._needsContextNeedsRebuild.length = 0;
   }
 };
 /** @ignore */
@@ -16014,10 +16044,12 @@ class GraphicsPipe {
       batchClone.roundPixels = roundPixels;
       return batchClone;
     });
+    if (this._graphicsBatchesHash[graphics.uid] === void 0) {
+      graphics.on("destroyed", () => {
+        this.destroyRenderable(graphics);
+      });
+    }
     this._graphicsBatchesHash[graphics.uid] = batches;
-    graphics.on("destroyed", () => {
-      this.destroyRenderable(graphics);
-    });
     return batches;
   }
   _removeBatchForRenderable(graphicsUid) {
@@ -16064,6 +16096,28 @@ function createIdFromString(value, groupId) {
   }
   return id;
 }
+
+"use strict";
+const UNIFORM_TYPES_VALUES = [
+  "f32",
+  "i32",
+  "vec2<f32>",
+  "vec3<f32>",
+  "vec4<f32>",
+  "mat2x2<f32>",
+  "mat3x3<f32>",
+  "mat4x4<f32>",
+  "mat3x2<f32>",
+  "mat4x2<f32>",
+  "mat2x3<f32>",
+  "mat4x3<f32>",
+  "mat2x4<f32>",
+  "mat3x4<f32>",
+];
+const UNIFORM_TYPES_MAP = UNIFORM_TYPES_VALUES.reduce((acc, type) => {
+  acc[type] = true;
+  return acc;
+}, {});
 
 "use strict";
 function getDefaultUniformValue(type, size) {
@@ -16119,29 +16173,29 @@ function getDefaultUniformValue(type, size) {
 }
 
 "use strict";
-var __defProp$T = Object.defineProperty;
-var __getOwnPropSymbols$T = Object.getOwnPropertySymbols;
-var __hasOwnProp$T = Object.prototype.hasOwnProperty;
-var __propIsEnum$T = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$T = (obj, key, value) =>
+var __defProp$S = Object.defineProperty;
+var __getOwnPropSymbols$S = Object.getOwnPropertySymbols;
+var __hasOwnProp$S = Object.prototype.hasOwnProperty;
+var __propIsEnum$S = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$S = (obj, key, value) =>
   key in obj
-    ? __defProp$T(obj, key, {
+    ? __defProp$S(obj, key, {
       enumerable: true,
       configurable: true,
       writable: true,
       value,
     })
     : obj[key] = value;
-var __spreadValues$T = (a, b) => {
+var __spreadValues$S = (a, b) => {
   for (var prop in b || (b = {})) {
-    if (__hasOwnProp$T.call(b, prop)) {
-      __defNormalProp$T(a, prop, b[prop]);
+    if (__hasOwnProp$S.call(b, prop)) {
+      __defNormalProp$S(a, prop, b[prop]);
     }
   }
-  if (__getOwnPropSymbols$T) {
-    for (var prop of __getOwnPropSymbols$T(b)) {
-      if (__propIsEnum$T.call(b, prop)) {
-        __defNormalProp$T(a, prop, b[prop]);
+  if (__getOwnPropSymbols$S) {
+    for (var prop of __getOwnPropSymbols$S(b)) {
+      if (__propIsEnum$S.call(b, prop)) {
+        __defNormalProp$S(a, prop, b[prop]);
       }
     }
   }
@@ -16170,9 +16224,11 @@ const _UniformGroup = class _UniformGroup {
      * @ignore
      */
     this._dirtyId = 0;
+    // implementing the interface - UniformGroup are not destroyed
+    this.destroyed = false;
     var _a, _b;
-    options = __spreadValues$T(
-      __spreadValues$T({}, _UniformGroup.defaultOptions),
+    options = __spreadValues$S(
+      __spreadValues$S({}, _UniformGroup.defaultOptions),
       options,
     );
     this.uniformStructures = uniformStructures;
@@ -16181,6 +16237,13 @@ const _UniformGroup = class _UniformGroup {
       const uniformData = uniformStructures[i];
       uniformData.name = i;
       uniformData.size = (_a = uniformData.size) != null ? _a : 1;
+      if (!UNIFORM_TYPES_MAP[uniformData.type]) {
+        throw new Error(
+          `Uniform type ${uniformData.type} is not supported. Supported uniform types are: ${
+            UNIFORM_TYPES_VALUES.join(", ")
+          }`,
+        );
+      }
       (_b = uniformData.value) != null
         ? _b
         : uniformData.value = getDefaultUniformValue(
@@ -16220,6 +16283,8 @@ class BatchableMesh {
     this.batcher = null;
     this.batch = null;
     this.roundPixels = 0;
+    this._uvUpdateId = -1;
+    this._textureMatrixUpdateId = -1;
   }
   get blendMode() {
     return this.mesh.groupBlendMode;
@@ -16248,15 +16313,32 @@ class BatchableMesh {
     const tx = wt.tx;
     const ty = wt.ty;
     const positions = geometry.positions;
-    const uvs = geometry.uvs;
+    const uvBuffer = geometry.getBuffer("aUV");
+    const uvs = uvBuffer.data;
+    let transformedUvs = uvs;
+    const textureMatrix = this.texture.textureMatrix;
+    if (!textureMatrix.isSimple) {
+      transformedUvs = this._transformedUvs;
+      if (
+        this._textureMatrixUpdateId !== textureMatrix._updateID ||
+        this._uvUpdateId !== uvBuffer._updateID
+      ) {
+        if (!transformedUvs || transformedUvs.length < uvs.length) {
+          transformedUvs = this._transformedUvs = new Float32Array(uvs.length);
+        }
+        this._textureMatrixUpdateId = textureMatrix._updateID;
+        this._uvUpdateId = uvBuffer._updateID;
+        textureMatrix.multiplyUvs(uvs, transformedUvs);
+      }
+    }
     const abgr = mesh.groupColorAlpha;
     for (let i = 0; i < positions.length; i += 2) {
       const x = positions[i];
       const y = positions[i + 1];
       float32View[index] = a * x + c * y + tx;
       float32View[index + 1] = b * x + d * y + ty;
-      float32View[index + 2] = uvs[i];
-      float32View[index + 3] = uvs[i + 1];
+      float32View[index + 2] = transformedUvs[i];
+      float32View[index + 3] = transformedUvs[i + 1];
       uint32View[index + 4] = abgr;
       uint32View[index + 5] = textureIdAndRound;
       index += 6;
@@ -16308,7 +16390,7 @@ class MeshPipe {
       const texture = mesh.texture;
       if (batchableMesh.texture._source !== texture._source) {
         if (batchableMesh.texture._source !== texture._source) {
-          return batchableMesh.batcher.checkAndUpdateTexture(
+          return !batchableMesh.batcher.checkAndUpdateTexture(
             batchableMesh,
             texture,
           );
@@ -16344,8 +16426,10 @@ class MeshPipe {
   destroyRenderable(mesh) {
     this._meshDataHash[mesh.uid] = null;
     const gpuMesh = this._gpuBatchableMeshHash[mesh.uid];
-    BigPool.return(gpuMesh);
-    this._gpuBatchableMeshHash[mesh.uid] = null;
+    if (gpuMesh) {
+      BigPool.return(gpuMesh);
+      this._gpuBatchableMeshHash[mesh.uid] = null;
+    }
   }
   execute({ mesh }) {
     if (!mesh.isRenderable) {
@@ -16568,22 +16652,13 @@ class CanvasTextPipe {
     );
   }
   _updateGpuText(text) {
-    var _a;
     const gpuText = this._getGpuText(text);
     const batchableSprite = gpuText.batchableSprite;
     if (gpuText.texture) {
       this._renderer.canvasText.decreaseReferenceCount(gpuText.currentKey);
     }
-    const resolution = (_a = text.resolution) != null
-      ? _a
-      : this._renderer.resolution;
     gpuText.texture = batchableSprite.texture = this._renderer.canvasText
-      .getTexture(
-        text.text,
-        resolution,
-        text._style,
-        text._getKey(),
-      );
+      .getManagedTexture(text);
     gpuText.currentKey = text._getKey();
     batchableSprite.texture = gpuText.texture;
   }
@@ -16682,37 +16757,37 @@ class CanvasPoolClass {
 const CanvasPool = new CanvasPoolClass();
 
 "use strict";
-var __defProp$S = Object.defineProperty;
-var __defProps$l = Object.defineProperties;
-var __getOwnPropDescs$l = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$S = Object.getOwnPropertySymbols;
-var __hasOwnProp$S = Object.prototype.hasOwnProperty;
-var __propIsEnum$S = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$S = (obj, key, value) =>
+var __defProp$R = Object.defineProperty;
+var __defProps$k = Object.defineProperties;
+var __getOwnPropDescs$k = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$R = Object.getOwnPropertySymbols;
+var __hasOwnProp$R = Object.prototype.hasOwnProperty;
+var __propIsEnum$R = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$R = (obj, key, value) =>
   key in obj
-    ? __defProp$S(obj, key, {
+    ? __defProp$R(obj, key, {
       enumerable: true,
       configurable: true,
       writable: true,
       value,
     })
     : obj[key] = value;
-var __spreadValues$S = (a, b) => {
+var __spreadValues$R = (a, b) => {
   for (var prop in b || (b = {})) {
-    if (__hasOwnProp$S.call(b, prop)) {
-      __defNormalProp$S(a, prop, b[prop]);
+    if (__hasOwnProp$R.call(b, prop)) {
+      __defNormalProp$R(a, prop, b[prop]);
     }
   }
-  if (__getOwnPropSymbols$S) {
-    for (var prop of __getOwnPropSymbols$S(b)) {
-      if (__propIsEnum$S.call(b, prop)) {
-        __defNormalProp$S(a, prop, b[prop]);
+  if (__getOwnPropSymbols$R) {
+    for (var prop of __getOwnPropSymbols$R(b)) {
+      if (__propIsEnum$R.call(b, prop)) {
+        __defNormalProp$R(a, prop, b[prop]);
       }
     }
   }
   return a;
 };
-var __spreadProps$l = (a, b) => __defProps$l(a, __getOwnPropDescs$l(b));
+var __spreadProps$k = (a, b) => __defProps$k(a, __getOwnPropDescs$k(b));
 let count = 0;
 class TexturePoolClass {
   /**
@@ -16733,7 +16808,7 @@ class TexturePoolClass {
    */
   createTexture(pixelWidth, pixelHeight, antialias) {
     const textureSource = new TextureSource(
-      __spreadProps$l(__spreadValues$S({}, this.textureOptions), {
+      __spreadProps$k(__spreadValues$R({}, this.textureOptions), {
         width: pixelWidth,
         height: pixelHeight,
         resolution: 1,
@@ -16886,651 +16961,6 @@ function getCanvasBoundingBox(canvas, resolution = 1) {
 }
 
 "use strict";
-const tempBounds$3 = new Bounds();
-function getPo2TextureFromSource(image, width, height, resolution) {
-  const bounds = tempBounds$3;
-  bounds.minX = 0;
-  bounds.minY = 0;
-  bounds.maxX = image.width / resolution | 0;
-  bounds.maxY = image.height / resolution | 0;
-  const texture = TexturePool.getOptimalTexture(
-    bounds.width,
-    bounds.height,
-    resolution,
-    false,
-  );
-  texture.source.uploadMethodId = "image";
-  texture.source.resource = image;
-  texture.source.alphaMode = "premultiply-alpha-on-upload";
-  texture.frame.width = width / resolution;
-  texture.frame.height = height / resolution;
-  texture.source.emit("update", texture.source);
-  texture.updateUvs();
-  return texture;
-}
-
-"use strict";
-const genericFontFamilies = [
-  "serif",
-  "sans-serif",
-  "monospace",
-  "cursive",
-  "fantasy",
-  "system-ui",
-];
-function fontStringFromTextStyle(style) {
-  const fontSizeString = typeof style.fontSize === "number"
-    ? `${style.fontSize}px`
-    : style.fontSize;
-  let fontFamilies = style.fontFamily;
-  if (!Array.isArray(style.fontFamily)) {
-    fontFamilies = style.fontFamily.split(",");
-  }
-  for (let i = fontFamilies.length - 1; i >= 0; i--) {
-    let fontFamily = fontFamilies[i].trim();
-    if (
-      !/([\"\'])[^\'\"]+\1/.test(fontFamily) &&
-      !genericFontFamilies.includes(fontFamily)
-    ) {
-      fontFamily = `"${fontFamily}"`;
-    }
-    fontFamilies[i] = fontFamily;
-  }
-  return `${style.fontStyle} ${style.fontVariant} ${style.fontWeight} ${fontSizeString} ${
-    fontFamilies.join(",")
-  }`;
-}
-
-"use strict";
-const contextSettings = {
-  // TextMetrics requires getImageData readback for measuring fonts.
-  willReadFrequently: true,
-};
-const _CanvasTextMetrics = class _CanvasTextMetrics {
-  /**
-   * Checking that we can use modern canvas 2D API.
-   *
-   * Note: This is an unstable API, Chrome < 94 use `textLetterSpacing`, later versions use `letterSpacing`.
-   * @see TextMetrics.experimentalLetterSpacing
-   * @see https://developer.mozilla.org/en-US/docs/Web/API/ICanvasRenderingContext2D/letterSpacing
-   * @see https://developer.chrome.com/origintrials/#/view_trial/3585991203293757441
-   */
-  static get experimentalLetterSpacingSupported() {
-    let result = _CanvasTextMetrics._experimentalLetterSpacingSupported;
-    if (result !== void 0) {
-      const proto = DOMAdapter.get().getCanvasRenderingContext2D().prototype;
-      result =
-        _CanvasTextMetrics._experimentalLetterSpacingSupported =
-          "letterSpacing" in proto || "textLetterSpacing" in proto;
-    }
-    return result;
-  }
-  /**
-   * @param text - the text that was measured
-   * @param style - the style that was measured
-   * @param width - the measured width of the text
-   * @param height - the measured height of the text
-   * @param lines - an array of the lines of text broken by new lines and wrapping if specified in style
-   * @param lineWidths - an array of the line widths for each line matched to `lines`
-   * @param lineHeight - the measured line height for this style
-   * @param maxLineWidth - the maximum line width for all measured lines
-   * @param {FontMetrics} fontProperties - the font properties object from TextMetrics.measureFont
-   */
-  constructor(
-    text,
-    style,
-    width,
-    height,
-    lines,
-    lineWidths,
-    lineHeight,
-    maxLineWidth,
-    fontProperties,
-  ) {
-    this.text = text;
-    this.style = style;
-    this.width = width;
-    this.height = height;
-    this.lines = lines;
-    this.lineWidths = lineWidths;
-    this.lineHeight = lineHeight;
-    this.maxLineWidth = maxLineWidth;
-    this.fontProperties = fontProperties;
-  }
-  /**
-   * Measures the supplied string of text and returns a Rectangle.
-   * @param text - The text to measure.
-   * @param style - The text style to use for measuring
-   * @param canvas - optional specification of the canvas to use for measuring.
-   * @param wordWrap
-   * @returns Measured width and height of the text.
-   */
-  static measureText(
-    text = " ",
-    style,
-    canvas = _CanvasTextMetrics._canvas,
-    wordWrap = style.wordWrap,
-  ) {
-    var _a;
-    const textKey = `${text}:${style.styleKey}`;
-    if (_CanvasTextMetrics._measurementCache[textKey]) {
-      return _CanvasTextMetrics._measurementCache[textKey];
-    }
-    const font = fontStringFromTextStyle(style);
-    const fontProperties = _CanvasTextMetrics.measureFont(font);
-    if (fontProperties.fontSize === 0) {
-      fontProperties.fontSize = style.fontSize;
-      fontProperties.ascent = style.fontSize;
-    }
-    const context = _CanvasTextMetrics.__context;
-    context.font = font;
-    const outputText = wordWrap
-      ? _CanvasTextMetrics._wordWrap(text, style, canvas)
-      : text;
-    const lines = outputText.split(/(?:\r\n|\r|\n)/);
-    const lineWidths = new Array(lines.length);
-    let maxLineWidth = 0;
-    for (let i = 0; i < lines.length; i++) {
-      const lineWidth = _CanvasTextMetrics._measureText(
-        lines[i],
-        style.letterSpacing,
-        context,
-      );
-      lineWidths[i] = lineWidth;
-      maxLineWidth = Math.max(maxLineWidth, lineWidth);
-    }
-    const strokeWidth = ((_a = style._stroke) == null ? void 0 : _a.width) || 0;
-    let width = maxLineWidth + strokeWidth;
-    if (style.dropShadow) {
-      width += style.dropShadow.distance;
-    }
-    const lineHeight = style.lineHeight ||
-      fontProperties.fontSize + strokeWidth;
-    let height =
-      Math.max(lineHeight, fontProperties.fontSize + strokeWidth * 2) +
-      (lines.length - 1) * (lineHeight + style.leading);
-    if (style.dropShadow) {
-      height += style.dropShadow.distance;
-    }
-    const measurements = new _CanvasTextMetrics(
-      text,
-      style,
-      width,
-      height,
-      lines,
-      lineWidths,
-      lineHeight + style.leading,
-      maxLineWidth,
-      fontProperties,
-    );
-    return measurements;
-  }
-  static _measureText(text, letterSpacing, context) {
-    let useExperimentalLetterSpacing = false;
-    if (_CanvasTextMetrics.experimentalLetterSpacingSupported) {
-      if (_CanvasTextMetrics.experimentalLetterSpacing) {
-        context.letterSpacing = `${letterSpacing}px`;
-        context.textLetterSpacing = `${letterSpacing}px`;
-        useExperimentalLetterSpacing = true;
-      } else {
-        context.letterSpacing = "0px";
-        context.textLetterSpacing = "0px";
-      }
-    }
-    let width = context.measureText(text).width;
-    if (width > 0) {
-      if (useExperimentalLetterSpacing) {
-        width -= letterSpacing;
-      } else {
-        width += (_CanvasTextMetrics.graphemeSegmenter(text).length - 1) *
-          letterSpacing;
-      }
-    }
-    return width;
-  }
-  /**
-   * Applies newlines to a string to have it optimally fit into the horizontal
-   * bounds set by the Text object's wordWrapWidth property.
-   * @param text - String to apply word wrapping to
-   * @param style - the style to use when wrapping
-   * @param canvas - optional specification of the canvas to use for measuring.
-   * @returns New string with new lines applied where required
-   */
-  static _wordWrap(text, style, canvas = _CanvasTextMetrics._canvas) {
-    const context = canvas.getContext("2d", contextSettings);
-    let width = 0;
-    let line = "";
-    let lines = "";
-    const cache = /* @__PURE__ */ Object.create(null);
-    const { letterSpacing, whiteSpace } = style;
-    const collapseSpaces = _CanvasTextMetrics._collapseSpaces(whiteSpace);
-    const collapseNewlines = _CanvasTextMetrics._collapseNewlines(whiteSpace);
-    let canPrependSpaces = !collapseSpaces;
-    const wordWrapWidth = style.wordWrapWidth + letterSpacing;
-    const tokens = _CanvasTextMetrics._tokenize(text);
-    for (let i = 0; i < tokens.length; i++) {
-      let token = tokens[i];
-      if (_CanvasTextMetrics._isNewline(token)) {
-        if (!collapseNewlines) {
-          lines += _CanvasTextMetrics._addLine(line);
-          canPrependSpaces = !collapseSpaces;
-          line = "";
-          width = 0;
-          continue;
-        }
-        token = " ";
-      }
-      if (collapseSpaces) {
-        const currIsBreakingSpace = _CanvasTextMetrics.isBreakingSpace(token);
-        const lastIsBreakingSpace = _CanvasTextMetrics.isBreakingSpace(
-          line[line.length - 1],
-        );
-        if (currIsBreakingSpace && lastIsBreakingSpace) {
-          continue;
-        }
-      }
-      const tokenWidth = _CanvasTextMetrics._getFromCache(
-        token,
-        letterSpacing,
-        cache,
-        context,
-      );
-      if (tokenWidth > wordWrapWidth) {
-        if (line !== "") {
-          lines += _CanvasTextMetrics._addLine(line);
-          line = "";
-          width = 0;
-        }
-        if (_CanvasTextMetrics.canBreakWords(token, style.breakWords)) {
-          const characters = _CanvasTextMetrics.wordWrapSplit(token);
-          for (let j = 0; j < characters.length; j++) {
-            let char = characters[j];
-            let lastChar = char;
-            let k = 1;
-            while (characters[j + k]) {
-              const nextChar = characters[j + k];
-              if (
-                !_CanvasTextMetrics.canBreakChars(
-                  lastChar,
-                  nextChar,
-                  token,
-                  j,
-                  style.breakWords,
-                )
-              ) {
-                char += nextChar;
-              } else {
-                break;
-              }
-              lastChar = nextChar;
-              k++;
-            }
-            j += k - 1;
-            const characterWidth = _CanvasTextMetrics._getFromCache(
-              char,
-              letterSpacing,
-              cache,
-              context,
-            );
-            if (characterWidth + width > wordWrapWidth) {
-              lines += _CanvasTextMetrics._addLine(line);
-              canPrependSpaces = false;
-              line = "";
-              width = 0;
-            }
-            line += char;
-            width += characterWidth;
-          }
-        } else {
-          if (line.length > 0) {
-            lines += _CanvasTextMetrics._addLine(line);
-            line = "";
-            width = 0;
-          }
-          const isLastToken = i === tokens.length - 1;
-          lines += _CanvasTextMetrics._addLine(token, !isLastToken);
-          canPrependSpaces = false;
-          line = "";
-          width = 0;
-        }
-      } else {
-        if (tokenWidth + width > wordWrapWidth) {
-          canPrependSpaces = false;
-          lines += _CanvasTextMetrics._addLine(line);
-          line = "";
-          width = 0;
-        }
-        if (
-          line.length > 0 || !_CanvasTextMetrics.isBreakingSpace(token) ||
-          canPrependSpaces
-        ) {
-          line += token;
-          width += tokenWidth;
-        }
-      }
-    }
-    lines += _CanvasTextMetrics._addLine(line, false);
-    return lines;
-  }
-  /**
-   * Convienience function for logging each line added during the wordWrap method.
-   * @param line    - The line of text to add
-   * @param newLine - Add new line character to end
-   * @returns A formatted line
-   */
-  static _addLine(line, newLine = true) {
-    line = _CanvasTextMetrics._trimRight(line);
-    line = newLine
-      ? `${line}
-`
-      : line;
-    return line;
-  }
-  /**
-   * Gets & sets the widths of calculated characters in a cache object
-   * @param key            - The key
-   * @param letterSpacing  - The letter spacing
-   * @param cache          - The cache
-   * @param context        - The canvas context
-   * @returns The from cache.
-   */
-  static _getFromCache(key, letterSpacing, cache, context) {
-    let width = cache[key];
-    if (typeof width !== "number") {
-      width = _CanvasTextMetrics._measureText(key, letterSpacing, context) +
-        letterSpacing;
-      cache[key] = width;
-    }
-    return width;
-  }
-  /**
-   * Determines whether we should collapse breaking spaces.
-   * @param whiteSpace - The TextStyle property whiteSpace
-   * @returns Should collapse
-   */
-  static _collapseSpaces(whiteSpace) {
-    return whiteSpace === "normal" || whiteSpace === "pre-line";
-  }
-  /**
-   * Determines whether we should collapse newLine chars.
-   * @param whiteSpace - The white space
-   * @returns should collapse
-   */
-  static _collapseNewlines(whiteSpace) {
-    return whiteSpace === "normal";
-  }
-  /**
-   * Trims breaking whitespaces from string.
-   * @param text - The text
-   * @returns Trimmed string
-   */
-  static _trimRight(text) {
-    if (typeof text !== "string") {
-      return "";
-    }
-    for (let i = text.length - 1; i >= 0; i--) {
-      const char = text[i];
-      if (!_CanvasTextMetrics.isBreakingSpace(char)) {
-        break;
-      }
-      text = text.slice(0, -1);
-    }
-    return text;
-  }
-  /**
-   * Determines if char is a newline.
-   * @param char - The character
-   * @returns True if newline, False otherwise.
-   */
-  static _isNewline(char) {
-    if (typeof char !== "string") {
-      return false;
-    }
-    return _CanvasTextMetrics._newlines.includes(char.charCodeAt(0));
-  }
-  /**
-   * Determines if char is a breaking whitespace.
-   *
-   * It allows one to determine whether char should be a breaking whitespace
-   * For example certain characters in CJK langs or numbers.
-   * It must return a boolean.
-   * @param char - The character
-   * @param [_nextChar] - The next character
-   * @returns True if whitespace, False otherwise.
-   */
-  static isBreakingSpace(char, _nextChar) {
-    if (typeof char !== "string") {
-      return false;
-    }
-    return _CanvasTextMetrics._breakingSpaces.includes(char.charCodeAt(0));
-  }
-  /**
-   * Splits a string into words, breaking-spaces and newLine characters
-   * @param text - The text
-   * @returns A tokenized array
-   */
-  static _tokenize(text) {
-    const tokens = [];
-    let token = "";
-    if (typeof text !== "string") {
-      return tokens;
-    }
-    for (let i = 0; i < text.length; i++) {
-      const char = text[i];
-      const nextChar = text[i + 1];
-      if (
-        _CanvasTextMetrics.isBreakingSpace(char, nextChar) ||
-        _CanvasTextMetrics._isNewline(char)
-      ) {
-        if (token !== "") {
-          tokens.push(token);
-          token = "";
-        }
-        tokens.push(char);
-        continue;
-      }
-      token += char;
-    }
-    if (token !== "") {
-      tokens.push(token);
-    }
-    return tokens;
-  }
-  /**
-   * Overridable helper method used internally by TextMetrics, exposed to allow customizing the class's behavior.
-   *
-   * It allows one to customise which words should break
-   * Examples are if the token is CJK or numbers.
-   * It must return a boolean.
-   * @param _token - The token
-   * @param breakWords - The style attr break words
-   * @returns Whether to break word or not
-   */
-  static canBreakWords(_token, breakWords) {
-    return breakWords;
-  }
-  /**
-   * Overridable helper method used internally by TextMetrics, exposed to allow customizing the class's behavior.
-   *
-   * It allows one to determine whether a pair of characters
-   * should be broken by newlines
-   * For example certain characters in CJK langs or numbers.
-   * It must return a boolean.
-   * @param _char - The character
-   * @param _nextChar - The next character
-   * @param _token - The token/word the characters are from
-   * @param _index - The index in the token of the char
-   * @param _breakWords - The style attr break words
-   * @returns whether to break word or not
-   */
-  static canBreakChars(_char, _nextChar, _token, _index, _breakWords) {
-    return true;
-  }
-  /**
-   * Overridable helper method used internally by TextMetrics, exposed to allow customizing the class's behavior.
-   *
-   * It is called when a token (usually a word) has to be split into separate pieces
-   * in order to determine the point to break a word.
-   * It must return an array of characters.
-   * @param token - The token to split
-   * @returns The characters of the token
-   * @see CanvasTextMetrics.graphemeSegmenter
-   */
-  static wordWrapSplit(token) {
-    return _CanvasTextMetrics.graphemeSegmenter(token);
-  }
-  /**
-   * Calculates the ascent, descent and fontSize of a given font-style
-   * @param font - String representing the style of the font
-   * @returns Font properties object
-   */
-  static measureFont(font) {
-    if (_CanvasTextMetrics._fonts[font]) {
-      return _CanvasTextMetrics._fonts[font];
-    }
-    const context = _CanvasTextMetrics._context;
-    context.font = font;
-    const metrics = context.measureText(
-      _CanvasTextMetrics.METRICS_STRING + _CanvasTextMetrics.BASELINE_SYMBOL,
-    );
-    const properties = {
-      ascent: metrics.actualBoundingBoxAscent,
-      descent: metrics.actualBoundingBoxDescent,
-      fontSize: metrics.actualBoundingBoxAscent +
-        metrics.actualBoundingBoxDescent,
-    };
-    _CanvasTextMetrics._fonts[font] = properties;
-    return properties;
-  }
-  /**
-   * Clear font metrics in metrics cache.
-   * @param {string} [font] - font name. If font name not set then clear cache for all fonts.
-   */
-  static clearMetrics(font = "") {
-    if (font) {
-      delete _CanvasTextMetrics._fonts[font];
-    } else {
-      _CanvasTextMetrics._fonts = {};
-    }
-  }
-  /**
-   * Cached canvas element for measuring text
-   * TODO: this should be private, but isn't because of backward compat, will fix later.
-   * @ignore
-   */
-  static get _canvas() {
-    if (!_CanvasTextMetrics.__canvas) {
-      let canvas;
-      try {
-        const c = new OffscreenCanvas(0, 0);
-        const context = c.getContext("2d", contextSettings);
-        if (context == null ? void 0 : context.measureText) {
-          _CanvasTextMetrics.__canvas = c;
-          return c;
-        }
-        canvas = DOMAdapter.get().createCanvas();
-      } catch (ex) {
-        canvas = DOMAdapter.get().createCanvas();
-      }
-      canvas.width = canvas.height = 10;
-      _CanvasTextMetrics.__canvas = canvas;
-    }
-    return _CanvasTextMetrics.__canvas;
-  }
-  /**
-   * TODO: this should be private, but isn't because of backward compat, will fix later.
-   * @ignore
-   */
-  static get _context() {
-    if (!_CanvasTextMetrics.__context) {
-      _CanvasTextMetrics.__context = _CanvasTextMetrics._canvas.getContext(
-        "2d",
-        contextSettings,
-      );
-    }
-    return _CanvasTextMetrics.__context;
-  }
-};
-/**
- * String used for calculate font metrics.
- * These characters are all tall to help calculate the height required for text.
- */
-_CanvasTextMetrics.METRICS_STRING = "|\xC9q\xC5";
-/** Baseline symbol for calculate font metrics. */
-_CanvasTextMetrics.BASELINE_SYMBOL = "M";
-/** Baseline multiplier for calculate font metrics. */
-_CanvasTextMetrics.BASELINE_MULTIPLIER = 1.4;
-/** Height multiplier for setting height of canvas to calculate font metrics. */
-_CanvasTextMetrics.HEIGHT_MULTIPLIER = 2;
-/**
- * A Unicode "character", or "grapheme cluster", can be composed of multiple Unicode code points,
- * such as letters with diacritical marks (e.g. `'\u0065\u0301'`, letter e with acute)
- * or emojis with modifiers (e.g. `'\uD83E\uDDD1\u200D\uD83D\uDCBB'`, technologist).
- * The new `Intl.Segmenter` API in ES2022 can split the string into grapheme clusters correctly. If it is not available,
- * PixiJS will fallback to use the iterator of String, which can only spilt the string into code points.
- * If you want to get full functionality in environments that don't support `Intl.Segmenter` (such as Firefox),
- * you can use other libraries such as [grapheme-splitter]{@link https://www.npmjs.com/package/grapheme-splitter}
- * or [graphemer]{@link https://www.npmjs.com/package/graphemer} to create a polyfill. Since these libraries can be
- * relatively large in size to handle various Unicode grapheme clusters properly, PixiJS won't use them directly.
- */
-_CanvasTextMetrics.graphemeSegmenter = (() => {
-  if (typeof (Intl == null ? void 0 : Intl.Segmenter) === "function") {
-    const segmenter = new Intl.Segmenter();
-    return (s) => [...segmenter.segment(s)].map((x) => x.segment);
-  }
-  return (s) => [...s];
-})();
-/**
- * New rendering behavior for letter-spacing which uses Chrome's new native API. This will
- * lead to more accurate letter-spacing results because it does not try to manually draw
- * each character. However, this Chrome API is experimental and may not serve all cases yet.
- * @see TextMetrics.experimentalLetterSpacingSupported
- */
-_CanvasTextMetrics.experimentalLetterSpacing = false;
-/** Cache of {@see TextMetrics.FontMetrics} objects. */
-_CanvasTextMetrics._fonts = {};
-/** Cache of new line chars. */
-_CanvasTextMetrics._newlines = [
-  10,
-  // line feed
-  13,
-  // carriage return
-];
-/** Cache of breaking spaces. */
-_CanvasTextMetrics._breakingSpaces = [
-  9,
-  // character tabulation
-  32,
-  // space
-  8192,
-  // en quad
-  8193,
-  // em quad
-  8194,
-  // en space
-  8195,
-  // em space
-  8196,
-  // three-per-em space
-  8197,
-  // four-per-em space
-  8198,
-  // six-per-em space
-  8200,
-  // punctuation space
-  8201,
-  // thin space
-  8202,
-  // hair space
-  8287,
-  // medium mathematical space
-  12288,
-  // ideographic space
-];
-_CanvasTextMetrics._measurementCache = {};
-let CanvasTextMetrics = _CanvasTextMetrics;
-
-"use strict";
 const _FillGradient = class _FillGradient {
   constructor(x0, y0, x1, y1) {
     this.uid = uid("fillGradient");
@@ -17590,448 +17020,6 @@ const _FillGradient = class _FillGradient {
 };
 _FillGradient.defaultTextureSize = 256;
 let FillGradient = _FillGradient;
-
-"use strict";
-const repetitionMap = {
-  repeat: {
-    addressModeU: "repeat",
-    addressModeV: "repeat",
-  },
-  "repeat-x": {
-    addressModeU: "repeat",
-    addressModeV: "clamp-to-edge",
-  },
-  "repeat-y": {
-    addressModeU: "clamp-to-edge",
-    addressModeV: "repeat",
-  },
-  "no-repeat": {
-    addressModeU: "clamp-to-edge",
-    addressModeV: "clamp-to-edge",
-  },
-};
-class FillPattern {
-  constructor(texture, repetition) {
-    this.uid = uid("fillPattern");
-    this.transform = new Matrix();
-    this.texture = texture;
-    this.transform.scale(
-      1 / texture.frame.width,
-      1 / texture.frame.height,
-    );
-    if (repetition) {
-      texture.source.style.addressModeU =
-        repetitionMap[repetition].addressModeU;
-      texture.source.style.addressModeV =
-        repetitionMap[repetition].addressModeV;
-    }
-  }
-  setTransform(transform) {
-    const texture = this.texture;
-    this.transform.copyFrom(transform);
-    this.transform.invert();
-    this.transform.scale(
-      1 / texture.frame.width,
-      1 / texture.frame.height,
-    );
-  }
-}
-
-"use strict";
-function getCanvasFillStyle(fillStyle, context) {
-  if (fillStyle.texture === Texture.WHITE && !fillStyle.fill) {
-    return Color.shared.setValue(fillStyle.color).toHex();
-  } else if (!fillStyle.fill) {
-    const pattern = context.createPattern(
-      fillStyle.texture.source.resource,
-      "repeat",
-    );
-    const tempMatrix = fillStyle.matrix.copyTo(Matrix.shared);
-    tempMatrix.scale(
-      fillStyle.texture.frame.width,
-      fillStyle.texture.frame.height,
-    );
-    pattern.setTransform(tempMatrix);
-    return pattern;
-  } else if (fillStyle.fill instanceof FillPattern) {
-    const fillPattern = fillStyle.fill;
-    const pattern = context.createPattern(
-      fillPattern.texture.source.resource,
-      "repeat",
-    );
-    const tempMatrix = fillPattern.transform.copyTo(Matrix.shared);
-    tempMatrix.scale(
-      fillPattern.texture.frame.width,
-      fillPattern.texture.frame.height,
-    );
-    pattern.setTransform(tempMatrix);
-    return pattern;
-  } else if (fillStyle.fill instanceof FillGradient) {
-    const fillGradient = fillStyle.fill;
-    if (fillGradient.type === "linear") {
-      const gradient = context.createLinearGradient(
-        fillGradient.x0,
-        fillGradient.y0,
-        fillGradient.x1,
-        fillGradient.y1,
-      );
-      fillGradient.gradientStops.forEach((stop) => {
-        gradient.addColorStop(
-          stop.offset,
-          Color.shared.setValue(stop.color).toHex(),
-        );
-      });
-      return gradient;
-    }
-  }
-  warn("FillStyle not recognised", fillStyle);
-  return "red";
-}
-
-"use strict";
-class CanvasTextSystem {
-  constructor() {
-    this._activeTextures = {};
-  }
-  getTextureSize(text, resolution, style) {
-    const measured = CanvasTextMetrics.measureText(text || " ", style);
-    let width = Math.ceil(
-      Math.ceil(Math.max(1, measured.width) + style.padding * 2) * resolution,
-    );
-    let height = Math.ceil(
-      Math.ceil(Math.max(1, measured.height) + style.padding * 2) * resolution,
-    );
-    width = Math.ceil(width - 1e-6);
-    height = Math.ceil(height - 1e-6);
-    width = nextPow2(width);
-    height = nextPow2(height);
-    return { width, height };
-  }
-  getTexture(text, resolution, style, textKey) {
-    if (this._activeTextures[textKey]) {
-      this._increaseReferenceCount(textKey);
-      return this._activeTextures[textKey].texture;
-    }
-    const measured = CanvasTextMetrics.measureText(text || " ", style);
-    const width = Math.ceil(
-      Math.ceil(Math.max(1, measured.width) + style.padding * 2) * resolution,
-    );
-    const height = Math.ceil(
-      Math.ceil(Math.max(1, measured.height) + style.padding * 2) * resolution,
-    );
-    const canvasAndContext = CanvasPool.getOptimalCanvasAndContext(
-      width,
-      height,
-    );
-    const { canvas } = canvasAndContext;
-    this.renderTextToCanvas(text, style, resolution, canvasAndContext);
-    const texture = getPo2TextureFromSource(canvas, width, height, resolution);
-    if (style.trim) {
-      const trimmed = getCanvasBoundingBox(canvas, resolution);
-      texture.frame.copyFrom(trimmed);
-      texture.updateUvs();
-    }
-    this._activeTextures[textKey] = {
-      canvasAndContext,
-      texture,
-      usageCount: 1,
-    };
-    return texture;
-  }
-  _increaseReferenceCount(textKey) {
-    this._activeTextures[textKey].usageCount++;
-  }
-  decreaseReferenceCount(textKey) {
-    const activeTexture = this._activeTextures[textKey];
-    activeTexture.usageCount--;
-    if (activeTexture.usageCount === 0) {
-      CanvasPool.returnCanvasAndContext(activeTexture.canvasAndContext);
-      TexturePool.returnTexture(activeTexture.texture);
-      const source = activeTexture.texture.source;
-      source.resource = null;
-      source.uploadMethodId = "unknown";
-      source.alphaMode = "no-premultiply-alpha";
-      this._activeTextures[textKey] = null;
-    }
-  }
-  getReferenceCount(textKey) {
-    return this._activeTextures[textKey].usageCount;
-  }
-  /**
-   * Renders text to its canvas, and updates its texture.
-   *
-   * By default this is used internally to ensure the texture is correct before rendering,
-   * but it can be used called externally, for example from this class to 'pre-generate' the texture from a piece of text,
-   * and then shared across multiple Sprites.
-   * @param text
-   * @param style
-   * @param resolution
-   * @param canvasAndContext
-   */
-  renderTextToCanvas(text, style, resolution, canvasAndContext) {
-    var _a, _b, _c, _d, _e, _f;
-    const { canvas, context } = canvasAndContext;
-    const font = fontStringFromTextStyle(style);
-    const measured = CanvasTextMetrics.measureText(text || " ", style);
-    const lines = measured.lines;
-    const lineHeight = measured.lineHeight;
-    const lineWidths = measured.lineWidths;
-    const maxLineWidth = measured.maxLineWidth;
-    const fontProperties = measured.fontProperties;
-    const height = canvas.height;
-    context.resetTransform();
-    context.scale(resolution, resolution);
-    context.clearRect(0, 0, measured.width + 4, measured.height + 4);
-    if ((_a = style._stroke) == null ? void 0 : _a.width) {
-      const strokeStyle = style._stroke;
-      context.lineWidth = strokeStyle.width;
-      context.miterLimit = strokeStyle.miterLimit;
-      context.lineJoin = strokeStyle.join;
-      context.lineCap = strokeStyle.cap;
-    }
-    context.font = font;
-    let linePositionX;
-    let linePositionY;
-    const passesCount = style.dropShadow ? 2 : 1;
-    for (let i = 0; i < passesCount; ++i) {
-      const isShadowPass = style.dropShadow && i === 0;
-      const dsOffsetText = isShadowPass
-        ? Math.ceil(Math.max(1, height) + style.padding * 2)
-        : 0;
-      const dsOffsetShadow = dsOffsetText * resolution;
-      if (isShadowPass) {
-        context.fillStyle = "black";
-        context.strokeStyle = "black";
-        const shadowOptions = style.dropShadow;
-        const dropShadowColor = shadowOptions.color;
-        const dropShadowAlpha = shadowOptions.alpha;
-        context.shadowColor = Color.shared.setValue(dropShadowColor).setAlpha(
-          dropShadowAlpha,
-        ).toRgbaString();
-        const dropShadowBlur = shadowOptions.blur * resolution;
-        const dropShadowDistance = shadowOptions.distance * resolution;
-        context.shadowBlur = dropShadowBlur;
-        context.shadowOffsetX = Math.cos(shadowOptions.angle) *
-          dropShadowDistance;
-        context.shadowOffsetY =
-          Math.sin(shadowOptions.angle) * dropShadowDistance + dsOffsetShadow;
-      } else {
-        context.globalAlpha =
-          (_c = (_b = style._fill) == null ? void 0 : _b.alpha) != null
-            ? _c
-            : 1;
-        context.fillStyle = style._fill
-          ? getCanvasFillStyle(style._fill, context)
-          : null;
-        if ((_d = style._stroke) == null ? void 0 : _d.width) {
-          context.strokeStyle = getCanvasFillStyle(style._stroke, context);
-        }
-        context.shadowColor = "black";
-      }
-      let linePositionYShift = (lineHeight - fontProperties.fontSize) / 2;
-      if (lineHeight - fontProperties.fontSize < 0) {
-        linePositionYShift = 0;
-      }
-      const strokeWidth =
-        (_f = (_e = style._stroke) == null ? void 0 : _e.width) != null
-          ? _f
-          : 0;
-      for (let i2 = 0; i2 < lines.length; i2++) {
-        linePositionX = strokeWidth / 2;
-        linePositionY = strokeWidth / 2 + i2 * lineHeight +
-          fontProperties.ascent + linePositionYShift;
-        if (style.align === "right") {
-          linePositionX += maxLineWidth - lineWidths[i2];
-        } else if (style.align === "center") {
-          linePositionX += (maxLineWidth - lineWidths[i2]) / 2;
-        }
-        if (style._stroke) {
-          this._drawLetterSpacing(
-            lines[i2],
-            style,
-            canvasAndContext,
-            linePositionX + style.padding,
-            linePositionY + style.padding - dsOffsetText,
-            true,
-          );
-        }
-        if (style._fill !== void 0) {
-          this._drawLetterSpacing(
-            lines[i2],
-            style,
-            canvasAndContext,
-            linePositionX + style.padding,
-            linePositionY + style.padding - dsOffsetText,
-          );
-        }
-      }
-    }
-  }
-  /**
-   * Render the text with letter-spacing.
-   * @param text - The text to draw
-   * @param style
-   * @param canvasAndContext
-   * @param x - Horizontal position to draw the text
-   * @param y - Vertical position to draw the text
-   * @param isStroke - Is this drawing for the outside stroke of the
-   *  text? If not, it's for the inside fill
-   */
-  _drawLetterSpacing(text, style, canvasAndContext, x, y, isStroke = false) {
-    const { context } = canvasAndContext;
-    const letterSpacing = style.letterSpacing;
-    let useExperimentalLetterSpacing = false;
-    if (CanvasTextMetrics.experimentalLetterSpacingSupported) {
-      if (CanvasTextMetrics.experimentalLetterSpacing) {
-        context.letterSpacing = `${letterSpacing}px`;
-        context.textLetterSpacing = `${letterSpacing}px`;
-        useExperimentalLetterSpacing = true;
-      } else {
-        context.letterSpacing = "0px";
-        context.textLetterSpacing = "0px";
-      }
-    }
-    if (letterSpacing === 0 || useExperimentalLetterSpacing) {
-      if (isStroke) {
-        context.strokeText(text, x, y);
-      } else {
-        context.fillText(text, x, y);
-      }
-      return;
-    }
-    let currentPosition = x;
-    const stringArray = CanvasTextMetrics.graphemeSegmenter(text);
-    let previousWidth = context.measureText(text).width;
-    let currentWidth = 0;
-    for (let i = 0; i < stringArray.length; ++i) {
-      const currentChar = stringArray[i];
-      if (isStroke) {
-        context.strokeText(currentChar, currentPosition, y);
-      } else {
-        context.fillText(currentChar, currentPosition, y);
-      }
-      let textStr = "";
-      for (let j = i + 1; j < stringArray.length; ++j) {
-        textStr += stringArray[j];
-      }
-      currentWidth = context.measureText(textStr).width;
-      currentPosition += previousWidth - currentWidth + letterSpacing;
-      previousWidth = currentWidth;
-    }
-  }
-  destroy() {
-    this._activeTextures = null;
-  }
-}
-/** @ignore */
-CanvasTextSystem.extension = {
-  type: [
-    ExtensionType.WebGLSystem,
-    ExtensionType.WebGPUSystem,
-    ExtensionType.CanvasSystem,
-  ],
-  name: "canvasText",
-};
-
-"use strict";
-extensions.add(CanvasTextSystem);
-extensions.add(CanvasTextPipe);
-
-"use strict";
-class AbstractBitmapFont extends EventEmitter {
-  constructor() {
-    super(...arguments);
-    /** The map of characters by character code. */
-    this.chars = /* @__PURE__ */ Object.create(null);
-    /**
-     * The line-height of the font face in pixels.
-     * @type {number}
-     */
-    this.lineHeight = 0;
-    /**
-     * The name of the font face
-     * @type {string}
-     */
-    this.fontFamily = "";
-    /** The metrics of the font face. */
-    this.fontMetrics = { fontSize: 0, ascent: 0, descent: 0 };
-    /**
-     * The offset of the font face from the baseline.
-     * @type {number}
-     */
-    this.baseLineOffset = 0;
-    /** The range and type of the distance field for this font. */
-    this.distanceField = { type: "none", range: 0 };
-    /** The map of base page textures (i.e., sheets of glyphs). */
-    this.pages = [];
-    /** The size of the font face in pixels. */
-    this.baseMeasurementFontSize = 100;
-    this.baseRenderedFontSize = 100;
-  }
-  /**
-   * The name of the font face.
-   * @deprecated since 8.0.0 Use `fontFamily` instead.
-   */
-  get font() {
-    deprecation(
-      v8_0_0,
-      "BitmapFont.font is deprecated, please use BitmapFont.fontFamily instead.",
-    );
-    return this.fontFamily;
-  }
-  /**
-   * The map of base page textures (i.e., sheets of glyphs).
-   * @deprecated since 8.0.0 Use `pages` instead.
-   */
-  get pageTextures() {
-    deprecation(
-      v8_0_0,
-      "BitmapFont.pageTextures is deprecated, please use BitmapFont.pages instead.",
-    );
-    return this.pages;
-  }
-  /**
-   * The size of the font face in pixels.
-   * @deprecated since 8.0.0 Use `fontMetrics.fontSize` instead.
-   */
-  get size() {
-    deprecation(
-      v8_0_0,
-      "BitmapFont.size is deprecated, please use BitmapFont.fontMetrics.fontSize instead.",
-    );
-    return this.fontMetrics.fontSize;
-  }
-  /**
-   * The kind of distance field for this font or "none".
-   * @deprecated since 8.0.0 Use `distanceField.type` instead.
-   */
-  get distanceFieldRange() {
-    deprecation(
-      v8_0_0,
-      "BitmapFont.distanceFieldRange is deprecated, please use BitmapFont.distanceField.range instead.",
-    );
-    return this.distanceField.range;
-  }
-  /**
-   * The range of the distance field in pixels.
-   * @deprecated since 8.0.0 Use `distanceField.range` instead.
-   */
-  get distanceFieldType() {
-    deprecation(
-      v8_0_0,
-      "BitmapFont.distanceFieldType is deprecated, please use BitmapFont.distanceField.type instead.",
-    );
-    return this.distanceField.type;
-  }
-  destroy() {
-    this.emit("destroy", this);
-    this.removeAllListeners();
-    for (const i in this.chars) {
-      this.chars[i].texture.destroy();
-    }
-    this.chars = null;
-  }
-}
 
 var parseSvgPath = parse;
 
@@ -18574,7 +17562,8 @@ class Polygon {
     const halfStrokeWidth = strokeWidth / 2;
     const halfStrokeWidthSqrd = halfStrokeWidth * halfStrokeWidth;
     const { points } = this;
-    for (let i = 0; i < points.length; i += 2) {
+    const iterationLength = points.length - (this.closePath ? 0 : 2);
+    for (let i = 0; i < iterationLength; i += 2) {
       const x1 = points[i];
       const y1 = points[i + 1];
       const x2 = points[(i + 2) % points.length];
@@ -19775,7 +18764,8 @@ class ShapePath {
   }
   /**
    * Draws a polygon shape. This method allows for the creation of complex polygons by specifying a sequence of points.
-   * @param points - An array of numbers representing the x and y coordinates of the polygon's vertices, in sequence.
+   * @param points - An array of numbers, or or an array of PointData objects eg [{x,y}, {x,y}, {x,y}]
+   * representing the x and y coordinates of the polygon's vertices, in sequence.
    * @param close - A boolean indicating whether to close the polygon path. True by default.
    * @param transform - An optional `Matrix` object to apply a transformation to the polygon.
    * @returns The instance of the current object for chaining.
@@ -20545,29 +19535,29 @@ function adjustTransform(currentMatrix, transform) {
 }
 
 "use strict";
-var __defProp$R = Object.defineProperty;
-var __getOwnPropSymbols$R = Object.getOwnPropertySymbols;
-var __hasOwnProp$R = Object.prototype.hasOwnProperty;
-var __propIsEnum$R = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$R = (obj, key, value) =>
+var __defProp$Q = Object.defineProperty;
+var __getOwnPropSymbols$Q = Object.getOwnPropertySymbols;
+var __hasOwnProp$Q = Object.prototype.hasOwnProperty;
+var __propIsEnum$Q = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$Q = (obj, key, value) =>
   key in obj
-    ? __defProp$R(obj, key, {
+    ? __defProp$Q(obj, key, {
       enumerable: true,
       configurable: true,
       writable: true,
       value,
     })
     : obj[key] = value;
-var __spreadValues$R = (a, b) => {
+var __spreadValues$Q = (a, b) => {
   for (var prop in b || (b = {})) {
-    if (__hasOwnProp$R.call(b, prop)) {
-      __defNormalProp$R(a, prop, b[prop]);
+    if (__hasOwnProp$Q.call(b, prop)) {
+      __defNormalProp$Q(a, prop, b[prop]);
     }
   }
-  if (__getOwnPropSymbols$R) {
-    for (var prop of __getOwnPropSymbols$R(b)) {
-      if (__propIsEnum$R.call(b, prop)) {
-        __defNormalProp$R(a, prop, b[prop]);
+  if (__getOwnPropSymbols$Q) {
+    for (var prop of __getOwnPropSymbols$Q(b)) {
+      if (__propIsEnum$Q.call(b, prop)) {
+        __defNormalProp$Q(a, prop, b[prop]);
       }
     }
   }
@@ -20590,12 +19580,12 @@ function renderChildren(svg, session, fillStyle, strokeStyle) {
   const children = svg.children;
   const { fillStyle: f1, strokeStyle: s1 } = parseStyle(svg);
   if (f1 && fillStyle) {
-    fillStyle = __spreadValues$R(__spreadValues$R({}, fillStyle), f1);
+    fillStyle = __spreadValues$Q(__spreadValues$Q({}, fillStyle), f1);
   } else if (f1) {
     fillStyle = f1;
   }
   if (s1 && strokeStyle) {
-    strokeStyle = __spreadValues$R(__spreadValues$R({}, strokeStyle), s1);
+    strokeStyle = __spreadValues$Q(__spreadValues$Q({}, strokeStyle), s1);
   } else if (s1) {
     strokeStyle = s1;
   }
@@ -20781,104 +19771,55 @@ function parseStyle(svg) {
 }
 
 "use strict";
-var __defProp$Q = Object.defineProperty;
-var __defProps$k = Object.defineProperties;
-var __getOwnPropDescs$k = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$Q = Object.getOwnPropertySymbols;
-var __hasOwnProp$Q = Object.prototype.hasOwnProperty;
-var __propIsEnum$Q = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$Q = (obj, key, value) =>
-  key in obj
-    ? __defProp$Q(obj, key, {
-      enumerable: true,
-      configurable: true,
-      writable: true,
-      value,
-    })
-    : obj[key] = value;
-var __spreadValues$Q = (a, b) => {
-  for (var prop in b || (b = {})) {
-    if (__hasOwnProp$Q.call(b, prop)) {
-      __defNormalProp$Q(a, prop, b[prop]);
-    }
-  }
-  if (__getOwnPropSymbols$Q) {
-    for (var prop of __getOwnPropSymbols$Q(b)) {
-      if (__propIsEnum$Q.call(b, prop)) {
-        __defNormalProp$Q(a, prop, b[prop]);
-      }
-    }
-  }
-  return a;
+const repetitionMap = {
+  repeat: {
+    addressModeU: "repeat",
+    addressModeV: "repeat",
+  },
+  "repeat-x": {
+    addressModeU: "repeat",
+    addressModeV: "clamp-to-edge",
+  },
+  "repeat-y": {
+    addressModeU: "clamp-to-edge",
+    addressModeV: "repeat",
+  },
+  "no-repeat": {
+    addressModeU: "clamp-to-edge",
+    addressModeV: "clamp-to-edge",
+  },
 };
-var __spreadProps$k = (a, b) => __defProps$k(a, __getOwnPropDescs$k(b));
-function convertFillInputToFillStyle(value, defaultStyle) {
-  var _a, _b;
-  if (value === void 0 || value === null) {
-    return null;
-  }
-  let fillStyleToParse;
-  let styleToMerge;
-  if (value == null ? void 0 : value.fill) {
-    styleToMerge = value.fill;
-    fillStyleToParse = __spreadValues$Q(
-      __spreadValues$Q({}, defaultStyle),
-      value,
+class FillPattern {
+  constructor(texture, repetition) {
+    this.uid = uid("fillPattern");
+    this.transform = new Matrix();
+    this.texture = texture;
+    this.transform.scale(
+      1 / texture.frame.width,
+      1 / texture.frame.height,
     );
-  } else {
-    styleToMerge = value;
-    fillStyleToParse = defaultStyle;
-  }
-  if (Color.isColorLike(styleToMerge)) {
-    const temp = Color.shared.setValue(styleToMerge != null ? styleToMerge : 0);
-    const opts = __spreadProps$k(__spreadValues$Q({}, fillStyleToParse), {
-      color: temp.toNumber(),
-      alpha: temp.alpha === 1 ? fillStyleToParse.alpha : temp.alpha,
-      texture: Texture.WHITE,
-    });
-    return opts;
-  } else if (styleToMerge instanceof FillPattern) {
-    const pattern = styleToMerge;
-    return __spreadProps$k(__spreadValues$Q({}, fillStyleToParse), {
-      color: 16777215,
-      texture: pattern.texture,
-      matrix: pattern.transform,
-      fill: (_a = fillStyleToParse.fill) != null ? _a : null,
-    });
-  } else if (styleToMerge instanceof FillGradient) {
-    const gradient = styleToMerge;
-    gradient.buildLinearGradient();
-    return __spreadProps$k(__spreadValues$Q({}, fillStyleToParse), {
-      color: 16777215,
-      texture: gradient.texture,
-      matrix: gradient.transform,
-    });
-  }
-  const style = __spreadValues$Q(__spreadValues$Q({}, defaultStyle), value);
-  if (style.texture) {
-    if (style.texture !== Texture.WHITE) {
-      const m = ((_b = style.matrix) == null ? void 0 : _b.invert()) ||
-        new Matrix();
-      m.scale(
-        1 / style.texture.frame.width,
-        1 / style.texture.frame.height,
-      );
-      style.matrix = m;
-    }
-    const sourceStyle = style.texture.source.style;
-    if (sourceStyle.addressMode === "clamp-to-edge") {
-      sourceStyle.addressMode = "repeat";
+    if (repetition) {
+      texture.source.style.addressModeU =
+        repetitionMap[repetition].addressModeU;
+      texture.source.style.addressModeV =
+        repetitionMap[repetition].addressModeV;
     }
   }
-  const color = Color.shared.setValue(style.color);
-  style.alpha *= color.alpha;
-  style.color = color.toNumber();
-  style.matrix = style.matrix ? style.matrix.clone() : null;
-  return style;
+  setTransform(transform) {
+    const texture = this.texture;
+    this.transform.copyFrom(transform);
+    this.transform.invert();
+    this.transform.scale(
+      1 / texture.frame.width,
+      1 / texture.frame.height,
+    );
+  }
 }
 
 "use strict";
 var __defProp$P = Object.defineProperty;
+var __defProps$j = Object.defineProperties;
+var __getOwnPropDescs$j = Object.getOwnPropertyDescriptors;
 var __getOwnPropSymbols$P = Object.getOwnPropertySymbols;
 var __hasOwnProp$P = Object.prototype.hasOwnProperty;
 var __propIsEnum$P = Object.prototype.propertyIsEnumerable;
@@ -20906,6 +19847,101 @@ var __spreadValues$P = (a, b) => {
   }
   return a;
 };
+var __spreadProps$j = (a, b) => __defProps$j(a, __getOwnPropDescs$j(b));
+function convertFillInputToFillStyle(value, defaultStyle) {
+  var _a, _b;
+  if (value === void 0 || value === null) {
+    return null;
+  }
+  let fillStyleToParse;
+  let styleToMerge;
+  if (value == null ? void 0 : value.fill) {
+    styleToMerge = value.fill;
+    fillStyleToParse = __spreadValues$P(
+      __spreadValues$P({}, defaultStyle),
+      value,
+    );
+  } else {
+    styleToMerge = value;
+    fillStyleToParse = defaultStyle;
+  }
+  if (Color.isColorLike(styleToMerge)) {
+    const temp = Color.shared.setValue(styleToMerge != null ? styleToMerge : 0);
+    const opts = __spreadProps$j(__spreadValues$P({}, fillStyleToParse), {
+      color: temp.toNumber(),
+      alpha: temp.alpha === 1 ? fillStyleToParse.alpha : temp.alpha,
+      texture: Texture.WHITE,
+    });
+    return opts;
+  } else if (styleToMerge instanceof FillPattern) {
+    const pattern = styleToMerge;
+    return __spreadProps$j(__spreadValues$P({}, fillStyleToParse), {
+      color: 16777215,
+      texture: pattern.texture,
+      matrix: pattern.transform,
+      fill: (_a = fillStyleToParse.fill) != null ? _a : null,
+    });
+  } else if (styleToMerge instanceof FillGradient) {
+    const gradient = styleToMerge;
+    gradient.buildLinearGradient();
+    return __spreadProps$j(__spreadValues$P({}, fillStyleToParse), {
+      color: 16777215,
+      texture: gradient.texture,
+      matrix: gradient.transform,
+    });
+  }
+  const style = __spreadValues$P(__spreadValues$P({}, defaultStyle), value);
+  if (style.texture) {
+    if (style.texture !== Texture.WHITE) {
+      const m = ((_b = style.matrix) == null ? void 0 : _b.invert()) ||
+        new Matrix();
+      m.scale(
+        1 / style.texture.frame.width,
+        1 / style.texture.frame.height,
+      );
+      style.matrix = m;
+    }
+    const sourceStyle = style.texture.source.style;
+    if (sourceStyle.addressMode === "clamp-to-edge") {
+      sourceStyle.addressMode = "repeat";
+    }
+  }
+  const color = Color.shared.setValue(style.color);
+  style.alpha *= color.alpha;
+  style.color = color.toNumber();
+  style.matrix = style.matrix ? style.matrix.clone() : null;
+  return style;
+}
+
+"use strict";
+var __defProp$O = Object.defineProperty;
+var __getOwnPropSymbols$O = Object.getOwnPropertySymbols;
+var __hasOwnProp$O = Object.prototype.hasOwnProperty;
+var __propIsEnum$O = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$O = (obj, key, value) =>
+  key in obj
+    ? __defProp$O(obj, key, {
+      enumerable: true,
+      configurable: true,
+      writable: true,
+      value,
+    })
+    : obj[key] = value;
+var __spreadValues$O = (a, b) => {
+  for (var prop in b || (b = {})) {
+    if (__hasOwnProp$O.call(b, prop)) {
+      __defNormalProp$O(a, prop, b[prop]);
+    }
+  }
+  if (__getOwnPropSymbols$O) {
+    for (var prop of __getOwnPropSymbols$O(b)) {
+      if (__propIsEnum$O.call(b, prop)) {
+        __defNormalProp$O(a, prop, b[prop]);
+      }
+    }
+  }
+  return a;
+};
 const tmpPoint = new Point();
 const tempMatrix$2 = new Matrix();
 const _GraphicsContext = class _GraphicsContext extends EventEmitter {
@@ -20917,8 +19953,8 @@ const _GraphicsContext = class _GraphicsContext extends EventEmitter {
     this.instructions = [];
     this._activePath = new GraphicsPath();
     this._transform = new Matrix();
-    this._fillStyle = __spreadValues$P({}, _GraphicsContext.defaultFillStyle);
-    this._strokeStyle = __spreadValues$P(
+    this._fillStyle = __spreadValues$O({}, _GraphicsContext.defaultFillStyle);
+    this._strokeStyle = __spreadValues$O(
       {},
       _GraphicsContext.defaultStrokeStyle,
     );
@@ -20938,8 +19974,8 @@ const _GraphicsContext = class _GraphicsContext extends EventEmitter {
     clone.instructions = this.instructions.slice();
     clone._activePath = this._activePath.clone();
     clone._transform = this._transform.clone();
-    clone._fillStyle = __spreadValues$P({}, this._fillStyle);
-    clone._strokeStyle = __spreadValues$P({}, this._strokeStyle);
+    clone._fillStyle = __spreadValues$O({}, this._fillStyle);
+    clone._strokeStyle = __spreadValues$O({}, this._strokeStyle);
     clone._stateStack = this._stateStack.slice();
     clone._bounds = this._bounds.clone();
     clone._boundsDirty = true;
@@ -21036,7 +20072,7 @@ const _GraphicsContext = class _GraphicsContext extends EventEmitter {
     if (!path) {
       return this;
     }
-    if (style) {
+    if (style != null) {
       if (alpha !== void 0 && typeof style === "number") {
         deprecation(
           v8_0_0,
@@ -21083,7 +20119,7 @@ const _GraphicsContext = class _GraphicsContext extends EventEmitter {
     if (!path) {
       return this;
     }
-    if (style) {
+    if (style != null) {
       this._strokeStyle = convertFillInputToFillStyle(
         style,
         _GraphicsContext.defaultStrokeStyle,
@@ -21332,6 +20368,7 @@ const _GraphicsContext = class _GraphicsContext extends EventEmitter {
       t.b * x + t.d * y + t.ty,
       smoothness,
     );
+    return this;
   }
   /**
    * Draws a rectangle shape. This method adds a new rectangle path to the current drawing.
@@ -21366,9 +20403,9 @@ const _GraphicsContext = class _GraphicsContext extends EventEmitter {
    * Draws a polygon shape by specifying a sequence of points. This method allows for the creation of complex polygons,
    * which can be both open and closed. An optional transformation can be applied, enabling the polygon to be scaled,
    * rotated, or translated as needed.
-   * @param points - An array of numbers representing the x and y coordinates of the polygon's vertices, in sequence.
+   * @param points - An array of numbers, or an array of PointData objects eg [{x,y}, {x,y}, {x,y}]
+   * representing the x and y coordinates, of the polygon's vertices, in sequence.
    * @param close - A boolean indicating whether to close the polygon path. True by default.
-   * @returns The instance of the current object for chaining further drawing commands.
    */
   poly(points, close) {
     this._tick++;
@@ -21489,6 +20526,7 @@ const _GraphicsContext = class _GraphicsContext extends EventEmitter {
   svg(svg) {
     this._tick++;
     SVGParser(svg, this);
+    return this;
   }
   /**
    * Restores the most recently saved graphics state by popping the top of the graphics state stack.
@@ -21501,14 +20539,16 @@ const _GraphicsContext = class _GraphicsContext extends EventEmitter {
       this._fillStyle = state.fillStyle;
       this._strokeStyle = state.strokeStyle;
     }
+    return this;
   }
   /** Saves the current graphics state, including transformations, fill styles, and stroke styles, onto a stack. */
   save() {
     this._stateStack.push({
       transform: this._transform.clone(),
-      fillStyle: __spreadValues$P({}, this._fillStyle),
-      strokeStyle: __spreadValues$P({}, this._strokeStyle),
+      fillStyle: __spreadValues$O({}, this._fillStyle),
+      strokeStyle: __spreadValues$O({}, this._strokeStyle),
     });
+    return this;
   }
   /**
    * Returns the current transformation matrix of the graphics context.
@@ -21577,6 +20617,7 @@ const _GraphicsContext = class _GraphicsContext extends EventEmitter {
    * @returns The instance of the current GraphicsContext for method chaining.
    */
   clear() {
+    this._activePath.clear();
     this.instructions.length = 0;
     this.resetTransform();
     this.onUpdate();
@@ -21824,29 +20865,29 @@ function addStokeStyleKey(strokeStyle, key, index) {
 }
 
 "use strict";
-var __defProp$O = Object.defineProperty;
-var __getOwnPropSymbols$O = Object.getOwnPropertySymbols;
-var __hasOwnProp$O = Object.prototype.hasOwnProperty;
-var __propIsEnum$O = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$O = (obj, key, value) =>
+var __defProp$N = Object.defineProperty;
+var __getOwnPropSymbols$N = Object.getOwnPropertySymbols;
+var __hasOwnProp$N = Object.prototype.hasOwnProperty;
+var __propIsEnum$N = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$N = (obj, key, value) =>
   key in obj
-    ? __defProp$O(obj, key, {
+    ? __defProp$N(obj, key, {
       enumerable: true,
       configurable: true,
       writable: true,
       value,
     })
     : obj[key] = value;
-var __spreadValues$O = (a, b) => {
+var __spreadValues$N = (a, b) => {
   for (var prop in b || (b = {})) {
-    if (__hasOwnProp$O.call(b, prop)) {
-      __defNormalProp$O(a, prop, b[prop]);
+    if (__hasOwnProp$N.call(b, prop)) {
+      __defNormalProp$N(a, prop, b[prop]);
     }
   }
-  if (__getOwnPropSymbols$O) {
-    for (var prop of __getOwnPropSymbols$O(b)) {
-      if (__propIsEnum$O.call(b, prop)) {
-        __defNormalProp$O(a, prop, b[prop]);
+  if (__getOwnPropSymbols$N) {
+    for (var prop of __getOwnPropSymbols$N(b)) {
+      if (__propIsEnum$N.call(b, prop)) {
+        __defNormalProp$N(a, prop, b[prop]);
       }
     }
   }
@@ -21856,8 +20897,8 @@ const _TextStyle = class _TextStyle extends EventEmitter {
   constructor(style = {}) {
     super();
     convertV7Tov8Style(style);
-    const fullStyle = __spreadValues$O(
-      __spreadValues$O({}, _TextStyle.defaultTextStyle),
+    const fullStyle = __spreadValues$N(
+      __spreadValues$N({}, _TextStyle.defaultTextStyle),
       style,
     );
     for (const key in fullStyle) {
@@ -21891,13 +20932,13 @@ const _TextStyle = class _TextStyle extends EventEmitter {
   }
   set dropShadow(value) {
     if (value !== null && typeof value === "object") {
-      this._dropShadow = __spreadValues$O(
-        __spreadValues$O({}, _TextStyle.defaultDropShadow),
+      this._dropShadow = __spreadValues$N(
+        __spreadValues$N({}, _TextStyle.defaultDropShadow),
         value,
       );
     } else {
       this._dropShadow = value
-        ? __spreadValues$O({}, _TextStyle.defaultDropShadow)
+        ? __spreadValues$N({}, _TextStyle.defaultDropShadow)
         : null;
     }
     this.update();
@@ -22258,7 +21299,7 @@ function convertV7Tov8Style(style) {
         : defaults.distance,
     };
   }
-  if (oldStyle.strokeThickness) {
+  if (oldStyle.strokeThickness !== void 0) {
     deprecation(v8_0_0, "strokeThickness is now a part of stroke");
     const color = oldStyle.stroke;
     style.stroke = {
@@ -22285,6 +21326,1090 @@ function convertV7Tov8Style(style) {
     style.fill = {
       fill: gradientFill,
     };
+  }
+}
+
+"use strict";
+const tempBounds$3 = new Bounds();
+function getPo2TextureFromSource(image, width, height, resolution) {
+  const bounds = tempBounds$3;
+  bounds.minX = 0;
+  bounds.minY = 0;
+  bounds.maxX = image.width / resolution | 0;
+  bounds.maxY = image.height / resolution | 0;
+  const texture = TexturePool.getOptimalTexture(
+    bounds.width,
+    bounds.height,
+    resolution,
+    false,
+  );
+  texture.source.uploadMethodId = "image";
+  texture.source.resource = image;
+  texture.source.alphaMode = "premultiply-alpha-on-upload";
+  texture.frame.width = width / resolution;
+  texture.frame.height = height / resolution;
+  texture.source.emit("update", texture.source);
+  texture.updateUvs();
+  return texture;
+}
+
+"use strict";
+const genericFontFamilies = [
+  "serif",
+  "sans-serif",
+  "monospace",
+  "cursive",
+  "fantasy",
+  "system-ui",
+];
+function fontStringFromTextStyle(style) {
+  const fontSizeString = typeof style.fontSize === "number"
+    ? `${style.fontSize}px`
+    : style.fontSize;
+  let fontFamilies = style.fontFamily;
+  if (!Array.isArray(style.fontFamily)) {
+    fontFamilies = style.fontFamily.split(",");
+  }
+  for (let i = fontFamilies.length - 1; i >= 0; i--) {
+    let fontFamily = fontFamilies[i].trim();
+    if (
+      !/([\"\'])[^\'\"]+\1/.test(fontFamily) &&
+      !genericFontFamilies.includes(fontFamily)
+    ) {
+      fontFamily = `"${fontFamily}"`;
+    }
+    fontFamilies[i] = fontFamily;
+  }
+  return `${style.fontStyle} ${style.fontVariant} ${style.fontWeight} ${fontSizeString} ${
+    fontFamilies.join(",")
+  }`;
+}
+
+"use strict";
+const contextSettings = {
+  // TextMetrics requires getImageData readback for measuring fonts.
+  willReadFrequently: true,
+};
+const _CanvasTextMetrics = class _CanvasTextMetrics {
+  /**
+   * Checking that we can use modern canvas 2D API.
+   *
+   * Note: This is an unstable API, Chrome < 94 use `textLetterSpacing`, later versions use `letterSpacing`.
+   * @see TextMetrics.experimentalLetterSpacing
+   * @see https://developer.mozilla.org/en-US/docs/Web/API/ICanvasRenderingContext2D/letterSpacing
+   * @see https://developer.chrome.com/origintrials/#/view_trial/3585991203293757441
+   */
+  static get experimentalLetterSpacingSupported() {
+    let result = _CanvasTextMetrics._experimentalLetterSpacingSupported;
+    if (result !== void 0) {
+      const proto = DOMAdapter.get().getCanvasRenderingContext2D().prototype;
+      result =
+        _CanvasTextMetrics._experimentalLetterSpacingSupported =
+          "letterSpacing" in proto || "textLetterSpacing" in proto;
+    }
+    return result;
+  }
+  /**
+   * @param text - the text that was measured
+   * @param style - the style that was measured
+   * @param width - the measured width of the text
+   * @param height - the measured height of the text
+   * @param lines - an array of the lines of text broken by new lines and wrapping if specified in style
+   * @param lineWidths - an array of the line widths for each line matched to `lines`
+   * @param lineHeight - the measured line height for this style
+   * @param maxLineWidth - the maximum line width for all measured lines
+   * @param {FontMetrics} fontProperties - the font properties object from TextMetrics.measureFont
+   */
+  constructor(
+    text,
+    style,
+    width,
+    height,
+    lines,
+    lineWidths,
+    lineHeight,
+    maxLineWidth,
+    fontProperties,
+  ) {
+    this.text = text;
+    this.style = style;
+    this.width = width;
+    this.height = height;
+    this.lines = lines;
+    this.lineWidths = lineWidths;
+    this.lineHeight = lineHeight;
+    this.maxLineWidth = maxLineWidth;
+    this.fontProperties = fontProperties;
+  }
+  /**
+   * Measures the supplied string of text and returns a Rectangle.
+   * @param text - The text to measure.
+   * @param style - The text style to use for measuring
+   * @param canvas - optional specification of the canvas to use for measuring.
+   * @param wordWrap
+   * @returns Measured width and height of the text.
+   */
+  static measureText(
+    text = " ",
+    style,
+    canvas = _CanvasTextMetrics._canvas,
+    wordWrap = style.wordWrap,
+  ) {
+    var _a;
+    const textKey = `${text}:${style.styleKey}`;
+    if (_CanvasTextMetrics._measurementCache[textKey]) {
+      return _CanvasTextMetrics._measurementCache[textKey];
+    }
+    const font = fontStringFromTextStyle(style);
+    const fontProperties = _CanvasTextMetrics.measureFont(font);
+    if (fontProperties.fontSize === 0) {
+      fontProperties.fontSize = style.fontSize;
+      fontProperties.ascent = style.fontSize;
+    }
+    const context = _CanvasTextMetrics.__context;
+    context.font = font;
+    const outputText = wordWrap
+      ? _CanvasTextMetrics._wordWrap(text, style, canvas)
+      : text;
+    const lines = outputText.split(/(?:\r\n|\r|\n)/);
+    const lineWidths = new Array(lines.length);
+    let maxLineWidth = 0;
+    for (let i = 0; i < lines.length; i++) {
+      const lineWidth = _CanvasTextMetrics._measureText(
+        lines[i],
+        style.letterSpacing,
+        context,
+      );
+      lineWidths[i] = lineWidth;
+      maxLineWidth = Math.max(maxLineWidth, lineWidth);
+    }
+    const strokeWidth = ((_a = style._stroke) == null ? void 0 : _a.width) || 0;
+    let width = maxLineWidth + strokeWidth;
+    if (style.dropShadow) {
+      width += style.dropShadow.distance;
+    }
+    const lineHeight = style.lineHeight ||
+      fontProperties.fontSize + strokeWidth;
+    let height =
+      Math.max(lineHeight, fontProperties.fontSize + strokeWidth * 2) +
+      (lines.length - 1) * (lineHeight + style.leading);
+    if (style.dropShadow) {
+      height += style.dropShadow.distance;
+    }
+    const measurements = new _CanvasTextMetrics(
+      text,
+      style,
+      width,
+      height,
+      lines,
+      lineWidths,
+      lineHeight + style.leading,
+      maxLineWidth,
+      fontProperties,
+    );
+    return measurements;
+  }
+  static _measureText(text, letterSpacing, context) {
+    let useExperimentalLetterSpacing = false;
+    if (_CanvasTextMetrics.experimentalLetterSpacingSupported) {
+      if (_CanvasTextMetrics.experimentalLetterSpacing) {
+        context.letterSpacing = `${letterSpacing}px`;
+        context.textLetterSpacing = `${letterSpacing}px`;
+        useExperimentalLetterSpacing = true;
+      } else {
+        context.letterSpacing = "0px";
+        context.textLetterSpacing = "0px";
+      }
+    }
+    let width = context.measureText(text).width;
+    if (width > 0) {
+      if (useExperimentalLetterSpacing) {
+        width -= letterSpacing;
+      } else {
+        width += (_CanvasTextMetrics.graphemeSegmenter(text).length - 1) *
+          letterSpacing;
+      }
+    }
+    return width;
+  }
+  /**
+   * Applies newlines to a string to have it optimally fit into the horizontal
+   * bounds set by the Text object's wordWrapWidth property.
+   * @param text - String to apply word wrapping to
+   * @param style - the style to use when wrapping
+   * @param canvas - optional specification of the canvas to use for measuring.
+   * @returns New string with new lines applied where required
+   */
+  static _wordWrap(text, style, canvas = _CanvasTextMetrics._canvas) {
+    const context = canvas.getContext("2d", contextSettings);
+    let width = 0;
+    let line = "";
+    let lines = "";
+    const cache = /* @__PURE__ */ Object.create(null);
+    const { letterSpacing, whiteSpace } = style;
+    const collapseSpaces = _CanvasTextMetrics._collapseSpaces(whiteSpace);
+    const collapseNewlines = _CanvasTextMetrics._collapseNewlines(whiteSpace);
+    let canPrependSpaces = !collapseSpaces;
+    const wordWrapWidth = style.wordWrapWidth + letterSpacing;
+    const tokens = _CanvasTextMetrics._tokenize(text);
+    for (let i = 0; i < tokens.length; i++) {
+      let token = tokens[i];
+      if (_CanvasTextMetrics._isNewline(token)) {
+        if (!collapseNewlines) {
+          lines += _CanvasTextMetrics._addLine(line);
+          canPrependSpaces = !collapseSpaces;
+          line = "";
+          width = 0;
+          continue;
+        }
+        token = " ";
+      }
+      if (collapseSpaces) {
+        const currIsBreakingSpace = _CanvasTextMetrics.isBreakingSpace(token);
+        const lastIsBreakingSpace = _CanvasTextMetrics.isBreakingSpace(
+          line[line.length - 1],
+        );
+        if (currIsBreakingSpace && lastIsBreakingSpace) {
+          continue;
+        }
+      }
+      const tokenWidth = _CanvasTextMetrics._getFromCache(
+        token,
+        letterSpacing,
+        cache,
+        context,
+      );
+      if (tokenWidth > wordWrapWidth) {
+        if (line !== "") {
+          lines += _CanvasTextMetrics._addLine(line);
+          line = "";
+          width = 0;
+        }
+        if (_CanvasTextMetrics.canBreakWords(token, style.breakWords)) {
+          const characters = _CanvasTextMetrics.wordWrapSplit(token);
+          for (let j = 0; j < characters.length; j++) {
+            let char = characters[j];
+            let lastChar = char;
+            let k = 1;
+            while (characters[j + k]) {
+              const nextChar = characters[j + k];
+              if (
+                !_CanvasTextMetrics.canBreakChars(
+                  lastChar,
+                  nextChar,
+                  token,
+                  j,
+                  style.breakWords,
+                )
+              ) {
+                char += nextChar;
+              } else {
+                break;
+              }
+              lastChar = nextChar;
+              k++;
+            }
+            j += k - 1;
+            const characterWidth = _CanvasTextMetrics._getFromCache(
+              char,
+              letterSpacing,
+              cache,
+              context,
+            );
+            if (characterWidth + width > wordWrapWidth) {
+              lines += _CanvasTextMetrics._addLine(line);
+              canPrependSpaces = false;
+              line = "";
+              width = 0;
+            }
+            line += char;
+            width += characterWidth;
+          }
+        } else {
+          if (line.length > 0) {
+            lines += _CanvasTextMetrics._addLine(line);
+            line = "";
+            width = 0;
+          }
+          const isLastToken = i === tokens.length - 1;
+          lines += _CanvasTextMetrics._addLine(token, !isLastToken);
+          canPrependSpaces = false;
+          line = "";
+          width = 0;
+        }
+      } else {
+        if (tokenWidth + width > wordWrapWidth) {
+          canPrependSpaces = false;
+          lines += _CanvasTextMetrics._addLine(line);
+          line = "";
+          width = 0;
+        }
+        if (
+          line.length > 0 || !_CanvasTextMetrics.isBreakingSpace(token) ||
+          canPrependSpaces
+        ) {
+          line += token;
+          width += tokenWidth;
+        }
+      }
+    }
+    lines += _CanvasTextMetrics._addLine(line, false);
+    return lines;
+  }
+  /**
+   * Convienience function for logging each line added during the wordWrap method.
+   * @param line    - The line of text to add
+   * @param newLine - Add new line character to end
+   * @returns A formatted line
+   */
+  static _addLine(line, newLine = true) {
+    line = _CanvasTextMetrics._trimRight(line);
+    line = newLine
+      ? `${line}
+`
+      : line;
+    return line;
+  }
+  /**
+   * Gets & sets the widths of calculated characters in a cache object
+   * @param key            - The key
+   * @param letterSpacing  - The letter spacing
+   * @param cache          - The cache
+   * @param context        - The canvas context
+   * @returns The from cache.
+   */
+  static _getFromCache(key, letterSpacing, cache, context) {
+    let width = cache[key];
+    if (typeof width !== "number") {
+      width = _CanvasTextMetrics._measureText(key, letterSpacing, context) +
+        letterSpacing;
+      cache[key] = width;
+    }
+    return width;
+  }
+  /**
+   * Determines whether we should collapse breaking spaces.
+   * @param whiteSpace - The TextStyle property whiteSpace
+   * @returns Should collapse
+   */
+  static _collapseSpaces(whiteSpace) {
+    return whiteSpace === "normal" || whiteSpace === "pre-line";
+  }
+  /**
+   * Determines whether we should collapse newLine chars.
+   * @param whiteSpace - The white space
+   * @returns should collapse
+   */
+  static _collapseNewlines(whiteSpace) {
+    return whiteSpace === "normal";
+  }
+  /**
+   * Trims breaking whitespaces from string.
+   * @param text - The text
+   * @returns Trimmed string
+   */
+  static _trimRight(text) {
+    if (typeof text !== "string") {
+      return "";
+    }
+    for (let i = text.length - 1; i >= 0; i--) {
+      const char = text[i];
+      if (!_CanvasTextMetrics.isBreakingSpace(char)) {
+        break;
+      }
+      text = text.slice(0, -1);
+    }
+    return text;
+  }
+  /**
+   * Determines if char is a newline.
+   * @param char - The character
+   * @returns True if newline, False otherwise.
+   */
+  static _isNewline(char) {
+    if (typeof char !== "string") {
+      return false;
+    }
+    return _CanvasTextMetrics._newlines.includes(char.charCodeAt(0));
+  }
+  /**
+   * Determines if char is a breaking whitespace.
+   *
+   * It allows one to determine whether char should be a breaking whitespace
+   * For example certain characters in CJK langs or numbers.
+   * It must return a boolean.
+   * @param char - The character
+   * @param [_nextChar] - The next character
+   * @returns True if whitespace, False otherwise.
+   */
+  static isBreakingSpace(char, _nextChar) {
+    if (typeof char !== "string") {
+      return false;
+    }
+    return _CanvasTextMetrics._breakingSpaces.includes(char.charCodeAt(0));
+  }
+  /**
+   * Splits a string into words, breaking-spaces and newLine characters
+   * @param text - The text
+   * @returns A tokenized array
+   */
+  static _tokenize(text) {
+    const tokens = [];
+    let token = "";
+    if (typeof text !== "string") {
+      return tokens;
+    }
+    for (let i = 0; i < text.length; i++) {
+      const char = text[i];
+      const nextChar = text[i + 1];
+      if (
+        _CanvasTextMetrics.isBreakingSpace(char, nextChar) ||
+        _CanvasTextMetrics._isNewline(char)
+      ) {
+        if (token !== "") {
+          tokens.push(token);
+          token = "";
+        }
+        tokens.push(char);
+        continue;
+      }
+      token += char;
+    }
+    if (token !== "") {
+      tokens.push(token);
+    }
+    return tokens;
+  }
+  /**
+   * Overridable helper method used internally by TextMetrics, exposed to allow customizing the class's behavior.
+   *
+   * It allows one to customise which words should break
+   * Examples are if the token is CJK or numbers.
+   * It must return a boolean.
+   * @param _token - The token
+   * @param breakWords - The style attr break words
+   * @returns Whether to break word or not
+   */
+  static canBreakWords(_token, breakWords) {
+    return breakWords;
+  }
+  /**
+   * Overridable helper method used internally by TextMetrics, exposed to allow customizing the class's behavior.
+   *
+   * It allows one to determine whether a pair of characters
+   * should be broken by newlines
+   * For example certain characters in CJK langs or numbers.
+   * It must return a boolean.
+   * @param _char - The character
+   * @param _nextChar - The next character
+   * @param _token - The token/word the characters are from
+   * @param _index - The index in the token of the char
+   * @param _breakWords - The style attr break words
+   * @returns whether to break word or not
+   */
+  static canBreakChars(_char, _nextChar, _token, _index, _breakWords) {
+    return true;
+  }
+  /**
+   * Overridable helper method used internally by TextMetrics, exposed to allow customizing the class's behavior.
+   *
+   * It is called when a token (usually a word) has to be split into separate pieces
+   * in order to determine the point to break a word.
+   * It must return an array of characters.
+   * @param token - The token to split
+   * @returns The characters of the token
+   * @see CanvasTextMetrics.graphemeSegmenter
+   */
+  static wordWrapSplit(token) {
+    return _CanvasTextMetrics.graphemeSegmenter(token);
+  }
+  /**
+   * Calculates the ascent, descent and fontSize of a given font-style
+   * @param font - String representing the style of the font
+   * @returns Font properties object
+   */
+  static measureFont(font) {
+    if (_CanvasTextMetrics._fonts[font]) {
+      return _CanvasTextMetrics._fonts[font];
+    }
+    const context = _CanvasTextMetrics._context;
+    context.font = font;
+    const metrics = context.measureText(
+      _CanvasTextMetrics.METRICS_STRING + _CanvasTextMetrics.BASELINE_SYMBOL,
+    );
+    const properties = {
+      ascent: metrics.actualBoundingBoxAscent,
+      descent: metrics.actualBoundingBoxDescent,
+      fontSize: metrics.actualBoundingBoxAscent +
+        metrics.actualBoundingBoxDescent,
+    };
+    _CanvasTextMetrics._fonts[font] = properties;
+    return properties;
+  }
+  /**
+   * Clear font metrics in metrics cache.
+   * @param {string} [font] - font name. If font name not set then clear cache for all fonts.
+   */
+  static clearMetrics(font = "") {
+    if (font) {
+      delete _CanvasTextMetrics._fonts[font];
+    } else {
+      _CanvasTextMetrics._fonts = {};
+    }
+  }
+  /**
+   * Cached canvas element for measuring text
+   * TODO: this should be private, but isn't because of backward compat, will fix later.
+   * @ignore
+   */
+  static get _canvas() {
+    if (!_CanvasTextMetrics.__canvas) {
+      let canvas;
+      try {
+        const c = new OffscreenCanvas(0, 0);
+        const context = c.getContext("2d", contextSettings);
+        if (context == null ? void 0 : context.measureText) {
+          _CanvasTextMetrics.__canvas = c;
+          return c;
+        }
+        canvas = DOMAdapter.get().createCanvas();
+      } catch (ex) {
+        canvas = DOMAdapter.get().createCanvas();
+      }
+      canvas.width = canvas.height = 10;
+      _CanvasTextMetrics.__canvas = canvas;
+    }
+    return _CanvasTextMetrics.__canvas;
+  }
+  /**
+   * TODO: this should be private, but isn't because of backward compat, will fix later.
+   * @ignore
+   */
+  static get _context() {
+    if (!_CanvasTextMetrics.__context) {
+      _CanvasTextMetrics.__context = _CanvasTextMetrics._canvas.getContext(
+        "2d",
+        contextSettings,
+      );
+    }
+    return _CanvasTextMetrics.__context;
+  }
+};
+/**
+ * String used for calculate font metrics.
+ * These characters are all tall to help calculate the height required for text.
+ */
+_CanvasTextMetrics.METRICS_STRING = "|\xC9q\xC5";
+/** Baseline symbol for calculate font metrics. */
+_CanvasTextMetrics.BASELINE_SYMBOL = "M";
+/** Baseline multiplier for calculate font metrics. */
+_CanvasTextMetrics.BASELINE_MULTIPLIER = 1.4;
+/** Height multiplier for setting height of canvas to calculate font metrics. */
+_CanvasTextMetrics.HEIGHT_MULTIPLIER = 2;
+/**
+ * A Unicode "character", or "grapheme cluster", can be composed of multiple Unicode code points,
+ * such as letters with diacritical marks (e.g. `'\u0065\u0301'`, letter e with acute)
+ * or emojis with modifiers (e.g. `'\uD83E\uDDD1\u200D\uD83D\uDCBB'`, technologist).
+ * The new `Intl.Segmenter` API in ES2022 can split the string into grapheme clusters correctly. If it is not available,
+ * PixiJS will fallback to use the iterator of String, which can only spilt the string into code points.
+ * If you want to get full functionality in environments that don't support `Intl.Segmenter` (such as Firefox),
+ * you can use other libraries such as [grapheme-splitter]{@link https://www.npmjs.com/package/grapheme-splitter}
+ * or [graphemer]{@link https://www.npmjs.com/package/graphemer} to create a polyfill. Since these libraries can be
+ * relatively large in size to handle various Unicode grapheme clusters properly, PixiJS won't use them directly.
+ */
+_CanvasTextMetrics.graphemeSegmenter = (() => {
+  if (typeof (Intl == null ? void 0 : Intl.Segmenter) === "function") {
+    const segmenter = new Intl.Segmenter();
+    return (s) => [...segmenter.segment(s)].map((x) => x.segment);
+  }
+  return (s) => [...s];
+})();
+/**
+ * New rendering behavior for letter-spacing which uses Chrome's new native API. This will
+ * lead to more accurate letter-spacing results because it does not try to manually draw
+ * each character. However, this Chrome API is experimental and may not serve all cases yet.
+ * @see TextMetrics.experimentalLetterSpacingSupported
+ */
+_CanvasTextMetrics.experimentalLetterSpacing = false;
+/** Cache of {@see TextMetrics.FontMetrics} objects. */
+_CanvasTextMetrics._fonts = {};
+/** Cache of new line chars. */
+_CanvasTextMetrics._newlines = [
+  10,
+  // line feed
+  13,
+  // carriage return
+];
+/** Cache of breaking spaces. */
+_CanvasTextMetrics._breakingSpaces = [
+  9,
+  // character tabulation
+  32,
+  // space
+  8192,
+  // en quad
+  8193,
+  // em quad
+  8194,
+  // en space
+  8195,
+  // em space
+  8196,
+  // three-per-em space
+  8197,
+  // four-per-em space
+  8198,
+  // six-per-em space
+  8200,
+  // punctuation space
+  8201,
+  // thin space
+  8202,
+  // hair space
+  8287,
+  // medium mathematical space
+  12288,
+  // ideographic space
+];
+_CanvasTextMetrics._measurementCache = {};
+let CanvasTextMetrics = _CanvasTextMetrics;
+
+"use strict";
+function getCanvasFillStyle(fillStyle, context) {
+  if (fillStyle.texture === Texture.WHITE && !fillStyle.fill) {
+    return Color.shared.setValue(fillStyle.color).toHex();
+  } else if (!fillStyle.fill) {
+    const pattern = context.createPattern(
+      fillStyle.texture.source.resource,
+      "repeat",
+    );
+    const tempMatrix = fillStyle.matrix.copyTo(Matrix.shared);
+    tempMatrix.scale(
+      fillStyle.texture.frame.width,
+      fillStyle.texture.frame.height,
+    );
+    pattern.setTransform(tempMatrix);
+    return pattern;
+  } else if (fillStyle.fill instanceof FillPattern) {
+    const fillPattern = fillStyle.fill;
+    const pattern = context.createPattern(
+      fillPattern.texture.source.resource,
+      "repeat",
+    );
+    const tempMatrix = fillPattern.transform.copyTo(Matrix.shared);
+    tempMatrix.scale(
+      fillPattern.texture.frame.width,
+      fillPattern.texture.frame.height,
+    );
+    pattern.setTransform(tempMatrix);
+    return pattern;
+  } else if (fillStyle.fill instanceof FillGradient) {
+    const fillGradient = fillStyle.fill;
+    if (fillGradient.type === "linear") {
+      const gradient = context.createLinearGradient(
+        fillGradient.x0,
+        fillGradient.y0,
+        fillGradient.x1,
+        fillGradient.y1,
+      );
+      fillGradient.gradientStops.forEach((stop) => {
+        gradient.addColorStop(
+          stop.offset,
+          Color.shared.setValue(stop.color).toHex(),
+        );
+      });
+      return gradient;
+    }
+  }
+  warn("FillStyle not recognised", fillStyle);
+  return "red";
+}
+
+"use strict";
+class CanvasTextSystem {
+  constructor(_renderer) {
+    this._activeTextures = {};
+    this._renderer = _renderer;
+  }
+  getTextureSize(text, resolution, style) {
+    const measured = CanvasTextMetrics.measureText(text || " ", style);
+    let width = Math.ceil(
+      Math.ceil(Math.max(1, measured.width) + style.padding * 2) * resolution,
+    );
+    let height = Math.ceil(
+      Math.ceil(Math.max(1, measured.height) + style.padding * 2) * resolution,
+    );
+    width = Math.ceil(width - 1e-6);
+    height = Math.ceil(height - 1e-6);
+    width = nextPow2(width);
+    height = nextPow2(height);
+    return { width, height };
+  }
+  getTexture(options, resolution, style, _textKey) {
+    if (typeof options === "string") {
+      deprecation(
+        "8.0.0",
+        "CanvasTextSystem.getTexture: Use object TextOptions instead of separate arguments",
+      );
+      options = {
+        text: options,
+        style,
+        resolution,
+      };
+    }
+    if (!(options.style instanceof TextStyle)) {
+      options.style = new TextStyle(options.style);
+    }
+    const { texture, canvasAndContext } = this.createTextureAndCanvas(
+      options,
+    );
+    this._renderer.texture.initSource(texture._source);
+    CanvasPool.returnCanvasAndContext(canvasAndContext);
+    return texture;
+  }
+  createTextureAndCanvas(options) {
+    var _a;
+    const { text, style } = options;
+    const resolution = (_a = options.resolution) != null
+      ? _a
+      : this._renderer.resolution;
+    const measured = CanvasTextMetrics.measureText(text || " ", style);
+    const width = Math.ceil(
+      Math.ceil(Math.max(1, measured.width) + style.padding * 2) * resolution,
+    );
+    const height = Math.ceil(
+      Math.ceil(Math.max(1, measured.height) + style.padding * 2) * resolution,
+    );
+    const canvasAndContext = CanvasPool.getOptimalCanvasAndContext(
+      width,
+      height,
+    );
+    const { canvas } = canvasAndContext;
+    this.renderTextToCanvas(text, style, resolution, canvasAndContext);
+    const texture = getPo2TextureFromSource(canvas, width, height, resolution);
+    if (style.trim) {
+      const trimmed = getCanvasBoundingBox(canvas, resolution);
+      texture.frame.copyFrom(trimmed);
+      texture.updateUvs();
+    }
+    return { texture, canvasAndContext };
+  }
+  getManagedTexture(text) {
+    const textKey = text._getKey();
+    if (this._activeTextures[textKey]) {
+      this._increaseReferenceCount(textKey);
+      return this._activeTextures[textKey].texture;
+    }
+    const { texture, canvasAndContext } = this.createTextureAndCanvas(text);
+    this._activeTextures[textKey] = {
+      canvasAndContext,
+      texture,
+      usageCount: 1,
+    };
+    return texture;
+  }
+  _increaseReferenceCount(textKey) {
+    this._activeTextures[textKey].usageCount++;
+  }
+  decreaseReferenceCount(textKey) {
+    const activeTexture = this._activeTextures[textKey];
+    activeTexture.usageCount--;
+    if (activeTexture.usageCount === 0) {
+      CanvasPool.returnCanvasAndContext(activeTexture.canvasAndContext);
+      TexturePool.returnTexture(activeTexture.texture);
+      const source = activeTexture.texture.source;
+      source.resource = null;
+      source.uploadMethodId = "unknown";
+      source.alphaMode = "no-premultiply-alpha";
+      this._activeTextures[textKey] = null;
+    }
+  }
+  getReferenceCount(textKey) {
+    return this._activeTextures[textKey].usageCount;
+  }
+  /**
+   * Renders text to its canvas, and updates its texture.
+   *
+   * By default this is used internally to ensure the texture is correct before rendering,
+   * but it can be used called externally, for example from this class to 'pre-generate' the texture from a piece of text,
+   * and then shared across multiple Sprites.
+   * @param text
+   * @param style
+   * @param resolution
+   * @param canvasAndContext
+   */
+  renderTextToCanvas(text, style, resolution, canvasAndContext) {
+    var _a, _b, _c, _d, _e, _f, _g;
+    const { canvas, context } = canvasAndContext;
+    const font = fontStringFromTextStyle(style);
+    const measured = CanvasTextMetrics.measureText(text || " ", style);
+    const lines = measured.lines;
+    const lineHeight = measured.lineHeight;
+    const lineWidths = measured.lineWidths;
+    const maxLineWidth = measured.maxLineWidth;
+    const fontProperties = measured.fontProperties;
+    const height = canvas.height;
+    context.resetTransform();
+    context.scale(resolution, resolution);
+    const padding = style.padding * 2;
+    context.clearRect(
+      0,
+      0,
+      measured.width + 4 + padding,
+      measured.height + 4 + padding,
+    );
+    if ((_a = style._stroke) == null ? void 0 : _a.width) {
+      const strokeStyle = style._stroke;
+      context.lineWidth = strokeStyle.width;
+      context.miterLimit = strokeStyle.miterLimit;
+      context.lineJoin = strokeStyle.join;
+      context.lineCap = strokeStyle.cap;
+    }
+    context.font = font;
+    let linePositionX;
+    let linePositionY;
+    const passesCount = style.dropShadow ? 2 : 1;
+    for (let i = 0; i < passesCount; ++i) {
+      const isShadowPass = style.dropShadow && i === 0;
+      const dsOffsetText = isShadowPass
+        ? Math.ceil(Math.max(1, height) + style.padding * 2)
+        : 0;
+      const dsOffsetShadow = dsOffsetText * resolution;
+      if (isShadowPass) {
+        context.fillStyle = "black";
+        context.strokeStyle = "black";
+        const shadowOptions = style.dropShadow;
+        const dropShadowColor = shadowOptions.color;
+        const dropShadowAlpha = shadowOptions.alpha;
+        context.shadowColor = Color.shared.setValue(dropShadowColor).setAlpha(
+          dropShadowAlpha,
+        ).toRgbaString();
+        const dropShadowBlur = shadowOptions.blur * resolution;
+        const dropShadowDistance = shadowOptions.distance * resolution;
+        context.shadowBlur = dropShadowBlur;
+        context.shadowOffsetX = Math.cos(shadowOptions.angle) *
+          dropShadowDistance;
+        context.shadowOffsetY =
+          Math.sin(shadowOptions.angle) * dropShadowDistance + dsOffsetShadow;
+      } else {
+        context.globalAlpha =
+          (_c = (_b = style._fill) == null ? void 0 : _b.alpha) != null
+            ? _c
+            : 1;
+        context.fillStyle = style._fill
+          ? getCanvasFillStyle(style._fill, context)
+          : null;
+        if ((_d = style._stroke) == null ? void 0 : _d.width) {
+          context.strokeStyle = getCanvasFillStyle(style._stroke, context);
+        }
+        context.shadowColor = "black";
+      }
+      let linePositionYShift = (lineHeight - fontProperties.fontSize) / 2;
+      if (lineHeight - fontProperties.fontSize < 0) {
+        linePositionYShift = 0;
+      }
+      const strokeWidth =
+        (_f = (_e = style._stroke) == null ? void 0 : _e.width) != null
+          ? _f
+          : 0;
+      for (let i2 = 0; i2 < lines.length; i2++) {
+        linePositionX = strokeWidth / 2;
+        linePositionY = strokeWidth / 2 + i2 * lineHeight +
+          fontProperties.ascent + linePositionYShift;
+        if (style.align === "right") {
+          linePositionX += maxLineWidth - lineWidths[i2];
+        } else if (style.align === "center") {
+          linePositionX += (maxLineWidth - lineWidths[i2]) / 2;
+        }
+        if ((_g = style._stroke) == null ? void 0 : _g.width) {
+          this._drawLetterSpacing(
+            lines[i2],
+            style,
+            canvasAndContext,
+            linePositionX + style.padding,
+            linePositionY + style.padding - dsOffsetText,
+            true,
+          );
+        }
+        if (style._fill !== void 0) {
+          this._drawLetterSpacing(
+            lines[i2],
+            style,
+            canvasAndContext,
+            linePositionX + style.padding,
+            linePositionY + style.padding - dsOffsetText,
+          );
+        }
+      }
+    }
+  }
+  /**
+   * Render the text with letter-spacing.
+   * @param text - The text to draw
+   * @param style
+   * @param canvasAndContext
+   * @param x - Horizontal position to draw the text
+   * @param y - Vertical position to draw the text
+   * @param isStroke - Is this drawing for the outside stroke of the
+   *  text? If not, it's for the inside fill
+   */
+  _drawLetterSpacing(text, style, canvasAndContext, x, y, isStroke = false) {
+    const { context } = canvasAndContext;
+    const letterSpacing = style.letterSpacing;
+    let useExperimentalLetterSpacing = false;
+    if (CanvasTextMetrics.experimentalLetterSpacingSupported) {
+      if (CanvasTextMetrics.experimentalLetterSpacing) {
+        context.letterSpacing = `${letterSpacing}px`;
+        context.textLetterSpacing = `${letterSpacing}px`;
+        useExperimentalLetterSpacing = true;
+      } else {
+        context.letterSpacing = "0px";
+        context.textLetterSpacing = "0px";
+      }
+    }
+    if (letterSpacing === 0 || useExperimentalLetterSpacing) {
+      if (isStroke) {
+        context.strokeText(text, x, y);
+      } else {
+        context.fillText(text, x, y);
+      }
+      return;
+    }
+    let currentPosition = x;
+    const stringArray = CanvasTextMetrics.graphemeSegmenter(text);
+    let previousWidth = context.measureText(text).width;
+    let currentWidth = 0;
+    for (let i = 0; i < stringArray.length; ++i) {
+      const currentChar = stringArray[i];
+      if (isStroke) {
+        context.strokeText(currentChar, currentPosition, y);
+      } else {
+        context.fillText(currentChar, currentPosition, y);
+      }
+      let textStr = "";
+      for (let j = i + 1; j < stringArray.length; ++j) {
+        textStr += stringArray[j];
+      }
+      currentWidth = context.measureText(textStr).width;
+      currentPosition += previousWidth - currentWidth + letterSpacing;
+      previousWidth = currentWidth;
+    }
+  }
+  destroy() {
+    this._activeTextures = null;
+  }
+}
+/** @ignore */
+CanvasTextSystem.extension = {
+  type: [
+    ExtensionType.WebGLSystem,
+    ExtensionType.WebGPUSystem,
+    ExtensionType.CanvasSystem,
+  ],
+  name: "canvasText",
+};
+
+"use strict";
+extensions.add(CanvasTextSystem);
+extensions.add(CanvasTextPipe);
+
+"use strict";
+class AbstractBitmapFont extends EventEmitter {
+  constructor() {
+    super(...arguments);
+    /** The map of characters by character code. */
+    this.chars = /* @__PURE__ */ Object.create(null);
+    /**
+     * The line-height of the font face in pixels.
+     * @type {number}
+     */
+    this.lineHeight = 0;
+    /**
+     * The name of the font face
+     * @type {string}
+     */
+    this.fontFamily = "";
+    /** The metrics of the font face. */
+    this.fontMetrics = { fontSize: 0, ascent: 0, descent: 0 };
+    /**
+     * The offset of the font face from the baseline.
+     * @type {number}
+     */
+    this.baseLineOffset = 0;
+    /** The range and type of the distance field for this font. */
+    this.distanceField = { type: "none", range: 0 };
+    /** The map of base page textures (i.e., sheets of glyphs). */
+    this.pages = [];
+    /** The size of the font face in pixels. */
+    this.baseMeasurementFontSize = 100;
+    this.baseRenderedFontSize = 100;
+  }
+  /**
+   * The name of the font face.
+   * @deprecated since 8.0.0 Use `fontFamily` instead.
+   */
+  get font() {
+    deprecation(
+      v8_0_0,
+      "BitmapFont.font is deprecated, please use BitmapFont.fontFamily instead.",
+    );
+    return this.fontFamily;
+  }
+  /**
+   * The map of base page textures (i.e., sheets of glyphs).
+   * @deprecated since 8.0.0 Use `pages` instead.
+   */
+  get pageTextures() {
+    deprecation(
+      v8_0_0,
+      "BitmapFont.pageTextures is deprecated, please use BitmapFont.pages instead.",
+    );
+    return this.pages;
+  }
+  /**
+   * The size of the font face in pixels.
+   * @deprecated since 8.0.0 Use `fontMetrics.fontSize` instead.
+   */
+  get size() {
+    deprecation(
+      v8_0_0,
+      "BitmapFont.size is deprecated, please use BitmapFont.fontMetrics.fontSize instead.",
+    );
+    return this.fontMetrics.fontSize;
+  }
+  /**
+   * The kind of distance field for this font or "none".
+   * @deprecated since 8.0.0 Use `distanceField.type` instead.
+   */
+  get distanceFieldRange() {
+    deprecation(
+      v8_0_0,
+      "BitmapFont.distanceFieldRange is deprecated, please use BitmapFont.distanceField.range instead.",
+    );
+    return this.distanceField.range;
+  }
+  /**
+   * The range of the distance field in pixels.
+   * @deprecated since 8.0.0 Use `distanceField.range` instead.
+   */
+  get distanceFieldType() {
+    deprecation(
+      v8_0_0,
+      "BitmapFont.distanceFieldType is deprecated, please use BitmapFont.distanceField.type instead.",
+    );
+    return this.distanceField.type;
+  }
+  destroy(destroyTextures = false) {
+    this.emit("destroy", this);
+    this.removeAllListeners();
+    for (const i in this.chars) {
+      this.chars[i].texture.destroy();
+    }
+    this.chars = null;
+    if (destroyTextures) {
+      this.pages.forEach((page) => page.texture.destroy(true));
+      this.pages = null;
+    }
   }
 }
 
@@ -22764,29 +22889,29 @@ function alignJustify(measurementData) {
 }
 
 "use strict";
-var __defProp$N = Object.defineProperty;
-var __getOwnPropSymbols$N = Object.getOwnPropertySymbols;
-var __hasOwnProp$N = Object.prototype.hasOwnProperty;
-var __propIsEnum$N = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$N = (obj, key, value) =>
+var __defProp$M = Object.defineProperty;
+var __getOwnPropSymbols$M = Object.getOwnPropertySymbols;
+var __hasOwnProp$M = Object.prototype.hasOwnProperty;
+var __propIsEnum$M = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$M = (obj, key, value) =>
   key in obj
-    ? __defProp$N(obj, key, {
+    ? __defProp$M(obj, key, {
       enumerable: true,
       configurable: true,
       writable: true,
       value,
     })
     : obj[key] = value;
-var __spreadValues$N = (a, b) => {
+var __spreadValues$M = (a, b) => {
   for (var prop in b || (b = {})) {
-    if (__hasOwnProp$N.call(b, prop)) {
-      __defNormalProp$N(a, prop, b[prop]);
+    if (__hasOwnProp$M.call(b, prop)) {
+      __defNormalProp$M(a, prop, b[prop]);
     }
   }
-  if (__getOwnPropSymbols$N) {
-    for (var prop of __getOwnPropSymbols$N(b)) {
-      if (__propIsEnum$N.call(b, prop)) {
-        __defNormalProp$N(a, prop, b[prop]);
+  if (__getOwnPropSymbols$M) {
+    for (var prop of __getOwnPropSymbols$M(b)) {
+      if (__propIsEnum$M.call(b, prop)) {
+        __defNormalProp$M(a, prop, b[prop]);
       }
     }
   }
@@ -22841,7 +22966,7 @@ class BitmapFontManagerClass {
       overrideFill = false;
     }
     if (!Cache.has(fontFamilyKey)) {
-      const fnt = new DynamicBitmapFont(__spreadValues$N({
+      const fnt = new DynamicBitmapFont(__spreadValues$M({
         style,
         overrideFill,
         overrideSize: true,
@@ -22865,7 +22990,7 @@ class BitmapFontManagerClass {
    */
   getLayout(text, style) {
     const bitmapFont = this.getFont(text, style);
-    return getBitmapTextLayout(text.split(""), style, bitmapFont);
+    return getBitmapTextLayout([...text], style, bitmapFont);
   }
   /**
    * Measure the text using the specified style.
@@ -22897,8 +23022,8 @@ class BitmapFontManagerClass {
     if (!name) {
       throw new Error("[BitmapFontManager] Property `name` is required.");
     }
-    options = __spreadValues$N(
-      __spreadValues$N({}, this.defaultOptions),
+    options = __spreadValues$M(
+      __spreadValues$M({}, this.defaultOptions),
       options,
     );
     const textStyle = options.style;
@@ -22950,10 +23075,13 @@ class BitmapFont extends AbstractBitmapFont {
     Object.keys(data.chars).forEach((key) => {
       var _a2;
       const charData = data.chars[key];
-      const textureSource = textures[charData.page].source;
+      const {
+        frame: textureFrame,
+        source: textureSource,
+      } = textures[charData.page];
       const frameReal = new Rectangle(
-        charData.x,
-        charData.y,
+        charData.x + textureFrame.x,
+        charData.y + textureFrame.y,
         charData.width,
         charData.height,
       );
@@ -23267,35 +23395,40 @@ const loadBitmapFont = {
     const response = await DOMAdapter.get().fetch(url);
     return await response.text();
   },
-  unload(bitmapFont) {
+  async unload(bitmapFont, _resolvedAsset, loader) {
+    await Promise.all(
+      bitmapFont.pages.map((page) =>
+        loader.unload(page.texture.source._sourceOrigin)
+      ),
+    );
     bitmapFont.destroy();
   },
 };
 
 "use strict";
-var __defProp$M = Object.defineProperty;
-var __getOwnPropSymbols$M = Object.getOwnPropertySymbols;
-var __hasOwnProp$M = Object.prototype.hasOwnProperty;
-var __propIsEnum$M = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$M = (obj, key, value) =>
+var __defProp$L = Object.defineProperty;
+var __getOwnPropSymbols$L = Object.getOwnPropertySymbols;
+var __hasOwnProp$L = Object.prototype.hasOwnProperty;
+var __propIsEnum$L = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$L = (obj, key, value) =>
   key in obj
-    ? __defProp$M(obj, key, {
+    ? __defProp$L(obj, key, {
       enumerable: true,
       configurable: true,
       writable: true,
       value,
     })
     : obj[key] = value;
-var __spreadValues$M = (a, b) => {
+var __spreadValues$L = (a, b) => {
   for (var prop in b || (b = {})) {
-    if (__hasOwnProp$M.call(b, prop)) {
-      __defNormalProp$M(a, prop, b[prop]);
+    if (__hasOwnProp$L.call(b, prop)) {
+      __defNormalProp$L(a, prop, b[prop]);
     }
   }
-  if (__getOwnPropSymbols$M) {
-    for (var prop of __getOwnPropSymbols$M(b)) {
-      if (__propIsEnum$M.call(b, prop)) {
-        __defNormalProp$M(a, prop, b[prop]);
+  if (__getOwnPropSymbols$L) {
+    for (var prop of __getOwnPropSymbols$L(b)) {
+      if (__propIsEnum$L.call(b, prop)) {
+        __defNormalProp$L(a, prop, b[prop]);
       }
     }
   }
@@ -23304,13 +23437,13 @@ var __spreadValues$M = (a, b) => {
 var __objRest$g = (source, exclude) => {
   var target = {};
   for (var prop in source) {
-    if (__hasOwnProp$M.call(source, prop) && exclude.indexOf(prop) < 0) {
+    if (__hasOwnProp$L.call(source, prop) && exclude.indexOf(prop) < 0) {
       target[prop] = source[prop];
     }
   }
-  if (source != null && __getOwnPropSymbols$M) {
-    for (var prop of __getOwnPropSymbols$M(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$M.call(source, prop)) {
+  if (source != null && __getOwnPropSymbols$L) {
+    for (var prop of __getOwnPropSymbols$L(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$L.call(source, prop)) {
         target[prop] = source[prop];
       }
     }
@@ -23328,7 +23461,7 @@ class Graphics extends Container {
     const _a = options || {},
       { context, roundPixels } = _a,
       rest = __objRest$g(_a, ["context", "roundPixels"]);
-    super(__spreadValues$M({
+    super(__spreadValues$L({
       label: "Graphics",
     }, rest));
     this.canBundle = true;
@@ -23393,8 +23526,9 @@ class Graphics extends Container {
       return;
     }
     this.didViewUpdate = true;
-    if (this.renderGroup) {
-      this.renderGroup.onChildViewUpdate(this);
+    const renderGroup = this.renderGroup || this.parentRenderGroup;
+    if (renderGroup) {
+      renderGroup.onChildViewUpdate(this);
     }
   }
   /**
@@ -23429,27 +23563,57 @@ class Graphics extends Container {
     return this;
   }
   // --------------------------------------- GraphicsContext methods ---------------------------------------
+  /**
+   * Sets the current fill style of the graphics context. The fill style can be a color, gradient,
+   * pattern, or a more complex style defined by a FillStyle object.
+   * @param {FillStyleInputs} args - The fill style to apply. This can be a simple color, a gradient or
+   * pattern object, or a FillStyle or ConvertedFillStyle object.
+   * @returns The instance of the current GraphicsContext for method chaining.
+   */
   setFillStyle(...args) {
     return this._callContextMethod("setFillStyle", args);
   }
+  /**
+   * Sets the current stroke style of the graphics context. Similar to fill styles, stroke styles can
+   * encompass colors, gradients, patterns, or more detailed configurations via a StrokeStyle object.
+   * @param {FillStyleInputs} args - The stroke style to apply. Can be defined as a color, a gradient or pattern,
+   * or a StrokeStyle or ConvertedStrokeStyle object.
+   * @returns The instance of the current GraphicsContext for method chaining.
+   */
   setStrokeStyle(...args) {
     return this._callContextMethod("setStrokeStyle", args);
   }
   fill(...args) {
     return this._callContextMethod("fill", args);
   }
+  /**
+   * Strokes the current path with the current stroke style. This method can take an optional
+   * FillStyleInputs parameter to define the stroke's appearance, including its color, width, and other properties.
+   * @param {FillStyleInputs} args - (Optional) The stroke style to apply. Can be defined as a simple color or a more
+   * complex style object. If omitted, uses the current stroke style.
+   * @returns The instance of the current GraphicsContext for method chaining.
+   */
   stroke(...args) {
     return this._callContextMethod("stroke", args);
   }
   texture(...args) {
     return this._callContextMethod("texture", args);
   }
-  /** Begins a new path. */
+  /**
+   * Resets the current path. Any previous path and its commands are discarded and a new path is
+   * started. This is typically called before beginning a new shape or series of drawing commands.
+   * @returns The instance of the current GraphicsContext for method chaining.
+   */
   beginPath() {
     return this._callContextMethod("beginPath", []);
   }
-  cut(...args) {
-    return this._callContextMethod("cut", args);
+  /**
+   * Applies a cutout to the last drawn shape. This is used to create holes or complex shapes by
+   * subtracting a path from the previously drawn path. If a hole is not completely in a shape, it will
+   * fail to cut correctly!
+   */
+  cut() {
+    return this._callContextMethod("cut", []);
   }
   arc(...args) {
     return this._callContextMethod("arc", args);
@@ -23463,8 +23627,13 @@ class Graphics extends Container {
   bezierCurveTo(...args) {
     return this._callContextMethod("bezierCurveTo", args);
   }
-  closePath(...args) {
-    return this._callContextMethod("closePath", args);
+  /**
+   * Closes the current path by drawing a straight line back to the start.
+   * If the shape is already closed or there are no points in the path, this method does nothing.
+   * @returns The instance of the current object for chaining.
+   */
+  closePath() {
+    return this._callContextMethod("closePath", []);
   }
   ellipse(...args) {
     return this._callContextMethod("ellipse", args);
@@ -23517,14 +23686,24 @@ class Graphics extends Container {
   restore(...args) {
     return this._callContextMethod("restore", args);
   }
-  save(...args) {
-    return this._callContextMethod("save", args);
+  /** Saves the current graphics state, including transformations, fill styles, and stroke styles, onto a stack. */
+  save() {
+    return this._callContextMethod("save", []);
   }
-  getTransform(...args) {
-    return this._callContextMethod("getTransform", args);
+  /**
+   * Returns the current transformation matrix of the graphics context.
+   * @returns The current transformation matrix.
+   */
+  getTransform() {
+    return this.context.getTransform();
   }
-  resetTransform(...args) {
-    return this._callContextMethod("resetTransform", args);
+  /**
+   * Resets the current transformation matrix to the identity matrix, effectively removing
+   * any transformations (rotation, scaling, translation) previously applied.
+   * @returns The instance of the current GraphicsContext for method chaining.
+   */
+  resetTransform() {
+    return this._callContextMethod("resetTransform", []);
   }
   rotateTransform(...args) {
     return this._callContextMethod("rotate", args);
@@ -23541,8 +23720,13 @@ class Graphics extends Container {
   translateTransform(...args) {
     return this._callContextMethod("translate", args);
   }
-  clear(...args) {
-    return this._callContextMethod("clear", args);
+  /**
+   * Clears all drawing commands from the graphics context, effectively resetting it. This includes clearing the path,
+   * and optionally resetting transformations to the identity matrix.
+   * @returns The instance of the current GraphicsContext for method chaining.
+   */
+  clear() {
+    return this._callContextMethod("clear", []);
   }
   /**
    * The fill style to use.
@@ -23697,16 +23881,6 @@ class Graphics extends Container {
 }
 
 "use strict";
-let context;
-function getTestContext() {
-  if (!context || (context == null ? void 0 : context.isContextLost())) {
-    const canvas = DOMAdapter.get().createCanvas();
-    context = canvas.getContext("webgl", {});
-  }
-  return context;
-}
-
-"use strict";
 let maxFragmentPrecision;
 function getMaxFragmentPrecision() {
   if (!maxFragmentPrecision) {
@@ -23734,7 +23908,7 @@ function addProgramDefines(src, isES300, isFragment) {
     src = src.replace("out vec4 finalColor;", "");
     return `
         
-        #ifdef GL_ES // This checks if it's WebGL1
+        #ifdef GL_ES // This checks if it is WebGL1
         #define in varying
         #define finalColor gl_FragColor
         #define texture texture2D
@@ -23744,7 +23918,7 @@ function addProgramDefines(src, isES300, isFragment) {
   }
   return `
         
-        #ifdef GL_ES // This checks if it's WebGL1
+        #ifdef GL_ES // This checks if it is WebGL1
         #define in attribute
         #define out varying
         #endif
@@ -23814,29 +23988,29 @@ function stripVersion(src, isES300) {
 }
 
 "use strict";
-var __defProp$L = Object.defineProperty;
-var __getOwnPropSymbols$L = Object.getOwnPropertySymbols;
-var __hasOwnProp$L = Object.prototype.hasOwnProperty;
-var __propIsEnum$L = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$L = (obj, key, value) =>
+var __defProp$K = Object.defineProperty;
+var __getOwnPropSymbols$K = Object.getOwnPropertySymbols;
+var __hasOwnProp$K = Object.prototype.hasOwnProperty;
+var __propIsEnum$K = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$K = (obj, key, value) =>
   key in obj
-    ? __defProp$L(obj, key, {
+    ? __defProp$K(obj, key, {
       enumerable: true,
       configurable: true,
       writable: true,
       value,
     })
     : obj[key] = value;
-var __spreadValues$L = (a, b) => {
+var __spreadValues$K = (a, b) => {
   for (var prop in b || (b = {})) {
-    if (__hasOwnProp$L.call(b, prop)) {
-      __defNormalProp$L(a, prop, b[prop]);
+    if (__hasOwnProp$K.call(b, prop)) {
+      __defNormalProp$K(a, prop, b[prop]);
     }
   }
-  if (__getOwnPropSymbols$L) {
-    for (var prop of __getOwnPropSymbols$L(b)) {
-      if (__propIsEnum$L.call(b, prop)) {
-        __defNormalProp$L(a, prop, b[prop]);
+  if (__getOwnPropSymbols$K) {
+    for (var prop of __getOwnPropSymbols$K(b)) {
+      if (__propIsEnum$K.call(b, prop)) {
+        __defNormalProp$K(a, prop, b[prop]);
       }
     }
   }
@@ -23861,8 +24035,8 @@ const _GlProgram = class _GlProgram {
    * @param options - The options for the program.
    */
   constructor(options) {
-    options = __spreadValues$L(
-      __spreadValues$L({}, _GlProgram.defaultOptions),
+    options = __spreadValues$K(
+      __spreadValues$K({}, _GlProgram.defaultOptions),
       options,
     );
     const isES300 = options.fragment.indexOf("#version 300 es") !== -1;
@@ -24497,13 +24671,15 @@ const vertexGPUTemplate = (
             0.0, 0.0, 1.0
           );
         var position = aPosition;
+        var uv = aUV;
 
         {{start}}
         
         vColor = vec4<f32>(1., 1., 1., 1.);
-        vUV = aUV;
 
         {{main}}
+
+        vUV = uv;
 
         var modelViewProjectionMatrix = globalUniforms.uProjectionMatrix * worldTransformMatrix * modelMatrix;
 
@@ -24560,14 +24736,16 @@ const vertexGlTemplate = (
             0.0, 0.0, 1.0
           );
         vec2 position = aPosition;
-
+        vec2 uv = aUV;
+        
         {{start}}
         
         vColor = vec4(1.);
-        vUV = aUV;
-
+        
         {{main}}
-
+        
+        vUV = uv;
+        
         mat3 modelViewProjectionMatrix = uProjectionMatrix * worldTransformMatrix * modelMatrix;
 
         gl_Position = vec4((modelViewProjectionMatrix * vec3(position, 1.0)).xy, 0.0, 1.0);
@@ -24653,29 +24831,29 @@ const globalUniformsBitGl = {
 };
 
 "use strict";
-var __defProp$K = Object.defineProperty;
-var __getOwnPropSymbols$K = Object.getOwnPropertySymbols;
-var __hasOwnProp$K = Object.prototype.hasOwnProperty;
-var __propIsEnum$K = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$K = (obj, key, value) =>
+var __defProp$J = Object.defineProperty;
+var __getOwnPropSymbols$J = Object.getOwnPropertySymbols;
+var __hasOwnProp$J = Object.prototype.hasOwnProperty;
+var __propIsEnum$J = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$J = (obj, key, value) =>
   key in obj
-    ? __defProp$K(obj, key, {
+    ? __defProp$J(obj, key, {
       enumerable: true,
       configurable: true,
       writable: true,
       value,
     })
     : obj[key] = value;
-var __spreadValues$K = (a, b) => {
+var __spreadValues$J = (a, b) => {
   for (var prop in b || (b = {})) {
-    if (__hasOwnProp$K.call(b, prop)) {
-      __defNormalProp$K(a, prop, b[prop]);
+    if (__hasOwnProp$J.call(b, prop)) {
+      __defNormalProp$J(a, prop, b[prop]);
     }
   }
-  if (__getOwnPropSymbols$K) {
-    for (var prop of __getOwnPropSymbols$K(b)) {
-      if (__propIsEnum$K.call(b, prop)) {
-        __defNormalProp$K(a, prop, b[prop]);
+  if (__getOwnPropSymbols$J) {
+    for (var prop of __getOwnPropSymbols$J(b)) {
+      if (__propIsEnum$J.call(b, prop)) {
+        __defNormalProp$J(a, prop, b[prop]);
       }
     }
   }
@@ -24705,7 +24883,7 @@ function compileHighShaderGpuProgram({ bits, name }) {
   });
 }
 function compileHighShaderGlProgram({ bits, name }) {
-  return new GlProgram(__spreadValues$K(
+  return new GlProgram(__spreadValues$J(
     {
       name,
     },
@@ -24830,13 +25008,13 @@ function generateTextureBatchBit(maxTextures) {
         header: `
                 @in @interpolate(flat) vTextureId: u32;
     
-                ${generateBindingSrc(16)}
+                ${generateBindingSrc(maxRecommendedTextures())}
             `,
         main: `
                 var uvDx = dpdx(vUV);
                 var uvDy = dpdy(vUV);
     
-                ${generateSampleSrc(16)}
+                ${generateSampleSrc(maxRecommendedTextures())}
             `,
       },
     };
@@ -24888,7 +25066,7 @@ function generateTextureBatchBitGl(maxTextures) {
             `,
         main: `
     
-                ${generateSampleGlSrc(16)}
+                ${generateSampleGlSrc(maxRecommendedTextures())}
             `,
       },
     };
@@ -24905,7 +25083,7 @@ const roundPixelsBit = {
       `
             fn roundPixels(position: vec2<f32>, targetSize: vec2<f32>) -> vec2<f32> 
             {
-                return (floor((position * 0.5 + 0.5) * targetSize) / targetSize) * 2.0 - 1.0;
+                return (floor(((position * 0.5 + 0.5) * targetSize) + 0.5) / targetSize) * 2.0 - 1.0;
             }
         `
     ),
@@ -24919,7 +25097,7 @@ const roundPixelsBitGl = {
       `   
             vec2 roundPixels(vec2 position, vec2 targetSize)
             {       
-                return (floor((position * 0.5 + 0.5) * targetSize) / targetSize) * 2.0 - 1.0;
+                return (floor(((position * 0.5 + 0.5) * targetSize) + 0.5) / targetSize) * 2.0 - 1.0;
             }
         `
     ),
@@ -24927,13 +25105,23 @@ const roundPixelsBitGl = {
 };
 
 "use strict";
-const sampleValues = new Int32Array(MAX_TEXTURES);
-for (let i = 0; i < MAX_TEXTURES; i++) {
-  sampleValues[i] = i;
+const batchSamplersUniformGroupHash = {};
+function getBatchSamplersUniformGroup(maxTextures) {
+  let batchSamplersUniformGroup = batchSamplersUniformGroupHash[maxTextures];
+  if (batchSamplersUniformGroup) {
+    return batchSamplersUniformGroup;
+  }
+  const sampleValues = new Int32Array(maxTextures);
+  for (let i = 0; i < maxTextures; i++) {
+    sampleValues[i] = i;
+  }
+  batchSamplersUniformGroup =
+    batchSamplersUniformGroupHash[maxTextures] =
+      new UniformGroup({
+        uTextures: { value: sampleValues, type: `i32`, size: maxTextures },
+      }, { isStatic: true });
+  return batchSamplersUniformGroup;
 }
-const batchSamplersUniformGroup = new UniformGroup({
-  uTextures: { value: sampleValues, type: `i32`, size: MAX_TEXTURES },
-}, { isStatic: true });
 
 "use strict";
 var RendererType = /* @__PURE__ */ ((RendererType2) => {
@@ -24944,29 +25132,29 @@ var RendererType = /* @__PURE__ */ ((RendererType2) => {
 })(RendererType || {});
 
 "use strict";
-var __defProp$J = Object.defineProperty;
-var __getOwnPropSymbols$J = Object.getOwnPropertySymbols;
-var __hasOwnProp$J = Object.prototype.hasOwnProperty;
-var __propIsEnum$J = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$J = (obj, key, value) =>
+var __defProp$I = Object.defineProperty;
+var __getOwnPropSymbols$I = Object.getOwnPropertySymbols;
+var __hasOwnProp$I = Object.prototype.hasOwnProperty;
+var __propIsEnum$I = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$I = (obj, key, value) =>
   key in obj
-    ? __defProp$J(obj, key, {
+    ? __defProp$I(obj, key, {
       enumerable: true,
       configurable: true,
       writable: true,
       value,
     })
     : obj[key] = value;
-var __spreadValues$J = (a, b) => {
+var __spreadValues$I = (a, b) => {
   for (var prop in b || (b = {})) {
-    if (__hasOwnProp$J.call(b, prop)) {
-      __defNormalProp$J(a, prop, b[prop]);
+    if (__hasOwnProp$I.call(b, prop)) {
+      __defNormalProp$I(a, prop, b[prop]);
     }
   }
-  if (__getOwnPropSymbols$J) {
-    for (var prop of __getOwnPropSymbols$J(b)) {
-      if (__propIsEnum$J.call(b, prop)) {
-        __defNormalProp$J(a, prop, b[prop]);
+  if (__getOwnPropSymbols$I) {
+    for (var prop of __getOwnPropSymbols$I(b)) {
+      if (__propIsEnum$I.call(b, prop)) {
+        __defNormalProp$I(a, prop, b[prop]);
       }
     }
   }
@@ -24975,13 +25163,13 @@ var __spreadValues$J = (a, b) => {
 var __objRest$f = (source, exclude) => {
   var target = {};
   for (var prop in source) {
-    if (__hasOwnProp$J.call(source, prop) && exclude.indexOf(prop) < 0) {
+    if (__hasOwnProp$I.call(source, prop) && exclude.indexOf(prop) < 0) {
       target[prop] = source[prop];
     }
   }
-  if (source != null && __getOwnPropSymbols$J) {
-    for (var prop of __getOwnPropSymbols$J(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$J.call(source, prop)) {
+  if (source != null && __getOwnPropSymbols$I) {
+    for (var prop of __getOwnPropSymbols$I(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$I.call(source, prop)) {
         target[prop] = source[prop];
       }
     }
@@ -25158,7 +25346,7 @@ class Shader extends EventEmitter {
     if (gl) {
       glProgram = GlProgram.from(gl);
     }
-    return new Shader(__spreadValues$J({
+    return new Shader(__spreadValues$I({
       gpuProgram,
       glProgram,
     }, rest));
@@ -25336,11 +25524,12 @@ class SdfShader extends Shader {
       uDistance: { value: 4, type: "f32" },
       uRound: { value: 0, type: "f32" },
     });
+    const maxTextures = maxRecommendedTextures();
     const gpuProgram = compileHighShaderGpuProgram({
       name: "sdf-shader",
       bits: [
         colorBit,
-        generateTextureBatchBit(MAX_TEXTURES),
+        generateTextureBatchBit(maxTextures),
         localUniformMSDFBit,
         mSDFBit,
         roundPixelsBit,
@@ -25350,7 +25539,7 @@ class SdfShader extends Shader {
       name: "sdf-shader",
       bits: [
         colorBitGl,
-        generateTextureBatchBitGl(MAX_TEXTURES),
+        generateTextureBatchBitGl(maxTextures),
         localUniformMSDFBitGl,
         mSDFBitGl,
         roundPixelsBitGl,
@@ -25361,7 +25550,7 @@ class SdfShader extends Shader {
       gpuProgram,
       resources: {
         localUniforms: uniforms,
-        batchSamplers: batchSamplersUniformGroup,
+        batchSamplers: getBatchSamplersUniformGroup(maxTextures),
       },
     });
   }
@@ -25452,7 +25641,7 @@ class BitmapTextPipe {
         if (charData == null ? void 0 : charData.texture) {
           context.texture(
             charData.texture,
-            tint,
+            tint ? tint : "black",
             Math.round(line.charPositions[j] + charData.xOffset),
             Math.round(currentY + charData.yOffset),
           );
@@ -25611,7 +25800,7 @@ class HTMLTextPipe {
     batchableSprite.texture = gpuText.texture = texture;
     gpuText.generatingTexture = false;
     gpuText.textureNeedsUploading = true;
-    htmlText._onUpdate();
+    htmlText.onViewUpdate();
     const padding = htmlText._style.padding;
     updateQuadBounds(
       batchableSprite.bounds,
@@ -25665,6 +25854,222 @@ HTMLTextPipe.extension = {
 function isSafari() {
   const { userAgent } = DOMAdapter.get().getNavigator();
   return /^((?!chrome|android).)*safari/i.test(userAgent);
+}
+
+"use strict";
+const nssvg = "http://www.w3.org/2000/svg";
+const nsxhtml = "http://www.w3.org/1999/xhtml";
+class HTMLTextRenderData {
+  constructor() {
+    this.svgRoot = document.createElementNS(nssvg, "svg");
+    this.foreignObject = document.createElementNS(nssvg, "foreignObject");
+    this.domElement = document.createElementNS(nsxhtml, "div");
+    this.styleElement = document.createElementNS(nsxhtml, "style");
+    this.image = new Image();
+    const { foreignObject, svgRoot, styleElement, domElement } = this;
+    foreignObject.setAttribute("width", "10000");
+    foreignObject.setAttribute("height", "10000");
+    foreignObject.style.overflow = "hidden";
+    svgRoot.appendChild(foreignObject);
+    foreignObject.appendChild(styleElement);
+    foreignObject.appendChild(domElement);
+  }
+}
+
+"use strict";
+function textStyleToCSS(style) {
+  const stroke = style._stroke;
+  const fill = style._fill;
+  const cssStyleString = [
+    `color: ${Color.shared.setValue(fill.color).toHex()}`,
+    `font-size: ${style.fontSize}px`,
+    `font-family: ${style.fontFamily}`,
+    `font-weight: ${style.fontWeight}`,
+    `font-style: ${style.fontStyle}`,
+    `font-variant: ${style.fontVariant}`,
+    `letter-spacing: ${style.letterSpacing}px`,
+    `text-align: ${style.align}`,
+    `padding: ${style.padding}px`,
+    `white-space: ${
+      style.whiteSpace === "pre" && style.wordWrap
+        ? "pre-wrap"
+        : style.whiteSpace
+    }`,
+    ...style.lineHeight ? [`line-height: ${style.lineHeight}px`] : [],
+    ...style.wordWrap
+      ? [
+        `word-wrap: ${style.breakWords ? "break-all" : "break-word"}`,
+        `max-width: ${style.wordWrapWidth}px`,
+      ]
+      : [],
+    ...stroke ? [strokeToCSS(stroke)] : [],
+    ...style.dropShadow ? [dropShadowToCSS(style.dropShadow)] : [],
+    ...style.cssOverrides,
+  ].join(";");
+  const cssStyles = [`div { ${cssStyleString} }`];
+  tagStyleToCSS(style.tagStyles, cssStyles);
+  return cssStyles.join(" ");
+}
+function dropShadowToCSS(dropShadowStyle) {
+  const color = Color.shared.setValue(dropShadowStyle.color).setAlpha(
+    dropShadowStyle.alpha,
+  ).toHexa();
+  const x = Math.round(
+    Math.cos(dropShadowStyle.angle) * dropShadowStyle.distance,
+  );
+  const y = Math.round(
+    Math.sin(dropShadowStyle.angle) * dropShadowStyle.distance,
+  );
+  const position = `${x}px ${y}px`;
+  if (dropShadowStyle.blur > 0) {
+    return `text-shadow: ${position} ${dropShadowStyle.blur}px ${color}`;
+  }
+  return `text-shadow: ${position} ${color}`;
+}
+function strokeToCSS(stroke) {
+  return [
+    `-webkit-text-stroke-width: ${stroke.width}px`,
+    `-webkit-text-stroke-color: ${Color.shared.setValue(stroke.color).toHex()}`,
+    `text-stroke-width: ${stroke.width}px`,
+    `text-stroke-color: ${Color.shared.setValue(stroke.color).toHex()}`,
+    "paint-order: stroke",
+  ].join(";");
+}
+const templates = {
+  fontSize: `font-size: {{VALUE}}px`,
+  fontFamily: `font-family: {{VALUE}}`,
+  fontWeight: `font-weight: {{VALUE}}`,
+  fontStyle: `font-style: {{VALUE}}`,
+  fontVariant: `font-variant: {{VALUE}}`,
+  letterSpacing: `letter-spacing: {{VALUE}}px`,
+  align: `text-align: {{VALUE}}`,
+  padding: `padding: {{VALUE}}px`,
+  whiteSpace: `white-space: {{VALUE}}`,
+  lineHeight: `line-height: {{VALUE}}px`,
+  wordWrapWidth: `max-width: {{VALUE}}px`,
+};
+const transform = {
+  fill: (value) => `color: ${Color.shared.setValue(value).toHex()}`,
+  breakWords: (value) => `word-wrap: ${value ? "break-all" : "break-word"}`,
+  stroke: strokeToCSS,
+  dropShadow: dropShadowToCSS,
+};
+function tagStyleToCSS(tagStyles, out) {
+  for (const i in tagStyles) {
+    const tagStyle = tagStyles[i];
+    const cssTagStyle = [];
+    for (const j in tagStyle) {
+      if (transform[j]) {
+        cssTagStyle.push(transform[j](tagStyle[j]));
+      } else if (templates[j]) {
+        cssTagStyle.push(templates[j].replace("{{VALUE}}", tagStyle[j]));
+      }
+    }
+    out.push(`${i} { ${cssTagStyle.join(";")} }`);
+  }
+}
+
+"use strict";
+class HTMLTextStyle extends TextStyle {
+  constructor(options = {}) {
+    var _a, _b;
+    super(options);
+    this._cssOverrides = [];
+    (_a = this.cssOverrides) != null
+      ? _a
+      : this.cssOverrides = options.cssOverrides;
+    this.tagStyles = (_b = options.tagStyles) != null ? _b : {};
+  }
+  /** List of style overrides that will be applied to the HTML text. */
+  set cssOverrides(value) {
+    this._cssOverrides = value instanceof Array ? value : [value];
+    this.update();
+  }
+  get cssOverrides() {
+    return this._cssOverrides;
+  }
+  _generateKey() {
+    this._styleKey = generateTextStyleKey(this) + this._cssOverrides.join("-");
+    return this._styleKey;
+  }
+  update() {
+    this._cssStyle = null;
+    super.update();
+  }
+  /**
+   * Creates a new HTMLTextStyle object with the same values as this one.
+   * @returns New cloned HTMLTextStyle object
+   */
+  clone() {
+    return new HTMLTextStyle({
+      align: this.align,
+      breakWords: this.breakWords,
+      dropShadow: this.dropShadow,
+      fill: this._fill,
+      fontFamily: this.fontFamily,
+      fontSize: this.fontSize,
+      fontStyle: this.fontStyle,
+      fontVariant: this.fontVariant,
+      fontWeight: this.fontWeight,
+      letterSpacing: this.letterSpacing,
+      lineHeight: this.lineHeight,
+      padding: this.padding,
+      stroke: this._stroke,
+      whiteSpace: this.whiteSpace,
+      wordWrap: this.wordWrap,
+      wordWrapWidth: this.wordWrapWidth,
+      cssOverrides: this.cssOverrides,
+    });
+  }
+  get cssStyle() {
+    if (!this._cssStyle) {
+      this._cssStyle = textStyleToCSS(this);
+    }
+    return this._cssStyle;
+  }
+  /**
+   * Add a style override, this can be any CSS property
+   * it will override any built-in style. This is the
+   * property and the value as a string (e.g., `color: red`).
+   * This will override any other internal style.
+   * @param {string} value - CSS style(s) to add.
+   * @example
+   * style.addOverride('background-color: red');
+   */
+  addOverride(...value) {
+    const toAdd = value.filter((v) => !this.cssOverrides.includes(v));
+    if (toAdd.length > 0) {
+      this.cssOverrides.push(...toAdd);
+      this.update();
+    }
+  }
+  /**
+   * Remove any overrides that match the value.
+   * @param {string} value - CSS style to remove.
+   * @example
+   * style.removeOverride('background-color: red');
+   */
+  removeOverride(...value) {
+    const toRemove = value.filter((v) => this.cssOverrides.includes(v));
+    if (toRemove.length > 0) {
+      this.cssOverrides = this.cssOverrides.filter((v) =>
+        !toRemove.includes(v)
+      );
+      this.update();
+    }
+  }
+  set fill(value) {
+    if (typeof value !== "string" && typeof value !== "number") {
+      warn("[HTMLTextStyle] only color fill is not supported by HTMLText");
+    }
+    super.fill = value;
+  }
+  set stroke(value) {
+    if (value && typeof value !== "string" && typeof value !== "number") {
+      warn("[HTMLTextStyle] only color stroke is not supported by HTMLText");
+    }
+    super.stroke = value;
+  }
 }
 
 "use strict";
@@ -25725,57 +26130,23 @@ async function loadFontCSS(style, url) {
 }
 
 "use strict";
-var __defProp$I = Object.defineProperty;
-var __defProps$j = Object.defineProperties;
-var __getOwnPropDescs$j = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$I = Object.getOwnPropertySymbols;
-var __hasOwnProp$I = Object.prototype.hasOwnProperty;
-var __propIsEnum$I = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$I = (obj, key, value) =>
-  key in obj
-    ? __defProp$I(obj, key, {
-      enumerable: true,
-      configurable: true,
-      writable: true,
-      value,
-    })
-    : obj[key] = value;
-var __spreadValues$I = (a, b) => {
-  for (var prop in b || (b = {})) {
-    if (__hasOwnProp$I.call(b, prop)) {
-      __defNormalProp$I(a, prop, b[prop]);
-    }
-  }
-  if (__getOwnPropSymbols$I) {
-    for (var prop of __getOwnPropSymbols$I(b)) {
-      if (__propIsEnum$I.call(b, prop)) {
-        __defNormalProp$I(a, prop, b[prop]);
-      }
-    }
-  }
-  return a;
-};
-var __spreadProps$j = (a, b) => __defProps$j(a, __getOwnPropDescs$j(b));
-async function getFontCss(fontFamilies, style) {
+const FontStylePromiseCache = /* @__PURE__ */ new Map();
+async function getFontCss(fontFamilies, style, defaultOptions) {
   const fontPromises = fontFamilies.filter((fontFamily) =>
-    Cache.has(fontFamily)
+    Cache.has(`${fontFamily}-and-url`)
   ).map((fontFamily, i) => {
     if (!FontStylePromiseCache.has(fontFamily)) {
-      const { url } = Cache.get(fontFamily);
+      const { url } = Cache.get(`${fontFamily}-and-url`);
       if (i === 0) {
         FontStylePromiseCache.set(fontFamily, loadFontCSS(style, url));
       } else {
         FontStylePromiseCache.set(
           fontFamily,
-          loadFontCSS(
-            __spreadProps$j(
-              __spreadValues$I({}, HTMLTextSystem.defaultFontOptions),
-              {
-                fontFamily,
-              },
-            ),
-            url,
-          ),
+          loadFontCSS({
+            fontWeight: defaultOptions.fontWeight,
+            fontStyle: defaultOptions.fontStyle,
+            fontFamily,
+          }, url),
         );
       }
     }
@@ -25853,25 +26224,6 @@ function measureHtmlText(text, style, fontStyleCSS, htmlTextRenderData) {
 }
 
 "use strict";
-const nssvg = "http://www.w3.org/2000/svg";
-const nsxhtml = "http://www.w3.org/1999/xhtml";
-const FontStylePromiseCache = /* @__PURE__ */ new Map();
-class HTMLTextRenderData {
-  constructor() {
-    this.svgRoot = document.createElementNS(nssvg, "svg");
-    this.foreignObject = document.createElementNS(nssvg, "foreignObject");
-    this.domElement = document.createElementNS(nsxhtml, "div");
-    this.styleElement = document.createElementNS(nsxhtml, "style");
-    this.image = new Image();
-    const { foreignObject, svgRoot, styleElement, domElement } = this;
-    foreignObject.setAttribute("width", "10000");
-    foreignObject.setAttribute("height", "10000");
-    foreignObject.style.overflow = "hidden";
-    svgRoot.appendChild(foreignObject);
-    foreignObject.appendChild(styleElement);
-    foreignObject.appendChild(domElement);
-  }
-}
 class HTMLTextSystem {
   constructor(renderer) {
     this._activeTextures = {};
@@ -25906,7 +26258,11 @@ class HTMLTextSystem {
   async _buildTexturePromise(text, resolution, style) {
     const htmlTextData = BigPool.get(HTMLTextRenderData);
     const fontFamilies = extractFontFamilies(text, style);
-    const fontCSS = await getFontCss(fontFamilies, style);
+    const fontCSS = await getFontCss(
+      fontFamilies,
+      style,
+      HTMLTextStyle.defaultTextStyle,
+    );
     const measured = measureHtmlText(text, style, fontCSS, htmlTextData);
     const width = Math.ceil(
       Math.ceil(Math.max(1, measured.width) + style.padding * 2) * resolution,
@@ -26237,7 +26593,7 @@ const tilingBit = {
     main: (
       /* wgsl */
       `
-            vUV = (tilingUniforms.uTextureTransform * vec3(aUV, 1.0)).xy;
+            uv = (tilingUniforms.uTextureTransform * vec3(uv, 1.0)).xy;
 
             position = (position - tilingUniforms.uSizeAnchor.zw) * tilingUniforms.uSizeAnchor.xy;
         `
@@ -26295,7 +26651,7 @@ const tilingBitGl = {
     main: (
       /* glsl */
       `
-            vUV = (uTextureTransform * vec3(aUV, 1.0)).xy;
+            uv = (uTextureTransform * vec3(aUV, 1.0)).xy;
 
             position = (position - uSizeAnchor.zw) * uSizeAnchor.xy;
         `
@@ -26783,7 +27139,6 @@ const _NineSliceGeometry = class _NineSliceGeometry extends PlaneGeometry {
       verticesX: 4,
       verticesY: 4,
     });
-    this._textureMatrix = new Matrix();
     this.update(options);
   }
   /**
@@ -26808,9 +27163,6 @@ const _NineSliceGeometry = class _NineSliceGeometry extends PlaneGeometry {
     this._bottomHeight = (_h = options.bottomHeight) != null
       ? _h
       : this._bottomHeight;
-    if (options.textureMatrix) {
-      this._textureMatrix.copyFrom(options.textureMatrix);
-    }
     this.updateUvs();
     this.updatePositions();
   }
@@ -26856,7 +27208,6 @@ const _NineSliceGeometry = class _NineSliceGeometry extends PlaneGeometry {
   }
   /** Updates the UVs of the vertices. */
   updateUvs() {
-    const textureMatrix = this._textureMatrix;
     const uvs = this.uvs;
     uvs[0] =
       uvs[8] =
@@ -26900,7 +27251,6 @@ const _NineSliceGeometry = class _NineSliceGeometry extends PlaneGeometry {
       uvs[21] =
       uvs[23] =
         1 - _uvh * this._bottomHeight;
-    multiplyUvs(textureMatrix, uvs);
     this.getBuffer("aUV").update();
   }
 };
@@ -26924,22 +27274,6 @@ _NineSliceGeometry.defaultOptions = {
   originalHeight: 100,
 };
 let NineSliceGeometry = _NineSliceGeometry;
-function multiplyUvs(matrix, uvs, out) {
-  out != null ? out : out = uvs;
-  const a = matrix.a;
-  const b = matrix.b;
-  const c = matrix.c;
-  const d = matrix.d;
-  const tx = matrix.tx;
-  const ty = matrix.ty;
-  for (let i = 0; i < uvs.length; i += 2) {
-    const x = uvs[i];
-    const y = uvs[i + 1];
-    out[i] = x * a + y * c + tx;
-    out[i + 1] = x * b + y * d + ty;
-  }
-  return out;
-}
 
 "use strict";
 class NineSliceSpritePipe {
@@ -27069,8 +27403,8 @@ function getFastGlobalBounds(target, bounds) {
   if (!bounds.isValid) {
     bounds.set(0, 0, 0, 0);
   }
-  if (!target.isRenderGroupRoot) {
-    bounds.applyMatrix(target.renderGroup.worldTransform);
+  if (!target.renderGroup) {
+    bounds.applyMatrix(target.parentRenderGroup.worldTransform);
   } else {
     bounds.applyMatrix(target.renderGroup.localTransform);
   }
@@ -27082,7 +27416,7 @@ function _getGlobalBoundsRecursive(target, bounds) {
   }
   const manageEffects = !!target.effects.length;
   let localBounds = bounds;
-  if (target.isRenderGroupRoot || manageEffects) {
+  if (target.renderGroup || manageEffects) {
     localBounds = boundsPool.get().clear();
   }
   if (target.boundsArea) {
@@ -27109,20 +27443,20 @@ function _getGlobalBoundsRecursive(target, bounds) {
       if (target.effects[i].addBounds) {
         if (!advanced) {
           advanced = true;
-          localBounds.applyMatrix(target.renderGroup.worldTransform);
+          localBounds.applyMatrix(target.parentRenderGroup.worldTransform);
         }
         target.effects[i].addBounds(localBounds, true);
       }
     }
     if (advanced) {
       localBounds.applyMatrix(
-        target.renderGroup.worldTransform.copyTo(tempMatrix$1).invert(),
+        target.parentRenderGroup.worldTransform.copyTo(tempMatrix$1).invert(),
       );
       bounds.addBounds(localBounds, target.relativeGroupTransform);
     }
     bounds.addBounds(localBounds);
     boundsPool.return(localBounds);
-  } else if (target.isRenderGroupRoot) {
+  } else if (target.renderGroup) {
     bounds.addBounds(localBounds, target.relativeGroupTransform);
     boundsPool.return(localBounds);
   }
@@ -27247,9 +27581,9 @@ class FilterSystem {
       filterData.skip = true;
       return;
     }
-    bounds.scale(resolution).fit(renderer.renderTarget.rootViewPort).scale(
-      1 / resolution,
-    ).pad(padding).ceil();
+    const viewPort = renderer.renderTarget.rootViewPort;
+    bounds.scale(resolution).fitBounds(0, viewPort.width, 0, viewPort.height)
+      .scale(1 / resolution).pad(padding).ceil();
     if (!bounds.isPositive) {
       filterData.skip = true;
       return;
@@ -27550,6 +27884,8 @@ function unsafeEvalSupported() {
 }
 
 "use strict";
+
+"use strict";
 var CLEAR = /* @__PURE__ */ ((CLEAR2) => {
   CLEAR2[CLEAR2["NONE"] = 0] = "NONE";
   CLEAR2[CLEAR2["COLOR"] = 16384] = "COLOR";
@@ -27696,18 +28032,19 @@ const defaultRunners = [
   "postrender",
   "prerender",
 ];
-const _AbstractRenderer = class _AbstractRenderer {
+const _AbstractRenderer = class _AbstractRenderer extends EventEmitter {
   /**
    * Set up a system with a collection of SystemClasses and runners.
    * Systems are attached dynamically to this class when added.
    * @param config - the config for the system manager
    */
   constructor(config) {
+    var _a;
+    super();
     this.runners = /* @__PURE__ */ Object.create(null);
     this.renderPipes = /* @__PURE__ */ Object.create(null);
     this._initOptions = {};
     this._systemsHash = /* @__PURE__ */ Object.create(null);
-    var _a;
     this.type = config.type;
     this.name = config.name;
     const combinedRunners = [
@@ -27784,6 +28121,7 @@ const _AbstractRenderer = class _AbstractRenderer {
    */
   resize(desiredScreenWidth, desiredScreenHeight, resolution) {
     this.view.resize(desiredScreenWidth, desiredScreenHeight, resolution);
+    this.emit("resize", this.view.screen.width, this.view.screen.height);
   }
   clear(options = {}) {
     var _a;
@@ -28071,7 +28409,7 @@ var __spreadValues$C = (a, b) => {
   }
   return a;
 };
-const renderPriority = ["webgpu", "webgl", "canvas"];
+const renderPriority = ["webgl", "webgpu", "canvas"];
 async function autoDetectRenderer(options) {
   var _a, _b;
   let preferredOrder = [];
@@ -28120,11 +28458,14 @@ async function autoDetectRenderer(options) {
       break;
     } else if (rendererType === "canvas") {
       finalOptions = __spreadValues$C({}, options);
-      break;
+      throw new Error("CanvasRenderer is not yet implemented");
     }
   }
   delete finalOptions.webgpu;
   delete finalOptions.webgl;
+  if (!RendererClass) {
+    throw new Error("No available renderer for the current environment");
+  }
   const renderer = new RendererClass();
   await renderer.init(finalOptions);
   return renderer;
@@ -28623,9 +28964,10 @@ ${e}`);
       if (loadPromise) {
         const loadedAsset = await loadPromise.promise;
         delete this.promiseCache[url];
-        (_b = (_a = loadPromise.parser) == null ? void 0 : _a.unload) == null
+        await ((_b = (_a = loadPromise.parser) == null ? void 0 : _a.unload) ==
+            null
           ? void 0
-          : _b.call(_a, loadedAsset, asset, this);
+          : _b.call(_a, loadedAsset, asset, this));
       }
     });
     await Promise.all(promises);
@@ -28831,7 +29173,7 @@ const loadWebFont = {
         fonts.add(font);
         fontFaces.push(font);
       }
-      Cache.set(name, {
+      Cache.set(`${name}-and-url`, {
         url,
         fontFaces,
       });
@@ -28863,6 +29205,7 @@ function getResolutionOfUrl(url, defaultValue = 1) {
 "use strict";
 function createTexture(source, loader, url) {
   source.label = url;
+  source._sourceOrigin = url;
   const texture = new Texture({
     source,
     label: url,
@@ -28873,15 +29216,15 @@ function createTexture(source, loader, url) {
       Cache.remove(url);
     }
   };
-  texture.once("destroy", () => {
-    if (url in loader.promiseCache) {
+  texture.source.once("destroy", () => {
+    if (loader.promiseCache[url]) {
       warn(
-        "[Assets] A Texture managed by Assets was destroyed instead of unloaded! Use Assets.unload() instead of destroying the Texture.",
+        "[Assets] A TextureSource managed by Assets was destroyed instead of unloaded! Use Assets.unload() instead of destroying the TextureSource.",
       );
       unload();
     }
   });
-  texture.source.once("destroy", () => {
+  texture.once("destroy", () => {
     if (!source.destroyed) {
       warn(
         "[Assets] A Texture managed by Assets was destroyed instead of unloaded! Use Assets.unload() instead of destroying the Texture.",
@@ -32146,6 +32489,8 @@ const browserExt = {
 "use strict";
 
 "use strict";
+
+"use strict";
 var __defProp$v = Object.defineProperty;
 var __getOwnPropSymbols$v = Object.getOwnPropertySymbols;
 var __hasOwnProp$v = Object.prototype.hasOwnProperty;
@@ -34133,7 +34478,7 @@ class DisplacementFilter extends Filter {
 }
 
 var fragment$1 =
-  "\nin vec2 vTextureCoord;\nin vec4 vColor;\n\nout vec4 finalColor;\n\nuniform float uNoise;\nuniform float uSeed;\nuniform sampler2D uTexture;\n\nfloat rand(vec2 co)\n{\n    return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);\n}\n\nvoid main()\n{\n    vec4 color = texture(uTexture, vTextureCoord);\n    float randomValue = rand(gl_FragCoord.xy * 0.2);\n    float diff = (randomValue - 0.5) *  0.5;\n\n    // Un-premultiply alpha before applying the color matrix. See issue #3539.\n    if (color.a > 0.0) {\n        color.rgb /= color.a;\n    }\n\n    color.r += diff;\n    color.g += diff;\n    color.b += diff;\n\n    // Premultiply alpha again.\n    color.rgb *= color.a;\n\n    finalColor = color;\n}\n";
+  "\nin vec2 vTextureCoord;\nin vec4 vColor;\n\nout vec4 finalColor;\n\nuniform float uNoise;\nuniform float uSeed;\nuniform sampler2D uTexture;\n\nfloat rand(vec2 co)\n{\n    return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);\n}\n\nvoid main()\n{\n    vec4 color = texture(uTexture, vTextureCoord);\n    float randomValue = rand(gl_FragCoord.xy * uSeed);\n    float diff = (randomValue - 0.5) *  uNoise;\n\n    // Un-premultiply alpha before applying the color matrix. See issue #3539.\n    if (color.a > 0.0) {\n        color.rgb /= color.a;\n    }\n\n    color.r += diff;\n    color.g += diff;\n    color.b += diff;\n\n    // Premultiply alpha again.\n    color.rgb *= color.a;\n\n    finalColor = color;\n}\n";
 
 var source$1 =
   "\n\nstruct GlobalFilterUniforms {\n  uInputSize:vec4<f32>,\n  uInputPixel:vec4<f32>,\n  uInputClamp:vec4<f32>,\n  uOutputFrame:vec4<f32>,\n  uGlobalFrame:vec4<f32>,\n  uOutputTexture:vec4<f32>,\n};\n\nstruct NoiseUniforms {\n  uNoise:f32,\n  uSeed:f32,\n};\n\n@group(0) @binding(0) var<uniform> gfu: GlobalFilterUniforms;\n@group(0) @binding(1) var uTexture: texture_2d<f32>;\n@group(0) @binding(2) var uSampler : sampler;\n\n@group(1) @binding(0) var<uniform> noiseUniforms : NoiseUniforms;\n\nstruct VSOutput {\n    @builtin(position) position: vec4<f32>,\n    @location(0) uv : vec2<f32>\n  };\n\nfn filterVertexPosition(aPosition:vec2<f32>) -> vec4<f32>\n{\n    var position = aPosition * gfu.uOutputFrame.zw + gfu.uOutputFrame.xy;\n\n    position.x = position.x * (2.0 / gfu.uOutputTexture.x) - 1.0;\n    position.y = position.y * (2.0*gfu.uOutputTexture.z / gfu.uOutputTexture.y) - gfu.uOutputTexture.z;\n\n    return vec4(position, 0.0, 1.0);\n}\n\nfn filterTextureCoord( aPosition:vec2<f32> ) -> vec2<f32>\n{\n    return aPosition * (gfu.uOutputFrame.zw * gfu.uInputSize.zw);\n}\n\nfn globalTextureCoord( aPosition:vec2<f32> ) -> vec2<f32>\n{\n  return  (aPosition.xy / gfu.uGlobalFrame.zw) + (gfu.uGlobalFrame.xy / gfu.uGlobalFrame.zw);  \n}\n\nfn getSize() -> vec2<f32>\n{\n  return gfu.uGlobalFrame.zw;\n}\n  \n@vertex\nfn mainVertex(\n  @location(0) aPosition : vec2<f32>, \n) -> VSOutput {\n  return VSOutput(\n   filterVertexPosition(aPosition),\n   filterTextureCoord(aPosition)\n  );\n}\n\nfn rand(co:vec2<f32>) -> f32\n{\n  return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);\n}\n\n\n\n@fragment\nfn mainFragment(\n  @location(0) uv: vec2<f32>,\n  @builtin(position) position: vec4<f32>\n) -> @location(0) vec4<f32> {\n\n    var pixelPosition =  globalTextureCoord(position.xy);// / (getSize());//-  gfu.uOutputFrame.xy);\n  \n    \n    var sample = textureSample(uTexture, uSampler, uv);\n    var randomValue =  rand(pixelPosition.xy * noiseUniforms.uSeed);\n    var diff = (randomValue - 0.5) * noiseUniforms.uNoise;\n  \n    // Un-premultiply alpha before applying the color matrix. See issue #3539.\n    if (sample.a > 0.0) {\n      sample.r /= sample.a;\n      sample.g /= sample.a;\n      sample.b /= sample.a;\n    }\n\n    sample.r += diff;\n    sample.g += diff;\n    sample.b += diff;\n\n    // Premultiply alpha again.\n    sample.r *= sample.a;\n    sample.g *= sample.a;\n    sample.b *= sample.a;\n    \n    return sample;\n}";
@@ -34360,6 +34705,25 @@ var hsl =
 "use strict";
 
 "use strict";
+
+"use strict";
+function pointInTriangle(px, py, x1, y1, x2, y2, x3, y3) {
+  const v2x = x3 - x1;
+  const v2y = y3 - y1;
+  const v1x = x2 - x1;
+  const v1y = y2 - y1;
+  const v0x = px - x1;
+  const v0y = py - y1;
+  const dot00 = v2x * v2x + v2y * v2y;
+  const dot01 = v2x * v1x + v2y * v1y;
+  const dot02 = v2x * v0x + v2y * v0y;
+  const dot11 = v1x * v1x + v1y * v1y;
+  const dot12 = v1x * v0x + v1y * v0y;
+  const invDenom = 1 / (dot00 * dot11 - dot01 * dot01);
+  const u = (dot11 * dot02 - dot01 * dot12) * invDenom;
+  const v = (dot00 * dot12 - dot01 * dot02) * invDenom;
+  return u >= 0 && v >= 0 && u + v < 1;
+}
 
 "use strict";
 
@@ -34640,7 +35004,6 @@ var __objRest$7 = (source, exclude) => {
   }
   return target;
 };
-const tempPolygon = new Polygon();
 class Mesh extends Container {
   constructor(...args) {
     var _b;
@@ -34743,8 +35106,16 @@ class Mesh extends Container {
   }
   /** The texture that the Mesh uses. Null for non-MeshMaterial shaders */
   set texture(value) {
-    if (this._texture === value) {
+    value || (value = Texture.EMPTY);
+    const currentTexture = this._texture;
+    if (currentTexture === value) {
       return;
+    }
+    if (currentTexture && currentTexture.dynamic) {
+      currentTexture.off("update", this.onViewUpdate, this);
+    }
+    if (value.dynamic) {
+      value.on("update", this.onViewUpdate, this);
     }
     if (this.shader) {
       this.shader.texture = value;
@@ -34791,22 +35162,49 @@ class Mesh extends Container {
       return false;
     }
     const vertices = this.geometry.getBuffer("aPosition").data;
-    const points = tempPolygon.points;
-    const indices = this.geometry.getIndex().data;
-    const len = indices.length;
     const step = this.geometry.topology === "triangle-strip" ? 3 : 1;
-    for (let i = 0; i + 2 < len; i += step) {
-      const ind0 = indices[i] * 2;
-      const ind1 = indices[i + 1] * 2;
-      const ind2 = indices[i + 2] * 2;
-      points[0] = vertices[ind0];
-      points[1] = vertices[ind0 + 1];
-      points[2] = vertices[ind1];
-      points[3] = vertices[ind1 + 1];
-      points[4] = vertices[ind2];
-      points[5] = vertices[ind2 + 1];
-      if (tempPolygon.contains(x, y)) {
-        return true;
+    if (this.geometry.getIndex()) {
+      const indices = this.geometry.getIndex().data;
+      const len = indices.length;
+      for (let i = 0; i + 2 < len; i += step) {
+        const ind0 = indices[i] * 2;
+        const ind1 = indices[i + 1] * 2;
+        const ind2 = indices[i + 2] * 2;
+        if (
+          pointInTriangle(
+            x,
+            y,
+            vertices[ind0],
+            vertices[ind0 + 1],
+            vertices[ind1],
+            vertices[ind1 + 1],
+            vertices[ind2],
+            vertices[ind2 + 1],
+          )
+        ) {
+          return true;
+        }
+      }
+    } else {
+      const len = vertices.length / 2;
+      for (let i = 0; i + 2 < len; i += step) {
+        const ind0 = i * 2;
+        const ind1 = (i + 1) * 2;
+        const ind2 = (i + 2) * 2;
+        if (
+          pointInTriangle(
+            x,
+            y,
+            vertices[ind0],
+            vertices[ind0 + 1],
+            vertices[ind1],
+            vertices[ind1 + 1],
+            vertices[ind2],
+            vertices[ind2 + 1],
+          )
+        ) {
+          return true;
+        }
       }
     }
     return false;
@@ -34818,8 +35216,9 @@ class Mesh extends Container {
       return;
     }
     this.didViewUpdate = true;
-    if (this.renderGroup) {
-      this.renderGroup.onChildViewUpdate(this);
+    const renderGroup = this.renderGroup || this.parentRenderGroup;
+    if (renderGroup) {
+      renderGroup.onChildViewUpdate(this);
     }
   }
   /**
@@ -35169,7 +35568,7 @@ class Transform {
   set rotation(value) {
     if (this._rotation !== value) {
       this._rotation = value;
-      this.updateSkew();
+      this._onUpdate(this.skew);
     }
   }
 }
@@ -35270,14 +35669,20 @@ const _TilingSprite = class _TilingSprite extends Container {
     this._bounds = { minX: 0, maxX: 1, minY: 0, maxY: 0 };
     this._boundsDirty = true;
     this.allowChildren = false;
-    this._anchor = new ObservablePoint(this);
+    this._anchor = new ObservablePoint(
+      {
+        _onUpdate: () => {
+          this.onViewUpdate();
+        },
+      },
+    );
     this._applyAnchorToTexture = applyAnchorToTexture;
     this.texture = texture;
     this._width = width != null ? width : texture.width;
     this._height = height != null ? height : texture.height;
     this._tileTransform = new Transform({
       observer: {
-        _onUpdate: () => this._onTilingSpriteUpdate(),
+        _onUpdate: () => this.onViewUpdate(),
       },
     });
     if (anchor) {
@@ -35390,11 +35795,19 @@ const _TilingSprite = class _TilingSprite extends Container {
     return this._bounds;
   }
   set texture(value) {
-    if (this._texture === value) {
+    value || (value = Texture.EMPTY);
+    const currentTexture = this._texture;
+    if (currentTexture === value) {
       return;
     }
+    if (currentTexture && currentTexture.dynamic) {
+      currentTexture.off("update", this.onViewUpdate, this);
+    }
+    if (value.dynamic) {
+      value.on("update", this.onViewUpdate, this);
+    }
     this._texture = value;
-    this._onTilingSpriteUpdate();
+    this.onViewUpdate();
   }
   /** The texture that the sprite is using. */
   get texture() {
@@ -35403,14 +35816,14 @@ const _TilingSprite = class _TilingSprite extends Container {
   /** The width of the tiling area. */
   set width(value) {
     this._width = value;
-    this._onTilingSpriteUpdate();
+    this.onViewUpdate();
   }
   get width() {
     return this._width;
   }
   set height(value) {
     this._height = value;
-    this._onTilingSpriteUpdate();
+    this.onViewUpdate();
   }
   /** The height of the tiling area. */
   get height() {
@@ -35456,7 +35869,7 @@ const _TilingSprite = class _TilingSprite extends Container {
     }
     return false;
   }
-  _onTilingSpriteUpdate() {
+  onViewUpdate() {
     this._boundsDirty = true;
     this._didTilingSpriteUpdate = true;
     this._didChangeId += 1 << 12;
@@ -35464,8 +35877,9 @@ const _TilingSprite = class _TilingSprite extends Container {
       return;
     }
     this.didViewUpdate = true;
-    if (this.renderGroup) {
-      this.renderGroup.onChildViewUpdate(this);
+    const renderGroup = this.renderGroup || this.parentRenderGroup;
+    if (renderGroup) {
+      renderGroup.onChildViewUpdate(this);
     }
   }
   /**
@@ -35777,14 +36191,15 @@ class AbstractText extends Container {
   }
   onViewUpdate() {
     this._didChangeId += 1 << 12;
+    this._boundsDirty = true;
     if (this.didViewUpdate) {
       return;
     }
     this.didViewUpdate = true;
     this._didTextUpdate = true;
-    this._boundsDirty = true;
-    if (this.renderGroup) {
-      this.renderGroup.onChildViewUpdate(this);
+    const renderGroup = this.renderGroup || this.parentRenderGroup;
+    if (renderGroup) {
+      renderGroup.onChildViewUpdate(this);
     }
   }
   _getKey() {
@@ -35796,13 +36211,22 @@ class AbstractText extends Container {
    *  have been set to that value
    * @param {boolean} [options.texture=false] - Should it destroy the texture of the text style
    * @param {boolean} [options.textureSource=false] - Should it destroy the textureSource of the text style
+   * @param {boolean} [options.style=false] - Should it destroy the style of the text
    */
   destroy(options = false) {
     super.destroy(options);
     this.owner = null;
     this._bounds = null;
     this._anchor = null;
-    this._style.destroy(options);
+    if (
+      typeof options === "boolean"
+        ? options
+        : options == null
+        ? void 0
+        : options.style
+    ) {
+      this._style.destroy(options);
+    }
     this._style = null;
     this._text = null;
   }
@@ -35832,14 +36256,14 @@ class Text extends AbstractText {
     const padding = this._style.padding;
     const anchor = this._anchor;
     const canvasMeasurement = CanvasTextMetrics.measureText(
-      this.text,
+      this._text,
       this._style,
     );
     const { width, height } = canvasMeasurement;
     bounds.minX = -anchor._x * width - padding;
-    bounds.maxX = bounds.minX + width;
+    bounds.maxX = bounds.minX + width + padding * 2;
     bounds.minY = -anchor._y * height - padding;
-    bounds.maxY = bounds.minY + height;
+    bounds.maxY = bounds.minY + height + padding * 2;
   }
 }
 
@@ -35931,202 +36355,6 @@ class BitmapText extends AbstractText {
     bounds.maxX = bounds.minX + width;
     bounds.minY = -anchor._y * (height + offset) - padding;
     bounds.maxY = bounds.minY + height;
-  }
-}
-
-"use strict";
-function textStyleToCSS(style) {
-  const stroke = style._stroke;
-  const fill = style._fill;
-  const cssStyleString = [
-    `color: ${Color.shared.setValue(fill.color).toHex()}`,
-    `font-size: ${style.fontSize}px`,
-    `font-family: ${style.fontFamily}`,
-    `font-weight: ${style.fontWeight}`,
-    `font-style: ${style.fontStyle}`,
-    `font-variant: ${style.fontVariant}`,
-    `letter-spacing: ${style.letterSpacing}px`,
-    `text-align: ${style.align}`,
-    `padding: ${style.padding}px`,
-    `white-space: ${
-      style.whiteSpace === "pre" && style.wordWrap
-        ? "pre-wrap"
-        : style.whiteSpace
-    }`,
-    ...style.lineHeight ? [`line-height: ${style.lineHeight}px`] : [],
-    ...style.wordWrap
-      ? [
-        `word-wrap: ${style.breakWords ? "break-all" : "break-word"}`,
-        `max-width: ${style.wordWrapWidth}px`,
-      ]
-      : [],
-    ...stroke ? [strokeToCSS(stroke)] : [],
-    ...style.dropShadow ? [dropShadowToCSS(style.dropShadow)] : [],
-    ...style.cssOverrides,
-  ].join(";");
-  const cssStyles = [`div { ${cssStyleString} }`];
-  tagStyleToCSS(style.tagStyles, cssStyles);
-  return cssStyles.join(" ");
-}
-function dropShadowToCSS(dropShadowStyle) {
-  const color = Color.shared.setValue(dropShadowStyle.color).setAlpha(
-    dropShadowStyle.alpha,
-  ).toHexa();
-  const x = Math.round(
-    Math.cos(dropShadowStyle.angle) * dropShadowStyle.distance,
-  );
-  const y = Math.round(
-    Math.sin(dropShadowStyle.angle) * dropShadowStyle.distance,
-  );
-  const position = `${x}px ${y}px`;
-  if (dropShadowStyle.blur > 0) {
-    return `text-shadow: ${position} ${dropShadowStyle.blur}px ${color}`;
-  }
-  return `text-shadow: ${position} ${color}`;
-}
-function strokeToCSS(stroke) {
-  return [
-    `-webkit-text-stroke-width: ${stroke.width}px`,
-    `-webkit-text-stroke-color: ${Color.shared.setValue(stroke.color).toHex()}`,
-    `text-stroke-width: ${stroke.width}px`,
-    `text-stroke-color: ${Color.shared.setValue(stroke.color).toHex()}`,
-    "paint-order: stroke",
-  ].join(";");
-}
-const templates = {
-  fontSize: `font-size: {{VALUE}}px`,
-  fontFamily: `font-family: {{VALUE}}`,
-  fontWeight: `font-weight: {{VALUE}}`,
-  fontStyle: `font-style: {{VALUE}}`,
-  fontVariant: `font-variant: {{VALUE}}`,
-  letterSpacing: `letter-spacing: {{VALUE}}px`,
-  align: `text-align: {{VALUE}}`,
-  padding: `padding: {{VALUE}}px`,
-  whiteSpace: `white-space: {{VALUE}}`,
-  lineHeight: `line-height: {{VALUE}}px`,
-  wordWrapWidth: `max-width: {{VALUE}}px`,
-};
-const transform = {
-  fill: (value) => `color: ${Color.shared.setValue(value).toHex()}`,
-  breakWords: (value) => `word-wrap: ${value ? "break-all" : "break-word"}`,
-  stroke: strokeToCSS,
-  dropShadow: dropShadowToCSS,
-};
-function tagStyleToCSS(tagStyles, out) {
-  for (const i in tagStyles) {
-    const tagStyle = tagStyles[i];
-    const cssTagStyle = [];
-    for (const j in tagStyle) {
-      if (transform[j]) {
-        cssTagStyle.push(transform[j](tagStyle[j]));
-      } else if (templates[j]) {
-        cssTagStyle.push(templates[j].replace("{{VALUE}}", tagStyle[j]));
-      }
-    }
-    out.push(`${i} { ${cssTagStyle.join(";")} }`);
-  }
-}
-
-"use strict";
-class HTMLTextStyle extends TextStyle {
-  constructor(options = {}) {
-    var _a, _b;
-    super(options);
-    this._cssOverrides = [];
-    (_a = this.cssOverrides) != null
-      ? _a
-      : this.cssOverrides = options.cssOverrides;
-    this.tagStyles = (_b = options.tagStyles) != null ? _b : {};
-  }
-  /** List of style overrides that will be applied to the HTML text. */
-  set cssOverrides(value) {
-    this._cssOverrides = value instanceof Array ? value : [value];
-    this.update();
-  }
-  get cssOverrides() {
-    return this._cssOverrides;
-  }
-  _generateKey() {
-    this._styleKey = generateTextStyleKey(this) + this._cssOverrides.join("-");
-    return this._styleKey;
-  }
-  update() {
-    this._cssStyle = null;
-    super.update();
-  }
-  /**
-   * Creates a new HTMLTextStyle object with the same values as this one.
-   * @returns New cloned HTMLTextStyle object
-   */
-  clone() {
-    return new HTMLTextStyle({
-      align: this.align,
-      breakWords: this.breakWords,
-      dropShadow: this.dropShadow,
-      fill: this._fill,
-      fontFamily: this.fontFamily,
-      fontSize: this.fontSize,
-      fontStyle: this.fontStyle,
-      fontVariant: this.fontVariant,
-      fontWeight: this.fontWeight,
-      letterSpacing: this.letterSpacing,
-      lineHeight: this.lineHeight,
-      padding: this.padding,
-      stroke: this._stroke,
-      whiteSpace: this.whiteSpace,
-      wordWrap: this.wordWrap,
-      wordWrapWidth: this.wordWrapWidth,
-      cssOverrides: this.cssOverrides,
-    });
-  }
-  get cssStyle() {
-    if (!this._cssStyle) {
-      this._cssStyle = textStyleToCSS(this);
-    }
-    return this._cssStyle;
-  }
-  /**
-   * Add a style override, this can be any CSS property
-   * it will override any built-in style. This is the
-   * property and the value as a string (e.g., `color: red`).
-   * This will override any other internal style.
-   * @param {string} value - CSS style(s) to add.
-   * @example
-   * style.addOverride('background-color: red');
-   */
-  addOverride(...value) {
-    const toAdd = value.filter((v) => !this.cssOverrides.includes(v));
-    if (toAdd.length > 0) {
-      this.cssOverrides.push(...toAdd);
-      this.update();
-    }
-  }
-  /**
-   * Remove any overrides that match the value.
-   * @param {string} value - CSS style to remove.
-   * @example
-   * style.removeOverride('background-color: red');
-   */
-  removeOverride(...value) {
-    const toRemove = value.filter((v) => this.cssOverrides.includes(v));
-    if (toRemove.length > 0) {
-      this.cssOverrides = this.cssOverrides.filter((v) =>
-        !toRemove.includes(v)
-      );
-      this.update();
-    }
-  }
-  set fill(value) {
-    if (typeof value !== "string" && typeof value !== "number") {
-      warn("[HTMLTextStyle] only color fill is not supported by HTMLText");
-    }
-    super.fill = value;
-  }
-  set stroke(value) {
-    if (value && typeof value !== "string" && typeof value !== "number") {
-      warn("[HTMLTextStyle] only color stroke is not supported by HTMLText");
-    }
-    super.stroke = value;
   }
 }
 
@@ -36229,18 +36457,19 @@ class GlBatchAdaptor {
     this._tempState = State.for2d();
   }
   init(batcherPipe) {
+    const maxTextures = maxRecommendedTextures();
     const glProgram = compileHighShaderGlProgram({
       name: "batch",
       bits: [
         colorBitGl,
-        generateTextureBatchBitGl(MAX_TEXTURES),
+        generateTextureBatchBitGl(maxTextures),
         roundPixelsBitGl,
       ],
     });
     this._shader = new Shader({
       glProgram,
       resources: {
-        batchSamplers: batchSamplersUniformGroup,
+        batchSamplers: getBatchSamplersUniformGroup(maxTextures),
       },
     });
     batcherPipe.renderer.runners.contextChange.add(this);
@@ -36324,7 +36553,7 @@ class GpuBatchAdaptor {
       name: "batch",
       bits: [
         colorBit,
-        generateTextureBatchBit(MAX_TEXTURES),
+        generateTextureBatchBit(maxRecommendedTextures()),
         roundPixelsBit,
       ],
     });
@@ -36497,6 +36726,25 @@ function formatShader(shader) {
 "use strict";
 const textureBit = {
   name: "texture-bit",
+  vertex: {
+    header: (
+      /* wgsl */
+      `
+
+        struct TextureUniforms {
+            uTextureMatrix:mat3x3<f32>,
+        }
+
+        @group(2) @binding(2) var<uniform> textureUniforms : TextureUniforms;
+        `
+    ),
+    main: (
+      /* wgsl */
+      `
+            uv = (textureUniforms.uTextureMatrix * vec3(uv, 1.0)).xy;
+        `
+    ),
+  },
   fragment: {
     header: (
       /* wgsl */
@@ -36517,9 +36765,23 @@ const textureBit = {
 };
 const textureBitGl = {
   name: "texture-bit",
+  vertex: {
+    header: (
+      /* glsl */
+      `
+            uniform mat3 uTextureMatrix;
+        `
+    ),
+    main: (
+      /* glsl */
+      `
+            uv = (uTextureMatrix * vec3(uv, 1.0)).xy;
+        `
+    ),
+  },
   fragment: {
     header: (
-      /* wgsl */
+      /* glsl */
       `
         uniform sampler2D uTexture;
 
@@ -36527,7 +36789,7 @@ const textureBitGl = {
         `
     ),
     main: (
-      /* wgsl */
+      /* glsl */
       `
             outColor = texture(uTexture, vUV);
         `
@@ -36579,7 +36841,7 @@ function collectAllRenderablesSimple(container, instructionSet, renderPipes) {
     const rp = renderPipes;
     rp[container.renderPipeId].addRenderable(container, instructionSet);
   }
-  if (!container.isRenderGroupRoot) {
+  if (!container.renderGroup) {
     const children = container.children;
     const length = children.length;
     for (let i = 0; i < length; i++) {
@@ -36593,7 +36855,7 @@ function collectAllRenderablesAdvanced(
   renderPipes,
   isRoot,
 ) {
-  if (!isRoot && container.isRenderGroupRoot) {
+  if (!isRoot && container.renderGroup) {
     renderPipes.renderGroup.addRenderGroup(
       container.renderGroup,
       instructionSet,
@@ -36633,13 +36895,12 @@ function collectAllRenderablesAdvanced(
 const tempBounds$1 = new Bounds();
 class AlphaMaskEffect extends FilterEffect {
   constructor() {
-    super({
-      filters: [
-        new MaskFilter({
-          sprite: new Sprite(Texture.EMPTY),
-        }),
-      ],
-    });
+    super();
+    this.filters = [
+      new MaskFilter({
+        sprite: new Sprite(Texture.EMPTY),
+      }),
+    ];
   }
   get sprite() {
     return this.filters[0].sprite;
@@ -36951,11 +37212,11 @@ class StencilMaskPipe {
         : _a[renderTargetUid] = 0;
     if (instruction.action === "pushMaskBegin") {
       renderer.renderTarget.ensureDepthStencil();
-      maskStackIndex++;
       renderer.stencil.setStencilMode(
         STENCIL_MODES.RENDERING_MASK_ADD,
         maskStackIndex,
       );
+      maskStackIndex++;
       renderer.colorMask.setMask(0);
     } else if (instruction.action === "pushMaskEnd") {
       renderer.stencil.setStencilMode(
@@ -36964,7 +37225,6 @@ class StencilMaskPipe {
       );
       renderer.colorMask.setMask(15);
     } else if (instruction.action === "popMaskBegin") {
-      maskStackIndex--;
       renderer.colorMask.setMask(0);
       if (maskStackIndex !== 0) {
         renderer.stencil.setStencilMode(
@@ -36975,6 +37235,7 @@ class StencilMaskPipe {
         renderer.renderTarget.clear(null, CLEAR.STENCIL);
         renderer.stencil.setStencilMode(STENCIL_MODES.DISABLED, maskStackIndex);
       }
+      maskStackIndex--;
     } else if (instruction.action === "popMaskEnd") {
       renderer.stencil.setStencilMode(
         STENCIL_MODES.MASK_ACTIVE,
@@ -37277,7 +37538,8 @@ const _GlContextSystem = class _GlContextSystem {
    */
   initFromContext(gl) {
     this.gl = gl;
-    this.webGLVersion = gl instanceof WebGL2RenderingContext ? 2 : 1;
+    this.webGLVersion =
+      gl instanceof DOMAdapter.get().getWebGLRenderingContext() ? 1 : 2;
     this.getExtensions();
     this.validateContext(gl);
     this._renderer.runners.contextChange.emit(gl);
@@ -37354,6 +37616,12 @@ const _GlContextSystem = class _GlContextSystem {
       this.extensions = __spreadProps$8(__spreadValues$j({}, common), {
         colorBufferFloat: gl.getExtension("EXT_color_buffer_float"),
       });
+      const provokeExt = gl.getExtension("WEBGL_provoking_vertex");
+      if (provokeExt) {
+        provokeExt.provokingVertexWEBGL(
+          provokeExt.FIRST_VERTEX_CONVENTION_WEBGL,
+        );
+      }
     }
   }
   /**
@@ -37437,7 +37705,7 @@ _GlContextSystem.extension = {
   ],
   name: "context",
 };
-/** @ignore */
+/** The default options for the system. */
 _GlContextSystem.defaultOptions = {
   /**
    * {@link WebGLOptions.context}
@@ -37831,6 +38099,7 @@ class GlGeometrySystem {
    * @param program - Shader program instance.
    */
   activateVao(geometry, program) {
+    var _a;
     const gl = this._renderer.gl;
     const bufferSystem = this._renderer.buffer;
     const attributes = geometry.attributes;
@@ -37842,7 +38111,8 @@ class GlGeometrySystem {
       const attribute = attributes[j];
       const buffer = attribute.buffer;
       const glBuffer = bufferSystem.getGlBuffer(buffer);
-      if (program._attributeData[j]) {
+      const programAttrib = program._attributeData[j];
+      if (programAttrib) {
         if (lastBuffer !== glBuffer) {
           bufferSystem.bind(buffer);
           lastBuffer = glBuffer;
@@ -37850,14 +38120,29 @@ class GlGeometrySystem {
         const location = attribute.location;
         gl.enableVertexAttribArray(location);
         const attributeInfo = getAttributeInfoFromFormat(attribute.format);
-        gl.vertexAttribPointer(
-          location,
-          attributeInfo.size,
-          getGlTypeFromFormat(attribute.format),
-          attributeInfo.normalised,
-          attribute.stride,
-          attribute.offset,
-        );
+        const type = getGlTypeFromFormat(attribute.format);
+        if (
+          ((_a = programAttrib.format) == null
+            ? void 0
+            : _a.substring(1, 4)) === "int"
+        ) {
+          gl.vertexAttribIPointer(
+            location,
+            attributeInfo.size,
+            type,
+            attribute.stride,
+            attribute.offset,
+          );
+        } else {
+          gl.vertexAttribPointer(
+            location,
+            attributeInfo.size,
+            type,
+            attributeInfo.normalised,
+            attribute.stride,
+            attribute.offset,
+          );
+        }
         if (attribute.instance) {
           if (this.hasInstance) {
             gl.vertexAttribDivisor(location, 1);
@@ -38004,21 +38289,21 @@ const _GlBackBufferSystem = class _GlBackBufferSystem {
       vertex: `
                 attribute vec2 aPosition;
                 out vec2 vUv;
-        
+
                 void main() {
-                    gl_Position = gl_Position = vec4(aPosition, 0.0, 1.0);
-        
+                    gl_Position = vec4(aPosition, 0.0, 1.0);
+
                     vUv = (aPosition + 1.0) / 2.0;
-        
+
                     // flip dem UVs
                     vUv.y = 1.0 - vUv.y;
                 }`,
       fragment: `
                 in vec2 vUv;
                 out vec4 finalColor;
-        
+
                 uniform sampler2D uTexture;
-        
+
                 void main() {
                     finalColor = texture(uTexture, vUv);
                 }`,
@@ -38100,6 +38385,7 @@ _GlBackBufferSystem.extension = {
 };
 /** default options for the back buffer system */
 _GlBackBufferSystem.defaultOptions = {
+  /** if true will use the back buffer where required */
   useBackBuffer: false,
 };
 let GlBackBufferSystem = _GlBackBufferSystem;
@@ -38197,21 +38483,21 @@ GpuStencilModesToPixi[STENCIL_MODES.DISABLED] = {
 };
 GpuStencilModesToPixi[STENCIL_MODES.RENDERING_MASK_ADD] = {
   stencilFront: {
-    compare: "always",
+    compare: "equal",
     passOp: "increment-clamp",
   },
   stencilBack: {
-    compare: "always",
+    compare: "equal",
     passOp: "increment-clamp",
   },
 };
 GpuStencilModesToPixi[STENCIL_MODES.RENDERING_MASK_REMOVE] = {
   stencilFront: {
-    compare: "always",
+    compare: "equal",
     passOp: "decrement-clamp",
   },
   stencilBack: {
-    compare: "always",
+    compare: "equal",
     passOp: "decrement-clamp",
   },
 };
@@ -38260,6 +38546,9 @@ class GlStencilSystem {
       "increment-wrap": gl.INCR_WRAP,
       "decrement-wrap": gl.DECR_WRAP,
     };
+    this._stencilCache.enabled = false;
+    this._stencilCache.stencilMode = STENCIL_MODES.NONE;
+    this._stencilCache.stencilReference = 0;
   }
   onRenderTargetChange(renderTarget) {
     if (this._activeRenderTarget === renderTarget) {
@@ -38896,13 +39185,32 @@ class GlRenderTargetAdaptor {
     const renderer = this._renderer;
     const gl = renderer.gl;
     const glRenderTarget = new GlRenderTarget();
-    if (CanvasSource.test(renderTarget.colorTexture.resource)) {
+    if (renderTarget.colorTexture.resource === renderer.gl.canvas) {
       glRenderTarget.framebuffer = null;
       return glRenderTarget;
     }
     this._initColor(renderTarget, glRenderTarget);
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     return glRenderTarget;
+  }
+  destroyGpuRenderTarget(gpuRenderTarget) {
+    const gl = this._renderer.gl;
+    if (gpuRenderTarget.framebuffer) {
+      gl.deleteFramebuffer(gpuRenderTarget.framebuffer);
+      gpuRenderTarget.framebuffer = null;
+    }
+    if (gpuRenderTarget.resolveTargetFramebuffer) {
+      gl.deleteFramebuffer(gpuRenderTarget.resolveTargetFramebuffer);
+      gpuRenderTarget.resolveTargetFramebuffer = null;
+    }
+    if (gpuRenderTarget.depthStencilRenderBuffer) {
+      gl.deleteRenderbuffer(gpuRenderTarget.depthStencilRenderBuffer);
+      gpuRenderTarget.depthStencilRenderBuffer = null;
+    }
+    gpuRenderTarget.msaaRenderBuffer.forEach((renderBuffer) => {
+      gl.deleteRenderbuffer(renderBuffer);
+    });
+    gpuRenderTarget.msaaRenderBuffer = null;
   }
   clear(_renderTarget, clear, clearColor) {
     if (!clear) {
@@ -39198,6 +39506,8 @@ const _RenderTarget = class _RenderTarget {
     this.dirtyId = 0;
     this.isRoot = false;
     this._size = new Float32Array(2);
+    /** if true, then when the render target is destroyed, it will destroy all the textures that were created for it. */
+    this._managedColorTextures = false;
     descriptor = __spreadValues$f(
       __spreadValues$f({}, _RenderTarget.defaultOptions),
       descriptor,
@@ -39206,6 +39516,7 @@ const _RenderTarget = class _RenderTarget {
     this.depth = descriptor.depth;
     this.isRoot = descriptor.isRoot;
     if (typeof descriptor.colorTextures === "number") {
+      this._managedColorTextures = true;
       for (let i = 0; i < descriptor.colorTextures; i++) {
         this.colorTextures.push(
           new TextureSource({
@@ -39305,6 +39616,11 @@ const _RenderTarget = class _RenderTarget {
   }
   destroy() {
     this.colorTexture.source.off("resize", this.onSourceResize, this);
+    if (this._managedColorTextures) {
+      this.colorTextures.forEach((texture) => {
+        texture.destroy();
+      });
+    }
     if (this.depthStencilTexture) {
       this.depthStencilTexture.destroy();
       delete this.depthStencilTexture;
@@ -39584,7 +39900,7 @@ class RenderTargetSystem {
   _initRenderTarget(renderSurface) {
     let renderTarget = null;
     if (CanvasSource.test(renderSurface)) {
-      renderSurface = getCanvasTexture(renderSurface);
+      renderSurface = getCanvasTexture(renderSurface).source;
     }
     if (renderSurface instanceof RenderTarget) {
       renderTarget = renderSurface;
@@ -39595,8 +39911,13 @@ class RenderTargetSystem {
       if (CanvasSource.test(renderSurface.source.resource)) {
         renderTarget.isRoot = true;
       }
-      renderSurface.on("destroy", () => {
+      renderSurface.once("destroy", () => {
         renderTarget.destroy();
+        const gpuRenderTarget = this._gpuRenderTargetHash[renderTarget.uid];
+        if (gpuRenderTarget) {
+          this._gpuRenderTargetHash[renderTarget.uid] = null;
+          this.adaptor.destroyGpuRenderTarget(gpuRenderTarget);
+        }
       });
     }
     this._renderSurfaceToRenderTargetHash.set(renderSurface, renderTarget);
@@ -39673,6 +39994,11 @@ class BufferResource extends EventEmitter {
      * @ignore
      */
     this._bufferResource = true;
+    /**
+     * Has the Buffer resource been destroyed?
+     * @readonly
+     */
+    this.destroyed = false;
     this.buffer = buffer;
     this.offset = offset | 0;
     this.size = size;
@@ -39688,9 +40014,11 @@ class BufferResource extends EventEmitter {
    * @param destroyBuffer - Should the underlying buffer be destroyed as well?
    */
   destroy(destroyBuffer = false) {
+    this.destroyed = true;
     if (destroyBuffer) {
       this.buffer.destroy();
     }
+    this.emit("change", this);
     this.buffer = null;
   }
 }
@@ -40855,7 +41183,7 @@ class GlTexture {
 
 "use strict";
 const glUploadBufferImageResource = {
-  id: "image",
+  id: "buffer",
   upload(source, glTexture, gl) {
     if (
       glTexture.width === source.width || glTexture.height === source.height
@@ -40865,6 +41193,8 @@ const glUploadBufferImageResource = {
         0,
         0,
         0,
+        source.width,
+        source.height,
         glTexture.format,
         glTexture.type,
         source.resource,
@@ -41133,28 +41463,38 @@ function applyStyleParams(
   glFunctionName,
   firstParam,
   forceClamp,
+  firstCreation,
 ) {
   const castParam = firstParam;
-  const wrapModeS =
-    wrapModeToGlAddress[forceClamp ? "clamp-to-edge" : style.addressModeU];
-  const wrapModeT =
-    wrapModeToGlAddress[forceClamp ? "clamp-to-edge" : style.addressModeV];
-  const wrapModeR =
-    wrapModeToGlAddress[forceClamp ? "clamp-to-edge" : style.addressModeW];
-  gl[glFunctionName](castParam, gl.TEXTURE_WRAP_S, wrapModeS);
-  gl[glFunctionName](castParam, gl.TEXTURE_WRAP_T, wrapModeT);
-  if (gl.TEXTURE_WRAP_R) {
-    gl[glFunctionName](castParam, gl.TEXTURE_WRAP_R, wrapModeR);
+  if (
+    !firstCreation || style.addressModeU !== "repeat" ||
+    style.addressModeV !== "repeat" || style.addressModeW !== "repeat"
+  ) {
+    const wrapModeS =
+      wrapModeToGlAddress[forceClamp ? "clamp-to-edge" : style.addressModeU];
+    const wrapModeT =
+      wrapModeToGlAddress[forceClamp ? "clamp-to-edge" : style.addressModeV];
+    const wrapModeR =
+      wrapModeToGlAddress[forceClamp ? "clamp-to-edge" : style.addressModeW];
+    gl[glFunctionName](castParam, gl.TEXTURE_WRAP_S, wrapModeS);
+    gl[glFunctionName](castParam, gl.TEXTURE_WRAP_T, wrapModeT);
+    if (gl.TEXTURE_WRAP_R) {
+      gl[glFunctionName](castParam, gl.TEXTURE_WRAP_R, wrapModeR);
+    }
   }
-  gl[glFunctionName](
-    castParam,
-    gl.TEXTURE_MAG_FILTER,
-    scaleModeToGlFilter[style.magFilter],
-  );
+  if (!firstCreation || style.magFilter !== "linear") {
+    gl[glFunctionName](
+      castParam,
+      gl.TEXTURE_MAG_FILTER,
+      scaleModeToGlFilter[style.magFilter],
+    );
+  }
   if (mipmaps) {
-    const glFilterMode =
-      mipmapScaleModeToGlFilter[style.minFilter][style.mipmapFilter];
-    gl[glFunctionName](castParam, gl.TEXTURE_MIN_FILTER, glFilterMode);
+    if (!firstCreation || style.mipmapFilter !== "linear") {
+      const glFilterMode =
+        mipmapScaleModeToGlFilter[style.minFilter][style.mipmapFilter];
+      gl[glFunctionName](castParam, gl.TEXTURE_MIN_FILTER, glFilterMode);
+    }
   } else {
     gl[glFunctionName](
       castParam,
@@ -41272,7 +41612,7 @@ var __spreadProps$6 = (a, b) => __defProps$6(a, __getOwnPropDescs$6(b));
 function mapFormatToGlInternalFormat(gl, extensions) {
   let srgb = {};
   let bgra8unorm = gl.RGBA;
-  if (gl instanceof WebGL2RenderingContext) {
+  if (!(gl instanceof DOMAdapter.get().getWebGLRenderingContext())) {
     srgb = {
       "rgba8unorm-srgb": gl.SRGB8_ALPHA8,
       "bgra8unorm-srgb": gl.SRGB8_ALPHA8,
@@ -41647,10 +41987,13 @@ class GlTextureSystem {
       this.managedTextures.push(source);
     }
     this.onSourceUpdate(source);
-    this.onStyleChange(source);
+    this.updateStyle(source, false);
     return glTexture;
   }
   onStyleChange(source) {
+    this.updateStyle(source, false);
+  }
+  updateStyle(source, firstCreation) {
     const gl = this._gl;
     const glTexture = this.getGlSource(source);
     gl.bindTexture(gl.TEXTURE_2D, glTexture.texture);
@@ -41665,6 +42008,7 @@ class GlTextureSystem {
       // will force a clamp to edge if the texture is not a power of two
       !this._renderer.context.supports.nonPowOf2wrapping &&
         !source.isPowerOfTwo,
+      firstCreation,
     );
   }
   onSourceUnload(source) {
@@ -41734,6 +42078,7 @@ class GlTextureSystem {
       "samplerParameteri",
       glSampler,
       false,
+      true,
     );
     return this._glSamplers[style._resourceId];
   }
@@ -41809,11 +42154,12 @@ class GlGraphicsAdaptor {
       uTransformMatrix: { value: new Matrix(), type: "mat3x3<f32>" },
       uRound: { value: 0, type: "f32" },
     });
+    const maxTextures = maxRecommendedTextures();
     const glProgram = compileHighShaderGlProgram({
       name: "graphics",
       bits: [
         colorBitGl,
-        generateTextureBatchBitGl(MAX_TEXTURES),
+        generateTextureBatchBitGl(maxTextures),
         localUniformBitGl,
         roundPixelsBitGl,
       ],
@@ -41822,7 +42168,7 @@ class GlGraphicsAdaptor {
       glProgram,
       resources: {
         localUniforms: uniforms,
-        batchSamplers: batchSamplersUniformGroup,
+        batchSamplers: getBatchSamplersUniformGroup(maxTextures),
       },
     });
   }
@@ -41836,6 +42182,7 @@ class GlGraphicsAdaptor {
       instructions,
     } = contextSystem.getContextRenderData(context);
     shader.groups[0] = renderer.globalUniforms.bindGroup;
+    renderer.state.set(graphicsPipe.state);
     renderer.shader.bind(shader);
     renderer.geometry.bind(geometry, shader.glProgram);
     const batches = instructions.instructions;
@@ -41877,6 +42224,9 @@ class GlMeshAdaptor {
       glProgram,
       resources: {
         uTexture: Texture.EMPTY.source,
+        textureUniforms: {
+          uTextureMatrix: { type: "mat3x3<f32>", value: new Matrix() },
+        },
       },
     });
   }
@@ -41885,9 +42235,12 @@ class GlMeshAdaptor {
     let shader = mesh._shader;
     if (!shader) {
       shader = this._shader;
-      const source = mesh.texture.source;
+      const texture = mesh.texture;
+      const source = texture.source;
       shader.resources.uTexture = source;
       shader.resources.uSampler = source.style;
+      shader.resources.textureUniforms.uniforms.uTextureMatrix =
+        texture.textureMatrix.mapCoord;
     } else if (!shader.glProgram) {
       warn("Mesh shader has no glProgram", mesh.shader);
       return;
@@ -41993,6 +42346,43 @@ function collectRenderGroups(renderGroup, out = []) {
 }
 
 "use strict";
+function mixHexColors(color1, color2, ratio) {
+  const r1 = color1 >> 16 & 255;
+  const g1 = color1 >> 8 & 255;
+  const b1 = color1 & 255;
+  const r2 = color2 >> 16 & 255;
+  const g2 = color2 >> 8 & 255;
+  const b2 = color2 & 255;
+  const r = r1 + (r2 - r1) * ratio;
+  const g = g1 + (g2 - g1) * ratio;
+  const b = b1 + (b2 - b1) * ratio;
+  return (r << 16) + (g << 8) + b;
+}
+
+"use strict";
+const WHITE_BGR = 16777215;
+function mixColors(localBGRColor, parentBGRColor) {
+  if (localBGRColor === WHITE_BGR || parentBGRColor === WHITE_BGR) {
+    return localBGRColor + parentBGRColor - WHITE_BGR;
+  }
+  return mixHexColors(localBGRColor, parentBGRColor, 0.5);
+}
+function mixStandardAnd32BitColors(localColorRGB, localAlpha, parentColor) {
+  const parentAlpha = (parentColor >> 24 & 255) / 255;
+  const globalAlpha = localAlpha * parentAlpha * 255;
+  const localBGRColor = ((localColorRGB & 255) << 16) +
+    (localColorRGB & 65280) + (localColorRGB >> 16 & 255);
+  const parentBGRColor = parentColor & 16777215;
+  let sharedBGRColor;
+  if (localBGRColor === WHITE_BGR || parentBGRColor === WHITE_BGR) {
+    sharedBGRColor = localBGRColor + parentBGRColor - WHITE_BGR;
+  } else {
+    sharedBGRColor = mixHexColors(localBGRColor, parentBGRColor, 0.5);
+  }
+  return sharedBGRColor + (globalAlpha << 24);
+}
+
+"use strict";
 const tempContainer = new Container();
 function updateRenderGroupTransforms(
   renderGroup,
@@ -42000,14 +42390,16 @@ function updateRenderGroupTransforms(
 ) {
   updateRenderGroupTransform(renderGroup);
   const childrenToUpdate = renderGroup.childrenToUpdate;
-  const updateTick = renderGroup.updateTick;
-  renderGroup.updateTick++;
+  const updateTick = renderGroup.updateTick++;
   for (const j in childrenToUpdate) {
     const childrenAtDepth = childrenToUpdate[j];
     const list = childrenAtDepth.list;
     const index = childrenAtDepth.index;
     for (let i = 0; i < index; i++) {
-      updateTransformAndChildren(list[i], updateTick, 0);
+      const child = list[i];
+      if (child.parentRenderGroup === renderGroup) {
+        updateTransformAndChildren(child, updateTick, 0);
+      }
     }
     childrenAtDepth.index = 0;
   }
@@ -42053,7 +42445,7 @@ function updateTransformAndChildren(container, updateTick, updateFlags) {
   const localTransform = container.localTransform;
   container.updateLocalTransform();
   const parent = container.parent;
-  if (parent && !parent.isRenderGroupRoot) {
+  if (parent && !parent.renderGroup) {
     updateFlags = updateFlags | container._updateFlags;
     container.relativeGroupTransform.appendFrom(
       localTransform,
@@ -42069,13 +42461,13 @@ function updateTransformAndChildren(container, updateTick, updateFlags) {
       updateColorBlendVisibility(container, tempContainer, updateFlags);
     }
   }
-  if (!container.isRenderGroupRoot) {
+  if (!container.renderGroup) {
     const children = container.children;
     const length = children.length;
     for (let i = 0; i < length; i++) {
       updateTransformAndChildren(children[i], updateTick, updateFlags);
     }
-    const renderGroup = container.renderGroup;
+    const renderGroup = container.parentRenderGroup;
     if (container.renderPipeId && !renderGroup.structureDidChange) {
       renderGroup.updateRenderable(container);
     }
@@ -42165,6 +42557,7 @@ class RenderGroupSystem {
       worldTransformMatrix: transform
         ? container.renderGroup.localTransform
         : container.renderGroup.worldTransform,
+      worldColor: container.renderGroup.worldColorAlpha,
     });
     executeInstructions(container.renderGroup, renderPipes);
     if (renderPipes.uniformBatch) {
@@ -42359,10 +42752,7 @@ _BackgroundSystem.extension = {
   name: "background",
   priority: 0,
 };
-/**
- * default options used by the system
- * @ignore
- */
+/** default options used by the system */
 _BackgroundSystem.defaultOptions = {
   /**
    * {@link WebGLOptions.backgroundAlpha}
@@ -42430,16 +42820,16 @@ class BlendModePipe {
       );
       return;
     }
-    if (!this._filterHash[blendMode]) {
-      this._filterHash[blendMode] = new FilterEffect({
-        filters: [new BLEND_MODE_FILTERS[blendMode]()],
-      });
+    let filterEffect = this._filterHash[blendMode];
+    if (!filterEffect) {
+      filterEffect = this._filterHash[blendMode] = new FilterEffect();
+      filterEffect.filters = [new BLEND_MODE_FILTERS[blendMode]()];
     }
     const instruction = {
       renderPipeId: "filter",
       action: "pushFilter",
       renderables: [],
-      filterEffect: this._filterHash[blendMode],
+      filterEffect,
       canBundle: false,
     };
     this._renderableList = instruction.renderables;
@@ -42526,6 +42916,11 @@ var __spreadValues$c = (a, b) => {
   }
   return a;
 };
+const imageTypes = {
+  png: "image/png",
+  jpg: "image/jpeg",
+  webp: "image/webp",
+};
 const _ExtractSystem = class _ExtractSystem {
   /** @param renderer - The renderer this System works for. */
   constructor(renderer) {
@@ -42574,16 +42969,19 @@ const _ExtractSystem = class _ExtractSystem {
             reader.onerror = reject;
             reader.readAsDataURL(blob);
           },
-          format,
+          imageTypes[format],
           quality,
         );
       });
     }
     if (canvas.toDataURL !== void 0) {
-      return canvas.toDataURL(format, quality);
+      return canvas.toDataURL(imageTypes[format], quality);
     }
     if (canvas.convertToBlob !== void 0) {
-      const blob = await canvas.convertToBlob({ type: format, quality });
+      const blob = await canvas.convertToBlob({
+        type: imageTypes[format],
+        quality,
+      });
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = () => resolve(reader.result);
@@ -42953,7 +43351,7 @@ GlobalUniformSystem.extension = {
 
 "use strict";
 let saidHello = false;
-const VERSION = "8.0.0";
+const VERSION = "8.1.5";
 function sayHello(type) {
   if (saidHello) {
     return;
@@ -43011,7 +43409,7 @@ HelloSystem.extension = {
   name: "hello",
   priority: -2,
 };
-/** @ignore */
+/** The default options for the system. */
 HelloSystem.defaultOptions = {
   /** {@link WebGLOptions.hello} */
   hello: false,
@@ -43494,20 +43892,21 @@ class GpuBufferSystem {
    * @param buffer - buffer with data
    */
   onBufferDestroy(buffer) {
+    this._managedBuffers.splice(this._managedBuffers.indexOf(buffer), 1);
+    this._destroyBuffer(buffer);
+  }
+  destroy() {
+    this._managedBuffers.forEach((buffer) => this._destroyBuffer(buffer));
+    this._managedBuffers = null;
+    this._gpuBuffers = null;
+  }
+  _destroyBuffer(buffer) {
     const gpuBuffer = this._gpuBuffers[buffer.uid];
     gpuBuffer.destroy();
-    this._managedBuffers.splice(this._managedBuffers.indexOf(buffer), 1);
     buffer.off("update", this.updateBuffer, this);
     buffer.off("change", this.onBufferChange, this);
     buffer.off("destroy", this.onBufferDestroy, this);
     this._gpuBuffers[buffer.uid] = null;
-  }
-  destroy() {
-    this._managedBuffers.slice().forEach((buffer) =>
-      this.onBufferDestroy(buffer)
-    );
-    this._managedBuffers = null;
-    this._gpuBuffers = null;
   }
 }
 /** @ignore */
@@ -44695,6 +45094,16 @@ class GpuRenderTargetAdaptor {
     }
     return gpuRenderTarget;
   }
+  destroyGpuRenderTarget(gpuRenderTarget) {
+    gpuRenderTarget.contexts.forEach((context) => {
+      context.unconfigure();
+    });
+    gpuRenderTarget.msaaTextures.forEach((texture) => {
+      texture.destroy();
+    });
+    gpuRenderTarget.msaaTextures.length = 0;
+    gpuRenderTarget.contexts.length = 0;
+  }
   ensureDepthStencilTexture(renderTarget) {
     const gpuRenderTarget = this._renderTargetSystem.getGpuRenderTarget(
       renderTarget,
@@ -45430,7 +45839,7 @@ class GpuGraphicsAdaptor {
       name: "graphics",
       bits: [
         colorBit,
-        generateTextureBatchBit(MAX_TEXTURES),
+        generateTextureBatchBit(maxRecommendedTextures()),
         localUniformBitGroup2,
         roundPixelsBit,
       ],
@@ -45513,6 +45922,9 @@ class GpuMeshAdapter {
       resources: {
         uTexture: Texture.EMPTY._source,
         uSampler: Texture.EMPTY._source.style,
+        textureUniforms: {
+          uTextureMatrix: { type: "mat3x3<f32>", value: new Matrix() },
+        },
       },
     });
   }
@@ -45521,7 +45933,10 @@ class GpuMeshAdapter {
     let shader = mesh._shader;
     if (!shader) {
       shader = this._shader;
-      shader.groups[2] = renderer.texture.getTextureBindGroup(mesh.texture);
+      shader.resources.uTexture = mesh.texture.source;
+      shader.resources.uSampler = mesh.texture.source.style;
+      shader.resources.textureUniforms.uniforms.uTextureMatrix =
+        mesh.texture.textureMatrix.mapCoord;
     } else if (!shader.gpuProgram) {
       warn("Mesh shader has no gpuProgram", mesh.shader);
       return;
@@ -45648,8 +46063,6 @@ function viewportFromFrame(viewport, source, frame) {
   viewport.height = frame.height * pixelHeight | 0;
   return viewport;
 }
-
-"use strict";
 
 "use strict";
 
@@ -45868,26 +46281,6 @@ class RenderContainer extends Container {
    */
   render(_renderer) {
   }
-}
-
-"use strict";
-function multiplyHexColors(color1, color2) {
-  if (color1 === 16777215 || !color2) {
-    return color2;
-  }
-  if (color2 === 16777215 || !color1) {
-    return color1;
-  }
-  const r1 = color1 >> 16 & 255;
-  const g1 = color1 >> 8 & 255;
-  const b1 = color1 & 255;
-  const r2 = color2 >> 16 & 255;
-  const g2 = color2 >> 8 & 255;
-  const b2 = color2 & 255;
-  const r = r1 * r2 / 255;
-  const g = g1 * g2 / 255;
-  const b = b1 * b2 / 255;
-  return (r << 16) + (g << 8) + b;
 }
 
 "use strict";
@@ -46342,7 +46735,7 @@ const _MeshRope = class _MeshRope extends Mesh {
    * Note: The wrap mode of the texture is set to REPEAT if `textureScale` is positive.
    * @param options
    * @param options.texture - The texture to use on the rope.
-   * @param options.points - An array of {@link PIXI.Point} objects to construct this rope.
+   * @param options.points - An array of {@link math.Point} objects to construct this rope.
    * @param {number} options.textureScale - Optional. Positive values scale rope texture
    * keeping its aspect ratio. You can reduce alpha channel artifacts by providing a larger texture
    * and downsampling here. If set to zero, texture will be stretched instead.
@@ -46524,7 +46917,7 @@ var __objRest = (source, exclude) => {
   }
   return target;
 };
-class NineSliceSprite extends Container {
+const _NineSliceSprite = class _NineSliceSprite extends Container {
   /**
    * @param {scene.NineSliceSpriteOptions|Texture} options - Options to use
    * @param options.texture - The texture to use on the NineSliceSprite.
@@ -46538,6 +46931,7 @@ class NineSliceSprite extends Container {
    * setting this will actually modify the vertices and not UV's of this plane.
    */
   constructor(options) {
+    var _b, _c, _d, _e, _f, _g, _h, _i, _j, _k;
     if (options instanceof Texture) {
       options = { texture: options };
     }
@@ -46570,14 +46964,52 @@ class NineSliceSprite extends Container {
     this.batched = true;
     this._didSpriteUpdate = true;
     this.bounds = { minX: 0, minY: 0, maxX: 0, maxY: 0 };
-    this._leftWidth = leftWidth;
-    this._topHeight = topHeight;
-    this._rightWidth = rightWidth;
-    this._bottomHeight = bottomHeight;
-    this.bounds.maxX = this._width = width != null ? width : texture.width;
-    this.bounds.maxY = this._height = height != null ? height : texture.height;
+    this._leftWidth =
+      (_c = leftWidth != null
+          ? leftWidth
+          : (_b = texture == null ? void 0 : texture.defaultBorders) == null
+          ? void 0
+          : _b.left) != null
+        ? _c
+        : NineSliceGeometry.defaultOptions.leftWidth;
+    this._topHeight =
+      (_e = topHeight != null
+          ? topHeight
+          : (_d = texture == null ? void 0 : texture.defaultBorders) == null
+          ? void 0
+          : _d.top) != null
+        ? _e
+        : NineSliceGeometry.defaultOptions.topHeight;
+    this._rightWidth =
+      (_g = rightWidth != null
+          ? rightWidth
+          : (_f = texture == null ? void 0 : texture.defaultBorders) == null
+          ? void 0
+          : _f.right) != null
+        ? _g
+        : NineSliceGeometry.defaultOptions.rightWidth;
+    this._bottomHeight =
+      (_i = bottomHeight != null
+          ? bottomHeight
+          : (_h = texture == null ? void 0 : texture.defaultBorders) == null
+          ? void 0
+          : _h.bottom) != null
+        ? _i
+        : NineSliceGeometry.defaultOptions.bottomHeight;
+    this.bounds.maxX =
+      this._width =
+        (_j = width != null ? width : texture.width) != null
+          ? _j
+          : NineSliceGeometry.defaultOptions.width;
+    this.bounds.maxY =
+      this._height =
+        (_k = height != null ? height : texture.height) != null
+          ? _k
+          : NineSliceGeometry.defaultOptions.height;
     this.allowChildren = false;
-    this._texture = texture;
+    this.texture = texture != null
+      ? texture
+      : _NineSliceSprite.defaultOptions.texture;
     this.roundPixels = roundPixels != null ? roundPixels : false;
   }
   /** The width of the NineSliceSprite, setting this will actually modify the vertices and UV's of this plane. */
@@ -46633,8 +47065,16 @@ class NineSliceSprite extends Container {
     return this._texture;
   }
   set texture(value) {
-    if (value === this._texture) {
+    value || (value = Texture.EMPTY);
+    const currentTexture = this._texture;
+    if (currentTexture === value) {
       return;
+    }
+    if (currentTexture && currentTexture.dynamic) {
+      currentTexture.off("update", this.onViewUpdate, this);
+    }
+    if (value.dynamic) {
+      value.on("update", this.onViewUpdate, this);
     }
     this._texture = value;
     this.onViewUpdate();
@@ -46648,10 +47088,6 @@ class NineSliceSprite extends Container {
   }
   set roundPixels(value) {
     this._roundPixels = value ? 1 : 0;
-  }
-  /** The texture matrix of the NineSliceSprite. */
-  get textureMatrix() {
-    return this._texture.textureMatrix.mapCoord;
   }
   /** The original width of the texture */
   get originalWidth() {
@@ -46668,8 +47104,9 @@ class NineSliceSprite extends Container {
       return;
     }
     this.didViewUpdate = true;
-    if (this.renderGroup) {
-      this.renderGroup.onChildViewUpdate(this);
+    const renderGroup = this.renderGroup || this.parentRenderGroup;
+    if (renderGroup) {
+      renderGroup.onChildViewUpdate(this);
     }
   }
   /**
@@ -46718,20 +47155,13 @@ class NineSliceSprite extends Container {
     this._texture = null;
     this.bounds = null;
   }
-}
+};
 /** The default options, used to override the initial values of any options passed in the constructor. */
-NineSliceSprite.defaultOptions = {
+_NineSliceSprite.defaultOptions = {
   /** @default Texture.EMPTY */
   texture: Texture.EMPTY,
-  /** @default 10 */
-  leftWidth: 10,
-  /** @default 10 */
-  topHeight: 10,
-  /** @default 10 */
-  rightWidth: 10,
-  /** @default 10 */
-  bottomHeight: 10,
 };
+let NineSliceSprite = _NineSliceSprite;
 class NineSlicePlane extends NineSliceSprite {
   constructor(...args) {
     let options = args[0];
@@ -46849,7 +47279,7 @@ const colors = [
 ];
 let colorTick = 0;
 function logScene(container, depth = 0, data = { color: "#000000" }) {
-  if (container.isRenderGroupRoot) {
+  if (container.renderGroup) {
     data.color = colors[colorTick++];
   }
   let spaces = "";
@@ -46862,7 +47292,7 @@ function logScene(container, depth = 0, data = { color: "#000000" }) {
   }
   let output =
     `%c ${spaces}|- ${label} (worldX:${container.worldTransform.tx}, relativeRenderX:${container.relativeGroupTransform.tx}, renderX:${container.groupTransform.tx}, localX:${container.x})`;
-  if (container.isRenderGroupRoot) {
+  if (container.renderGroup) {
     output += " (RenderGroup)";
   }
   if (container.filters) {
@@ -46897,8 +47327,6 @@ function logRenderGroupScene(
     );
   }
 }
-
-"use strict";
 
 "use strict";
 
@@ -46941,7 +47369,6 @@ export {
   Batcher,
   BatcherPipe,
   BatchGeometry,
-  batchSamplersUniformGroup,
   BatchTextureArray,
   BigPool,
   BindGroup,
@@ -47134,13 +47561,13 @@ export {
   Geometry,
   getAdjustedBlendModeBlend,
   getAttributeInfoFromFormat,
+  getBatchSamplersUniformGroup,
   getBitmapTextLayout,
   getCanvasBoundingBox,
   getCanvasFillStyle,
   getCanvasTexture,
   getDefaultUniformValue,
   getFastGlobalBounds,
-  getFilterEffect,
   getFontCss,
   getFontFamilyName,
   getGeometryBounds,
@@ -47303,7 +47730,7 @@ export {
   MaskFilter,
   Matrix,
   matrixPool,
-  MAX_TEXTURES,
+  maxRecommendedTextures,
   measureHtmlText,
   measureMixin,
   Mesh,
@@ -47330,6 +47757,8 @@ export {
   nonCompressedFormats,
   NOOP,
   normalizeExtensionPriority,
+  nssvg,
+  nsxhtml,
   ObservablePoint,
   onRenderMixin,
   parseDDS,
@@ -47340,6 +47769,7 @@ export {
   PipelineSystem,
   PlaneGeometry,
   Point,
+  pointInTriangle,
   Polygon,
   Pool,
   PoolGroupClass,
@@ -47369,7 +47799,6 @@ export {
   Resolver,
   resolveTextureUrl,
   resourceToTexture,
-  returnFilterEffect,
   RopeGeometry,
   RoundedRectangle,
   roundedShapeArc,
@@ -47420,6 +47849,7 @@ export {
   TEXTURE_FORMAT_BLOCK_SIZE,
   textureBit,
   textureBitGl,
+  textureFrom,
   TextureGCSystem,
   TextureMatrix,
   TexturePool,
@@ -47447,6 +47877,8 @@ export {
   uid,
   UNIFORM_TO_ARRAY_SETTERS,
   UNIFORM_TO_SINGLE_SETTERS,
+  UNIFORM_TYPES_MAP,
+  UNIFORM_TYPES_VALUES,
   UniformGroup,
   uniformParsers,
   unpremultiplyAlpha$1 as unpremultiplyAlpha,

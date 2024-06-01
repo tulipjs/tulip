@@ -1,0 +1,10 @@
+{
+  "tasks": {
+    "install:deps": "deno run -A ./vite.deps.ts",
+    "vite": "deno run -A npm:vite@5.2.12",
+    "start": "yarn && deno task install:deps && deno task vite --host",
+    "build": "yarn && deno task install:deps && deno task vite build"
+  },
+  "lock": false,
+  "nodeModulesDir": true
+}

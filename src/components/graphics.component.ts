@@ -1,11 +1,7 @@
-import * as PIXI from "libs/pixi.mjs";
-import { Component, Graphics } from "types";
-import {
-  ContainerMutable,
-  ContainerProps,
-  getContainerMutable,
-  setContainerProps,
-} from "./container.component";
+import * as PIXI from "../libs/pixi.mjs";
+import { Component, DisplayObjectMutable, Graphics } from "../types";
+import { ContainerProps } from "./container.component";
+import { getDisplayObjectMutable, setDisplayObjectProps } from "../utils";
 
 type Props = {
   color: number;
@@ -18,10 +14,9 @@ type Mutable = {
 
   setPolygon: (polygon: number[]) => void;
   getPolygon: () => number[];
-} & ContainerMutable;
+} & DisplayObjectMutable<Graphics>;
 
 export const graphicsComponent: Component<
-  Graphics,
   Props,
   Mutable
 > = ({
@@ -33,7 +28,7 @@ export const graphicsComponent: Component<
   let _polygon = defaultPolygon;
 
   const graphics = new PIXI.Graphics();
-  setContainerProps(graphics, props);
+  setDisplayObjectProps(graphics, props);
 
   const render = () => {
     graphics.clear();
@@ -41,9 +36,9 @@ export const graphicsComponent: Component<
   };
   render();
 
-  const mutable = {
+  return {
     // container
-    ...getContainerMutable(graphics),
+    ...getDisplayObjectMutable(graphics),
 
     // graphics
     setColor: (color: number) => {
@@ -58,6 +53,4 @@ export const graphicsComponent: Component<
     },
     getPolygon: () => _polygon,
   };
-
-  return [graphics, mutable];
 };

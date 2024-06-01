@@ -1,1 +1,1 @@
-export * from "./component.consts";
+export * from "./display-object.consts";

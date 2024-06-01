@@ -1,20 +1,21 @@
-import * as PIXI from "libs/pixi.mjs";
-import { AsyncComponent, Component, Sprite, Texture } from "types";
+import * as PIXI from "../libs/pixi.mjs";
 import {
-  ContainerMutable,
-  ContainerProps,
-  getContainerMutable,
-  setContainerProps,
-} from "./container.component";
+  AsyncComponent,
+  DisplayObjectMutable,
+  DisplayObjectProps,
+  Sprite,
+} from "../types";
+import { getDisplayObjectMutable, setDisplayObjectProps } from "../utils";
 
 type Props = {
   texture: string;
-} & ContainerProps;
+} & DisplayObjectProps;
 
-type Mutable = {} & ContainerMutable;
+type Mutable = {
+  setTexture: (texture?: string) => Promise<void>;
+} & DisplayObjectMutable<Sprite>;
 
 export const spriteComponent: AsyncComponent<
-  Sprite,
   Props,
   Mutable
 > = async ({
@@ -24,19 +25,26 @@ export const spriteComponent: AsyncComponent<
   const spriteTexture = texture
     ? await PIXI.Assets.load(texture)
     : PIXI.Texture.EMPTY;
-  const sprite = new PIXI.Sprite(spriteTexture);
-  setContainerProps(sprite, props);
 
-  const mutable = {
-    // container
-    ...getContainerMutable(sprite),
+  const _getTexture = async (texture?: string) => {
+    const targetTexture = texture
+      ? await PIXI.Assets.load(texture)
+      : PIXI.Texture.EMPTY;
+    targetTexture.source.scaleMode = "nearest";
 
-    // graphics
-    setColor: (color: number) => {
-    },
-    getColor: () => {
-    },
+    return targetTexture;
   };
 
-  return [sprite, mutable];
+  const sprite = new PIXI.Sprite(spriteTexture);
+  setDisplayObjectProps(sprite, props);
+
+  return {
+    // container
+    ...getDisplayObjectMutable(sprite),
+
+    // sprite
+    setTexture: async (texture?: string) => {
+      sprite.texture = await _getTexture(texture);
+    },
+  };
 };
