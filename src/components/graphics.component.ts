@@ -16,10 +16,7 @@ type Mutable = {
   getPolygon: () => number[];
 } & DisplayObjectMutable<Graphics>;
 
-export const graphicsComponent: Component<
-  Props,
-  Mutable
-> = ({
+export const graphicsComponent: Component<Props, Mutable> = ({
   color: defaultColor,
   polygon: defaultPolygon,
   ...props
@@ -27,8 +24,8 @@ export const graphicsComponent: Component<
   let _color = defaultColor;
   let _polygon = defaultPolygon;
 
-  const graphics = new PIXI.Graphics();
-  setDisplayObjectProps(graphics, props);
+  const graphics = new PIXI.Graphics() as Graphics;
+  setDisplayObjectProps<Graphics>(graphics, props);
 
   const render = () => {
     graphics.clear();
@@ -38,7 +35,7 @@ export const graphicsComponent: Component<
 
   return {
     // container
-    ...getDisplayObjectMutable(graphics),
+    ...getDisplayObjectMutable<Graphics>(graphics),
 
     // graphics
     setColor: (color: number) => {
@@ -54,3 +51,4 @@ export const graphicsComponent: Component<
     getPolygon: () => _polygon,
   };
 };
+graphicsComponent();

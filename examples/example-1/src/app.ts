@@ -10,26 +10,26 @@ import {
 type Mutable = {} & DisplayObjectMutable<Container>;
 
 export const app: AsyncComponent<unknown, Mutable> = async () => {
-  const containerMutable = containerComponent();
+  const container = containerComponent();
 
-  const spriteMutable = await spriteComponent({
+  const sprite = await spriteComponent({
     texture: "player.png",
     // texture: "https://pixijs.com/assets/bunny.png",
     eventMode: EventMode.STATIC,
   });
 
-  spriteMutable.on("click", () => {
-    console.log("click", spriteMutable.getVisible());
+  sprite.on("click", () => {
+    console.log("click", sprite.getVisible());
     // spriteMutable.setVisible(false);
-    spriteMutable.setTexture("https://pixijs.com/assets/bunny.png");
-    spriteMutable.setAlpha(.25);
+    sprite.setTexture("https://pixijs.com/assets/bunny.png");
+    sprite.setAlpha(0.25);
   });
 
-  // setTimeout(() => {
-  //   spriteMutable.setTexture("https://pixijs.com/assets/bunny.png");
-  // }, 2_000);
+  setInterval(() => {
+    sprite.setPositionY((y) => y + 2);
+  }, 50);
 
-  containerMutable.addChild(spriteMutable);
+  container.add(sprite);
 
-  return containerMutable;
+  return container;
 };

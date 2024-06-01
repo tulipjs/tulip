@@ -11,20 +11,22 @@ import { getDisplayObjectMutable, setDisplayObjectProps } from "../utils";
 export type ContainerProps = {} & DisplayObjectProps;
 
 export type ContainerMutable = {
-  addChild: (displayObjectMutable: DisplayObjectMutable<DisplayObject>) => void;
+  add: (displayObjectMutable: DisplayObjectMutable<DisplayObject>) => void;
+  remove: (displayObjectMutable: DisplayObjectMutable<DisplayObject>) => void;
 } & DisplayObjectMutable<Container>;
 
-export const containerComponent: Component<
-  ContainerProps,
-  ContainerMutable
-> = (props) => {
-  const container = new PIXI.Container();
-  setDisplayObjectProps(container, props);
+export const containerComponent: Component<ContainerProps, ContainerMutable> = (
+  props,
+) => {
+  const container = new PIXI.Container() as Container;
+  setDisplayObjectProps<Container>(container, props);
 
   return {
-    ...getDisplayObjectMutable(container),
+    ...getDisplayObjectMutable<Container>(container),
     //
-    addChild: (displayObjectMutable) =>
+    add: (displayObjectMutable) =>
       container.addChild(displayObjectMutable.getDisplayObject()),
+    remove: (displayObjectMutable) =>
+      container.removeChild(displayObjectMutable.getDisplayObject()),
   };
 };

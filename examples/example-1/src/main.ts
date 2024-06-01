@@ -2,9 +2,9 @@ import { application } from "@darkaqua/tulip";
 import { app } from "./app";
 
 application({
-  backgroundColor: 0xFF00FF,
+  backgroundColor: 0xff00ff,
   antialias: true,
   sharedTicker: true,
-}).then(async ({ addChild }) => {
-  addChild(await app());
+}).then(async ({ add }) => {
+  add(await app());
 });

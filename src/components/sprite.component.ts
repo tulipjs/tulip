@@ -15,10 +15,7 @@ type Mutable = {
   setTexture: (texture?: string) => Promise<void>;
 } & DisplayObjectMutable<Sprite>;
 
-export const spriteComponent: AsyncComponent<
-  Props,
-  Mutable
-> = async ({
+export const spriteComponent: AsyncComponent<Props, Mutable> = async ({
   texture = undefined,
   ...props
 }) => {
@@ -35,16 +32,16 @@ export const spriteComponent: AsyncComponent<
     return targetTexture;
   };
 
-  const sprite = new PIXI.Sprite(spriteTexture);
-  setDisplayObjectProps(sprite, props);
+  const sprite = new PIXI.Sprite(spriteTexture) as Sprite;
+  setDisplayObjectProps<Sprite>(sprite, props);
 
   return {
     // container
-    ...getDisplayObjectMutable(sprite),
+    ...getDisplayObjectMutable<Sprite>(sprite),
 
     // sprite
     setTexture: async (texture?: string) => {
       sprite.texture = await _getTexture(texture);
     },
-  };
+  } as Mutable;
 };

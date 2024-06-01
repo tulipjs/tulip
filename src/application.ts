@@ -1,9 +1,11 @@
 import * as PIXI from "pixi.js";
 import { ApplicationProps, DisplayObject, DisplayObjectMutable } from "./types";
 
-export const application = async (
-  { backgroundColor, sharedTicker, antialias }: ApplicationProps,
-) => {
+export const application = async ({
+  backgroundColor,
+  sharedTicker,
+  antialias,
+}: ApplicationProps) => {
   const application = new PIXI.Application();
 
   await application.init({
@@ -32,7 +34,7 @@ export const application = async (
   document.body.appendChild(application.canvas);
 
   return {
-    addChild: (displayObjectMutable: DisplayObjectMutable<DisplayObject>) => {
+    add: (displayObjectMutable: DisplayObjectMutable<DisplayObject>) => {
       application.stage.addChild(displayObjectMutable.getDisplayObject());
     },
   };

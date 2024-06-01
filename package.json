@@ -1,8 +1,11 @@
 {
   "name": "@darkaqua/tulip",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "./src/mod.ts",
   "dependencies": {
     "pixi.js": "v8.1.5"
+  },
+  "devDependencies": {
+    "prettier": "3.3.0"
   }
 }
