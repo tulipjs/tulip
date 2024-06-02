@@ -51,4 +51,3 @@ export const graphicsComponent: Component<Props, Mutable> = ({
     getPolygon: () => _polygon,
   };
 };
-graphicsComponent();
