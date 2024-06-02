@@ -2,26 +2,20 @@ import { MutableFunction } from "./mutables.types";
 import { Point } from "./point.types";
 import { ContainerEvent } from "./events.types";
 import { EventMode } from "../enums";
+import { ComponentMutable, ComponentProps } from "./component.types";
 
 export type DisplayObjectProps = {
-  id?: string;
-  label?: string;
-  position?: Point;
   pivot?: Point;
   eventMode?: EventMode;
   visible?: boolean;
   zIndex?: number;
   alpha?: number;
-};
+} & ComponentProps;
 
 export type DisplayObjectMutable<DisplayObject> = {
+  //############### RENDER ###############
   getDisplayObject: () => DisplayObject;
 
-  //position
-  setPosition: (position: MutableFunction<Point>) => void;
-  setPositionX: (x: MutableFunction<number>) => void;
-  setPositionY: (y: MutableFunction<number>) => void;
-  getPosition: () => Point;
   //pivot
   setPivot: (pivot: MutableFunction<Point>) => void;
   setPivotX: (x: MutableFunction<number>) => void;
@@ -38,4 +32,4 @@ export type DisplayObjectMutable<DisplayObject> = {
   //alpha
   setAlpha: (alpha: number) => void;
   getAlpha: () => number;
-};
+} & ComponentMutable;

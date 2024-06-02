@@ -6,6 +6,8 @@
     "pixi.js": "v8.1.5"
   },
   "devDependencies": {
-    "prettier": "3.3.0"
+    "prettier": "3.3.0",
+    "p2": "0.7.1",
+    "@types/p2": "0.7.44"
   }
 }

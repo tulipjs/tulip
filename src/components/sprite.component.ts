@@ -1,11 +1,12 @@
 import * as PIXI from "pixi.js";
 import {
-  AsyncComponent,
+  AsyncFunction,
   DisplayObjectMutable,
   DisplayObjectProps,
   Sprite,
 } from "../types";
 import { getDisplayObjectMutable, setDisplayObjectProps } from "../utils";
+import { empty } from "./empty.component";
 
 type Props = {
   texture: string;
@@ -15,10 +16,13 @@ type Mutable = {
   setTexture: (texture?: string) => Promise<void>;
 } & DisplayObjectMutable<Sprite>;
 
-export const spriteComponent: AsyncComponent<Props, Mutable> = async ({
+export const sprite: AsyncFunction<Props, Mutable> = async ({
   texture = undefined,
+  label,
   ...props
 }) => {
+  const emptyMutable = empty({ label });
+
   const spriteTexture = texture
     ? await PIXI.Assets.load(texture)
     : PIXI.Texture.EMPTY;
@@ -37,7 +41,7 @@ export const spriteComponent: AsyncComponent<Props, Mutable> = async ({
 
   return {
     // container
-    ...getDisplayObjectMutable<Sprite>(sprite),
+    ...getDisplayObjectMutable<Sprite>(sprite, emptyMutable),
 
     // sprite
     setTexture: async (texture?: string) => {

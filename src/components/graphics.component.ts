@@ -1,7 +1,8 @@
 import * as PIXI from "pixi.js";
-import { Component, DisplayObjectMutable, Graphics } from "../types";
+import { Function, DisplayObjectMutable, Graphics } from "../types";
 import { ContainerProps } from "./container.component";
 import { getDisplayObjectMutable, setDisplayObjectProps } from "../utils";
+import { empty } from "./empty.component";
 
 type Props = {
   color: number;
@@ -16,11 +17,14 @@ type Mutable = {
   getPolygon: () => number[];
 } & DisplayObjectMutable<Graphics>;
 
-export const graphicsComponent: Component<Props, Mutable> = ({
+export const graphics: Function<Props, Mutable> = ({
   color: defaultColor,
   polygon: defaultPolygon,
+  label,
   ...props
 }) => {
+  const emptyMutable = empty({ label });
+
   let _color = defaultColor;
   let _polygon = defaultPolygon;
 
@@ -35,7 +39,7 @@ export const graphicsComponent: Component<Props, Mutable> = ({
 
   return {
     // container
-    ...getDisplayObjectMutable<Graphics>(graphics),
+    ...getDisplayObjectMutable<Graphics>(graphics, emptyMutable),
 
     // graphics
     setColor: (color: number) => {

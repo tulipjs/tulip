@@ -1,28 +1,47 @@
-import { DisplayObject as DO, DisplayObjectProps, Point } from "../types";
+import {
+  ComponentMutable,
+  DisplayObject as DO,
+  DisplayObjectProps,
+  Point,
+} from "../types";
 import { getValueMutableFunction } from "./mutables.utils";
 import { DISPLAY_OBJECT_DEFAULT_PROPS } from "../consts";
 
 export const getDisplayObjectMutable = <DisplayObject extends DO>(
   displayObject: DisplayObject,
+  componentMutable?: ComponentMutable,
 ) => ({
+  ...componentMutable,
+
   getDisplayObject: (): DisplayObject => displayObject,
+
+  setLabel: (label: string) => {
+    componentMutable.setLabel(label);
+    displayObject.label = label;
+  },
   //position
-  setPosition: async (data) =>
-    (displayObject.position = await getValueMutableFunction<Point>(
+  setPosition: async (data) => {
+    componentMutable.setPosition(data);
+    displayObject.position = await getValueMutableFunction<Point>(
       data,
-      displayObject.position,
-    )),
-  setPositionX: async (data) =>
-    (displayObject.position.x = await getValueMutableFunction<number>(
+      componentMutable.getPosition(),
+    );
+  },
+  setPositionX: async (data) => {
+    componentMutable.setPositionX(data);
+    displayObject.position.x = await getValueMutableFunction<number>(
       data,
-      displayObject.position.x,
-    )),
-  setPositionY: async (data) =>
-    (displayObject.position.y = await getValueMutableFunction<number>(
+      componentMutable.getPosition().x,
+    );
+  },
+  setPositionY: async (data) => {
+    componentMutable.setPositionY(data);
+    displayObject.position.y = await getValueMutableFunction<number>(
       data,
-      displayObject.position.y,
-    )),
-  getPosition: () => displayObject.position,
+      componentMutable.getPosition().y,
+    );
+  },
+
   //pivot
   setPivot: async (data) =>
     (displayObject.pivot = await getValueMutableFunction<Point>(
@@ -32,12 +51,12 @@ export const getDisplayObjectMutable = <DisplayObject extends DO>(
   setPivotX: async (data) =>
     (displayObject.pivot.x = await getValueMutableFunction<number>(
       data,
-      displayObject.position.x,
+      displayObject.pivot.x,
     )),
   setPivotY: async (data) =>
     (displayObject.pivot.y = await getValueMutableFunction<number>(
       data,
-      displayObject.position.y,
+      displayObject.pivot.y,
     )),
   getPivot: () => displayObject.pivot,
   //events
@@ -63,12 +82,15 @@ export const getDisplayObjectMutable = <DisplayObject extends DO>(
       displayObject.alpha,
     )),
   getAlpha: () => displayObject.alpha,
+
+  _step: () => {
+    displayObject.position.copyFrom(componentMutable.getPosition());
+  },
 });
 
 export const setDisplayObjectProps = <DisplayObject extends DO>(
   displayObject: DisplayObject,
   {
-    id,
     label,
     position = DISPLAY_OBJECT_DEFAULT_PROPS.position,
     pivot = DISPLAY_OBJECT_DEFAULT_PROPS.pivot,
@@ -77,7 +99,6 @@ export const setDisplayObjectProps = <DisplayObject extends DO>(
     alpha = DISPLAY_OBJECT_DEFAULT_PROPS.alpha,
   }: DisplayObjectProps = DISPLAY_OBJECT_DEFAULT_PROPS,
 ) => {
-  id && (displayObject.id = id);
   label && (displayObject.label = label);
 
   position && displayObject.position.copyFrom(position);
