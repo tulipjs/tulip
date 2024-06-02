@@ -85,6 +85,7 @@ export const getDisplayObjectMutable = <DisplayObject extends DO>(
 
   _step: () => {
     displayObject.position.copyFrom(componentMutable.getPosition());
+    displayObject.angle = componentMutable.getAngle();
   },
 });
 

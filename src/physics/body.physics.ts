@@ -1,9 +1,9 @@
 import p2 from "p2";
 import { Body, Point, ShapeMutable } from "../types";
 
-export const body: Body = ({}) => {
+export const body: Body = ({ mass } = {}) => {
   const _body = new p2.Body({
-    mass: 100,
+    mass: mass || 1,
   });
 
   const getBody = () => _body;
@@ -23,13 +23,25 @@ export const body: Body = ({}) => {
     y: -_body.position[1],
   });
 
-  return {
-    getBody,
+  const getAngle = (): number => _body.angle;
 
+  const addForceX = (force: number) => (_body.force[0] = force);
+  const addForceY = (force: number) => (_body.force[1] = force);
+  const addForce = (force: Point) => (_body.force = [force.x, force.y]);
+
+  return {
     addShape,
     removeShape,
 
     setPosition,
     getPosition,
+
+    getAngle,
+
+    addForceX,
+    addForceY,
+    addForce,
+
+    getBody,
   };
 };

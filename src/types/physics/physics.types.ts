@@ -5,13 +5,21 @@ import { ComponentMutable } from "../component.types";
 import { Point } from "../point.types";
 
 //
-export type BodyProps = {};
+export type BodyProps = {
+  mass?: number;
+};
 export type BodyMutable = {
   addShape: (shape: ShapeMutable) => void;
   removeShape: (shape: ShapeMutable) => void;
 
   setPosition: (position: Point) => void;
   getPosition: () => Point;
+
+  getAngle: () => number;
+
+  addForceX: (force: number) => void;
+  addForceY: (force: number) => void;
+  addForce: (force: Point) => void;
 
   getBody: () => p2.Body;
 };

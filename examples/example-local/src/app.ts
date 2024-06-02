@@ -19,6 +19,10 @@ export const app: AsyncFunction<unknown, Mutable> = async () => {
     texture: "player.png",
     // texture: "https://pixijs.com/assets/bunny.png",
     eventMode: EventMode.STATIC,
+    pivot: {
+      x: 10,
+      y: 10,
+    },
   });
 
   const _world = world();
@@ -38,8 +42,23 @@ export const app: AsyncFunction<unknown, Mutable> = async () => {
 
   setInterval(() => {
     _world._step();
-    console.log(sprite.getPosition());
+    // console.log(sprite.getPosition());
   }, 1);
+
+  document.addEventListener("keydown", ({ key }) => {
+    switch (key) {
+      case "d":
+        _body.addForceX(-400);
+        return;
+      case "a":
+        _body.addForceX(400);
+        return;
+      case "w":
+        _body.addForceY(400);
+        return;
+    }
+    sprite.setPosition({ x: 0, y: 0 });
+  });
 
   container.add(sprite);
 

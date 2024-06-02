@@ -19,6 +19,7 @@ export const empty: Function<EmptyProps, EmptyMutable> = ({
     x: position?.x || 0,
     y: position?.y || 0,
   };
+  let _angle = 0;
   let _label = label;
   let _body: BodyMutable;
 
@@ -53,8 +54,11 @@ export const empty: Function<EmptyProps, EmptyMutable> = ({
     },
     getPosition: () => _body?.getPosition() || _position,
 
+    getAngle: () => _body?.getAngle() || _angle,
+
     _step: () => {
       _body && (_position = _body?.getPosition());
+      _body && (_angle = _body?.getAngle());
     },
   };
 };

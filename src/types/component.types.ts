@@ -21,6 +21,7 @@ export type ComponentMutable = {
   setPositionX: (x: MutableFunction<number>) => void;
   setPositionY: (y: MutableFunction<number>) => void;
   getPosition: () => Point;
+  getAngle: () => number;
 
   _step: () => void;
 };
