@@ -6,5 +6,7 @@ export * from "./display-object.types";
 export * from "./application.types";
 export * from "./functions.types";
 export * from "./component.types";
+export * from "./body.types";
 
-export * from "./physics";
+export * from "./components";
+export * from "./shapes";

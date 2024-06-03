@@ -1,11 +1,13 @@
 import {
   ComponentMutable,
   DisplayObject as DO,
+  DisplayObjectMutable,
   DisplayObjectProps,
   Point,
 } from "../types";
 import { getValueMutableFunction } from "./mutables.utils";
 import { DISPLAY_OBJECT_DEFAULT_PROPS } from "../consts";
+import { createTicker } from "./ticker.utils";
 
 export const getDisplayObjectMutable = <DisplayObject extends DO>(
   displayObject: DisplayObject,
@@ -99,6 +101,7 @@ export const setDisplayObjectProps = <DisplayObject extends DO>(
     visible = DISPLAY_OBJECT_DEFAULT_PROPS.visible,
     alpha = DISPLAY_OBJECT_DEFAULT_PROPS.alpha,
   }: DisplayObjectProps = DISPLAY_OBJECT_DEFAULT_PROPS,
+  displayObjectMutable?: DisplayObjectMutable<DisplayObject>,
 ) => {
   label && (displayObject.label = label);
 
@@ -109,4 +112,12 @@ export const setDisplayObjectProps = <DisplayObject extends DO>(
   displayObject.visible = Boolean(visible);
 
   eventMode && (displayObject.eventMode = eventMode);
+
+  createTicker(displayObject, ({ deltaTime }) => {
+    // If not body present, it doesn't make sense to iterate
+    if (!displayObjectMutable?.getBody()) return;
+
+    displayObject.position.copyFrom(displayObjectMutable.getPosition());
+    displayObject.angle = displayObjectMutable.getAngle();
+  });
 };

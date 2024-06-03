@@ -1,6 +1,6 @@
-import { BodyMutable } from "./physics/physics.types";
 import { MutableFunction } from "./mutables.types";
 import { Point } from "./point.types";
+import { BodyMutable } from "./body.types";
 
 export type ComponentProps = {
   label?: string;
@@ -22,6 +22,4 @@ export type ComponentMutable = {
   setPositionY: (y: MutableFunction<number>) => void;
   getPosition: () => Point;
   getAngle: () => number;
-
-  _step: () => void;
 };

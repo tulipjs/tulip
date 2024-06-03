@@ -1,8 +1,11 @@
 import p2 from "p2";
-import { CircleShape } from "../../types";
-import { getShapeMutable, getShapeProps } from "../../utils";
+import { CircleShapeMutable, CircleShapeProps, Function } from "../../../types";
+import { getShapeMutable, getShapeProps } from "../../../utils";
 
-export const circleShape: CircleShape = ({ radius, ...props }) => {
+export const circleShape: Function<CircleShapeProps, CircleShapeMutable> = ({
+  radius,
+  ...props
+}) => {
   const shape = new p2.Circle(getShapeProps(props));
 
   const setRadius = (radius: number) => (shape.radius = radius);

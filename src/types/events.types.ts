@@ -61,4 +61,6 @@ export type ContainerEvent =
   | "touchstart"
   | "touchstartcapture"
   | "wheel"
-  | "wheelcapture";
+  | "wheelcapture"
+  | "added"
+  | "removed";

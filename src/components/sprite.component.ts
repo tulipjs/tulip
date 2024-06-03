@@ -21,8 +21,6 @@ export const sprite: AsyncFunction<Props, Mutable> = async ({
   label,
   ...props
 }) => {
-  const emptyMutable = empty({ label });
-
   const spriteTexture = texture
     ? await PIXI.Assets.load(texture)
     : PIXI.Texture.EMPTY;
@@ -37,11 +35,17 @@ export const sprite: AsyncFunction<Props, Mutable> = async ({
   };
 
   const sprite = new PIXI.Sprite(spriteTexture) as Sprite;
-  setDisplayObjectProps<Sprite>(sprite, props);
+  const emptyMutable = empty({ label });
+
+  const displayObjectMutable = getDisplayObjectMutable<Sprite>(
+    sprite,
+    emptyMutable,
+  );
+  setDisplayObjectProps<Sprite>(sprite, props, displayObjectMutable);
 
   return {
     // container
-    ...getDisplayObjectMutable<Sprite>(sprite, emptyMutable),
+    ...displayObjectMutable,
 
     // sprite
     setTexture: async (texture?: string) => {

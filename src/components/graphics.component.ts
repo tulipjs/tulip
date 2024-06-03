@@ -1,6 +1,10 @@
 import * as PIXI from "pixi.js";
-import { Function, DisplayObjectMutable, Graphics } from "../types";
-import { ContainerProps } from "./container.component";
+import {
+  Function,
+  DisplayObjectMutable,
+  Graphics,
+  ContainerProps,
+} from "../types";
 import { getDisplayObjectMutable, setDisplayObjectProps } from "../utils";
 import { empty } from "./empty.component";
 
@@ -23,13 +27,18 @@ export const graphics: Function<Props, Mutable> = ({
   label,
   ...props
 }) => {
-  const emptyMutable = empty({ label });
-
   let _color = defaultColor;
   let _polygon = defaultPolygon;
 
   const graphics = new PIXI.Graphics() as Graphics;
-  setDisplayObjectProps<Graphics>(graphics, props);
+
+  const emptyMutable = empty({ label });
+
+  const displayObjectMutable = getDisplayObjectMutable<Graphics>(
+    graphics,
+    emptyMutable,
+  );
+  setDisplayObjectProps<Graphics>(graphics, props, displayObjectMutable);
 
   const render = () => {
     graphics.clear();
@@ -39,8 +48,7 @@ export const graphics: Function<Props, Mutable> = ({
 
   return {
     // container
-    ...getDisplayObjectMutable<Graphics>(graphics, emptyMutable),
-
+    ...displayObjectMutable,
     // graphics
     setColor: (color: number) => {
       _color = color;

@@ -1,15 +1,22 @@
 import p2 from "p2";
-import { Body, Point, ShapeMutable } from "../types";
+import {
+  BodyMutable,
+  BodyProps,
+  Function,
+  Point,
+  ShapeMutable,
+} from "../../types";
 
-export const body: Body = ({ mass } = {}) => {
+export const body: Function<BodyProps, BodyMutable> = ({ mass } = {}) => {
   const _body = new p2.Body({
-    mass: mass || 1,
+    mass: mass,
   });
 
   const getBody = () => _body;
 
   const addShape = (shape: ShapeMutable) => {
     _body.addShape(shape.getShape());
+    return shape;
   };
   const removeShape = (shape: ShapeMutable) => {
     _body.removeShape(shape.getShape());

@@ -1,17 +1,17 @@
 import * as PIXI from "pixi.js";
 import { ApplicationProps, DisplayObject, DisplayObjectMutable } from "./types";
+import { APPLICATION_DEFAULT_PROPS } from "./consts";
 
 export const application = async ({
-  backgroundColor,
-  sharedTicker,
-  antialias,
-}: ApplicationProps) => {
+  backgroundColor = APPLICATION_DEFAULT_PROPS.backgroundColor,
+  scale = APPLICATION_DEFAULT_PROPS.scale,
+}: ApplicationProps = APPLICATION_DEFAULT_PROPS) => {
   const application = new PIXI.Application();
 
   await application.init({
     backgroundColor,
-    antialias,
-    sharedTicker,
+    antialias: true,
+    sharedTicker: true,
     resizeTo: window,
   });
 
@@ -29,7 +29,7 @@ export const application = async ({
   // PIXI.settings.FAIL_IF_MAJOR_PERFORMANCE_CAVEAT = true;
   PIXI.AbstractRenderer.defaultOptions.failIfMajorPerformanceCaveat = true;
 
-  application.renderer.resolution = Math.round(devicePixelRatio);
+  application.renderer.resolution = scale * Math.round(devicePixelRatio);
 
   document.body.appendChild(application.canvas);
 

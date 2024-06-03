@@ -55,10 +55,5 @@ export const empty: Function<EmptyProps, EmptyMutable> = ({
     getPosition: () => _body?.getPosition() || _position,
 
     getAngle: () => _body?.getAngle() || _angle,
-
-    _step: () => {
-      _body && (_position = _body?.getPosition());
-      _body && (_angle = _body?.getAngle());
-    },
   };
 };
