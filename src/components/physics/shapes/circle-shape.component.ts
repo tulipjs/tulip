@@ -11,6 +11,8 @@ export const circleShape: Function<CircleShapeProps, CircleShapeMutable> = ({
   const setRadius = (radius: number) => (shape.radius = radius);
   const getRadius = () => shape.radius;
 
+  setRadius(radius);
+
   return {
     ...getShapeMutable(shape),
     setRadius,

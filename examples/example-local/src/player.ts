@@ -7,6 +7,7 @@ import {
   createTicker,
   DisplayObjectMutable,
   EventMode,
+  graphics,
   sprite as spriteComponent,
 } from "@darkaqua/tulip";
 
@@ -16,11 +17,13 @@ export const player: AsyncFunction<unknown, Mutable> = async () => {
   const container = containerComponent({
     label: "player",
     eventMode: EventMode.STATIC,
-    pivot: {
-      x: 10,
-      y: 10,
-    },
   });
+
+  const circle = graphics({
+    color: 0xff0000,
+  });
+  circle.setCircle(5);
+  container.add(circle);
 
   const sprite = await spriteComponent({
     texture: "player.png",
@@ -30,12 +33,13 @@ export const player: AsyncFunction<unknown, Mutable> = async () => {
   container.on("click", () => {
     console.log("click", sprite.getVisible());
     // spriteMutable.setVisible(false);
-    sprite.setTexture("https://pixijs.com/assets/bunny.png");
-    sprite.setAlpha(0.25);
+    // sprite.setTexture("https://pixijs.com/assets/bunny.png");
+    circle.setColor(0x0000ff);
+    // sprite.setAlpha(0.25);
   });
 
   const spriteBody = body({ mass: 1 });
-  spriteBody.addShape(circleShape({ radius: 1 }));
+  spriteBody.addShape(circleShape({ radius: 5 }));
 
   container.setBody(spriteBody);
 

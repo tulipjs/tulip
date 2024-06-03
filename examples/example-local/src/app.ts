@@ -5,6 +5,9 @@ import {
   AsyncFunction,
   world,
   plane,
+  graphics,
+  body,
+  circleShape,
 } from "@darkaqua/tulip";
 import { player } from "./player";
 
@@ -16,7 +19,7 @@ export const app: AsyncFunction<unknown, Mutable> = async () => {
   });
 
   const _world = world({
-    position: { x: 10, y: 10 },
+    position: { x: 0, y: 0 },
     gravity: { x: 0, y: -0.5 },
     label: "world",
   });
@@ -32,6 +35,21 @@ export const app: AsyncFunction<unknown, Mutable> = async () => {
 
   const currentPlayer = await player();
   _world.add(currentPlayer);
+
+  const sprite = graphics({
+    color: 0x00ff00,
+  });
+  sprite.setCircle(5);
+  sprite.setPosition({ x: 10, y: 0 });
+  // const sprite = await spriteComponent({
+  //   texture: "player.png",
+  // });
+
+  const spriteBody = body({ mass: 1 });
+  spriteBody.addShape(circleShape({ radius: 5 }));
+  sprite.setBody(spriteBody);
+
+  _world.add(sprite);
 
   return container;
 };

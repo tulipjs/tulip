@@ -10,7 +10,6 @@ import { empty } from "./empty.component";
 
 type Props = {
   color: number;
-  polygon: number[];
 } & ContainerProps;
 
 type Mutable = {
@@ -18,19 +17,18 @@ type Mutable = {
   getColor: () => number;
 
   setPolygon: (polygon: number[]) => void;
-  getPolygon: () => number[];
+  setCircle: (radius: number) => void;
 } & DisplayObjectMutable<Graphics>;
 
 export const graphics: Function<Props, Mutable> = ({
   color: defaultColor,
-  polygon: defaultPolygon,
   label,
   ...props
 }) => {
   let _color = defaultColor;
-  let _polygon = defaultPolygon;
 
   const graphics = new PIXI.Graphics() as Graphics;
+  graphics.tint = _color;
 
   const emptyMutable = empty({ label });
 
@@ -40,26 +38,22 @@ export const graphics: Function<Props, Mutable> = ({
   );
   setDisplayObjectProps<Graphics>(graphics, props, displayObjectMutable);
 
-  const render = () => {
-    graphics.clear();
-    graphics.poly(_polygon).fill({ color: _color });
-  };
-  render();
-
   return {
     // container
     ...displayObjectMutable,
     // graphics
     setColor: (color: number) => {
-      _color = color;
-      render();
+      graphics.tint = color;
     },
     getColor: () => _color,
 
     setPolygon: (polygon: number[]) => {
-      _polygon = polygon;
-      render();
+      graphics.clear();
+      graphics.poly(polygon).fill({ color: 0xffffff });
     },
-    getPolygon: () => _polygon,
+    setCircle: (radius: number) => {
+      graphics.clear();
+      graphics.circle(0, 0, radius).fill({ color: 0xffffff });
+    },
   };
 };

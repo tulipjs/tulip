@@ -53,7 +53,6 @@ export const world: Function<WorldProps, WorldMutable> = ({
       // );
     }
 
-    console.log(displayObject.getLabel(), body.getBody());
     addContainer(displayObject);
   };
 
