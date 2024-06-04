@@ -12,5 +12,7 @@ export const createTicker = (
   container.on("added", add);
   container.on("removed", remove);
 
+  if (container.parent) add();
+
   return remove;
 };

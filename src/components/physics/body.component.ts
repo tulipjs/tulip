@@ -6,10 +6,15 @@ import {
   Point,
   ShapeMutable,
 } from "../../types";
+import { degreesToRadians } from "../../utils";
 
-export const body: Function<BodyProps, BodyMutable> = ({ mass } = {}) => {
+export const body: Function<BodyProps, BodyMutable> = ({
+  mass,
+  angle,
+} = {}) => {
   const _body = new p2.Body({
     mass: mass,
+    angle: angle ? degreesToRadians(angle) : 0,
   });
 
   const getBody = () => _body;

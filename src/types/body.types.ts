@@ -4,6 +4,7 @@ import { ShapeMutable } from "./shapes";
 
 export type BodyProps = {
   mass?: number;
+  angle?: number;
 };
 export type BodyMutable = {
   addShape: (shape: ShapeMutable) => ShapeMutable;

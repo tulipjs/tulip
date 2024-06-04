@@ -13,6 +13,7 @@ export const application = async ({
     antialias: true,
     sharedTicker: true,
     resizeTo: window,
+    preference: "webgpu",
   });
 
   //@ts-ignore

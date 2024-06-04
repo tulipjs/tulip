@@ -8,6 +8,7 @@ import {
 import { getValueMutableFunction } from "./mutables.utils";
 import { DISPLAY_OBJECT_DEFAULT_PROPS } from "../consts";
 import { createTicker } from "./ticker.utils";
+import { degreesToRadians, radiansToDegrees } from "../utils";
 
 export const getDisplayObjectMutable = <DisplayObject extends DO>(
   displayObject: DisplayObject,
@@ -100,6 +101,7 @@ export const setDisplayObjectProps = <DisplayObject extends DO>(
     eventMode = DISPLAY_OBJECT_DEFAULT_PROPS.eventMode,
     visible = DISPLAY_OBJECT_DEFAULT_PROPS.visible,
     alpha = DISPLAY_OBJECT_DEFAULT_PROPS.alpha,
+    angle = 0,
   }: DisplayObjectProps = DISPLAY_OBJECT_DEFAULT_PROPS,
   displayObjectMutable?: DisplayObjectMutable<DisplayObject>,
 ) => {
@@ -108,6 +110,8 @@ export const setDisplayObjectProps = <DisplayObject extends DO>(
   position && displayObject.position.copyFrom(position);
   pivot && displayObject.pivot.copyFrom(pivot);
   displayObject.alpha = alpha || 0;
+
+  angle && (displayObject.angle = degreesToRadians(angle));
 
   displayObject.visible = Boolean(visible);
 
@@ -118,6 +122,6 @@ export const setDisplayObjectProps = <DisplayObject extends DO>(
     if (!displayObjectMutable?.getBody()) return;
 
     displayObject.position.copyFrom(displayObjectMutable.getPosition());
-    displayObject.angle = displayObjectMutable.getAngle();
+    displayObject.angle = radiansToDegrees(displayObjectMutable.getAngle());
   });
 };

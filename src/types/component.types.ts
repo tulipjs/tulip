@@ -5,6 +5,7 @@ import { BodyMutable } from "./body.types";
 export type ComponentProps = {
   label?: string;
   position?: Point;
+  angle?: number;
 };
 
 export type ComponentMutable = {
