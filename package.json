@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "main": "./src/mod.ts",
   "dependencies": {
-    "pixi.js": "v8.1.5"
+    "pixi.js": "v8.1.5",
+    "p2": "0.7.1"
   },
   "devDependencies": {
     "prettier": "3.3.0",
-    "p2": "0.7.1",
     "@types/p2": "0.7.44"
   }
 }

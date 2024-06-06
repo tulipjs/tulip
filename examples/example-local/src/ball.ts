@@ -6,7 +6,7 @@ import {
   Container,
   DisplayObjectMutable,
   EventMode,
-  graphics,
+  graphics as graphicsComponent,
 } from "@darkaqua/tulip";
 
 type Props = {
@@ -22,7 +22,7 @@ export const ball: Function<Props, Mutable> = ({ label, color }) => {
     eventMode: EventMode.STATIC,
   });
 
-  const circle = graphics({
+  const circle = graphicsComponent({
     color,
   });
   circle.setCircle(3);

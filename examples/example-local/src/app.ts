@@ -1,6 +1,5 @@
 import {
   Container,
-  container as containerComponent,
   DisplayObjectMutable,
   AsyncFunction,
   world,
@@ -12,16 +11,11 @@ import { ball } from "./ball";
 type Mutable = {} & DisplayObjectMutable<Container>;
 
 export const app: AsyncFunction<unknown, Mutable> = async () => {
-  const container = containerComponent({
-    label: "app",
-  });
-
   const _world = world({
     position: { x: 0, y: 0 },
     gravity: { x: 0, y: -9.5 },
     label: "world",
   });
-  container.add(_world);
 
   const _plane = plane({
     position: {
@@ -83,5 +77,5 @@ export const app: AsyncFunction<unknown, Mutable> = async () => {
     currentKeyList = currentKeyList.filter((cKey) => cKey != key);
   });
 
-  return container;
+  return _world;
 };
