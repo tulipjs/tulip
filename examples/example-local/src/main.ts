@@ -1,9 +1,15 @@
 import { application } from "@darkaqua/tulip";
-import { app } from "./app";
+import { appComponent } from "app.component";
+import { initViteTulipPlugin } from "@darkaqua/vite-tulip";
 
 application({
   backgroundColor: 0xff00ff,
-  scale: 3,
+  scale: 1,
 }).then(async ({ add }) => {
-  add(await app());
+  add(await appComponent());
 });
+
+if (import.meta)
+  initViteTulipPlugin(import.meta.hot, (componentModule, componentData) => {
+    console.log(componentModule, componentData);
+  });

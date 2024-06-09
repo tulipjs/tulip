@@ -2,13 +2,13 @@ import p2 from "p2";
 import {
   BodyMutable,
   BodyProps,
-  Function,
+  Component,
   Point,
   ShapeMutable,
 } from "../../types";
 import { degreesToRadians } from "../../utils";
 
-export const body: Function<BodyProps, BodyMutable> = ({
+export const body: Component<BodyProps, BodyMutable> = ({
   mass,
   angle,
 } = {}) => {
@@ -36,6 +36,7 @@ export const body: Function<BodyProps, BodyMutable> = ({
   });
 
   const getAngle = (): number => _body.angle;
+  const setAngle = (angle: number) => (_body.angle = degreesToRadians(angle));
 
   const addForceX = (force: number) => (_body.force[0] = force);
   const addForceY = (force: number) => (_body.force[1] = force);
@@ -49,6 +50,7 @@ export const body: Function<BodyProps, BodyMutable> = ({
     getPosition,
 
     getAngle,
+    setAngle,
 
     addForceX,
     addForceY,

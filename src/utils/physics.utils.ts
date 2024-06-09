@@ -13,4 +13,6 @@ export const getShapeProps = ({
 
 export const getShapeMutable = (shape: p2.Shape): ShapeMutable => ({
   getShape: () => shape,
+  $getRaw: async () => ({}),
+  $setRaw: async () => {},
 });

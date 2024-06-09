@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import {
-  Function,
+  Component,
   DisplayObjectMutable,
   Graphics,
   ContainerProps,
@@ -20,12 +20,19 @@ type Mutable = {
   setCircle: (radius: number) => void;
 } & DisplayObjectMutable<Graphics>;
 
-export const graphics: Function<Props, Mutable> = ({
+type RawProps = {
+  radius?: number;
+  polygon?: number[];
+} & Props;
+
+export const graphics: Component<Props, Mutable> = ({
   color: defaultColor,
   label,
   ...props
 }) => {
   let _color = defaultColor;
+  let _polygon;
+  let _radius;
 
   const graphics = new PIXI.Graphics() as Graphics;
   graphics.tint = _color;
@@ -38,22 +45,45 @@ export const graphics: Function<Props, Mutable> = ({
   );
   setDisplayObjectProps<Graphics>(graphics, props, displayObjectMutable);
 
+  const getColor = () => _color;
+  const setColor = (color: number) => {
+    graphics.tint = color;
+  };
+
+  const setPolygon = (polygon: number[]) => {
+    graphics.clear();
+    graphics.poly(polygon).fill({ color: 0xffffff });
+  };
+  const setCircle = (radius: number) => {
+    graphics.clear();
+    graphics.circle(0, 0, radius).fill({ color: 0xffffff });
+  };
+
+  const $setRaw = async ({ color, radius, polygon, ...raw }: RawProps) => {
+    await displayObjectMutable.$setRaw(raw);
+    setColor(color);
+    polygon && setPolygon(polygon);
+    radius && setCircle(radius);
+  };
+
+  const $getRaw = async (): Promise<RawProps> => ({
+    ...(await displayObjectMutable.$getRaw()),
+    color: getColor(),
+    radius: _radius,
+    polygon: _polygon,
+  });
+
   return {
     // container
     ...displayObjectMutable,
     // graphics
-    setColor: (color: number) => {
-      graphics.tint = color;
-    },
-    getColor: () => _color,
+    setColor,
+    getColor,
 
-    setPolygon: (polygon: number[]) => {
-      graphics.clear();
-      graphics.poly(polygon).fill({ color: 0xffffff });
-    },
-    setCircle: (radius: number) => {
-      graphics.clear();
-      graphics.circle(0, 0, radius).fill({ color: 0xffffff });
-    },
+    setPolygon,
+    setCircle,
+
+    $getRaw,
+    $setRaw,
   };
 };

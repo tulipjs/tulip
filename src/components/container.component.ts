@@ -1,14 +1,15 @@
 import * as PIXI from "pixi.js";
 import {
-  Function,
+  Component,
   Container,
   ContainerProps,
   ContainerMutable,
 } from "../types";
 import { getDisplayObjectMutable, setDisplayObjectProps } from "../utils";
 import { empty } from "./empty.component";
+import { global } from "../global";
 
-export const container: Function<ContainerProps, ContainerMutable> = ({
+export const container: Component<ContainerProps, ContainerMutable> = ({
   label,
   ...props
 } = {}) => {
@@ -22,11 +23,15 @@ export const container: Function<ContainerProps, ContainerMutable> = ({
   setDisplayObjectProps<Container>(container, props, displayObjectMutable);
 
   return {
-    ...getDisplayObjectMutable<Container>(container, emptyMutable),
+    ...displayObjectMutable,
     //
-    add: (displayObjectMutable) =>
-      container.addChild(displayObjectMutable.getDisplayObject()),
-    remove: (displayObjectMutable) =>
-      container.removeChild(displayObjectMutable.getDisplayObject()),
+    add: (displayObjectMutable) => {
+      container.addChild(displayObjectMutable.getDisplayObject());
+      global.$addComponent(displayObjectMutable);
+    },
+    remove: (displayObjectMutable) => {
+      container.removeChild(displayObjectMutable.getDisplayObject());
+      global.$removeComponent(displayObjectMutable);
+    },
   };
 };

@@ -1,10 +1,10 @@
 import {
   AsyncComponent,
   Container,
-  containerComponent,
+  container as containerComponent,
   DisplayObjectMutable,
   EventMode,
-  spriteComponent,
+  sprite as spriteComponent,
 } from "@darkaqua/tulip";
 
 type Mutable = {} & DisplayObjectMutable<Container>;

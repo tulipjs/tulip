@@ -3,10 +3,12 @@
     "start": "vite --host",
     "build": "vite build"
   },
+  "type": "module",
   "devDependencies": {
     "vite": "5.2.12",
     "vite-tsconfig-paths": "4.3.2",
-    "@rollup/plugin-alias": "5.1.0"
+    "@rollup/plugin-alias": "5.1.0",
+    "@darkaqua/vite-tulip": "1.0.3"
   },
   "dependencies": {
     "@darkaqua/tulip": "../../"

@@ -1,5 +1,5 @@
 import {
-  Function,
+  Component,
   body,
   circleShape,
   container as containerComponent,
@@ -16,7 +16,7 @@ type Props = {
 
 type Mutable = {} & DisplayObjectMutable<Container>;
 
-export const ball: Function<Props, Mutable> = ({ label, color }) => {
+export const ballComponent: Component<Props, Mutable> = ({ label, color }) => {
   const container = containerComponent({
     label,
     eventMode: EventMode.STATIC,
@@ -25,7 +25,7 @@ export const ball: Function<Props, Mutable> = ({ label, color }) => {
   const circle = graphicsComponent({
     color,
   });
-  circle.setCircle(3);
+  circle.setCircle(4);
   container.add(circle);
 
   const spriteBody = body({ mass: 1 });

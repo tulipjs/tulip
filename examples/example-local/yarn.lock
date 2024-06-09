@@ -5,7 +5,13 @@
 "@darkaqua/tulip@../../":
   version "0.0.0"
   dependencies:
+    p2 "0.7.1"
     pixi.js v8.1.5
+
+"@darkaqua/vite-tulip@1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@darkaqua/vite-tulip/-/vite-tulip-1.0.3.tgz#197e5f341dc105dd923ebc005edcd556a50a2cc5"
+  integrity sha512-anQXe8mo+80VPgGCFFEtloQHSJGiNJ5ViLZrq7wu2soK14Q6xTbJZG6LyLt8Z26Nv2FaaCxYdMTRk3gnEoD/rw==
 
 "@esbuild/aix-ppc64@0.20.2":
   version "0.20.2"
@@ -310,6 +316,13 @@ nanoid@^3.3.7:
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.7.tgz#d0c301a691bc8d54efa0a2226ccf3fe2fd656bd8"
   integrity sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==
 
+p2@0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/p2/-/p2-0.7.1.tgz#25f2474d9bc3a6d3140a1da26a67c9e118ac9543"
+  integrity sha512-wJxG87tHPlAO1iwGettkiU4ptoytQDoJSeP+PV8aZVT//ZHlD2H2uMtIPnQG8MXAaGR9OI1o1pqBV1g/fpNgNw==
+  dependencies:
+    poly-decomp "0.1.1"
+
 parse-svg-path@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/parse-svg-path/-/parse-svg-path-0.1.2.tgz#7a7ec0d1eb06fa5325c7d3e009b859a09b5d49eb"
@@ -334,6 +347,11 @@ pixi.js@v8.1.5:
     eventemitter3 "^5.0.1"
     ismobilejs "^1.1.1"
     parse-svg-path "^0.1.2"
+
+poly-decomp@0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/poly-decomp/-/poly-decomp-0.1.1.tgz#9f68c4fa558663791c9ba4c2df7283f3096c23c9"
+  integrity sha512-clSDtuC48FR2PL2z/+VIRhfnxC7776GlJgDNAh1ZIqYOiaGqrINB+xGIWQypLgpz6Z/Ht/w7rTFEGFRNuSPOuA==
 
 postcss@^8.4.38:
   version "8.4.38"

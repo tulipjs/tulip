@@ -1,16 +1,16 @@
 import {
   Container,
   DisplayObjectMutable,
-  AsyncFunction,
   world,
   plane,
   createTicker,
+  AsyncComponent,
 } from "@darkaqua/tulip";
-import { ball } from "./ball";
+import { ballComponent } from "ball.component";
 
 type Mutable = {} & DisplayObjectMutable<Container>;
 
-export const app: AsyncFunction<unknown, Mutable> = async () => {
+export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
   const _world = world({
     position: { x: 0, y: 0 },
     gravity: { x: 0, y: -9.5 },
@@ -40,7 +40,7 @@ export const app: AsyncFunction<unknown, Mutable> = async () => {
     for (let x = 0; x < 20; x++) {
       const isFirst = x === 19 && y === 0;
 
-      const _ball = ball({
+      const _ball = ballComponent({
         label: `ball${x * y}`,
         color: isFirst ? 0x00ff00 : 0xffffff,
       });
@@ -56,9 +56,7 @@ export const app: AsyncFunction<unknown, Mutable> = async () => {
   let currentKeyList = [];
   createTicker(selectedBall.getDisplayObject(), () => {
     const body = selectedBall.getBody();
-    console.log(selectedBall.getBody().getPosition());
 
-    console.log(currentKeyList);
     if (currentKeyList.includes("d")) {
       body.addForceX(-20);
     } else if (currentKeyList.includes("a")) {

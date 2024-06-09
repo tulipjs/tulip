@@ -1,10 +1,10 @@
-import { ContainerMutable, ContainerProps, Function } from "../../types";
+import { ContainerMutable, ContainerProps, Component } from "../../types";
 import { container as containerComponent } from "../container.component";
 import { body } from "./body.component";
 import { planeShape } from "./shapes";
 import { graphics } from "../graphics.component";
 
-export const plane: Function<ContainerProps, ContainerMutable> = (props) => {
+export const plane: Component<ContainerProps, ContainerMutable> = (props) => {
   const container = containerComponent(props);
 
   const _body = body({ angle: props.angle });

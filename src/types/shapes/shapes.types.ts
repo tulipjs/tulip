@@ -6,6 +6,9 @@ export type ShapeProps = {
   position?: Point;
   angle?: number;
 };
-export type ShapeMutable = {
+export type ShapeMutable<Raw extends any = {}> = {
   getShape: () => p2.Shape;
+
+  $setRaw: (raw: Raw) => Promise<void>;
+  $getRaw: () => Promise<Raw>;
 };

@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import {
-  AsyncFunction,
+  AsyncComponent,
   DisplayObjectMutable,
   DisplayObjectProps,
   Sprite,
@@ -16,11 +16,12 @@ type Mutable = {
   setTexture: (texture?: string) => Promise<void>;
 } & DisplayObjectMutable<Sprite>;
 
-export const sprite: AsyncFunction<Props, Mutable> = async ({
+export const sprite: AsyncComponent<Props, Mutable> = async ({
   texture = undefined,
   label,
   ...props
 }) => {
+  let _texture = texture;
   const spriteTexture = texture
     ? await PIXI.Assets.load(texture)
     : PIXI.Texture.EMPTY;
@@ -43,13 +44,29 @@ export const sprite: AsyncFunction<Props, Mutable> = async ({
   );
   setDisplayObjectProps<Sprite>(sprite, props, displayObjectMutable);
 
+  const setTexture = async (texture?: string) => {
+    _texture = texture;
+    sprite.texture = await _getTexture(texture);
+  };
+
+  const $setRaw = async ({ texture, ...raw }: Props) => {
+    await displayObjectMutable.$setRaw(raw);
+    await setTexture(texture);
+  };
+
+  const $getRaw = async (): Promise<Props> => ({
+    ...(await displayObjectMutable.$getRaw()),
+    texture: _texture,
+  });
+
   return {
     // container
     ...displayObjectMutable,
 
     // sprite
-    setTexture: async (texture?: string) => {
-      sprite.texture = await _getTexture(texture);
-    },
-  } as Mutable;
+    setTexture,
+
+    $getRaw,
+    $setRaw,
+  };
 };
