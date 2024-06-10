@@ -3,6 +3,7 @@ import {
   AsyncComponent,
   DisplayObjectMutable,
   DisplayObjectProps,
+  InternalMutable,
   Sprite,
 } from "../types";
 import { getDisplayObjectMutable, setDisplayObjectProps } from "../utils";
@@ -16,11 +17,13 @@ type Mutable = {
   setTexture: (texture?: string) => Promise<void>;
 } & DisplayObjectMutable<Sprite>;
 
-export const sprite: AsyncComponent<Props, Mutable, false> = async ({
-  texture = undefined,
-  label,
-  ...props
-}) => {
+export const sprite: AsyncComponent<Props, Mutable, false> = async (
+  originalProps,
+) => {
+  const { label, texture = undefined, ...props } = originalProps;
+
+  const $props = structuredClone(originalProps);
+
   let _texture = texture;
   const spriteTexture = texture
     ? await PIXI.Assets.load(texture)
@@ -59,7 +62,7 @@ export const sprite: AsyncComponent<Props, Mutable, false> = async ({
     texture: _texture,
   });
 
-  return {
+  const mutable: InternalMutable<Mutable, false> = {
     // container
     ...displayObjectMutable,
 
@@ -68,7 +71,20 @@ export const sprite: AsyncComponent<Props, Mutable, false> = async ({
 
     $getRaw,
     $setRaw,
-    
+
+    // @ts-ignore
+    getComponent: (component) => {
+      mutable.$componentName = component.name;
+      return mutable;
+    },
+
+    $props,
     $mutable: false,
+    $destroy: () => {
+      emptyMutable.$destroy();
+      sprite.destroy();
+    },
   };
+
+  return mutable;
 };

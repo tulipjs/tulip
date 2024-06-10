@@ -21,7 +21,4 @@ export type BodyMutable<Raw extends any = {}> = {
   addForce: (force: Point) => void;
 
   getBody: () => p2.Body;
-
-  $setRaw: (raw: Raw) => Promise<void>;
-  $getRaw: () => Promise<Raw>;
 };

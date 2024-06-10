@@ -5,10 +5,10 @@
   },
   "type": "module",
   "devDependencies": {
-    "vite": "5.2.12",
-    "vite-tsconfig-paths": "4.3.2",
+    "@darkaqua/vite-tulip": "1.0.3",
     "@rollup/plugin-alias": "5.1.0",
-    "@darkaqua/vite-tulip": "1.0.3"
+    "vite": "5.2.12",
+    "vite-tsconfig-paths": "4.3.2"
   },
   "dependencies": {
     "@darkaqua/tulip": "../../"

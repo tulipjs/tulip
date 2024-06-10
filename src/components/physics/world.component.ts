@@ -5,6 +5,7 @@ import {
   Component,
   WorldMutable,
   WorldProps,
+  InternalMutable,
 } from "../../types";
 import { container } from "../container.component";
 import { createTicker } from "../../utils";
@@ -72,9 +73,16 @@ export const world: Component<WorldProps, WorldMutable, false> = ({
     _world.step(deltaTime / velocity);
   });
 
-  return {
+  const mutable: InternalMutable<WorldMutable, false> = {
     ...componentMutable,
     add,
     remove,
+    // @ts-ignore
+    getComponent: (component) => {
+      componentMutable.$componentName = mutable.$componentName = component.name;
+      return mutable;
+    },
   };
+
+  return mutable;
 };

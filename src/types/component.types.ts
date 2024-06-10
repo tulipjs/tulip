@@ -3,14 +3,20 @@ import { Point } from "./point.types";
 import { BodyMutable } from "./body.types";
 
 export type InternalMutable<Mutable, Bool> = Mutable & {
-  $mutable: Bool
-}
+  $mutable: Bool;
+};
 
-type SyncComponent<Props, Mutable, Bool> = (props?: Props) => InternalMutable<Mutable, Bool>;
+type SyncComponent<Props, Mutable, Bool> = (
+  props?: Props,
+) => InternalMutable<Mutable, Bool>;
 export type AsyncComponent<Props, Mutable, Bool = true> = (
   props?: Props,
 ) => Promise<InternalMutable<Mutable, Bool>>;
-export type Component<Props, Mutable, Bool = true> = SyncComponent<Props, Mutable, Bool>;
+export type Component<Props, Mutable, Bool = true> = SyncComponent<
+  Props,
+  Mutable,
+  Bool
+>;
 
 export type ComponentProps = {
   id?: string;
@@ -19,7 +25,7 @@ export type ComponentProps = {
   angle?: number;
 };
 
-export type ComponentMutable<Raw extends any = {}> = {
+export type ComponentMutable<Props extends any = {}> = {
   getId: () => string;
 
   //label
@@ -38,12 +44,16 @@ export type ComponentMutable<Raw extends any = {}> = {
 
   getAngle: () => number;
   setAngle: (angle: number) => void;
-  
-  getComponent?: <Mutable>(component: Component<any, Mutable>) => InternalMutable<Mutable, true>
-  
-  $setRaw: (raw: Raw) => Promise<void>;
-  $getRaw: () => Promise<Raw>;
-  
-  $componentName?: string
-  $mutable: boolean
+
+  getComponent?: <Mutable>(
+    component: Component<any, Mutable> | AsyncComponent<any, Mutable>,
+  ) => InternalMutable<Mutable, true>;
+  getFather: () => ComponentMutable;
+
+  $props: Props;
+
+  $destroy: () => void;
+
+  $componentName?: string;
+  $mutable: boolean;
 };

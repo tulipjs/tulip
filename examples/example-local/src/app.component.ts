@@ -36,7 +36,7 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
   _world.add(_plane2);
 
   let selectedBall;
-  for (let y = 0; y < 30; y++) {
+  for (let y = 0; y < 5; y++) {
     for (let x = 0; x < 20; x++) {
       const isFirst = x === 19 && y === 0;
 
@@ -75,5 +75,5 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
     currentKeyList = currentKeyList.filter((cKey) => cKey != key);
   });
 
-  return _world;
+  return _world.getComponent(appComponent);
 };

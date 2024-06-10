@@ -11,10 +11,12 @@ export type EmptyProps = {} & ComponentProps;
 
 export type EmptyMutable = {} & ComponentMutable<ComponentProps>;
 
-export const empty: Component<EmptyProps, EmptyMutable, false> = ({
-  label = "empty",
-  position,
-} = {}) => {
+export const empty: Component<EmptyProps, EmptyMutable, false> = (
+  originalProps = {},
+) => {
+  const { label = "empty", position } = originalProps;
+  const $props = structuredClone(originalProps);
+
   let _id = `${label}_${getRandomNumber(0, 100_000)}`;
   let _position: Point = {
     x: position?.x || 0,
@@ -47,19 +49,6 @@ export const empty: Component<EmptyProps, EmptyMutable, false> = ({
     _body?.setAngle(angle);
   };
 
-  const $getRaw = async (): Promise<EmptyProps> => ({
-    id: _id,
-    label: _label,
-    angle: getAngle(),
-    position: getPosition(),
-  });
-  const $setRaw = async ({ id, label, position, angle }: EmptyProps) => {
-    _id = id;
-    _label = label;
-    position && (await setPosition(position));
-    angle && setAngle(angle);
-  };
-
   return {
     getId,
 
@@ -84,9 +73,11 @@ export const empty: Component<EmptyProps, EmptyMutable, false> = ({
     getAngle,
     setAngle,
 
-    $getRaw,
-    $setRaw,
-    
+    getFather: null,
+
+    $props,
+    $destroy: () => {},
+
     $mutable: false,
   };
 };

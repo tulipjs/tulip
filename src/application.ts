@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js";
 import { ApplicationProps, DisplayObject, DisplayObjectMutable } from "./types";
 import { APPLICATION_DEFAULT_PROPS } from "./consts";
+import { global } from "./global";
 
 export const application = async ({
   backgroundColor = APPLICATION_DEFAULT_PROPS.backgroundColor,
@@ -34,9 +35,20 @@ export const application = async ({
 
   document.body.appendChild(application.canvas);
 
-  return {
+  const mutable = {
     add: (displayObjectMutable: DisplayObjectMutable<DisplayObject>) => {
+      displayObjectMutable.getFather = () => mutable as any;
+
+      global.$addComponent(displayObjectMutable);
       application.stage.addChild(displayObjectMutable.getDisplayObject());
     },
+    remove: (displayObjectMutable: DisplayObjectMutable<DisplayObject>) => {
+      displayObjectMutable.getFather = null;
+
+      global.$removeComponent(displayObjectMutable);
+      application.stage.removeChild(displayObjectMutable.getDisplayObject());
+    },
   };
+
+  return mutable;
 };

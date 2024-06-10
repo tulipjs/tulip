@@ -1,4 +1,4 @@
-import { ComponentMutable } from "./types";
+import { ComponentMutable, GlobalFilterType } from "./types";
 
 export const global = (() => {
   let componentList: ComponentMutable[] = [];
@@ -12,8 +12,15 @@ export const global = (() => {
     );
   };
 
+  const $getComponentList = ({ componentName }: GlobalFilterType = {}) =>
+    componentList.filter(
+      ({ $componentName }) =>
+        !componentName || componentName === $componentName,
+    );
+
   return {
     $addComponent,
     $removeComponent,
+    $getComponentList,
   };
 })();

@@ -4,6 +4,7 @@ import {
   DisplayObjectMutable,
   Graphics,
   ContainerProps,
+  InternalMutable,
 } from "../types";
 import { getDisplayObjectMutable, setDisplayObjectProps } from "../utils";
 import { empty } from "./empty.component";
@@ -25,11 +26,11 @@ type RawProps = {
   polygon?: number[];
 } & Props;
 
-export const graphics: Component<Props, Mutable, false> = ({
-  color: defaultColor,
-  label,
-  ...props
-}) => {
+export const graphics: Component<Props, Mutable, false> = (originalProps) => {
+  const { color: defaultColor, label, ...props } = originalProps;
+
+  const $props = structuredClone(originalProps);
+
   let _color = defaultColor;
   let _polygon;
   let _radius;
@@ -73,7 +74,7 @@ export const graphics: Component<Props, Mutable, false> = ({
     polygon: _polygon,
   });
 
-  return {
+  const mutable: InternalMutable<Mutable, false> = {
     // container
     ...displayObjectMutable,
     // graphics
@@ -85,7 +86,20 @@ export const graphics: Component<Props, Mutable, false> = ({
 
     $getRaw,
     $setRaw,
-    
+
+    // @ts-ignore
+    getComponent: (component) => {
+      mutable.$componentName = component.name;
+      return mutable;
+    },
+
+    $props,
     $mutable: false,
+    $destroy: () => {
+      emptyMutable.$destroy();
+      graphics.destroy();
+    },
   };
+
+  return mutable;
 };
