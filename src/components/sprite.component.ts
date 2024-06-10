@@ -16,7 +16,7 @@ type Mutable = {
   setTexture: (texture?: string) => Promise<void>;
 } & DisplayObjectMutable<Sprite>;
 
-export const sprite: AsyncComponent<Props, Mutable> = async ({
+export const sprite: AsyncComponent<Props, Mutable, false> = async ({
   texture = undefined,
   label,
   ...props
@@ -68,5 +68,7 @@ export const sprite: AsyncComponent<Props, Mutable> = async ({
 
     $getRaw,
     $setRaw,
+    
+    $mutable: false,
   };
 };

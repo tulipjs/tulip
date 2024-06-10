@@ -3,13 +3,13 @@ import {
   Component,
   Container,
   ContainerProps,
-  ContainerMutable,
+  ContainerMutable, InternalMutable,
 } from "../types";
 import { getDisplayObjectMutable, setDisplayObjectProps } from "../utils";
 import { empty } from "./empty.component";
 import { global } from "../global";
 
-export const container: Component<ContainerProps, ContainerMutable> = ({
+export const container: Component<ContainerProps, ContainerMutable, false> = ({
   label,
   ...props
 } = {}) => {
@@ -22,7 +22,9 @@ export const container: Component<ContainerProps, ContainerMutable> = ({
   );
   setDisplayObjectProps<Container>(container, props, displayObjectMutable);
 
-  return {
+  
+  const mutable: InternalMutable<ContainerMutable, false>
+    = {
     ...displayObjectMutable,
     //
     add: (displayObjectMutable) => {
@@ -33,5 +35,12 @@ export const container: Component<ContainerProps, ContainerMutable> = ({
       container.removeChild(displayObjectMutable.getDisplayObject());
       global.$removeComponent(displayObjectMutable);
     },
+    $mutable: false,
+    // @ts-ignore
+    getComponent: (component) => {
+      mutable.$componentName = component.name
+      return mutable
+    }
   };
+  return mutable
 };

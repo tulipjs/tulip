@@ -57,5 +57,9 @@ export const body: Component<BodyProps, BodyMutable> = ({
     addForce,
 
     getBody,
+    
+    $mutable: true,
+    $getRaw: async () => ({}),
+    $setRaw: async (raw) => {}
   };
 };

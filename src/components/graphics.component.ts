@@ -25,7 +25,7 @@ type RawProps = {
   polygon?: number[];
 } & Props;
 
-export const graphics: Component<Props, Mutable> = ({
+export const graphics: Component<Props, Mutable, false> = ({
   color: defaultColor,
   label,
   ...props
@@ -85,5 +85,7 @@ export const graphics: Component<Props, Mutable> = ({
 
     $getRaw,
     $setRaw,
+    
+    $mutable: false,
   };
 };

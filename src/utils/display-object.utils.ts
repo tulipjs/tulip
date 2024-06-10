@@ -141,6 +141,7 @@ export const getDisplayObjectMutable = <DisplayObject extends DO>(
 
     $getRaw,
     $setRaw,
+    $mutable: false,
   };
 };
 

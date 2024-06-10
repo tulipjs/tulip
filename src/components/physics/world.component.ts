@@ -10,7 +10,7 @@ import { container } from "../container.component";
 import { createTicker } from "../../utils";
 import { WORLD_DEFAULT_PROPS } from "../../consts";
 
-export const world: Component<WorldProps, WorldMutable> = ({
+export const world: Component<WorldProps, WorldMutable, false> = ({
   gravity = WORLD_DEFAULT_PROPS.gravity,
   velocity = WORLD_DEFAULT_PROPS.velocity,
   ...props

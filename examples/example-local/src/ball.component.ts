@@ -27,11 +27,12 @@ export const ballComponent: Component<Props, Mutable> = ({ label, color }) => {
   });
   circle.setCircle(4);
   container.add(circle);
+  
 
   const spriteBody = body({ mass: 1 });
   spriteBody.addShape(circleShape({ radius: 3 }));
 
   container.setBody(spriteBody);
 
-  return container;
+  return container.getComponent(ballComponent);
 };

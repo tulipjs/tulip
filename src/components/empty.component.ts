@@ -11,7 +11,7 @@ export type EmptyProps = {} & ComponentProps;
 
 export type EmptyMutable = {} & ComponentMutable<ComponentProps>;
 
-export const empty: Component<EmptyProps, EmptyMutable> = ({
+export const empty: Component<EmptyProps, EmptyMutable, false> = ({
   label = "empty",
   position,
 } = {}) => {
@@ -86,5 +86,7 @@ export const empty: Component<EmptyProps, EmptyMutable> = ({
 
     $getRaw,
     $setRaw,
+    
+    $mutable: false,
   };
 };
