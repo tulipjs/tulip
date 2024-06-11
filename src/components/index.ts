@@ -5,3 +5,4 @@ export * from "./sprite.component";
 export * from "./empty.component";
 
 export * from "./physics";
+export * from "./sounds";

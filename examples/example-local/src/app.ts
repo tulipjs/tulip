@@ -4,13 +4,17 @@ import {
   AsyncFunction,
   world,
   plane,
-  createTicker,
+  createTicker, sound, EventMode, container as containerComponent, sprite as spriteComponent,
 } from "@darkaqua/tulip";
 import { ball } from "./ball";
 
 type Mutable = {} & DisplayObjectMutable<Container>;
 
 export const app: AsyncFunction<unknown, Mutable> = async () => {
+  const container = containerComponent({
+    label: 'app',
+  })
+
   const _world = world({
     position: { x: 0, y: 0 },
     gravity: { x: 0, y: -9.5 },
@@ -56,9 +60,6 @@ export const app: AsyncFunction<unknown, Mutable> = async () => {
   let currentKeyList = [];
   createTicker(selectedBall.getDisplayObject(), () => {
     const body = selectedBall.getBody();
-    console.log(selectedBall.getBody().getPosition());
-
-    console.log(currentKeyList);
     if (currentKeyList.includes("d")) {
       body.addForceX(-20);
     } else if (currentKeyList.includes("a")) {
@@ -77,5 +78,21 @@ export const app: AsyncFunction<unknown, Mutable> = async () => {
     currentKeyList = currentKeyList.filter((cKey) => cKey != key);
   });
 
-  return _world;
+  const sprite = await spriteComponent({
+    texture: "player.png",
+    // texture: "https://pixijs.com/assets/bunny.png",
+    eventMode: EventMode.STATIC,
+  });
+
+  const exampleSound = sound({source: 'https://github.com/rafaelreis-hotmart/Audio-Sample-files/raw/master/sample.mp3'})
+
+  sprite.on("click", () => {
+    exampleSound.toggle()
+    console.log(exampleSound.getDuration())
+  });
+
+  container.add(sprite)
+  container.add(_world)
+
+  return container;
 };
