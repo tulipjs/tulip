@@ -12,7 +12,7 @@ type Mutable = {} & DisplayObjectMutable<Container>;
 export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
   const _world = world({
     position: { x: 0, y: 0 },
-    gravity: { x: 0, y: -1 },
+    gravity: { x: 0, y: -3 },
     label: "world",
   });
 

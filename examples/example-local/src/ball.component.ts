@@ -36,13 +36,13 @@ export const ballComponent: Component<Props, Mutable> = (props) => {
   container.add(circle);
 
   const circle2 = graphicsComponent({
-    color: 0x00ff00,
+    color: 0x0000ff,
     pivot: {
       x: 10,
       y: 10,
     },
   });
-  circle2.setCircle(size + 7);
+  circle2.setCircle(size + 3);
   container.add(circle2);
 
   const spriteBody = body({ mass: 1 });
