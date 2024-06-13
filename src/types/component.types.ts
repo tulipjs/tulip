@@ -32,7 +32,6 @@ export type ComponentMutable<Props extends any = {}> = {
   getLabel: () => string;
   setLabel: (label: string) => void;
 
-  //############### PHYSICS ###############
   setBody: (body: BodyMutable) => void;
   getBody: () => BodyMutable;
 
@@ -50,10 +49,17 @@ export type ComponentMutable<Props extends any = {}> = {
   ) => InternalMutable<Mutable, true>;
   getFather: () => ComponentMutable;
 
-  $props: Props;
+  getProps: <Props>() => Props;
 
+  //############### INTERNAL & DEVELOPMENT ###############
+
+  $getRaw: () => Props;
+
+  //Destroys the display object (pixi) & physics
   $destroy: () => void;
-
+  //retrieves the component name (can be undefined or null). Only the added to a father will be filled
   $componentName?: string;
+  //TODO Search for a better name
+  //It's only used for types, it doesnt contain information
   $mutable: boolean;
 };

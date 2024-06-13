@@ -5,6 +5,7 @@ import {
   ContainerProps,
   ContainerMutable,
   InternalMutable,
+  ComponentMutable,
 } from "../types";
 import { getDisplayObjectMutable, setDisplayObjectProps } from "../utils";
 import { empty } from "./empty.component";
@@ -20,11 +21,22 @@ export const container: Component<ContainerProps, ContainerMutable, false> = (
   const container = new PIXI.Container() as Container;
   const emptyMutable = empty({ label, position: props.position });
 
+  let childList: ComponentMutable[] = [];
+
   const displayObjectMutable = getDisplayObjectMutable<Container>(
     container,
     emptyMutable,
   );
   setDisplayObjectProps<Container>(container, props, displayObjectMutable);
+
+  const $destroy = () => {
+    //remove child first
+    container?.parent?.removeChild(container);
+    displayObjectMutable.$destroy();
+    //destroy pixi container
+    container.destroy();
+    for (const childComponent of childList) childComponent.$destroy();
+  };
 
   const mutable: InternalMutable<ContainerMutable, false> = {
     ...displayObjectMutable,
@@ -33,12 +45,14 @@ export const container: Component<ContainerProps, ContainerMutable, false> = (
       displayObjectMutable.getFather = () => mutable;
 
       container.addChild(displayObjectMutable.getDisplayObject());
+      childList.push(displayObjectMutable);
       global.$addComponent(displayObjectMutable);
     },
     remove: (displayObjectMutable) => {
       displayObjectMutable.getFather = null;
 
       container.removeChild(displayObjectMutable.getDisplayObject());
+      childList = childList.filter((child) => child !== displayObjectMutable);
       global.$removeComponent(displayObjectMutable);
     },
     // @ts-ignore
@@ -47,12 +61,11 @@ export const container: Component<ContainerProps, ContainerMutable, false> = (
       return mutable;
     },
 
-    $mutable: false,
+    getProps: () => $props as any,
 
-    $props,
-    $destroy: () => {
-      container.destroy();
-    },
+    $destroy,
+
+    $mutable: false,
   };
   return mutable;
 };

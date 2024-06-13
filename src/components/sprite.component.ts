@@ -24,12 +24,12 @@ export const sprite: AsyncComponent<Props, Mutable, false> = async (
 
   const $props = structuredClone(originalProps);
 
-  let _texture = texture;
+  let $texture = texture;
   const spriteTexture = texture
     ? await PIXI.Assets.load(texture)
     : PIXI.Texture.EMPTY;
 
-  const _getTexture = async (texture?: string) => {
+  const $getTexture = async (texture?: string) => {
     const targetTexture = texture
       ? await PIXI.Assets.load(texture)
       : PIXI.Texture.EMPTY;
@@ -48,19 +48,22 @@ export const sprite: AsyncComponent<Props, Mutable, false> = async (
   setDisplayObjectProps<Sprite>(sprite, props, displayObjectMutable);
 
   const setTexture = async (texture?: string) => {
-    _texture = texture;
-    sprite.texture = await _getTexture(texture);
+    $texture = texture;
+    sprite.texture = await $getTexture(texture);
   };
 
-  const $setRaw = async ({ texture, ...raw }: Props) => {
-    await displayObjectMutable.$setRaw(raw);
-    await setTexture(texture);
-  };
-
-  const $getRaw = async (): Promise<Props> => ({
-    ...(await displayObjectMutable.$getRaw()),
-    texture: _texture,
+  const $getRaw = (): Props => ({
+    ...displayObjectMutable.$getRaw(),
+    texture: $texture,
   });
+
+  const $destroy = () => {
+    //remove child first
+    spriteTexture?.parent?.removeChild(spriteTexture);
+    displayObjectMutable.$destroy();
+    //destroy pixi graphics
+    spriteTexture.destroy();
+  };
 
   const mutable: InternalMutable<Mutable, false> = {
     // container
@@ -69,21 +72,18 @@ export const sprite: AsyncComponent<Props, Mutable, false> = async (
     // sprite
     setTexture,
 
-    $getRaw,
-    $setRaw,
-
     // @ts-ignore
     getComponent: (component) => {
       mutable.$componentName = component.name;
       return mutable;
     },
 
-    $props,
+    getProps: () => $props as any,
+
+    $destroy,
+    $getRaw,
+
     $mutable: false,
-    $destroy: () => {
-      emptyMutable.$destroy();
-      sprite.destroy();
-    },
   };
 
   return mutable;

@@ -17,25 +17,11 @@ export const circleShape: Component<
 
   setRadius(radius);
 
-  const $getRaw = async (): Promise<CircleShapeProps> => ({
-    angle: shape.angle,
-    position: { x: shape.position[0], y: shape.position[1] },
-    radius: shape.radius,
-  });
-
-  const $setRaw = async ({ radius, ...props }: CircleShapeProps) => {
-    const { position, angle } = getShapeProps(props);
-    shape.position = position;
-    shape.radius = radius;
-    shape.angle = angle;
-  };
-
   return {
     ...getShapeMutable(shape),
     setRadius,
     getRadius,
 
-    $getRaw,
-    $setRaw,
+    $mutable: true,
   };
 };

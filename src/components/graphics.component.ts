@@ -11,6 +11,9 @@ import { empty } from "./empty.component";
 
 type Props = {
   color: number;
+
+  radius?: number;
+  polygon?: number[];
 } & ContainerProps;
 
 type Mutable = {
@@ -21,22 +24,22 @@ type Mutable = {
   setCircle: (radius: number) => void;
 } & DisplayObjectMutable<Graphics>;
 
-type RawProps = {
-  radius?: number;
-  polygon?: number[];
-} & Props;
-
 export const graphics: Component<Props, Mutable, false> = (originalProps) => {
-  const { color: defaultColor, label, ...props } = originalProps;
+  const {
+    color: defaultColor,
+    radius: defaultRadius,
+    polygon: defaultPolygon,
+    label,
+    ...props
+  } = originalProps;
 
   const $props = structuredClone(originalProps);
 
-  let _color = defaultColor;
-  let _polygon;
-  let _radius;
+  let $color = defaultColor;
+  let $polygon = defaultPolygon;
+  let $radius = defaultRadius;
 
   const graphics = new PIXI.Graphics() as Graphics;
-  graphics.tint = _color;
 
   const emptyMutable = empty({ label });
 
@@ -46,7 +49,7 @@ export const graphics: Component<Props, Mutable, false> = (originalProps) => {
   );
   setDisplayObjectProps<Graphics>(graphics, props, displayObjectMutable);
 
-  const getColor = () => _color;
+  const getColor = () => $color;
   const setColor = (color: number) => {
     graphics.tint = color;
   };
@@ -60,19 +63,27 @@ export const graphics: Component<Props, Mutable, false> = (originalProps) => {
     graphics.circle(0, 0, radius).fill({ color: 0xffffff });
   };
 
-  const $setRaw = async ({ color, radius, polygon, ...raw }: RawProps) => {
-    await displayObjectMutable.$setRaw(raw);
-    setColor(color);
-    polygon && setPolygon(polygon);
-    radius && setCircle(radius);
+  const $getRaw = (): Props => {
+    console.log("color", $color);
+    return {
+      ...displayObjectMutable.$getRaw(),
+      color: $color,
+      radius: $radius,
+      polygon: $polygon,
+    };
   };
 
-  const $getRaw = async (): Promise<RawProps> => ({
-    ...(await displayObjectMutable.$getRaw()),
-    color: getColor(),
-    radius: _radius,
-    polygon: _polygon,
-  });
+  const $destroy = () => {
+    //remove child first
+    graphics?.parent?.removeChild(graphics);
+    displayObjectMutable.$destroy();
+    //destroy pixi graphics
+    graphics.destroy();
+  };
+
+  $color !== undefined && setColor($color);
+  $polygon && setPolygon($polygon);
+  $radius && setCircle($radius);
 
   const mutable: InternalMutable<Mutable, false> = {
     // container
@@ -84,21 +95,18 @@ export const graphics: Component<Props, Mutable, false> = (originalProps) => {
     setPolygon,
     setCircle,
 
-    $getRaw,
-    $setRaw,
-
     // @ts-ignore
     getComponent: (component) => {
       mutable.$componentName = component.name;
       return mutable;
     },
 
-    $props,
+    getProps: () => $props as any,
+
+    $getRaw,
+    $destroy,
+
     $mutable: false,
-    $destroy: () => {
-      emptyMutable.$destroy();
-      graphics.destroy();
-    },
   };
 
   return mutable;

@@ -17,37 +17,44 @@ export const empty: Component<EmptyProps, EmptyMutable, false> = (
   const { label = "empty", position } = originalProps;
   const $props = structuredClone(originalProps);
 
-  let _id = `${label}_${getRandomNumber(0, 100_000)}`;
-  let _position: Point = {
+  let $id = `${label}_${getRandomNumber(0, 100_000)}`;
+  let $position: Point = {
     x: position?.x || 0,
     y: position?.y || 0,
   };
-  let _angle = 0;
-  let _label = label;
-  let _body: BodyMutable;
+  let $angle = 0;
+  let $label = label;
+  let $body: BodyMutable;
 
-  const getId = () => _id;
+  const getId = () => $id;
 
-  const getLabel = () => _label;
-  const setLabel = (label: string) => (_label = label);
+  const getLabel = () => $label;
+  const setLabel = (label: string) => ($label = label);
 
-  const getBody = () => _body;
+  const getBody = () => $body;
   const setBody = (body: BodyMutable) => {
-    _body = body;
-    _body.setPosition(_position);
+    $body = body;
+    $body.setPosition($position);
   };
 
   const setPosition = async (data) => {
-    _position = await getValueMutableFunction<Point>(data, _position);
-    _body?.setPosition(_position);
+    $position = await getValueMutableFunction<Point>(data, $position);
+    $body?.setPosition($position);
   };
-  const getPosition = () => _body?.getPosition() || _position;
+  const getPosition = () => $body?.getPosition() || $position;
 
-  const getAngle = () => _body?.getAngle() || _angle;
+  const getAngle = () => $body?.getAngle() || $angle;
   const setAngle = (angle: number) => {
-    _angle = angle;
-    _body?.setAngle(angle);
+    $angle = angle;
+    $body?.setAngle(angle);
   };
+
+  const $getRaw = (): EmptyProps => ({
+    id: $id,
+    label: $label,
+    position: getPosition(),
+    angle: getAngle(),
+  });
 
   return {
     getId,
@@ -61,12 +68,12 @@ export const empty: Component<EmptyProps, EmptyMutable, false> = (
     //position
     setPosition,
     setPositionX: async (data) => {
-      _position.x = await getValueMutableFunction<number>(data, _position.x);
-      _body?.setPosition(_position);
+      $position.x = await getValueMutableFunction<number>(data, $position.x);
+      $body?.setPosition($position);
     },
     setPositionY: async (data) => {
-      _position.y = await getValueMutableFunction<number>(data, _position.y);
-      _body?.setPosition(_position);
+      $position.y = await getValueMutableFunction<number>(data, $position.y);
+      $body?.setPosition($position);
     },
     getPosition,
 
@@ -75,8 +82,10 @@ export const empty: Component<EmptyProps, EmptyMutable, false> = (
 
     getFather: null,
 
-    $props,
+    getProps: () => $props as any,
+
     $destroy: () => {},
+    $getRaw,
 
     $mutable: false,
   };

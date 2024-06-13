@@ -11,11 +11,17 @@ import { container } from "../container.component";
 import { createTicker } from "../../utils";
 import { WORLD_DEFAULT_PROPS } from "../../consts";
 
-export const world: Component<WorldProps, WorldMutable, false> = ({
-  gravity = WORLD_DEFAULT_PROPS.gravity,
-  velocity = WORLD_DEFAULT_PROPS.velocity,
-  ...props
-} = WORLD_DEFAULT_PROPS) => {
+export const world: Component<WorldProps, WorldMutable, false> = (
+  originalProps = WORLD_DEFAULT_PROPS,
+) => {
+  const {
+    gravity = WORLD_DEFAULT_PROPS.gravity,
+    velocity = WORLD_DEFAULT_PROPS.velocity,
+    ...props
+  } = originalProps;
+
+  const $props = structuredClone(originalProps);
+
   const {
     add: addContainer,
     remove: removeContainer,
@@ -24,7 +30,7 @@ export const world: Component<WorldProps, WorldMutable, false> = ({
 
   let displayObjectList: DisplayObjectMutable<any>[] = [];
 
-  const _world = new p2.World({
+  const $world = new p2.World({
     gravity: gravity ? [gravity.x, gravity.y] : undefined,
   });
 
@@ -47,7 +53,7 @@ export const world: Component<WorldProps, WorldMutable, false> = ({
     } else {
       const _body = body.getBody();
       // for (const shape of _body.shapes) shape.material = material;
-      _world.addBody(_body);
+      $world.addBody(_body);
 
       // _world.addContactMaterial(
       //   new p2.ContactMaterial(material, material, { restitution: 1 }),
@@ -62,7 +68,7 @@ export const world: Component<WorldProps, WorldMutable, false> = ({
       (_, index) => displayObjectList.indexOf(displayObject) !== index,
     );
     const body = displayObject.getBody();
-    if (body) _world.removeBody(body.getBody());
+    if (body) $world.removeBody(body.getBody());
 
     removeContainer(displayObject);
   };
@@ -70,18 +76,29 @@ export const world: Component<WorldProps, WorldMutable, false> = ({
   createTicker(componentMutable.getDisplayObject(), ({ deltaTime }) => {
     if (!displayObjectList.length) return;
 
-    _world.step(deltaTime / velocity);
+    $world.step(deltaTime / velocity);
   });
+
+  const getComponent = (component: Component<any, any>) => {
+    componentMutable.$componentName = mutable.$componentName = component.name;
+    return mutable;
+  };
+
+  const $destroy = () => {
+    componentMutable.$destroy();
+    $world.clear();
+  };
 
   const mutable: InternalMutable<WorldMutable, false> = {
     ...componentMutable,
     add,
     remove,
     // @ts-ignore
-    getComponent: (component) => {
-      componentMutable.$componentName = mutable.$componentName = component.name;
-      return mutable;
-    },
+    getComponent,
+
+    getProps: () => $props as any,
+
+    $destroy,
   };
 
   return mutable;

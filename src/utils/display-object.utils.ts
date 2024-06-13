@@ -34,8 +34,8 @@ export const getDisplayObjectMutable = <DisplayObject extends DO>(
     ));
   const getPivot = () =>
     ({
-      x: displayObject.pivot.x,
-      y: displayObject.pivot.y,
+      x: displayObject?.pivot?.x || 0,
+      y: displayObject?.pivot?.y || 0,
     }) as Point;
 
   const setVisible = async (data) =>
@@ -59,31 +59,13 @@ export const getDisplayObjectMutable = <DisplayObject extends DO>(
     ));
   const getAlpha = () => displayObject.alpha;
 
-  const $getRaw = async (): Promise<DisplayObjectProps> => {
-    return {
-      ...(await componentMutable.$getRaw()),
-      pivot: getPivot(),
-      visible: getVisible(),
-      zIndex: getZIndex(),
-      alpha: getAlpha(),
-    };
-  };
-  const $setRaw = async ({
-    position,
-    visible,
-    zIndex,
-    alpha,
-    eventMode,
-    pivot,
-    ...raw
-  }: DisplayObjectProps) => {
-    await componentMutable.$setRaw(raw);
-    await setPosition(position);
-    await setVisible(visible);
-    await setZIndex(zIndex);
-    await setAlpha(alpha);
-    await setPivot(pivot);
-  };
+  const $getRaw = (): DisplayObjectProps => ({
+    ...componentMutable.$getRaw(),
+    pivot: getPivot(),
+    visible: getVisible(),
+    zIndex: getZIndex(),
+    alpha: getAlpha(),
+  });
 
   return {
     ...componentMutable,
@@ -134,13 +116,7 @@ export const getDisplayObjectMutable = <DisplayObject extends DO>(
     setAlpha,
     getAlpha,
 
-    _step: () => {
-      displayObject.position.copyFrom(componentMutable.getPosition());
-      displayObject.angle = componentMutable.getAngle();
-    },
-
     $getRaw,
-    $setRaw,
     $mutable: false,
   };
 };
@@ -155,6 +131,7 @@ export const setDisplayObjectProps = <DisplayObject extends DO>(
     visible = DISPLAY_OBJECT_DEFAULT_PROPS.visible,
     alpha = DISPLAY_OBJECT_DEFAULT_PROPS.alpha,
     angle = 0,
+    zIndex = 0,
   }: DisplayObjectProps = DISPLAY_OBJECT_DEFAULT_PROPS,
   displayObjectMutable?: DisplayObjectMutable<DisplayObject>,
 ) => {
@@ -163,6 +140,7 @@ export const setDisplayObjectProps = <DisplayObject extends DO>(
   position && displayObject.position.copyFrom(position);
   pivot && displayObject.pivot.copyFrom(pivot);
   displayObject.alpha = alpha || 0;
+  zIndex !== undefined && (displayObject.zIndex = zIndex);
 
   angle && (displayObject.angle = degreesToRadians(angle));
 
