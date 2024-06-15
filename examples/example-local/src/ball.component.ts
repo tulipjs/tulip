@@ -8,7 +8,9 @@ import {
   EventMode,
   graphics as graphicsComponent,
   ContainerProps,
+  global,
 } from "@tulib/tulip";
+import { GlobalData } from "types";
 
 type Props = {
   props: {
@@ -36,7 +38,7 @@ export const ballComponent: Component<Props, Mutable> = (props) => {
   container.add(circle);
 
   const circle2 = graphicsComponent({
-    color: 0x0000ff,
+    color: global.getData<GlobalData>().ballColor,
     pivot: {
       x: 10,
       y: 10,
