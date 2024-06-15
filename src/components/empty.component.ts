@@ -2,19 +2,20 @@ import {
   BodyMutable,
   ComponentMutable,
   ComponentProps,
-  Component,
-  Point,
+  Point, InternalMutable,
 } from "../types";
 import { getRandomNumber, getValueMutableFunction } from "../utils";
 
-export type EmptyProps = {} & ComponentProps;
+export type EmptyProps<Data = unknown> = {
+  initialData?: Data
+} & ComponentProps;
 
-export type EmptyMutable = {} & ComponentMutable<ComponentProps>;
+export type EmptyMutable<Data = unknown> = {} & ComponentMutable<ComponentProps, Data>;
 
-export const empty: Component<EmptyProps, EmptyMutable, false> = (
-  originalProps = {},
-) => {
-  const { label = "empty", position } = originalProps;
+export const empty = <Data,>(
+  originalProps: EmptyProps<Data> = {},
+): InternalMutable<EmptyMutable<Data>, false> => {
+  const { label = "empty", position, initialData } = originalProps;
   const $props = structuredClone(originalProps);
 
   let $id = `${label}_${getRandomNumber(0, 100_000)}`;
@@ -25,6 +26,7 @@ export const empty: Component<EmptyProps, EmptyMutable, false> = (
   let $angle = 0;
   let $label = label;
   let $body: BodyMutable;
+  let $data = initialData ?? {} as Data
 
   const getId = () => $id;
 
@@ -49,11 +51,23 @@ export const empty: Component<EmptyProps, EmptyMutable, false> = (
     $body?.setAngle(angle);
   };
 
-  const $getRaw = (): EmptyProps => ({
+  const getData = <R = Data>(selector?: (data: Data) => R): R => {
+    return selector ? selector($data) : ($data as unknown as R);
+  };
+  const setData = (data: Data | ((data: Data) => Data)) => {
+    if (typeof data === "function") {
+      $data = (data as (data: Data) => Data)($data);
+    } else {
+      $data = data;
+    }
+  };
+
+  const $getRaw = (): EmptyProps<Data> => ({
     id: $id,
     label: $label,
     position: getPosition(),
     angle: getAngle(),
+    initialData: $data
   });
 
   return {
@@ -81,6 +95,9 @@ export const empty: Component<EmptyProps, EmptyMutable, false> = (
     setAngle,
 
     getFather: null,
+
+    getData,
+    setData,
 
     getProps: () => $props as any,
 

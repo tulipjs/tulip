@@ -25,7 +25,7 @@ export type ComponentProps = {
   angle?: number;
 };
 
-export type ComponentMutable<Props extends any = {}> = {
+export type ComponentMutable<Props extends any = {}, Data = unknown> = {
   getId: () => string;
 
   //label
@@ -43,6 +43,9 @@ export type ComponentMutable<Props extends any = {}> = {
 
   getAngle: () => number;
   setAngle: (angle: number) => void;
+
+  getData: <R = Data>(selector?: (data: Data) => R) => R;
+  setData: (data: Data | ((data: Data) => Data)) => void;
 
   getComponent?: <Mutable>(
     component: Component<any, Mutable> | AsyncComponent<any, Mutable>,
