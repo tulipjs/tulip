@@ -2,37 +2,63 @@ import {
   BodyMutable,
   ComponentMutable,
   ComponentProps,
-  Function,
+  Component,
   Point,
 } from "../types";
-import { getValueMutableFunction } from "../utils";
+import { getRandomNumber, getValueMutableFunction } from "../utils";
 
 export type EmptyProps = {} & ComponentProps;
 
-export type EmptyMutable = {} & ComponentMutable;
+export type EmptyMutable = {} & ComponentMutable<ComponentProps>;
 
-export const empty: Function<EmptyProps, EmptyMutable> = ({
-  label,
-  position,
-} = {}) => {
-  let _position: Point = {
+export const empty: Component<EmptyProps, EmptyMutable, false> = (
+  originalProps = {},
+) => {
+  const { label = "empty", position } = originalProps;
+  const $props = structuredClone(originalProps);
+
+  let $id = `${label}_${getRandomNumber(0, 100_000)}`;
+  let $position: Point = {
     x: position?.x || 0,
     y: position?.y || 0,
   };
-  let _angle = 0;
-  let _label = label;
-  let _body: BodyMutable;
+  let $angle = 0;
+  let $label = label;
+  let $body: BodyMutable;
 
-  const getLabel = () => _label;
-  const setLabel = (label: string) => (_label = label);
+  const getId = () => $id;
 
-  const getBody = () => _body;
+  const getLabel = () => $label;
+  const setLabel = (label: string) => ($label = label);
+
+  const getBody = () => $body;
   const setBody = (body: BodyMutable) => {
-    _body = body;
-    _body.setPosition(_position);
+    $body = body;
+    $body.setPosition($position);
   };
 
+  const setPosition = async (data) => {
+    $position = await getValueMutableFunction<Point>(data, $position);
+    $body?.setPosition($position);
+  };
+  const getPosition = () => $body?.getPosition() || $position;
+
+  const getAngle = () => $body?.getAngle() || $angle;
+  const setAngle = (angle: number) => {
+    $angle = angle;
+    $body?.setAngle(angle);
+  };
+
+  const $getRaw = (): EmptyProps => ({
+    id: $id,
+    label: $label,
+    position: getPosition(),
+    angle: getAngle(),
+  });
+
   return {
+    getId,
+
     getLabel,
     setLabel,
 
@@ -40,20 +66,27 @@ export const empty: Function<EmptyProps, EmptyMutable> = ({
     getBody,
 
     //position
-    setPosition: async (data) => {
-      _position = await getValueMutableFunction<Point>(data, _position);
-      _body?.setPosition(_position);
-    },
+    setPosition,
     setPositionX: async (data) => {
-      _position.x = await getValueMutableFunction<number>(data, _position.x);
-      _body?.setPosition(_position);
+      $position.x = await getValueMutableFunction<number>(data, $position.x);
+      $body?.setPosition($position);
     },
     setPositionY: async (data) => {
-      _position.y = await getValueMutableFunction<number>(data, _position.y);
-      _body?.setPosition(_position);
+      $position.y = await getValueMutableFunction<number>(data, $position.y);
+      $body?.setPosition($position);
     },
-    getPosition: () => _body?.getPosition() || _position,
+    getPosition,
 
-    getAngle: () => _body?.getAngle() || _angle,
+    getAngle,
+    setAngle,
+
+    getFather: null,
+
+    getProps: () => $props as any,
+
+    $destroy: () => {},
+    $getRaw,
+
+    $mutable: false,
   };
 };

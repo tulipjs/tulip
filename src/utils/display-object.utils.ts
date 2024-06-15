@@ -13,84 +13,113 @@ import { degreesToRadians, radiansToDegrees } from "../utils";
 export const getDisplayObjectMutable = <DisplayObject extends DO>(
   displayObject: DisplayObject,
   componentMutable?: ComponentMutable,
-) => ({
-  ...componentMutable,
-
-  getDisplayObject: (): DisplayObject => displayObject,
-
-  setLabel: (label: string) => {
+) => {
+  const setLabel = (label: string) => {
     componentMutable.setLabel(label);
     displayObject.label = label;
-  },
-  //position
-  setPosition: async (data) => {
+  };
+
+  const setPosition = async (data) => {
     componentMutable.setPosition(data);
     displayObject.position = await getValueMutableFunction<Point>(
       data,
       componentMutable.getPosition(),
     );
-  },
-  setPositionX: async (data) => {
-    componentMutable.setPositionX(data);
-    displayObject.position.x = await getValueMutableFunction<number>(
-      data,
-      componentMutable.getPosition().x,
-    );
-  },
-  setPositionY: async (data) => {
-    componentMutable.setPositionY(data);
-    displayObject.position.y = await getValueMutableFunction<number>(
-      data,
-      componentMutable.getPosition().y,
-    );
-  },
+  };
 
-  //pivot
-  setPivot: async (data) =>
+  const setPivot = async (data) =>
     (displayObject.pivot = await getValueMutableFunction<Point>(
       data,
       displayObject.pivot,
-    )),
-  setPivotX: async (data) =>
-    (displayObject.pivot.x = await getValueMutableFunction<number>(
-      data,
-      displayObject.pivot.x,
-    )),
-  setPivotY: async (data) =>
-    (displayObject.pivot.y = await getValueMutableFunction<number>(
-      data,
-      displayObject.pivot.y,
-    )),
-  getPivot: () => displayObject.pivot,
-  //events
-  on: (event, callback) => displayObject.on(event, callback),
-  //visible
-  setVisible: async (data) =>
+    ));
+  const getPivot = () =>
+    ({
+      x: displayObject?.pivot?.x || 0,
+      y: displayObject?.pivot?.y || 0,
+    }) as Point;
+
+  const setVisible = async (data) =>
     (displayObject.visible = await getValueMutableFunction<boolean>(
       data,
       displayObject.visible,
-    )),
-  getVisible: () => displayObject.visible,
-  //zIndex
-  setZIndex: async (data) =>
+    ));
+  const getVisible = () => displayObject.visible;
+
+  const setZIndex = async (data) =>
     (displayObject.zIndex = await getValueMutableFunction<number>(
       data,
       displayObject.zIndex,
-    )),
-  getZIndex: () => displayObject.zIndex,
-  //alpha
-  setAlpha: async (data) =>
+    ));
+  const getZIndex = () => displayObject.zIndex;
+
+  const setAlpha = async (data) =>
     (displayObject.alpha = await getValueMutableFunction<number>(
       data,
       displayObject.alpha,
-    )),
-  getAlpha: () => displayObject.alpha,
+    ));
+  const getAlpha = () => displayObject.alpha;
 
-  _step: () => {
-    displayObject.position.copyFrom(componentMutable.getPosition());
-    displayObject.angle = componentMutable.getAngle();
-  },
-});
+  const $getRaw = (): DisplayObjectProps => ({
+    ...componentMutable.$getRaw(),
+    pivot: getPivot(),
+    visible: getVisible(),
+    zIndex: getZIndex(),
+    alpha: getAlpha(),
+  });
+
+  return {
+    ...componentMutable,
+
+    getDisplayObject: (): DisplayObject => displayObject,
+
+    setLabel,
+    //position
+    setPosition,
+    setPositionX: async (data) => {
+      componentMutable.setPositionX(data);
+      displayObject.position.x = await getValueMutableFunction<number>(
+        data,
+        componentMutable.getPosition().x,
+      );
+    },
+    setPositionY: async (data) => {
+      componentMutable.setPositionY(data);
+      displayObject.position.y = await getValueMutableFunction<number>(
+        data,
+        componentMutable.getPosition().y,
+      );
+    },
+
+    //pivot
+    setPivot,
+    setPivotX: async (data) =>
+      (displayObject.pivot.x = await getValueMutableFunction<number>(
+        data,
+        displayObject.pivot.x,
+      )),
+    setPivotY: async (data) =>
+      (displayObject.pivot.y = await getValueMutableFunction<number>(
+        data,
+        displayObject.pivot.y,
+      )),
+    getPivot,
+
+    //events
+    on: (event, callback) => displayObject.on(event, callback),
+    //visible
+    setVisible,
+    getVisible,
+    //zIndex
+    setZIndex,
+    getZIndex,
+    //alpha
+    setAlpha,
+    getAlpha,
+
+    $getRaw,
+    $mutable: false,
+  };
+};
 
 export const setDisplayObjectProps = <DisplayObject extends DO>(
   displayObject: DisplayObject,
@@ -102,6 +131,7 @@ export const setDisplayObjectProps = <DisplayObject extends DO>(
     visible = DISPLAY_OBJECT_DEFAULT_PROPS.visible,
     alpha = DISPLAY_OBJECT_DEFAULT_PROPS.alpha,
     angle = 0,
+    zIndex = 0,
   }: DisplayObjectProps = DISPLAY_OBJECT_DEFAULT_PROPS,
   displayObjectMutable?: DisplayObjectMutable<DisplayObject>,
 ) => {
@@ -110,6 +140,7 @@ export const setDisplayObjectProps = <DisplayObject extends DO>(
   position && displayObject.position.copyFrom(position);
   pivot && displayObject.pivot.copyFrom(pivot);
   displayObject.alpha = alpha || 0;
+  zIndex !== undefined && (displayObject.zIndex = zIndex);
 
   angle && (displayObject.angle = degreesToRadians(angle));
 

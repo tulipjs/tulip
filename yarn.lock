@@ -7,6 +7,13 @@
   resolved "https://registry.yarnpkg.com/@pixi/colord/-/colord-2.9.6.tgz#7e4e7851480da6fd3cef4e331f008d60be7e1204"
   integrity sha512-nezytU2pw587fQstUu1AsJZDVEynjskwOL+kibwcdxsMBFqPsFFNA7xl0ii/gXuDi6M0xj3mfRJj8pBSc2jCfA==
 
+"@tulib/vite-tulip@1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@tulib/vite-tulip/-/vite-tulip-1.0.5.tgz#b390bff6422a22f5f666cee80d98e34df60093f2"
+  integrity sha512-8LuNUgi4J2o2Mhmkt70xpr5MjXyllX0A25GYhcsTyeBBddl8fbC6v8Ei6hScOU2KCsgMGw0ZsWmRO1O25OMbtw==
+  dependencies:
+    picocolors "1.0.1"
+
 "@types/css-font-loading-module@^0.0.12":
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/@types/css-font-loading-module/-/css-font-loading-module-0.0.12.tgz#65494833928823f998fbe8e86312821875d80db5"
@@ -59,10 +66,15 @@ parse-svg-path@^0.1.2:
   resolved "https://registry.yarnpkg.com/parse-svg-path/-/parse-svg-path-0.1.2.tgz#7a7ec0d1eb06fa5325c7d3e009b859a09b5d49eb"
   integrity sha512-JyPSBnkTJ0AI8GGJLfMXvKq42cj5c006fnLz6fXy6zfoVjJizi8BNTpu8on8ziI1cKy9d9DGNuY17Ce7wuejpQ==
 
-pixi.js@v8.1.5:
-  version "8.1.5"
-  resolved "https://registry.yarnpkg.com/pixi.js/-/pixi.js-8.1.5.tgz#f5be0b6186953f881583871d3d44b988370e680b"
-  integrity sha512-6Tpx4Pe00tAOfVuqJNlEk24XHCjaQ5hVwkXbeF7CBIO28G10HQSlr9dQOuLKsWx6RMrBaSpP6ujUhQ68Ok1x+w==
+picocolors@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.1.tgz#a8ad579b571952f0e5d25892de5445bcfe25aaa1"
+  integrity sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==
+
+pixi.js@8.1.6:
+  version "8.1.6"
+  resolved "https://registry.yarnpkg.com/pixi.js/-/pixi.js-8.1.6.tgz#5aaa9f480fea2a029974d8fd4074ba39e03058fc"
+  integrity sha512-FZT/dLZ9Tdw8eN6odgunSQHORsgHcvLlfOWm7cpR4ZxVGPRqFgDQ4hXpwVxeY9UK4PZtlJ4U910H1QZ4XNLJxg==
   dependencies:
     "@pixi/colord" "^2.9.6"
     "@types/css-font-loading-module" "^0.0.12"

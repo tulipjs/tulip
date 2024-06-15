@@ -1,8 +1,9 @@
 import * as PIXI from "pixi.js";
 import {
-  AsyncFunction,
+  AsyncComponent,
   DisplayObjectMutable,
   DisplayObjectProps,
+  InternalMutable,
   Sprite,
 } from "../types";
 import { getDisplayObjectMutable, setDisplayObjectProps } from "../utils";
@@ -16,16 +17,19 @@ type Mutable = {
   setTexture: (texture?: string) => Promise<void>;
 } & DisplayObjectMutable<Sprite>;
 
-export const sprite: AsyncFunction<Props, Mutable> = async ({
-  texture = undefined,
-  label,
-  ...props
-}) => {
+export const sprite: AsyncComponent<Props, Mutable, false> = async (
+  originalProps,
+) => {
+  const { label, texture = undefined, ...props } = originalProps;
+
+  const $props = structuredClone(originalProps);
+
+  let $texture = texture;
   const spriteTexture = texture
     ? await PIXI.Assets.load(texture)
     : PIXI.Texture.EMPTY;
 
-  const _getTexture = async (texture?: string) => {
+  const $getTexture = async (texture?: string) => {
     const targetTexture = texture
       ? await PIXI.Assets.load(texture)
       : PIXI.Texture.EMPTY;
@@ -43,13 +47,44 @@ export const sprite: AsyncFunction<Props, Mutable> = async ({
   );
   setDisplayObjectProps<Sprite>(sprite, props, displayObjectMutable);
 
-  return {
+  const setTexture = async (texture?: string) => {
+    $texture = texture;
+    sprite.texture = await $getTexture(texture);
+  };
+
+  const $getRaw = (): Props => ({
+    ...displayObjectMutable.$getRaw(),
+    texture: $texture,
+  });
+
+  const $destroy = () => {
+    //remove child first
+    spriteTexture?.parent?.removeChild(spriteTexture);
+    displayObjectMutable.$destroy();
+    //destroy pixi graphics
+    spriteTexture.destroy();
+  };
+
+  const mutable: InternalMutable<Mutable, false> = {
     // container
     ...displayObjectMutable,
 
     // sprite
-    setTexture: async (texture?: string) => {
-      sprite.texture = await _getTexture(texture);
+    setTexture,
+
+    // @ts-ignore
+    getComponent: (component) => {
+      mutable.$componentName = component.name;
+      return mutable;
     },
-  } as Mutable;
+
+    getProps: () => $props as any,
+
+    $destroy,
+    $getRaw,
+
+    $mutable: false,
+  };
+
+  return mutable;
 };

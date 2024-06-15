@@ -1,10 +1,18 @@
 import * as PIXI from "pixi.js";
-import { ApplicationProps, DisplayObject, DisplayObjectMutable } from "./types";
+import {
+  ApplicationProps,
+  ContainerMutable,
+  DisplayObject,
+  DisplayObjectMutable,
+} from "./types";
 import { APPLICATION_DEFAULT_PROPS } from "./consts";
+import { global } from "./global";
+import { initViteTulipPlugin } from "@tulib/vite-tulip";
 
 export const application = async ({
   backgroundColor = APPLICATION_DEFAULT_PROPS.backgroundColor,
   scale = APPLICATION_DEFAULT_PROPS.scale,
+  $importMetaHot = null,
 }: ApplicationProps = APPLICATION_DEFAULT_PROPS) => {
   const application = new PIXI.Application();
 
@@ -22,6 +30,36 @@ export const application = async ({
     app: application,
   };
 
+  // @ts-ignore
+  if ($importMetaHot)
+    initViteTulipPlugin(
+      $importMetaHot,
+      async (componentModule, componentData) => {
+        const componentList = global.$getComponentList({
+          componentName: componentData.funcName,
+        });
+        // console.log(componentModule, componentData);
+        for (const mutable of componentList) {
+          const father = mutable.getFather() as ContainerMutable;
+
+          const raw = structuredClone(mutable.$getRaw());
+          const props = structuredClone(mutable.getProps<any>());
+          const body = mutable.getBody();
+
+          mutable.$destroy();
+
+          global.$removeComponent(mutable);
+
+          const component = await componentModule[componentData.funcName]({
+            ...props,
+            ...raw,
+          });
+          father.add(component);
+          body && component.setBody(body);
+        }
+      },
+    );
+
   application.stage.sortableChildren = true;
   application.stage.eventMode = "static";
 
@@ -33,10 +71,22 @@ export const application = async ({
   application.renderer.resolution = scale * Math.round(devicePixelRatio);
 
   document.body.appendChild(application.canvas);
+  global.$setApplication(application);
 
-  return {
+  const mutable = {
     add: (displayObjectMutable: DisplayObjectMutable<DisplayObject>) => {
+      displayObjectMutable.getFather = () => mutable as any;
+
+      global.$addComponent(displayObjectMutable);
       application.stage.addChild(displayObjectMutable.getDisplayObject());
     },
+    remove: (displayObjectMutable: DisplayObjectMutable<DisplayObject>) => {
+      displayObjectMutable.getFather = null;
+
+      global.$removeComponent(displayObjectMutable);
+      application.stage.removeChild(displayObjectMutable.getDisplayObject());
+    },
   };
+
+  return mutable;
 };
