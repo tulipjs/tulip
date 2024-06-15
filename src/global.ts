@@ -3,10 +3,26 @@ import * as PIXI from "pixi.js";
 
 export const global = (() => {
   let $application: PIXI.Application;
+  let $data = {};
+
   let componentList: ComponentMutable[] = [];
 
-  const $setApplication = (application: PIXI.Application) => $application = application
-  
+  const getFPS = (): number => $application.ticker.FPS;
+
+  const getData = <Data extends {}>(selector?: (data: Data) => Data): Data => {
+    return selector ? selector($data as Data) : ($data as unknown as Data);
+  };
+  const setData = <Data extends {}>(data: Data | ((data: Data) => Data)) => {
+    if (typeof data === "function") {
+      $data = (data as (data: Data) => Data)($data as Data);
+    } else {
+      $data = data;
+    }
+  };
+
+  const $setApplication = (application: PIXI.Application) =>
+    ($application = application);
+
   const $addComponent = (component: ComponentMutable) => {
     componentList.push(component);
   };
@@ -21,14 +37,14 @@ export const global = (() => {
       ({ $componentName }) =>
         !componentName || componentName === $componentName,
     );
-
-  const getFPS = (): number => $application.ticker.FPS
-  
   return {
-    $setApplication,
-    
     getFPS,
-    
+
+    setData,
+    getData,
+
+    $setApplication,
+
     $addComponent,
     $removeComponent,
     $getComponentList,

@@ -14,12 +14,12 @@ type Item = {
   id: Number;
   name: String;
   quantity: Number;
-}
+};
 type Inventory = {
   backpack: Item[];
   left?: Item;
   right?: Item;
-}
+};
 
 export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
   const _world = world({
@@ -52,25 +52,27 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
       color: 0x00ff00,
       size: 4,
     },
+    position: {
+      x: 300,
+      y: 0,
+    },
   });
   _world.add(_ball);
 
   const initialInventory: Inventory = {
-    backpack: [
-      {id: 294, name: 'Golden Hoe', quantity: 1}
-    ],
-  }
+    backpack: [{ id: 294, name: "Golden Hoe", quantity: 1 }],
+  };
 
   const inventory = empty<Inventory>({
-    initialData: initialInventory
-  })
+    initialData: initialInventory,
+  });
 
-  const goldenHoe = inventory.getData(data => data.backpack[0])
-  inventory.setData(data => ({
+  const goldenHoe = inventory.getData((data) => data.backpack[0]);
+  inventory.setData((data) => ({
     ...data,
     backpack: [],
-    right: goldenHoe
-  }))
+    right: goldenHoe,
+  }));
 
   // let selectedBall;
   // for (let y = 0; y < 5; y++) {
