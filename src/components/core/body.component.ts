@@ -1,12 +1,6 @@
 import p2 from "p2";
-import {
-  BodyMutable,
-  BodyProps,
-  Component,
-  Point,
-  ShapeMutable,
-} from "../../types";
-import { degreesToRadians } from "../../utils";
+import { BodyMutable, BodyProps, Component, Point, Shapes } from "../../types";
+import { degreesToRadians, getShape } from "../../utils";
 
 export const body: Component<BodyProps, BodyMutable> = ({
   mass,
@@ -19,12 +13,13 @@ export const body: Component<BodyProps, BodyMutable> = ({
 
   const getBody = () => $body;
 
-  const addShape = (shape: ShapeMutable) => {
-    $body.addShape(shape.getShape());
-    return shape;
+  const addShape = <Shape extends Shapes>(shapeProps: Shape): number => {
+    const shape = getShape(shapeProps);
+    $body.addShape(shape);
+    return shape.id;
   };
-  const removeShape = (shape: ShapeMutable) => {
-    $body.removeShape(shape.getShape());
+  const removeShape = (shapeId: number) => {
+    $body.removeShape($body.shapes.find((shape) => shape.id === shapeId));
   };
 
   const setPosition = (position: Point) => {
