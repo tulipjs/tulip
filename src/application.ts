@@ -7,12 +7,12 @@ import {
 } from "./types";
 import { APPLICATION_DEFAULT_PROPS } from "./consts";
 import { global } from "./global";
-import { initViteTulipPlugin } from "@darkaqua/vite-tulip";
+import { initViteTulipPlugin } from "@tulib/vite-tulip";
 
 export const application = async ({
   backgroundColor = APPLICATION_DEFAULT_PROPS.backgroundColor,
   scale = APPLICATION_DEFAULT_PROPS.scale,
-  importMetaHot = null,
+  $importMetaHot = null,
 }: ApplicationProps = APPLICATION_DEFAULT_PROPS) => {
   const application = new PIXI.Application();
 
@@ -31,9 +31,9 @@ export const application = async ({
   };
 
   // @ts-ignore
-  if (importMetaHot)
+  if ($importMetaHot)
     initViteTulipPlugin(
-      importMetaHot,
+      $importMetaHot,
       async (componentModule, componentData) => {
         const componentList = global.$getComponentList({
           componentName: componentData.funcName,

@@ -1,4 +1,4 @@
-import { application } from "@darkaqua/tulip";
+import { application } from "@tulib/tulip";
 import { app } from "./app";
 
 application({

@@ -1,5 +1,9 @@
 export type ApplicationProps = {
   backgroundColor?: number;
   scale?: number;
-  importMetaHot?: any;
+  /**
+   * Only for development use!
+   * @deprecated
+   */
+  $importMetaHot?: any;
 };

@@ -4,7 +4,7 @@ import {
   world,
   plane,
   AsyncComponent,
-} from "@darkaqua/tulip";
+} from "@tulib/tulip";
 import { ballComponent } from "ball.component";
 
 type Mutable = {} & DisplayObjectMutable<Container>;

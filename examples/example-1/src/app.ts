@@ -5,7 +5,7 @@ import {
   DisplayObjectMutable,
   EventMode,
   sprite as spriteComponent,
-} from "@darkaqua/tulip";
+} from "@tulib/tulip";
 
 type Mutable = {} & DisplayObjectMutable<Container>;
 

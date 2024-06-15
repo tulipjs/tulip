@@ -8,7 +8,7 @@ import {
   EventMode,
   graphics as graphicsComponent,
   ContainerProps,
-} from "@darkaqua/tulip";
+} from "@tulib/tulip";
 
 type Props = {
   props: {
