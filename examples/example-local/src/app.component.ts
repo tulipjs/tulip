@@ -4,10 +4,22 @@ import {
   world,
   plane,
   AsyncComponent,
+  empty,
 } from "@tulib/tulip";
 import { ballComponent } from "ball.component";
 
 type Mutable = {} & DisplayObjectMutable<Container>;
+
+type Item = {
+  id: Number;
+  name: String;
+  quantity: Number;
+}
+type Inventory = {
+  backpack: Item[];
+  left?: Item;
+  right?: Item;
+}
 
 export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
   const _world = world({
@@ -42,6 +54,23 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
     },
   });
   _world.add(_ball);
+
+  const initialInventory: Inventory = {
+    backpack: [
+      {id: 294, name: 'Golden Hoe', quantity: 1}
+    ],
+  }
+
+  const inventory = empty<Inventory>({
+    initialData: initialInventory
+  })
+
+  const goldenHoe = inventory.getData(data => data.backpack[0])
+  inventory.setData(data => ({
+    ...data,
+    backpack: [],
+    right: goldenHoe
+  }))
 
   // let selectedBall;
   // for (let y = 0; y < 5; y++) {
