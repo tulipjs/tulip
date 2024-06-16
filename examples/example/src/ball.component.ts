@@ -29,6 +29,7 @@ export const ballComponent: Component<Props, Mutable> = (props) => {
       size: 15,
       color: global.getData<GlobalData>().ballColor,
     },
+    alpha: 0.5,
     position: {
       x: 15,
       y: 15,
