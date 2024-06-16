@@ -56,19 +56,6 @@ export const application = async ({
     $isStopped = true;
   };
 
-  // {
-  //   let $lastVisibleChange = 0;
-  //   window.addEventListener("visibilitychange", (event) => {
-  //     if (document.hidden) $lastVisibleChange = performance.now();
-  //     else {
-  //       console.log(document.hidden, performance.now() - $lastVisibleChange);
-  //       for (let i = 0; i < 10000; i++) {
-  //         PIXI.Ticker.shared.update();
-  //       }
-  //     }
-  //   });
-  // }
-
   // Renders crisp pixel sprites
   PIXI.TextureSource.defaultOptions.scaleMode = "nearest";
   // PIXI.settings.FAIL_IF_MAJOR_PERFORMANCE_CAVEAT = true;
