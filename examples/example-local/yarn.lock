@@ -212,14 +212,14 @@
 "@tulib/tulip@../../":
   version "0.0.0"
   dependencies:
-    "@tulib/vite-tulip" "1.0.5"
+    "@tulib/vite-tulip-plugin" "1.0.2"
     p2 "0.7.1"
     pixi.js "8.1.6"
 
-"@tulib/vite-tulip@1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@tulib/vite-tulip/-/vite-tulip-1.0.5.tgz#b390bff6422a22f5f666cee80d98e34df60093f2"
-  integrity sha512-8LuNUgi4J2o2Mhmkt70xpr5MjXyllX0A25GYhcsTyeBBddl8fbC6v8Ei6hScOU2KCsgMGw0ZsWmRO1O25OMbtw==
+"@tulib/vite-tulip-plugin@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@tulib/vite-tulip-plugin/-/vite-tulip-plugin-1.0.2.tgz#9da3da78dcdacbc294e86a2e5b9fe9988fe93b9f"
+  integrity sha512-DqGaFFGZfTYIpVH7Q81VA8jdaZ1W2OS/fXhn8KlgFP0+qm7lXHR9QDYXQTwM3C6dgkRS6VgV6v4u4cOe2u+nrQ==
   dependencies:
     picocolors "1.0.1"
 

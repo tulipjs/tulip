@@ -9,6 +9,16 @@ export const global = (() => {
 
   const getFPS = (): number => $application.ticker.FPS;
 
+  const isDevelopment = (): boolean => {
+    //@ts-ignore
+    if (!import.meta?.env) return false;
+
+    //@ts-ignore
+    const { DEV, PROD } = import.meta?.env;
+
+    return DEV && !PROD;
+  };
+
   const getData = <Data extends {}>(selector?: (data: Data) => Data): Data => {
     return selector ? selector($data as Data) : ($data as unknown as Data);
   };
@@ -42,6 +52,8 @@ export const global = (() => {
 
     setData,
     getData,
+
+    isDevelopment,
 
     $setApplication,
 
