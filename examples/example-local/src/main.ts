@@ -4,7 +4,7 @@ import { GlobalData } from "types";
 
 application({
   backgroundColor: 0xff00ff,
-  scale: 1,
+  scale: 2,
   //@ts-ignore
   $importMetaHot: import.meta.hot,
 }).then(async ({ add }) => {

@@ -4,49 +4,43 @@ import {
   world,
   plane,
   AsyncComponent,
-  empty,
+  global,
+  container,
+  sprite,
+  EventMode,
 } from "@tulib/tulip";
 import { ballComponent } from "ball.component";
+import { inventoryComponent } from "./inventory.component";
 
 type Mutable = {} & DisplayObjectMutable<Container>;
 
-type Item = {
-  id: Number;
-  name: String;
-  quantity: Number;
-};
-type Inventory = {
-  backpack: Item[];
-  left?: Item;
-  right?: Item;
-};
-
 export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
-  const _world = world({
+  const $container = container({ label: "app" });
+  const $world = world({
     position: { x: 0, y: 0 },
     gravity: { x: 0, y: -3 },
     label: "world",
   });
 
-  const _plane = plane({
+  const $plane = plane({
     position: {
       x: 0,
       y: 100,
     },
     angle: 45,
   });
-  _world.add(_plane);
+  $world.add($plane);
 
-  const _plane2 = plane({
+  const $plane2 = plane({
     position: {
       x: 400,
       y: 200,
     },
     angle: -45,
   });
-  _world.add(_plane2);
+  $world.add($plane2);
 
-  const _ball = ballComponent({
+  const $ball = ballComponent({
     label: `ball`,
     props: {
       color: 0x00ff00,
@@ -57,22 +51,7 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
       y: 0,
     },
   });
-  _world.add(_ball);
-
-  const initialInventory: Inventory = {
-    backpack: [{ id: 294, name: "Golden Hoe", quantity: 1 }],
-  };
-
-  const inventory = empty<Inventory>({
-    initialData: initialInventory,
-  });
-
-  const goldenHoe = inventory.getData((data) => data.backpack[0]);
-  inventory.setData((data) => ({
-    ...data,
-    backpack: [],
-    right: goldenHoe,
-  }));
+  $world.add($ball);
 
   // let selectedBall;
   // for (let y = 0; y < 5; y++) {
@@ -115,5 +94,21 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
   //   currentKeyList = currentKeyList.filter((cKey) => cKey != key);
   // });
 
-  return _world.getComponent(appComponent);
+  global.setVolume(0.5);
+
+  const $inv = inventoryComponent();
+  const $sprite = await sprite({
+    texture: "player.png",
+    eventMode: EventMode.STATIC,
+  });
+
+  $container.add($sprite);
+
+  $sprite.on("click", () => {
+    $inv.equipHoe();
+  });
+
+  $container.add($world);
+
+  return $container.getComponent(appComponent);
 };

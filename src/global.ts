@@ -1,4 +1,5 @@
 import { ComponentMutable, GlobalFilterType } from "./types";
+import { Howler } from "howler";
 import * as PIXI from "pixi.js";
 
 export const global = (() => {
@@ -32,6 +33,8 @@ export const global = (() => {
     );
   };
 
+  const setVolume = (volume: number) => Howler.volume(volume);
+
   const $getComponentList = ({ componentName }: GlobalFilterType = {}) =>
     componentList.filter(
       ({ $componentName }) =>
@@ -42,6 +45,8 @@ export const global = (() => {
 
     setData,
     getData,
+
+    setVolume,
 
     $setApplication,
 
