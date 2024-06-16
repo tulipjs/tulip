@@ -1,15 +1,15 @@
 import p2 from "p2";
 import {
+  Component,
   DisplayObject,
   DisplayObjectMutable,
-  Component,
+  InternalMutable,
   WorldMutable,
   WorldProps,
-  InternalMutable,
 } from "../../types";
 import { container } from "./container.component";
-import { createTicker } from "../../utils";
 import { WORLD_DEFAULT_PROPS } from "../../consts";
+import { DisplayObjectEvent } from "../../enums";
 
 export const world: Component<WorldProps, WorldMutable, false> = (
   originalProps = WORLD_DEFAULT_PROPS,
@@ -73,11 +73,14 @@ export const world: Component<WorldProps, WorldMutable, false> = (
     removeContainer(displayObject);
   };
 
-  createTicker(componentMutable.getDisplayObject(), ({ deltaTime }) => {
-    if (!displayObjectList.length) return;
+  componentMutable.on<{ deltaTime: number }>(
+    DisplayObjectEvent.TICK,
+    ({ deltaTime }) => {
+      if (!displayObjectList.length) return;
 
-    $world.step(deltaTime / velocity);
-  });
+      $world.step(deltaTime * velocity);
+    },
+  );
 
   const getComponent = (component: Component<any, any>) => {
     componentMutable.$componentName = mutable.$componentName = component.name;

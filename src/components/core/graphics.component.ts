@@ -64,7 +64,6 @@ export const graphics: Component<Props, Mutable, false> = (originalProps) => {
   };
 
   const $getRaw = (): Props => {
-    console.log("color", $color);
     return {
       ...displayObjectMutable.$getRaw(),
       color: $color,

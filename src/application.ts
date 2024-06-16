@@ -8,10 +8,12 @@ import {
 import { APPLICATION_DEFAULT_PROPS } from "./consts";
 import { global } from "./global";
 import { initViteTulipPlugin } from "@tulib/vite-tulip-plugin";
+import { Event } from "./enums";
 
 export const application = async ({
   backgroundColor = APPLICATION_DEFAULT_PROPS.backgroundColor,
   scale = APPLICATION_DEFAULT_PROPS.scale,
+  importMetaEnv = null,
   importMetaHot = null,
 }: ApplicationProps = APPLICATION_DEFAULT_PROPS) => {
   const application = new PIXI.Application();
@@ -19,12 +21,66 @@ export const application = async ({
   await application.init({
     backgroundColor,
     antialias: true,
-    sharedTicker: true,
+    sharedTicker: false,
     resizeTo: window,
     preference: "webgpu",
   });
 
-  if (global.isDevelopment()) {
+  //### APPLICATION ##################################################################################################//
+  application.stage.sortableChildren = true;
+  application.stage.eventMode = "static";
+
+  // ticker
+  application.ticker.autoStart = false;
+  application.ticker.stop();
+
+  let $isStopped = false;
+  let $lastUpdate = 0;
+  const update = (currentUpdate: number) => {
+    currentUpdate *= 0.01; // convert to ms
+    let deltaTime = currentUpdate - $lastUpdate;
+    $lastUpdate = currentUpdate;
+
+    global.events.$emit(Event.TICK, { deltaTime });
+    application.render();
+
+    if (!$isStopped) requestAnimationFrame(update);
+  };
+
+  const start = () => {
+    $isStopped = false;
+    requestAnimationFrame(update);
+  };
+  start();
+  const stop = () => {
+    $isStopped = true;
+  };
+
+  // {
+  //   let $lastVisibleChange = 0;
+  //   window.addEventListener("visibilitychange", (event) => {
+  //     if (document.hidden) $lastVisibleChange = performance.now();
+  //     else {
+  //       console.log(document.hidden, performance.now() - $lastVisibleChange);
+  //       for (let i = 0; i < 10000; i++) {
+  //         PIXI.Ticker.shared.update();
+  //       }
+  //     }
+  //   });
+  // }
+
+  // Renders crisp pixel sprites
+  PIXI.TextureSource.defaultOptions.scaleMode = "nearest";
+  // PIXI.settings.FAIL_IF_MAJOR_PERFORMANCE_CAVEAT = true;
+  PIXI.AbstractRenderer.defaultOptions.failIfMajorPerformanceCaveat = true;
+
+  application.renderer.resolution = scale * Math.round(devicePixelRatio);
+
+  document.body.appendChild(application.canvas);
+  global.$setApplication(application);
+
+  //### DEVELOPMENT ##################################################################################################//
+  if (importMetaEnv?.DEV) {
     //@ts-ignore
     window.__PIXI_DEVTOOLS__ = {
       pixi: PIXI,
@@ -39,7 +95,7 @@ export const application = async ({
           const componentList = global.$getComponentList({
             componentName: componentData.funcName,
           });
-          // console.log(componentModule, componentData);
+
           for (const mutable of componentList) {
             const father = mutable.getFather() as ContainerMutable;
 
@@ -62,19 +118,7 @@ export const application = async ({
       );
   }
 
-  application.stage.sortableChildren = true;
-  application.stage.eventMode = "static";
-
-  // Renders crisp pixel sprites
-  PIXI.TextureSource.defaultOptions.scaleMode = "nearest";
-  // PIXI.settings.FAIL_IF_MAJOR_PERFORMANCE_CAVEAT = true;
-  PIXI.AbstractRenderer.defaultOptions.failIfMajorPerformanceCaveat = true;
-
-  application.renderer.resolution = scale * Math.round(devicePixelRatio);
-
-  document.body.appendChild(application.canvas);
-  global.$setApplication(application);
-
+  //### MUTABLES #####################################################################################################//
   const mutable = {
     add: (displayObjectMutable: DisplayObjectMutable<DisplayObject>) => {
       displayObjectMutable.getFather = () => mutable as any;
@@ -88,6 +132,9 @@ export const application = async ({
       global.$removeComponent(displayObjectMutable);
       application.stage.removeChild(displayObjectMutable.getDisplayObject());
     },
+
+    start,
+    stop,
   };
 
   return mutable;
