@@ -1,5 +1,7 @@
 export type SoundProps = {
   source: string;
+  volume: number;
+  loop: boolean;
 };
 
 export type SoundMutable = {

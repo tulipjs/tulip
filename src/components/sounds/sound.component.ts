@@ -2,13 +2,20 @@ import { Howl } from "howler";
 import { Component, SoundMutable, SoundProps } from "../../types";
 
 // TODO: add position or SpatialAudio
-export const sound: Component<SoundProps, SoundMutable> = ({ source }) => {
+export const sound: Component<SoundProps, SoundMutable> = ({
+  source,
+  volume = 0.5,
+  loop = false,
+}) => {
   const $sound = new Howl({
     src: [source],
     html5: true,
     autoplay: false,
-    loop: false,
-    volume: 0.5,
+    loop,
+    volume,
+    onloaderror: (soundId, soundError) => {
+      console.error("[sound]", soundId, soundError);
+    },
     onend: function () {
       console.log("Finished!");
     },
