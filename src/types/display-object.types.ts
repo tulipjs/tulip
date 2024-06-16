@@ -1,7 +1,6 @@
 import { MutableFunction } from "./mutables.types";
 import { Point } from "./point.types";
-import { ContainerEvent } from "./events.types";
-import { EventMode } from "../enums";
+import { DisplayObjectEvent, EventMode } from "../enums";
 import { ComponentMutable, ComponentProps } from "./component.types";
 
 export type DisplayObjectProps = {
@@ -22,7 +21,11 @@ export type DisplayObjectMutable<DisplayObject> = {
   setPivotY: (y: MutableFunction<number>) => void;
   getPivot: () => Point;
   //events
-  on: <Data>(event: ContainerEvent, callback: (data: Data) => void) => void;
+  on: <Data>(
+    event: DisplayObjectEvent,
+    callback: (data: Data) => void | Promise<void>,
+  ) => void;
+
   //visible
   setVisible: (visible: MutableFunction<boolean>) => void;
   getVisible: () => boolean;

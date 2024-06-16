@@ -1,23 +1,13 @@
-import { ComponentMutable, GlobalFilterType } from "./types";
+import { ComponentMutable, GlobalFilterType } from "../types";
 import * as PIXI from "pixi.js";
+import { events } from "./events";
 
 export const global = (() => {
   let $application: PIXI.Application;
   let $data = {};
-
-  let componentList: ComponentMutable[] = [];
+  let $componentList: ComponentMutable[] = [];
 
   const getFPS = (): number => $application.ticker.FPS;
-
-  const isDevelopment = (): boolean => {
-    //@ts-ignore
-    if (!import.meta?.env) return false;
-
-    //@ts-ignore
-    const { DEV, PROD } = import.meta?.env;
-
-    return DEV && !PROD;
-  };
 
   const getData = <Data extends {}>(selector?: (data: Data) => Data): Data => {
     return selector ? selector($data as Data) : ($data as unknown as Data);
@@ -33,17 +23,19 @@ export const global = (() => {
   const $setApplication = (application: PIXI.Application) =>
     ($application = application);
 
+  const getApplication = () => $application;
+
   const $addComponent = (component: ComponentMutable) => {
-    componentList.push(component);
+    $componentList.push(component);
   };
   const $removeComponent = (component: ComponentMutable) => {
-    componentList = componentList.filter(
+    $componentList = $componentList.filter(
       ($component) => $component.getId() !== component.getId(),
     );
   };
 
   const $getComponentList = ({ componentName }: GlobalFilterType = {}) =>
-    componentList.filter(
+    $componentList.filter(
       ({ $componentName }) =>
         !componentName || componentName === $componentName,
     );
@@ -53,12 +45,14 @@ export const global = (() => {
     setData,
     getData,
 
-    isDevelopment,
+    getApplication,
 
     $setApplication,
 
     $addComponent,
     $removeComponent,
     $getComponentList,
+
+    events: events(),
   };
 })();

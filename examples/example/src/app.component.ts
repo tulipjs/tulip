@@ -6,7 +6,7 @@ import {
   AsyncComponent,
   empty,
 } from "@tulib/tulip";
-import { ballComponent } from "ball.component";
+import { flyComponent } from "fly.component";
 
 type Mutable = {} & DisplayObjectMutable<Container>;
 
@@ -24,7 +24,7 @@ type Inventory = {
 export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
   const _world = world({
     position: { x: 0, y: 0 },
-    gravity: { x: 0, y: -3 },
+    gravity: { x: 0, y: -0.5 },
     label: "world",
   });
 
@@ -33,7 +33,11 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
       x: 0,
       y: 100,
     },
-    angle: 45,
+    angle: 60,
+    props: {
+      color: 0x333333,
+    },
+    alpha: 0.25,
   });
   _world.add(_plane);
 
@@ -42,22 +46,28 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
       x: 400,
       y: 200,
     },
-    angle: -45,
+    angle: -60,
+    props: {
+      color: 0x333333,
+    },
+    alpha: 0.25,
   });
   _world.add(_plane2);
-
-  const _ball = ballComponent({
-    label: `ball`,
-    props: {
-      color: 0x00ff00,
-      size: 4,
-    },
-    position: {
-      x: 300,
-      y: 0,
-    },
-  });
-  _world.add(_ball);
+  for (let i = 0; i < 10; i++) {
+    const _fly = flyComponent({
+      label: `ball`,
+      props: {
+        color: 0,
+        size: 4,
+        mass: 10,
+      },
+      position: {
+        x: 250 + i * 5,
+        y: 0,
+      },
+    });
+    _world.add(_fly);
+  }
 
   const initialInventory: Inventory = {
     backpack: [{ id: 294, name: "Golden Hoe", quantity: 1 }],
