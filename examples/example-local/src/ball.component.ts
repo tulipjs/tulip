@@ -1,14 +1,11 @@
 import {
   Component,
-  body,
-  circleShape,
-  container as containerComponent,
   Container,
   DisplayObjectMutable,
   EventMode,
-  graphics as graphicsComponent,
   ContainerProps,
   global,
+  circle,
 } from "@tulib/tulip";
 import { GlobalData } from "types";
 
@@ -22,35 +19,22 @@ type Props = {
 type Mutable = {} & DisplayObjectMutable<Container>;
 
 export const ballComponent: Component<Props, Mutable> = (props) => {
-  const container = containerComponent({
+  const container = circle({
     eventMode: EventMode.STATIC,
     ...props,
   });
 
-  const {
-    props: { color, size },
-  } = container.getProps<Props>();
-
-  const circle = graphicsComponent({
-    color,
-  });
-  circle.setCircle(size);
-  container.add(circle);
-
-  const circle2 = graphicsComponent({
-    color: global.getData<GlobalData>().ballColor,
-    pivot: {
-      x: 10,
-      y: 10,
+  const circle2 = circle({
+    props: {
+      size: 15,
+      color: global.getData<GlobalData>().ballColor,
+    },
+    position: {
+      x: 15,
+      y: 15,
     },
   });
-  circle2.setCircle(size + 3);
   container.add(circle2);
-
-  const spriteBody = body({ mass: 1 });
-  spriteBody.addShape(circleShape({ radius: size }));
-
-  container.setBody(spriteBody);
 
   return container.getComponent(ballComponent);
 };

@@ -5,8 +5,8 @@ import {
   Graphics,
   ContainerProps,
   InternalMutable,
-} from "../types";
-import { getDisplayObjectMutable, setDisplayObjectProps } from "../utils";
+} from "../../types";
+import { getDisplayObjectMutable, setDisplayObjectProps } from "../../utils";
 import { empty } from "./empty.component";
 
 type Props = {

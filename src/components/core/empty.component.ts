@@ -2,17 +2,21 @@ import {
   BodyMutable,
   ComponentMutable,
   ComponentProps,
-  Point, InternalMutable,
-} from "../types";
-import { getRandomNumber, getValueMutableFunction } from "../utils";
+  Point,
+  InternalMutable,
+} from "../../types";
+import { getRandomNumber, getValueMutableFunction } from "../../utils";
 
 export type EmptyProps<Data = unknown> = {
-  initialData?: Data
+  initialData?: Data;
 } & ComponentProps;
 
-export type EmptyMutable<Data = unknown> = {} & ComponentMutable<ComponentProps, Data>;
+export type EmptyMutable<Data = unknown> = {} & ComponentMutable<
+  ComponentProps,
+  Data
+>;
 
-export const empty = <Data,>(
+export const empty = <Data>(
   originalProps: EmptyProps<Data> = {},
 ): InternalMutable<EmptyMutable<Data>, false> => {
   const { label = "empty", position, initialData } = originalProps;
@@ -26,7 +30,7 @@ export const empty = <Data,>(
   let $angle = 0;
   let $label = label;
   let $body: BodyMutable;
-  let $data = initialData ?? {} as Data
+  let $data = initialData ?? ({} as Data);
 
   const getId = () => $id;
 
@@ -67,7 +71,7 @@ export const empty = <Data,>(
     label: $label,
     position: getPosition(),
     angle: getAngle(),
-    initialData: $data
+    initialData: $data,
   });
 
   return {

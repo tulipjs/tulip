@@ -7,7 +7,7 @@ import {
   WorldProps,
   InternalMutable,
 } from "../../types";
-import { container } from "../container.component";
+import { container } from "./container.component";
 import { createTicker } from "../../utils";
 import { WORLD_DEFAULT_PROPS } from "../../consts";
 

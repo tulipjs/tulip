@@ -6,10 +6,10 @@ import {
   ContainerMutable,
   InternalMutable,
   ComponentMutable,
-} from "../types";
-import { getDisplayObjectMutable, setDisplayObjectProps } from "../utils";
+} from "../../types";
+import { getDisplayObjectMutable, setDisplayObjectProps } from "../../utils";
 import { empty } from "./empty.component";
-import { global } from "../global";
+import { global } from "../../global";
 
 export const container: Component<ContainerProps, ContainerMutable, false> = (
   originalProps = {},

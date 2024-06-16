@@ -1,14 +1,14 @@
 import p2 from "p2";
 import { Point } from "./point.types";
-import { ShapeMutable } from "./shapes";
+import { Shapes } from "./shapes.types";
 
 export type BodyProps = {
   mass?: number;
   angle?: number;
 };
 export type BodyMutable<Raw extends any = {}> = {
-  addShape: (shape: ShapeMutable) => ShapeMutable;
-  removeShape: (shape: ShapeMutable) => void;
+  addShape: <Shape extends Shapes>(shapeProps: Shape) => number;
+  removeShape: (shapeId: number) => void;
 
   setPosition: (position: Point) => void;
   getPosition: () => Point;
