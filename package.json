@@ -5,7 +5,7 @@
   "dependencies": {
     "p2": "0.7.1",
     "pixi.js": "8.1.6",
-    "@tulib/vite-tulip": "1.0.5"
+    "@tulib/vite-tulip-plugin": "1.0.2"
   },
   "homepage": "https://github.com/tulips/tulip",
   "contributors": [

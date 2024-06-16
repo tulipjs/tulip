@@ -7,12 +7,12 @@ import {
 } from "./types";
 import { APPLICATION_DEFAULT_PROPS } from "./consts";
 import { global } from "./global";
-import { initViteTulipPlugin } from "@tulib/vite-tulip";
+import { initViteTulipPlugin } from "@tulib/vite-tulip-plugin";
 
 export const application = async ({
   backgroundColor = APPLICATION_DEFAULT_PROPS.backgroundColor,
   scale = APPLICATION_DEFAULT_PROPS.scale,
-  $importMetaHot = null,
+  importMetaHot = null,
 }: ApplicationProps = APPLICATION_DEFAULT_PROPS) => {
   const application = new PIXI.Application();
 
@@ -24,41 +24,43 @@ export const application = async ({
     preference: "webgpu",
   });
 
-  //@ts-ignore
-  window.__PIXI_DEVTOOLS__ = {
-    pixi: PIXI,
-    app: application,
-  };
+  if (global.isDevelopment()) {
+    //@ts-ignore
+    window.__PIXI_DEVTOOLS__ = {
+      pixi: PIXI,
+      app: application,
+    };
 
-  // @ts-ignore
-  if ($importMetaHot)
-    initViteTulipPlugin(
-      $importMetaHot,
-      async (componentModule, componentData) => {
-        const componentList = global.$getComponentList({
-          componentName: componentData.funcName,
-        });
-        // console.log(componentModule, componentData);
-        for (const mutable of componentList) {
-          const father = mutable.getFather() as ContainerMutable;
-
-          const raw = structuredClone(mutable.$getRaw());
-          const props = structuredClone(mutable.getProps<any>());
-          const body = mutable.getBody();
-
-          mutable.$destroy();
-
-          global.$removeComponent(mutable);
-
-          const component = await componentModule[componentData.funcName]({
-            ...props,
-            ...raw,
+    // @ts-ignore
+    if (importMetaHot)
+      initViteTulipPlugin(
+        importMetaHot,
+        async (componentModule, componentData) => {
+          const componentList = global.$getComponentList({
+            componentName: componentData.funcName,
           });
-          father.add(component);
-          body && component.setBody(body);
-        }
-      },
-    );
+          // console.log(componentModule, componentData);
+          for (const mutable of componentList) {
+            const father = mutable.getFather() as ContainerMutable;
+
+            const raw = structuredClone(mutable.$getRaw());
+            const props = structuredClone(mutable.getProps<any>());
+            const body = mutable.getBody();
+
+            mutable.$destroy();
+
+            global.$removeComponent(mutable);
+
+            const component = await componentModule[componentData.funcName]({
+              ...props,
+              ...raw,
+            });
+            father.add(component);
+            body && component.setBody(body);
+          }
+        },
+      );
+  }
 
   application.stage.sortableChildren = true;
   application.stage.eventMode = "static";
