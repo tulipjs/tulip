@@ -1,16 +1,19 @@
 import {
   ComponentMutable,
-  DisplayObject as DO,
+  DisplayObject as PIXIDisplayObject,
   DisplayObjectMutable,
   DisplayObjectProps,
   Point,
 } from "../types";
 import { getValueMutableFunction } from "./mutables.utils";
 import { DISPLAY_OBJECT_DEFAULT_PROPS } from "../consts";
-import { createTicker } from "./ticker.utils";
 import { degreesToRadians, radiansToDegrees } from "../utils";
+import { DisplayObjectEvent, Event } from "../enums";
+import { global } from "../global";
 
-export const getDisplayObjectMutable = <DisplayObject extends DO>(
+export const getDisplayObjectMutable = <
+  DisplayObject extends PIXIDisplayObject,
+>(
   displayObject: DisplayObject,
   componentMutable?: ComponentMutable,
 ) => {
@@ -67,6 +70,21 @@ export const getDisplayObjectMutable = <DisplayObject extends DO>(
     alpha: getAlpha(),
   });
 
+  let $onTickEventId: number;
+  displayObject.on(DisplayObjectEvent.REMOVED, () => {
+    $onTickEventId !== undefined &&
+      global.events.remove(Event.TICK, $onTickEventId);
+  });
+
+  const on = (event: DisplayObjectEvent, callback: (data?: any) => void) => {
+    switch (event) {
+      case DisplayObjectEvent.TICK:
+        $onTickEventId = global.events.on(Event.TICK, callback);
+        return;
+    }
+    displayObject.on(event as any, callback);
+  };
+
   return {
     ...componentMutable,
 
@@ -105,7 +123,7 @@ export const getDisplayObjectMutable = <DisplayObject extends DO>(
     getPivot,
 
     //events
-    on: (event, callback) => displayObject.on(event, callback),
+    on,
     //visible
     setVisible,
     getVisible,
@@ -121,7 +139,7 @@ export const getDisplayObjectMutable = <DisplayObject extends DO>(
   };
 };
 
-export const setDisplayObjectProps = <DisplayObject extends DO>(
+export const setDisplayObjectProps = <DisplayObject extends PIXIDisplayObject>(
   displayObject: DisplayObject,
   {
     label,
@@ -148,7 +166,7 @@ export const setDisplayObjectProps = <DisplayObject extends DO>(
 
   eventMode && (displayObject.eventMode = eventMode);
 
-  createTicker(displayObject, ({ deltaTime }) => {
+  displayObjectMutable.on(DisplayObjectEvent.TICK, () => {
     // If not body present, it doesn't make sense to iterate
     if (!displayObjectMutable?.getBody()) return;
 
