@@ -1,12 +1,23 @@
 {
-  "name": "@darkaqua/tulip",
+  "name": "@tulib/tulip",
   "version": "0.0.0",
   "main": "./src/mod.ts",
   "dependencies": {
-    "howler": "^2.2.4",
     "p2": "0.7.1",
-    "pixi.js": "v8.1.5"
+    "pixi.js": "8.1.6",
+    "@tulib/vite-tulip": "1.0.5"
   },
+  "homepage": "https://github.com/tulips/tulip",
+  "contributors": [
+    {
+      "name": "pablo",
+      "url": "https://github.com/pagoru"
+    },
+    {
+      "name": "alberto",
+      "url": "https://github.com/alqubo"
+    }
+  ],
   "devDependencies": {
     "@types/p2": "0.7.44",
     "prettier": "3.3.0"

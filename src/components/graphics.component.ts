@@ -1,15 +1,19 @@
 import * as PIXI from "pixi.js";
 import {
-  Function,
+  Component,
   DisplayObjectMutable,
   Graphics,
   ContainerProps,
+  InternalMutable,
 } from "../types";
 import { getDisplayObjectMutable, setDisplayObjectProps } from "../utils";
 import { empty } from "./empty.component";
 
 type Props = {
   color: number;
+
+  radius?: number;
+  polygon?: number[];
 } & ContainerProps;
 
 type Mutable = {
@@ -20,15 +24,22 @@ type Mutable = {
   setCircle: (radius: number) => void;
 } & DisplayObjectMutable<Graphics>;
 
-export const graphics: Function<Props, Mutable> = ({
-  color: defaultColor,
-  label,
-  ...props
-}) => {
-  let _color = defaultColor;
+export const graphics: Component<Props, Mutable, false> = (originalProps) => {
+  const {
+    color: defaultColor,
+    radius: defaultRadius,
+    polygon: defaultPolygon,
+    label,
+    ...props
+  } = originalProps;
+
+  const $props = structuredClone(originalProps);
+
+  let $color = defaultColor;
+  let $polygon = defaultPolygon;
+  let $radius = defaultRadius;
 
   const graphics = new PIXI.Graphics() as Graphics;
-  graphics.tint = _color;
 
   const emptyMutable = empty({ label });
 
@@ -38,22 +49,65 @@ export const graphics: Function<Props, Mutable> = ({
   );
   setDisplayObjectProps<Graphics>(graphics, props, displayObjectMutable);
 
-  return {
+  const getColor = () => $color;
+  const setColor = (color: number) => {
+    graphics.tint = color;
+  };
+
+  const setPolygon = (polygon: number[]) => {
+    graphics.clear();
+    graphics.poly(polygon).fill({ color: 0xffffff });
+  };
+  const setCircle = (radius: number) => {
+    graphics.clear();
+    graphics.circle(0, 0, radius).fill({ color: 0xffffff });
+  };
+
+  const $getRaw = (): Props => {
+    console.log("color", $color);
+    return {
+      ...displayObjectMutable.$getRaw(),
+      color: $color,
+      radius: $radius,
+      polygon: $polygon,
+    };
+  };
+
+  const $destroy = () => {
+    //remove child first
+    graphics?.parent?.removeChild(graphics);
+    displayObjectMutable.$destroy();
+    //destroy pixi graphics
+    graphics.destroy();
+  };
+
+  $color !== undefined && setColor($color);
+  $polygon && setPolygon($polygon);
+  $radius && setCircle($radius);
+
+  const mutable: InternalMutable<Mutable, false> = {
     // container
     ...displayObjectMutable,
     // graphics
-    setColor: (color: number) => {
-      graphics.tint = color;
-    },
-    getColor: () => _color,
+    setColor,
+    getColor,
 
-    setPolygon: (polygon: number[]) => {
-      graphics.clear();
-      graphics.poly(polygon).fill({ color: 0xffffff });
+    setPolygon,
+    setCircle,
+
+    // @ts-ignore
+    getComponent: (component) => {
+      mutable.$componentName = component.name;
+      return mutable;
     },
-    setCircle: (radius: number) => {
-      graphics.clear();
-      graphics.circle(0, 0, radius).fill({ color: 0xffffff });
-    },
+
+    getProps: () => $props as any,
+
+    $getRaw,
+    $destroy,
+
+    $mutable: false,
   };
+
+  return mutable;
 };
