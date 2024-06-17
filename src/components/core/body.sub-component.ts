@@ -1,8 +1,14 @@
 import p2 from "p2";
-import { BodyMutable, BodyProps, Component, Point, Shapes } from "../../types";
+import {
+  BodyMutable,
+  BodyProps,
+  Point,
+  Shapes,
+  SubComponent,
+} from "../../types";
 import { degreesToRadians, getShape } from "../../utils";
 
-export const body: Component<BodyProps, BodyMutable> = ({
+export const body: SubComponent<BodyProps, BodyMutable> = ({
   mass,
   angle,
 } = {}) => {
@@ -52,7 +58,5 @@ export const body: Component<BodyProps, BodyMutable> = ({
     addForce,
 
     getBody,
-
-    $mutable: true,
   };
 };
