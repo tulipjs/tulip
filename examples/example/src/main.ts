@@ -7,6 +7,7 @@ application({
   scale: 1,
   //@ts-ignore
   importMetaEnv: import.meta.env,
+  //@ts-ignore
   importMetaHot: import.meta.hot,
 }).then(async ({ add }) => {
   global.setData<GlobalData>({ ballColor: 0x333333 });

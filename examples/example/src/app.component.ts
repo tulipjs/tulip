@@ -3,6 +3,8 @@ import {
   DisplayObjectMutable,
   world,
   plane,
+  AsyncSubComponent,
+  empty,
   AsyncComponent,
   global,
   container,
@@ -14,13 +16,25 @@ import { inventoryComponent } from "./inventory.component";
 
 type Mutable = {} & DisplayObjectMutable<Container>;
 
-export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
+export const appComponent: AsyncSubComponent<unknown, Mutable> = async () => {
   const $container = container({ label: "app" });
   const $world = world({
     position: { x: 0, y: 0 },
-    gravity: { x: 0, y: -0.5 },
     label: "world",
+    props: {
+      physics: {
+        enabled: false,
+        gravity: { x: 0, y: -0.5 },
+      },
+    },
   });
+
+  setTimeout(() => {
+    $world.setPhysicsEnabled(true);
+    setTimeout(() => {
+      $world.setPhysicsEnabled(false);
+    }, 1000);
+  }, 1000);
 
   const $plane = plane({
     position: {

@@ -15,31 +15,24 @@ export const world: Component<WorldProps, WorldMutable, false> = (
   originalProps = WORLD_DEFAULT_PROPS,
 ) => {
   const {
-    gravity = WORLD_DEFAULT_PROPS.gravity,
-    velocity = WORLD_DEFAULT_PROPS.velocity,
-    ...props
-  } = originalProps;
+    add: addContainer,
+    remove: removeContainer,
+    ...componentMutable
+  } = container(originalProps);
 
   const $props = structuredClone(originalProps);
 
   const {
-    add: addContainer,
-    remove: removeContainer,
-    ...componentMutable
-  } = container(props);
+    props: { physics },
+  } = componentMutable.getProps<WorldProps>();
 
   let displayObjectList: DisplayObjectMutable<any>[] = [];
 
-  const $world = new p2.World({
-    gravity: gravity ? [gravity.x, gravity.y] : undefined,
+  let $world = new p2.World({
+    gravity: physics?.gravity
+      ? [physics?.gravity?.x || 0, physics?.gravity?.y || 0]
+      : undefined,
   });
-
-  // const planeShape = new p2.Plane();
-  // const planeBody = new p2.Body({ position: [0, -200] });
-  // planeBody.addShape(planeShape);
-  // _world.addBody(planeBody);
-
-  // const material = new p2.Material();
 
   const add = (displayObject: DisplayObjectMutable<DisplayObject>) => {
     const body = displayObject.getBody();
@@ -73,12 +66,24 @@ export const world: Component<WorldProps, WorldMutable, false> = (
     removeContainer(displayObject);
   };
 
+  const setPhysicsEnabled = (enabled: boolean) => {
+    componentMutable.setData({ physicsEnabled: enabled });
+  };
+
+  const $getPhysicsEnabled = (): boolean =>
+    componentMutable.getData((data: { physicsEnabled: boolean }) =>
+      data.physicsEnabled === undefined
+        ? physics.enabled === undefined || physics.enabled
+        : data.physicsEnabled,
+    );
+  setPhysicsEnabled($getPhysicsEnabled());
+
   componentMutable.on<{ deltaTime: number }>(
     DisplayObjectEvent.TICK,
     ({ deltaTime }) => {
       if (!displayObjectList.length) return;
 
-      $world.step(deltaTime * velocity);
+      $getPhysicsEnabled() && $world.step(deltaTime * physics?.velocity || 1);
     },
   );
 
@@ -96,6 +101,8 @@ export const world: Component<WorldProps, WorldMutable, false> = (
     ...componentMutable,
     add,
     remove,
+    setPhysicsEnabled,
+
     // @ts-ignore
     getComponent,
 
