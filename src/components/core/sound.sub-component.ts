@@ -1,25 +1,27 @@
-import { Howl } from "howler";
-import { Component, SoundMutable, SoundProps } from "../../types";
+import {
+  AsyncSubComponent,
+  Point,
+  SoundMutable,
+  SoundProps,
+} from "../../types";
+import { global } from "../../global";
 
-// TODO: add position or SpatialAudio
-export const sound: Component<SoundProps, SoundMutable> = ({
-  source,
+export const sound: AsyncSubComponent<SoundProps, SoundMutable> = async ({
+  sources,
   volume = 0.5,
   loop = false,
+  $verbose = false,
 }) => {
-  const $sound = new Howl({
-    src: [source],
-    html5: true,
-    autoplay: false,
-    loop,
+  const $sound = await global.sounds.$add({
+    sources,
     volume,
-    onloaderror: (soundId, soundError) => {
-      console.error("[sound]", soundId, soundError);
-    },
-    onend: function () {
-      console.log("Finished!");
-    },
+    loop,
+    $verbose,
   });
+
+  const setPosition = (position: Point) => {
+    $sound.pos(position.x, position.y, 2);
+  };
 
   const toggle = () => {
     if ($sound.playing()) {
@@ -41,7 +43,6 @@ export const sound: Component<SoundProps, SoundMutable> = ({
     getVolume: () => $sound.volume(),
     getDuration: () => $sound.duration(),
     isPlaying: () => $sound.playing(),
-
-    $mutable: true,
+    setPosition,
   };
 };

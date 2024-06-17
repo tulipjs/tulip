@@ -1,7 +1,11 @@
+import { Point } from "./point.types";
+
 export type SoundProps = {
-  source: string;
-  volume: number;
-  loop: boolean;
+  sources: string[];
+  volume?: number;
+  loop?: boolean;
+
+  $verbose?: boolean;
 };
 
 export type SoundMutable = {
@@ -15,4 +19,5 @@ export type SoundMutable = {
   getVolume: () => number;
   getDuration: () => number;
   isPlaying: () => boolean;
+  setPosition: (position: Point) => void;
 };

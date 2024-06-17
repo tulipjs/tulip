@@ -10,3 +10,5 @@ export * from "./global.types";
 
 export * from "./components";
 export * from "./shapes";
+
+export * from "./sound.types";

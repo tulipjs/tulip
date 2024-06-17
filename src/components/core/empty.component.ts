@@ -4,8 +4,11 @@ import {
   ComponentProps,
   Point,
   InternalMutable,
+  SoundProps,
+  SoundMutable,
 } from "../../types";
 import { getRandomNumber, getValueMutableFunction } from "../../utils";
+import { sound } from "./sound.sub-component";
 
 export type EmptyProps<Data = unknown> = {
   initialData?: Data;
@@ -31,6 +34,7 @@ export const empty = <Data>(
   let $label = label;
   let $body: BodyMutable;
   let $data = initialData ?? ({} as Data);
+  let $soundList = new Map<string, SoundMutable>();
 
   const getId = () => $id;
 
@@ -46,6 +50,8 @@ export const empty = <Data>(
   const setPosition = async (data) => {
     $position = await getValueMutableFunction<Point>(data, $position);
     $body?.setPosition($position);
+
+    $soundList.forEach(($sound) => $sound.setPosition($position));
   };
   const getPosition = () => $body?.getPosition() || $position;
 
@@ -65,6 +71,14 @@ export const empty = <Data>(
       $data = data;
     }
   };
+
+  const addSound = async (key: string, soundData: SoundProps) => {
+    const $sound = await sound(soundData);
+    $sound.setPosition(getPosition());
+    $soundList.set(key, $sound);
+    return $sound;
+  };
+  const getSound = (key: string) => $soundList.get(key);
 
   const $getRaw = (): EmptyProps<Data> => ({
     id: $id,
@@ -88,10 +102,12 @@ export const empty = <Data>(
     setPositionX: async (data) => {
       $position.x = await getValueMutableFunction<number>(data, $position.x);
       $body?.setPosition($position);
+      $soundList.forEach(($sound) => $sound.setPosition($position));
     },
     setPositionY: async (data) => {
       $position.y = await getValueMutableFunction<number>(data, $position.y);
       $body?.setPosition($position);
+      $soundList.forEach(($sound) => $sound.setPosition($position));
     },
     getPosition,
 
@@ -102,6 +118,9 @@ export const empty = <Data>(
 
     getData,
     setData,
+
+    addSound,
+    getSound,
 
     getProps: () => $props as any,
 

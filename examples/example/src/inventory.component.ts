@@ -1,4 +1,4 @@
-import { empty, sound, Component } from "@tulib/tulip";
+import { empty, Component } from "@tulib/tulip";
 
 type Item = {
   id: Number;
@@ -25,14 +25,6 @@ export const inventoryComponent: Component<{}, InventoryMutable> = () => {
     initialData: INITIAL_INVENTORY,
   });
 
-  const $sound = sound({
-    source: "inventory-grab.mp3",
-  });
-
-  setTimeout(() => {
-    $sound.fade();
-  }, 5000);
-
   const equipHoe = () => {
     const goldenHoe = $inventory.getData((data) => data.backpack[0]);
     $inventory.setData((data) => ({
@@ -40,8 +32,6 @@ export const inventoryComponent: Component<{}, InventoryMutable> = () => {
       backpack: [],
       right: goldenHoe,
     }));
-
-    $sound.play();
   };
 
   return {

@@ -1,5 +1,5 @@
 import { Component, ContainerMutable, ContainerProps } from "../../types";
-import { graphics, body, container } from "../index";
+import { graphics, body, container } from "../core";
 import { Shape } from "../../enums";
 
 type PlaneProps = {

@@ -5,7 +5,7 @@ export const getValueMutableFunction = async <Type>(
   currentValue: Type,
 ) => {
   return typeof data === "function"
-    // @ts-ignore
-    ? await data(currentValue)
+    ? // @ts-ignore
+      await data(currentValue)
     : data;
 };
