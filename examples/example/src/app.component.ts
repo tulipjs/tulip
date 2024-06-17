@@ -3,7 +3,7 @@ import {
   DisplayObjectMutable,
   world,
   plane,
-  AsyncComponent,
+  AsyncSubComponent,
   empty,
 } from "@tulib/tulip";
 import { flyComponent } from "fly.component";
@@ -21,7 +21,7 @@ type Inventory = {
   right?: Item;
 };
 
-export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
+export const appComponent: AsyncSubComponent<unknown, Mutable> = async () => {
   const _world = world({
     position: { x: 0, y: 0 },
     label: "world",

@@ -1,6 +1,6 @@
 import p2 from "p2";
 import { Point } from "./point.types";
-import { Shapes } from "./shapes.types";
+import { Shapes } from "../types/shapes";
 
 export type BodyProps = {
   mass?: number;
