@@ -1,11 +1,11 @@
 import {
   AsyncSubComponent,
-  DEFAULT_PANNER_CONFIG,
   Point,
   SoundMutable,
   SoundProps,
 } from "../../types";
 import { global } from "../../global";
+import { DEFAULT_PANNER_CONFIG } from "../../consts";
 
 export const sound: AsyncSubComponent<SoundProps, SoundMutable> = async ({
   sources,
