@@ -7,6 +7,7 @@ export * from "./component.types";
 export * from "./sub-component.types";
 export * from "./body.types";
 export * from "./global.types";
+export * from "./material.types";
 
 export * from "./components";
 export * from "./shapes";

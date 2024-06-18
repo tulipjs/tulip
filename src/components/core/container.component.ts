@@ -6,6 +6,7 @@ import {
   ContainerMutable,
   InternalMutable,
   ComponentMutable,
+  DisplayObjectMutable,
 } from "../../types";
 import { getDisplayObjectMutable, setDisplayObjectProps } from "../../utils";
 import { empty } from "./empty.component";
@@ -38,23 +39,27 @@ export const container: Component<ContainerProps, ContainerMutable, false> = (
     for (const childComponent of childList) childComponent.$destroy();
   };
 
+  const add = (displayObjectMutable: DisplayObjectMutable<any>) => {
+    displayObjectMutable.getFather = () => mutable;
+
+    container.addChild(displayObjectMutable.getDisplayObject());
+    childList.push(displayObjectMutable);
+    global.$addComponent(displayObjectMutable);
+  };
+
+  const remove = (displayObjectMutable: DisplayObjectMutable<any>) => {
+    displayObjectMutable.getFather = null;
+
+    container.removeChild(displayObjectMutable.getDisplayObject());
+    childList = childList.filter((child) => child !== displayObjectMutable);
+    global.$removeComponent(displayObjectMutable);
+  };
+
   const mutable: InternalMutable<ContainerMutable, false> = {
     ...displayObjectMutable,
     //
-    add: (displayObjectMutable) => {
-      displayObjectMutable.getFather = () => mutable;
-
-      container.addChild(displayObjectMutable.getDisplayObject());
-      childList.push(displayObjectMutable);
-      global.$addComponent(displayObjectMutable);
-    },
-    remove: (displayObjectMutable) => {
-      displayObjectMutable.getFather = null;
-
-      container.removeChild(displayObjectMutable.getDisplayObject());
-      childList = childList.filter((child) => child !== displayObjectMutable);
-      global.$removeComponent(displayObjectMutable);
-    },
+    add,
+    remove,
     // @ts-ignore
     getComponent: (component) => {
       mutable.$componentName = component.name;

@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import {
-  AsyncSubComponent,
+  AsyncComponent,
   DisplayObjectMutable,
   DisplayObjectProps,
   InternalMutable,
@@ -17,7 +17,7 @@ type Mutable = {
   setTexture: (texture?: string) => Promise<void>;
 } & DisplayObjectMutable<Sprite>;
 
-export const sprite: AsyncSubComponent<Props, Mutable, false> = async (
+export const sprite: AsyncComponent<Props, Mutable, false> = async (
   originalProps,
 ) => {
   const { label, texture = undefined, ...props } = originalProps;
