@@ -17,6 +17,8 @@ export const getDisplayObjectMutable = <
   displayObject: DisplayObject,
   componentMutable?: ComponentMutable,
 ) => {
+  let $isRemoved = false;
+
   const setLabel = (label: string) => {
     componentMutable.setLabel(label);
     displayObject.label = label;
@@ -72,17 +74,23 @@ export const getDisplayObjectMutable = <
 
   let $onTickEventId: number;
   displayObject.on(DisplayObjectEvent.REMOVED, () => {
+    $isRemoved = true;
     $onTickEventId !== undefined &&
       global.events.remove(Event.TICK, $onTickEventId);
   });
 
   const on = (event: DisplayObjectEvent, callback: (data?: any) => void) => {
+    const $callback = (data: any) => {
+      if ($isRemoved) return;
+      callback(data);
+    };
+
     switch (event) {
       case DisplayObjectEvent.TICK:
-        $onTickEventId = global.events.on(Event.TICK, callback);
+        $onTickEventId = global.events.on(Event.TICK, $callback);
         return;
     }
-    displayObject.on(event as any, callback);
+    displayObject.on(event as any, $callback);
   };
 
   return {
