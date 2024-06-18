@@ -21,8 +21,16 @@ type Mutable = {} & DisplayObjectMutable<Container>;
 
 export const flyComponent: Component<Props, Mutable> = (props) => {
   const container = circle({
-    eventMode: EventMode.STATIC,
     ...props,
+    eventMode: EventMode.STATIC,
+    props: {
+      ...props.props,
+      material: {
+        friction: 0.3,
+        restitution: 2,
+        surfaceVelocity: 200,
+      },
+    },
   });
 
   const alpha = 0.25;

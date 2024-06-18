@@ -8,7 +8,7 @@ export const circle: Component<CircleProps, ContainerMutable> = (props) => {
   });
 
   const {
-    props: { color, size, mass },
+    props: { color, size, mass, material },
   } = $container.getProps<CircleProps>();
 
   const $circle = graphics({
@@ -17,7 +17,10 @@ export const circle: Component<CircleProps, ContainerMutable> = (props) => {
   $circle.setCircle(size);
   $container.add($circle);
 
-  const spriteBody = body({ mass });
+  const spriteBody = body({
+    mass,
+    material,
+  });
   spriteBody.addShape({
     type: Shape.CIRCLE,
     radius: size,
