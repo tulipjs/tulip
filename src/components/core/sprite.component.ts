@@ -20,13 +20,13 @@ type Mutable = {
 export const sprite: AsyncComponent<Props, Mutable, false> = async (
   originalProps,
 ) => {
-  const { label, texture = undefined, ...props } = originalProps;
+  const { label, spriteSheet = undefined, ...props } = originalProps;
 
   const $props = structuredClone(originalProps);
 
-  let $texture = texture;
-  const spriteTexture = texture
-    ? await PIXI.Assets.load(texture)
+  let $texture = spriteSheet;
+  const spriteTexture = spriteSheet
+    ? await PIXI.Assets.load(spriteSheet)
     : PIXI.Texture.EMPTY;
 
   const $getTexture = async (texture?: string) => {
@@ -54,7 +54,7 @@ export const sprite: AsyncComponent<Props, Mutable, false> = async (
 
   const $getRaw = (): Props => ({
     ...displayObjectMutable.$getRaw(),
-    texture: $texture,
+    spriteSheet: $texture,
   });
 
   const $destroy = () => {
@@ -70,7 +70,7 @@ export const sprite: AsyncComponent<Props, Mutable, false> = async (
     ...displayObjectMutable,
 
     // sprite
-    setTexture,
+    setSpriteSheet: setTexture,
 
     // @ts-ignore
     getComponent: (component) => {
