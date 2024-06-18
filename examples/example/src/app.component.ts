@@ -1,10 +1,10 @@
 import {
+  AsyncComponent,
   Container,
   DisplayObjectMutable,
-  world,
-  plane,
   empty,
-  AsyncComponent,
+  plane,
+  world,
 } from "@tulib/tulip";
 import { flyComponent } from "fly.component";
 
