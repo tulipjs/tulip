@@ -1,5 +1,5 @@
 import { Howler } from "howler";
-import { Point, SoundProps } from "../types";
+import { DEFAULT_PANNER_CONFIG, Point, SoundProps } from "../types";
 
 type Point3d = {
   z: number;
@@ -83,6 +83,7 @@ export const sounds = () => {
     sources,
     loop = false,
     volume = 0.5,
+    pannerConfig = DEFAULT_PANNER_CONFIG,
     $verbose = false,
   }: SoundProps): Promise<Howl> =>
     new Promise<Howl>((resolve) => {
@@ -108,6 +109,11 @@ export const sounds = () => {
       sound.once("load", () => {
         $reloadPosition();
         $reloadOrientation();
+
+        sound.pannerAttr({
+          ...DEFAULT_PANNER_CONFIG,
+          ...pannerConfig,
+        });
 
         resolve(sound);
       });

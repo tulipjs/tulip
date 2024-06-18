@@ -1,5 +1,6 @@
 import {
   AsyncSubComponent,
+  DEFAULT_PANNER_CONFIG,
   Point,
   SoundMutable,
   SoundProps,
@@ -10,17 +11,26 @@ export const sound: AsyncSubComponent<SoundProps, SoundMutable> = async ({
   sources,
   volume = 0.5,
   loop = false,
+  orientation,
+  pannerConfig = DEFAULT_PANNER_CONFIG,
   $verbose = false,
 }) => {
   const $sound = await global.sounds.$add({
     sources,
     volume,
     loop,
+    pannerConfig,
     $verbose,
   });
 
   const setPosition = (position: Point) => {
     $sound.pos(position.x, position.y, 2);
+    setOrientation();
+  };
+
+  const setOrientation = () => {
+    if (!orientation) return;
+    $sound.orientation(orientation.x, orientation.y, orientation.z);
   };
 
   const toggle = () => {
