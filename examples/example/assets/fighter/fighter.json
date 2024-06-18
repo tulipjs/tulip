@@ -211,6 +211,25 @@
       "sourceSize": { "w": 175, "h": 240 }
     }
   },
+  "animations": {
+    "rollSequence": [
+      "rollSequence0000.png", "rollSequence0001.png",
+      "rollSequence0002.png", "rollSequence0003.png",
+      "rollSequence0004.png", "rollSequence0005.png",
+      "rollSequence0006.png", "rollSequence0007.png",
+      "rollSequence0008.png", "rollSequence0009.png",
+      "rollSequence0010.png", "rollSequence0011.png",
+      "rollSequence0012.png", "rollSequence0013.png",
+      "rollSequence0014.png", "rollSequence0015.png",
+      "rollSequence0016.png", "rollSequence0017.png",
+      "rollSequence0018.png", "rollSequence0019.png",
+      "rollSequence0020.png", "rollSequence0021.png",
+      "rollSequence0022.png", "rollSequence0023.png",
+      "rollSequence0024.png", "rollSequence0025.png",
+      "rollSequence0026.png", "rollSequence0027.png",
+      "rollSequence0028.png", "rollSequence0029.png"
+    ]
+  },
   "meta": {
     "app": "http://www.texturepacker.com",
     "version": "1.0",

@@ -10,6 +10,7 @@ import {
   plane,
   sprite,
   world,
+  animatedSprite,
 } from "@tulib/tulip";
 import { flyComponent } from "fly.component";
 
@@ -179,6 +180,11 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
   });
 
   $container.add($world2);
+
+  const aSprite = await animatedSprite({
+    spriteSheet: "fighter/fighter.json",
+  });
+	$container.add(aSprite);
 
   return $container.getComponent(appComponent);
 };

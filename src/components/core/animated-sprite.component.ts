@@ -6,8 +6,8 @@ import {
   InternalMutable,
   AnimatedSprite,
 } from "../../types";
-import { getDisplayObjectMutable, setDisplayObjectProps } from "../../utils";
 import { empty } from "./empty.component";
+import { getDisplayObjectMutable } from "../../utils";
 
 type Props = {
   spriteSheet: string;
@@ -20,14 +20,21 @@ type Mutable = {
 export const animatedSprite: AsyncComponent<Props, Mutable, false> = async (
   originalProps,
 ) => {
-  const { label, spriteSheet = undefined, ...props } = originalProps;
+  const { label, spriteSheet, ...props } = originalProps;
 
   const $props = structuredClone(originalProps);
 
-  let $spriteSheet = spriteSheet;
+  let $spriteSheet = spriteSheet + "";
   const spriteSheetTexture = await PIXI.Assets.load(spriteSheet);
 
-  console.log(spriteSheetTexture);
+  const $animatedSprite = new PIXI.AnimatedSprite(
+    spriteSheetTexture.animations["rollSequence"],
+  );
+  $animatedSprite.play();
+  $animatedSprite.loop = true;
+
+  const getSpriteSheet = () => $spriteSheet;
+
   // const $getTexture = async (texture?: string) => {
   //   const targetTexture = texture
   //     ? await PIXI.Assets.load(texture)
@@ -38,12 +45,12 @@ export const animatedSprite: AsyncComponent<Props, Mutable, false> = async (
   // };
 
   // const sprite = new PIXI.AnimatedSprite(spriteTexture) as AnimatedSprite;
-  // const emptyMutable = empty({ label });
+  const emptyMutable = empty({ label });
   //
-  // const displayObjectMutable = getDisplayObjectMutable<AnimatedSprite>(
-  //   sprite,
-  //   emptyMutable,
-  // );
+  const displayObjectMutable = getDisplayObjectMutable<AnimatedSprite>(
+    $animatedSprite,
+    emptyMutable,
+  );
   // setDisplayObjectProps<AnimatedSprite>(sprite, props, displayObjectMutable);
   //
   // const $getRaw = (): Props => ({
@@ -61,7 +68,11 @@ export const animatedSprite: AsyncComponent<Props, Mutable, false> = async (
 
   const mutable: InternalMutable<Mutable, false> = {
     // container
-    // ...displayObjectMutable,
+    ...displayObjectMutable,
+
+    getDisplayObject: () => $animatedSprite,
+
+    getSpriteSheet,
 
     // @ts-ignore
     getComponent: (component) => {
