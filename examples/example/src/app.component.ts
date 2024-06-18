@@ -10,7 +10,6 @@ import {
   plane,
   sprite,
   world,
-  empty,
 } from "@tulib/tulip";
 import { flyComponent } from "fly.component";
 
@@ -24,7 +23,7 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
     props: {
       physics: {
         enabled: true,
-        gravity: { x: 0, y: -0.25 },
+        gravity: { x: 0, y: -0 },
       },
     },
   });
