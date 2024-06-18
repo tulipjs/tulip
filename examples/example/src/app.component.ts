@@ -3,8 +3,8 @@ import {
   DisplayObjectMutable,
   world,
   plane,
-  AsyncSubComponent,
   empty,
+  AsyncComponent,
 } from "@tulib/tulip";
 import { flyComponent } from "fly.component";
 
@@ -21,24 +21,24 @@ type Inventory = {
   right?: Item;
 };
 
-export const appComponent: AsyncSubComponent<unknown, Mutable> = async () => {
+export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
   const _world = world({
     position: { x: 0, y: 0 },
     label: "world",
     props: {
       physics: {
-        enabled: false,
-        gravity: { x: 0, y: -0.5 },
+        enabled: true,
+        gravity: { x: 0, y: -0.25 },
       },
     },
   });
 
-  setTimeout(() => {
-    _world.setPhysicsEnabled(true);
-    setTimeout(() => {
-      _world.setPhysicsEnabled(false);
-    }, 1000);
-  }, 1000);
+  // setTimeout(() => {
+  //   _world.setPhysicsEnabled(true);
+  //   setTimeout(() => {
+  //     _world.setPhysicsEnabled(false);
+  //   }, 1000);
+  // }, 1000);
 
   const _plane = plane({
     position: {

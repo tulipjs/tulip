@@ -44,8 +44,15 @@ export const world: Component<WorldProps, WorldMutable, false> = (
         `No body available on display object '${displayObject.getLabel()}'`,
       );
     } else {
-      const _body = body.getBody();
-      // for (const shape of _body.shapes) shape.material = material;
+      const _body = body.$getBody();
+
+      //add contact materials
+      for (const displayObject of displayObjectList) {
+        const displayObjectBody = displayObject.getBody();
+        if (!displayObjectBody) continue;
+
+        $world.addContactMaterial(body.$getContactBody(displayObjectBody));
+      }
       $world.addBody(_body);
 
       // _world.addContactMaterial(
@@ -61,7 +68,7 @@ export const world: Component<WorldProps, WorldMutable, false> = (
       (_, index) => displayObjectList.indexOf(displayObject) !== index,
     );
     const body = displayObject.getBody();
-    if (body) $world.removeBody(body.getBody());
+    if (body) $world.removeBody(body.$getBody());
 
     removeContainer(displayObject);
   };

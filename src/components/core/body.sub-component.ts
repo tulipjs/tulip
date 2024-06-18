@@ -11,16 +11,31 @@ import { degreesToRadians, getShape } from "../../utils";
 export const body: SubComponent<BodyProps, BodyMutable> = ({
   mass,
   angle,
+
+  material = {
+    friction: 0.3,
+    restitution: 0,
+    surfaceVelocity: 0,
+  },
 } = {}) => {
   const $body = new p2.Body({
     mass: mass,
     angle: angle ? degreesToRadians(angle) : 0,
   });
 
-  const getBody = () => $body;
+  const $materialProps = structuredClone(material);
+  const $material = new p2.Material();
+
+  const $getContactBody = (bodyMutable: BodyMutable) =>
+    new p2.ContactMaterial($material, bodyMutable.$getMaterial(), {
+      ...$materialProps,
+    });
+  const $getMaterial = () => $material;
+  const $getBody = () => $body;
 
   const addShape = <Shape extends Shapes>(shapeProps: Shape): number => {
     const shape = getShape(shapeProps);
+    shape.material = $material;
     $body.addShape(shape);
     return shape.id;
   };
@@ -57,6 +72,8 @@ export const body: SubComponent<BodyProps, BodyMutable> = ({
     addForceY,
     addForce,
 
-    getBody,
+    $getBody,
+    $getMaterial,
+    $getContactBody,
   };
 };
