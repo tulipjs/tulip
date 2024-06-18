@@ -11,3 +11,5 @@ export * from "./material.types";
 
 export * from "./components";
 export * from "./shapes";
+
+export * from "./sound.types";

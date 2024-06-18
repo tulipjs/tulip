@@ -16,9 +16,11 @@
   "dependencies": {
     "p2": "0.7.1",
     "pixi.js": "8.1.6",
+    "howler": "2.2.4",
     "@tulib/vite-tulip-plugin": "1.0.2"
   },
   "devDependencies": {
+    "@types/howler": "2.2.11",
     "@types/p2": "0.7.44",
     "prettier": "3.3.0"
   }

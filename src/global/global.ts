@@ -1,11 +1,14 @@
 import { ComponentMutable, GlobalFilterType } from "../types";
 import * as PIXI from "pixi.js";
 import { events } from "./events";
+import { sounds } from "./sounds";
 
 export const global = (() => {
   let $application: PIXI.Application;
   let $data = {};
   let $componentList: ComponentMutable[] = [];
+  const $sounds = sounds();
+  $sounds.$load();
 
   const getFPS = (): number => $application.ticker.FPS;
 
@@ -54,5 +57,6 @@ export const global = (() => {
     $getComponentList,
 
     events: events(),
+    sounds: $sounds,
   };
 })();

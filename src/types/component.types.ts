@@ -1,6 +1,7 @@
 import { MutableFunction } from "./mutables.types";
 import { Point } from "./point.types";
 import { BodyMutable } from "./body.types";
+import { SoundMutable, SoundProps } from "./sound.types";
 
 export type InternalMutable<Mutable, Bool> = Mutable & {
   $mutable: Bool;
@@ -46,6 +47,9 @@ export type ComponentMutable<Props extends any = {}, Data = unknown> = {
 
   getData: <R = Data>(selector?: (data: Data) => R) => R;
   setData: (data: Data | ((data: Data) => Data)) => void;
+
+  addSound: (key: string, soundData: SoundProps) => Promise<SoundMutable>;
+  getSound: (key: string) => SoundMutable;
 
   getComponent?: <Mutable>(
     component: Component<any, Mutable> | AsyncComponent<any, Mutable>,
