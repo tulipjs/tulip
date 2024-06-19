@@ -1,4 +1,5 @@
 import {
+  animatedSprite,
   AsyncComponent,
   circle,
   Container,
@@ -10,7 +11,6 @@ import {
   plane,
   sprite,
   world,
-  animatedSprite,
 } from "@tulib/tulip";
 import { flyComponent } from "fly.component";
 
@@ -116,7 +116,15 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
       mass: 2,
       size: 10,
     },
+    eventMode: EventMode.NONE,
   });
+
+  const aSprite = await animatedSprite({
+    spriteSheet: "fighter/fighter.json",
+    animation: "rollRight",
+  });
+  aSprite.setPivot({ x: 175 / 2, y: 226 / 2 });
+  $player.add(aSprite);
   $player.setPosition({ x: 100, y: 50 });
 
   $world2.add($player);
@@ -134,8 +142,10 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
 
     if (currentKeyList.includes("d")) {
       body.addForceX(-1);
+      aSprite.setAnimation("rollRight");
     } else if (currentKeyList.includes("a")) {
       body.addForceX(1);
+      aSprite.setAnimation("rollLeft");
     } else if (currentKeyList.includes("w")) {
       body.addForceY(1);
     } else if (currentKeyList.includes("s")) {
@@ -180,11 +190,6 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
   });
 
   $container.add($world2);
-
-  const aSprite = await animatedSprite({
-    spriteSheet: "fighter/fighter.json",
-  });
-	$container.add(aSprite);
 
   return $container.getComponent(appComponent);
 };

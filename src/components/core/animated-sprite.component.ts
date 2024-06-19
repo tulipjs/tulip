@@ -11,29 +11,42 @@ import { getDisplayObjectMutable } from "../../utils";
 
 type Props = {
   spriteSheet: string;
+  animation: string;
 } & DisplayObjectProps;
 
 type Mutable = {
   setSpriteSheet: (spriteSheet?: string) => Promise<void>;
+
+  setAnimation: (animation: string) => void;
 } & DisplayObjectMutable<AnimatedSprite>;
 
 export const animatedSprite: AsyncComponent<Props, Mutable, false> = async (
   originalProps,
 ) => {
-  const { label, spriteSheet, ...props } = originalProps;
+  const { label, spriteSheet, animation, ...props } = originalProps;
 
   const $props = structuredClone(originalProps);
 
   let $spriteSheet = spriteSheet + "";
   const spriteSheetTexture = await PIXI.Assets.load(spriteSheet);
 
+  let $currentAnimation = animation + "";
+
   const $animatedSprite = new PIXI.AnimatedSprite(
-    spriteSheetTexture.animations["rollSequence"],
+    spriteSheetTexture.animations[$currentAnimation],
   );
   $animatedSprite.play();
   $animatedSprite.loop = true;
 
   const getSpriteSheet = () => $spriteSheet;
+
+  const setAnimation = (animation: string) => {
+    if ($currentAnimation === animation) return;
+
+    $currentAnimation = animation;
+    $animatedSprite.textures = spriteSheetTexture.animations[$currentAnimation];
+    $animatedSprite.play();
+  };
 
   // const $getTexture = async (texture?: string) => {
   //   const targetTexture = texture
@@ -73,6 +86,7 @@ export const animatedSprite: AsyncComponent<Props, Mutable, false> = async (
     getDisplayObject: () => $animatedSprite,
 
     getSpriteSheet,
+    setAnimation,
 
     // @ts-ignore
     getComponent: (component) => {
