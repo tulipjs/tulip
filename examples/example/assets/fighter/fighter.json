@@ -245,6 +245,16 @@
       "rollSequence0005.png","rollSequence0004.png",
       "rollSequence0003.png","rollSequence0002.png",
       "rollSequence0001.png","rollSequence0000.png"
+    ],
+    "turnRight": [
+      "rollSequence0000.png", "rollSequence0001.png",
+      "rollSequence0002.png", "rollSequence0003.png",
+      "rollSequence0004.png", "rollSequence0005.png"
+    ],
+    "turnLeft": [
+      "rollSequence0029.png","rollSequence0028.png",
+      "rollSequence0027.png","rollSequence0026.png",
+      "rollSequence0025.png","rollSequence0024.png"
     ]
   },
   "meta": {
