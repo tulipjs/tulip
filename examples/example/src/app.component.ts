@@ -7,8 +7,11 @@ import {
   EventMode,
   global,
   plane,
+  box,
+  circle,
   sprite,
   world,
+  capsule,
 } from "@tulib/tulip";
 import { flyComponent } from "fly.component";
 import { playerComponent } from "player.component";
@@ -95,7 +98,7 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
     props: {
       physics: {
         enabled: true,
-        gravity: { x: 0, y: -0 },
+        gravity: { x: 0, y: -0.25 },
       },
     },
   });
@@ -137,6 +140,56 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
   });
 
   $container.add($world2);
+
+  // Shapes
+  const colors = [0x219c90, 0xfff455, 0xffc700, 0xee4e4e];
+
+  colors.forEach((color, i) => {
+    const $capsule = capsule({
+      props: {
+        color,
+        length: 100 - i * 10,
+        radius: 10 - i * 1.2,
+        mass: 2,
+      },
+    });
+    $capsule.setPosition({ x: 800, y: 100 - i * 15 });
+    $world2.add($capsule);
+
+    const $box = box({
+      props: {
+        color: color,
+        width: 50 - i * 10,
+        height: 50 - i * 10,
+        mass: 2,
+      },
+    });
+    $box.setPosition({ x: 680, y: 80 - i * 60 });
+    $world2.add($box);
+
+    const $circle = circle({
+      props: {
+        color,
+        mass: 2,
+        size: 10,
+      },
+    });
+    $circle.setPosition({ x: 600, y: 50 - i * 10 });
+    $world2.add($circle);
+  });
+
+  const $plane3 = plane({
+    position: {
+      x: 400,
+      y: 300,
+    },
+    angle: 0,
+    props: {
+      color: 0xff00ff,
+    },
+    alpha: 0.5,
+  });
+  $world2.add($plane3);
 
   return $container.getComponent(appComponent);
 };

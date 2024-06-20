@@ -14,6 +14,7 @@ type Props = {
 
   radius?: number;
   polygon?: number[];
+  length?: number;
 } & ContainerProps;
 
 type Mutable = {
@@ -22,6 +23,7 @@ type Mutable = {
 
   setPolygon: (polygon: number[]) => void;
   setCircle: (radius: number) => void;
+  setCapsule: (length: number, radius: number) => void;
 } & DisplayObjectMutable<Graphics>;
 
 export const graphics: Component<Props, Mutable, false> = (originalProps) => {
@@ -29,6 +31,7 @@ export const graphics: Component<Props, Mutable, false> = (originalProps) => {
     color: defaultColor,
     radius: defaultRadius,
     polygon: defaultPolygon,
+    length: defaultLength,
     label,
     ...props
   } = originalProps;
@@ -38,6 +41,7 @@ export const graphics: Component<Props, Mutable, false> = (originalProps) => {
   let $color = defaultColor;
   let $polygon = defaultPolygon;
   let $radius = defaultRadius;
+  let $length = defaultLength;
 
   const graphics = new PIXI.Graphics() as Graphics;
 
@@ -62,6 +66,14 @@ export const graphics: Component<Props, Mutable, false> = (originalProps) => {
     graphics.clear();
     graphics.circle(0, 0, radius).fill({ color: 0xffffff });
   };
+  const setCapsule = (length: number, radius: number) => {
+    graphics.clear();
+    graphics
+      .rect(-length / 2, -radius, length, 2 * radius)
+      .circle(-length / 2, 0, radius)
+      .circle(length / 2, 0, radius)
+      .fill({ color: 0xffffff });
+  };
 
   const $getRaw = (): Props => {
     return {
@@ -82,7 +94,8 @@ export const graphics: Component<Props, Mutable, false> = (originalProps) => {
 
   $color !== undefined && setColor($color);
   $polygon && setPolygon($polygon);
-  $radius && setCircle($radius);
+  $radius && !$length && setCircle($radius);
+  $radius && $length && setCapsule($length, $radius);
 
   const mutable: InternalMutable<Mutable, false> = {
     // container
@@ -93,6 +106,7 @@ export const graphics: Component<Props, Mutable, false> = (originalProps) => {
 
     setPolygon,
     setCircle,
+    setCapsule,
 
     // @ts-ignore
     getComponent: (component) => {

@@ -20,4 +20,20 @@ export type CircleShapeProps = {
   radius?: number;
 } & ShapeProps;
 
-export type Shapes = PlaneShapeProps | CircleShapeProps;
+export type BoxShapeProps = {
+  type: Shape.BOX;
+  width: number;
+  height: number;
+} & ShapeProps;
+
+export type CapsuleShapeProps = {
+  type: Shape.CAPSULE;
+  length: number;
+  radius: number;
+} & ShapeProps;
+
+export type Shapes =
+  | PlaneShapeProps
+  | CircleShapeProps
+  | BoxShapeProps
+  | CapsuleShapeProps;
