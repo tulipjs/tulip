@@ -8,6 +8,7 @@ import {
   global,
   plane,
   box,
+  circle,
   sprite,
   world,
   capsule,
