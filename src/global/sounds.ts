@@ -1,9 +1,5 @@
 import { Howler } from "howler";
-import { DEFAULT_PANNER_CONFIG, Point, SoundProps } from "../types";
-
-type Point3d = {
-  z: number;
-} & Point;
+import { DEFAULT_PANNER_CONFIG, Point3d, SoundProps } from "../types";
 
 export const sounds = () => {
   let lastPosition = { x: 0, y: 0, z: 2 };
