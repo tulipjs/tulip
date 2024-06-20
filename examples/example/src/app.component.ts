@@ -12,6 +12,7 @@ import {
   world,
 } from "@tulib/tulip";
 import { flyComponent } from "fly.component";
+import { player } from "../../../src/components/prefabs/player.component";
 
 type Mutable = {} & DisplayObjectMutable<Container>;
 
@@ -104,7 +105,7 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
     props: {
       physics: {
         enabled: true,
-        gravity: { x: 0, y: -0 },
+        gravity: { x: 0, y: -0.25 },
       },
     },
   });
@@ -179,6 +180,38 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
   });
 
   $container.add($world2);
+
+  const render = async () => {
+    console.log("render player");
+    const $s = await sprite({
+      texture: "duck.png",
+    });
+    $s.setPivot({ x: 128, y: 128 });
+    return $s;
+  };
+
+  const $player2 = await player({
+    render,
+    props: {
+      mass: 0.5,
+      size: 2,
+    },
+  });
+  $player2.setPosition({ x: 400, y: 500 });
+  $world2.add($player2);
+
+  const $plane3 = plane({
+    position: {
+      x: 0,
+      y: 600,
+    },
+    angle: 0,
+    props: {
+      color: 0xff00ff,
+    },
+    alpha: 0.5,
+  });
+  $world2.add($plane3);
 
   return $container.getComponent(appComponent);
 };
