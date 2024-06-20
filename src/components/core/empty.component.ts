@@ -88,6 +88,10 @@ export const empty = <Data>(
     initialData: $data,
   });
 
+  const $destroy = () => {
+    $soundList.forEach(($sound) => $sound.stop());
+  };
+
   return {
     getId,
 
@@ -124,7 +128,7 @@ export const empty = <Data>(
 
     getProps: () => $props as any,
 
-    $destroy: () => {},
+    $destroy,
     $getRaw,
 
     $mutable: false,
