@@ -1,72 +1,65 @@
-import { body, container } from "../";
+import { container } from "../";
 import {
   AsyncComponent,
-  BodyMaterialProps,
-  CircleProps,
   ContainerMutable,
   ContainerProps,
+  Direction,
+  InternalMutable,
 } from "../../types";
-import { DisplayObjectEvent, Shape } from "../../enums";
+import { DisplayObjectEvent } from "../../enums";
 import { global } from "../../global";
 
 type PlayerProps = {
-  render: () => any;
-  props: {
-    size: number;
-    mass: number;
-    material?: BodyMaterialProps;
-  };
+  render: ($container: InternalMutable<ContainerMutable, false>) => void;
+  onMove?: (direction: Direction) => void; // TODO: change -> onTick -> keybinding
 } & ContainerProps;
 
 export const player: AsyncComponent<PlayerProps, ContainerMutable> = async ({
   render,
+  onMove = () => {},
   ...props
 }) => {
   const $container = container({
     ...props,
   });
 
-  const {
-    props: { mass, material },
-  } = $container.getProps<CircleProps>();
-
-  const spriteBody = body({
-    mass,
-    material,
-  });
-  spriteBody.addShape({
-    type: Shape.BOX,
-    width: 128,
-    height: 128,
-  });
-
-  $container.setBody(spriteBody);
-
-  $container.add(await render());
+  await render($container);
 
   let currentKeyList = [];
   $container.on(DisplayObjectEvent.TICK, () => {
-    const body = $container.getBody();
-
     const position = $container.getPosition();
     global.sounds.setPosition({ ...position, z: 2 });
+    const $body = $container.getBody();
 
     if (currentKeyList.includes("d")) {
-      body.addForceX(-1);
+      $body.addForceX(-1);
+      onMove(Direction.RIGHT);
     } else if (currentKeyList.includes("a")) {
-      body.addForceX(1);
+      $body.addForceX(1);
+      onMove(Direction.LEFT);
     } else if (currentKeyList.includes("w")) {
-      body.addForceY(1);
+      $body.addForceY(1);
+      onMove(Direction.UP);
     } else if (currentKeyList.includes("s")) {
-      body.addForceY(-1);
+      $body.addForceY(-1);
+      onMove(Direction.DOWN);
     }
   });
 
-  document.addEventListener("keydown", ({ key }) => {
+  const onKeyDown = ({ key }) => {
     currentKeyList = [...new Set([...currentKeyList, key])];
-  });
-  document.addEventListener("keyup", ({ key }) => {
+  };
+
+  const onKeyUp = ({ key }) => {
     currentKeyList = currentKeyList.filter((cKey) => cKey != key);
+  };
+
+  document.addEventListener("keydown", onKeyDown);
+  document.addEventListener("keyup", onKeyUp);
+
+  $container.on(DisplayObjectEvent.REMOVED, () => {
+    document.removeEventListener("keydown", onKeyDown);
+    document.removeEventListener("keyup", onKeyUp);
   });
 
   return $container.getComponent(player);

@@ -3,7 +3,7 @@ import { appComponent } from "app.component";
 import { GlobalData } from "types";
 
 application({
-  backgroundColor: 0xcccfff,
+  backgroundColor: 0x030303,
   scale: 1,
   //@ts-ignore
   importMetaEnv: import.meta.env,
