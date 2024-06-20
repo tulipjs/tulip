@@ -1,6 +1,6 @@
 import { Point, Point3D } from "./point.types";
 
-type PannerConfig = {
+export type PannerConfig = {
   coneInnerAngle?: number | undefined;
   coneOuterAngle?: number | undefined;
   coneOuterGain?: number | undefined;
@@ -19,17 +19,6 @@ export type SoundProps = {
   orientation?: Point3D;
 
   $verbose?: boolean;
-};
-
-export const DEFAULT_PANNER_CONFIG: PannerConfig = {
-  coneInnerAngle: 360,
-  coneOuterAngle: 360,
-  coneOuterGain: 0,
-  distanceModel: "inverse",
-  maxDistance: 10000,
-  refDistance: 10,
-  rolloffFactor: 1,
-  panningModel: "HRTF",
 };
 
 export type SoundMutable = {
