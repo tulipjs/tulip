@@ -38,18 +38,18 @@ export const sprite: AsyncComponent<Props, Mutable, false> = async (
     return targetTexture;
   };
 
-  const sprite = new PIXI.Sprite(spriteTexture) as Sprite;
+  const $sprite = new PIXI.Sprite(spriteTexture) as Sprite;
   const emptyMutable = empty({ label });
 
   const displayObjectMutable = getDisplayObjectMutable<Sprite>(
-    sprite,
+    $sprite,
     emptyMutable,
   );
-  setDisplayObjectProps<Sprite>(sprite, props, displayObjectMutable);
+  setDisplayObjectProps<Sprite>($sprite, props, displayObjectMutable);
 
   const setTexture = async (texture?: string) => {
     $texture = texture;
-    sprite.texture = await $getTexture(texture);
+    $sprite.texture = await $getTexture(texture);
   };
 
   const $getRaw = (): Props => ({
@@ -70,7 +70,7 @@ export const sprite: AsyncComponent<Props, Mutable, false> = async (
     ...displayObjectMutable,
 
     // sprite
-    setTexture,
+    setSpriteSheet: setTexture,
 
     // @ts-ignore
     getComponent: (component) => {

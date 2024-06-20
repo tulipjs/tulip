@@ -1,6 +1,5 @@
 import {
   AsyncComponent,
-  circle,
   Container,
   container,
   DisplayObjectEvent,
@@ -12,6 +11,7 @@ import {
   world,
 } from "@tulib/tulip";
 import { flyComponent } from "fly.component";
+import { playerComponent } from "player.component";
 
 type Mutable = {} & DisplayObjectMutable<Container>;
 
@@ -27,13 +27,6 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
       },
     },
   });
-
-  // setTimeout(() => {
-  //   $world.setPhysicsEnabled(true);
-  //   setTimeout(() => {
-  //     $world.setPhysicsEnabled(false);
-  //   }, 1000);
-  // }, 1000);
 
   const $plane = plane({
     position: {
@@ -79,8 +72,6 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
 
   $container.add($world);
 
-  // const $inv = inventoryComponent();
-
   const $duck = await sprite({
     texture: "duck.png",
     eventMode: EventMode.STATIC,
@@ -109,47 +100,14 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
     },
   });
 
-  const $player = circle({
-    props: {
-      color: 0xff0000,
-      mass: 2,
-      size: 10,
-    },
-  });
-  $player.setPosition({ x: 100, y: 50 });
-
-  $world2.add($player);
+  const player = await playerComponent();
+  $world2.add(player);
 
   $duck.on(DisplayObjectEvent.CLICK, async () => {
     $quack.play();
   });
 
-  let currentKeyList = [];
-  $player.on(DisplayObjectEvent.TICK, () => {
-    const body = $player.getBody();
-
-    const position = $player.getPosition();
-    global.sounds.setPosition({ ...position, z: 2 });
-
-    if (currentKeyList.includes("d")) {
-      body.addForceX(-1);
-    } else if (currentKeyList.includes("a")) {
-      body.addForceX(1);
-    } else if (currentKeyList.includes("w")) {
-      body.addForceY(1);
-    } else if (currentKeyList.includes("s")) {
-      body.addForceY(-1);
-    }
-  });
-
   global.sounds.setVolume(1);
-
-  document.addEventListener("keydown", ({ key }) => {
-    currentKeyList = [...new Set([...currentKeyList, key])];
-  });
-  document.addEventListener("keyup", ({ key }) => {
-    currentKeyList = currentKeyList.filter((cKey) => cKey != key);
-  });
 
   const $speaker = await sprite({
     texture: "speaker.png",
