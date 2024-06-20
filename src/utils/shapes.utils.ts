@@ -1,5 +1,7 @@
 import p2 from "p2";
 import {
+  BoxShapeProps,
+  CapsuleShapeProps,
   CircleShapeProps,
   PlaneShapeProps,
   ShapeProps,
@@ -20,6 +22,9 @@ const getBaseProps = <Props extends ShapeProps>({
 export const getShape = ({ type, ...props }: Shapes) => {
   if (type === Shape.CIRCLE) return getCircleShape(props as CircleShapeProps);
   if (type === Shape.PLANE) return getPlaneShape(props as PlaneShapeProps);
+  if (type === Shape.BOX) return getBoxShape(props as BoxShapeProps);
+  if (type === Shape.CAPSULE)
+    return getCapsuleShape(props as CapsuleShapeProps);
 };
 
 export const getCircleShape = (props: CircleShapeProps): p2.Circle =>
@@ -27,3 +32,9 @@ export const getCircleShape = (props: CircleShapeProps): p2.Circle =>
 
 export const getPlaneShape = (props: PlaneShapeProps): p2.Plane =>
   new p2.Plane(getBaseProps(props));
+
+export const getBoxShape = (props: BoxShapeProps): p2.Box =>
+  new p2.Box(getBaseProps(props));
+
+export const getCapsuleShape = (props: CapsuleShapeProps): p2.Capsule =>
+  new p2.Capsule(getBaseProps(props));

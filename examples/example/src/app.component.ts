@@ -1,6 +1,5 @@
 import {
   AsyncComponent,
-  circle,
   Container,
   container,
   DisplayObjectEvent,
@@ -8,11 +7,14 @@ import {
   EventMode,
   global,
   plane,
+  box,
+  circle,
   sprite,
   world,
+  capsule,
 } from "@tulib/tulip";
 import { flyComponent } from "fly.component";
-import { player } from "../../../src/components/prefabs/player.component";
+import { playerComponent } from "player.component";
 
 type Mutable = {} & DisplayObjectMutable<Container>;
 
@@ -28,13 +30,6 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
       },
     },
   });
-
-  // setTimeout(() => {
-  //   $world.setPhysicsEnabled(true);
-  //   setTimeout(() => {
-  //     $world.setPhysicsEnabled(false);
-  //   }, 1000);
-  // }, 1000);
 
   const $plane = plane({
     position: {
@@ -80,8 +75,6 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
 
   $container.add($world);
 
-  // const $inv = inventoryComponent();
-
   const $duck = await sprite({
     texture: "duck.png",
     eventMode: EventMode.STATIC,
@@ -110,47 +103,14 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
     },
   });
 
-  const $player = circle({
-    props: {
-      color: 0xff0000,
-      mass: 2,
-      size: 10,
-    },
-  });
-  $player.setPosition({ x: 100, y: 50 });
-
-  $world2.add($player);
+  const player = await playerComponent();
+  $world2.add(player);
 
   $duck.on(DisplayObjectEvent.CLICK, async () => {
     $quack.play();
   });
 
-  let currentKeyList = [];
-  $player.on(DisplayObjectEvent.TICK, () => {
-    const body = $player.getBody();
-
-    const position = $player.getPosition();
-    global.sounds.setPosition({ ...position, z: 2 });
-
-    if (currentKeyList.includes("d")) {
-      body.addForceX(-1);
-    } else if (currentKeyList.includes("a")) {
-      body.addForceX(1);
-    } else if (currentKeyList.includes("w")) {
-      body.addForceY(1);
-    } else if (currentKeyList.includes("s")) {
-      body.addForceY(-1);
-    }
-  });
-
   global.sounds.setVolume(1);
-
-  document.addEventListener("keydown", ({ key }) => {
-    currentKeyList = [...new Set([...currentKeyList, key])];
-  });
-  document.addEventListener("keyup", ({ key }) => {
-    currentKeyList = currentKeyList.filter((cKey) => cKey != key);
-  });
 
   const $speaker = await sprite({
     texture: "speaker.png",
@@ -181,29 +141,47 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
 
   $container.add($world2);
 
-  const render = async () => {
-    console.log("render player");
-    const $s = await sprite({
-      texture: "duck.png",
-    });
-    $s.setPivot({ x: 128, y: 128 });
-    return $s;
-  };
+  // Shapes
+  const colors = [0x219c90, 0xfff455, 0xffc700, 0xee4e4e];
 
-  const $player2 = await player({
-    render,
-    props: {
-      mass: 0.5,
-      size: 2,
-    },
+  colors.forEach((color, i) => {
+    const $capsule = capsule({
+      props: {
+        color,
+        length: 100 - i * 10,
+        radius: 10 - i * 1.2,
+        mass: 2,
+      },
+    });
+    $capsule.setPosition({ x: 800, y: 100 - i * 15 });
+    $world2.add($capsule);
+
+    const $box = box({
+      props: {
+        color: color,
+        width: 50 - i * 10,
+        height: 50 - i * 10,
+        mass: 2,
+      },
+    });
+    $box.setPosition({ x: 680, y: 80 - i * 60 });
+    $world2.add($box);
+
+    const $circle = circle({
+      props: {
+        color,
+        mass: 2,
+        size: 10,
+      },
+    });
+    $circle.setPosition({ x: 600, y: 50 - i * 10 });
+    $world2.add($circle);
   });
-  $player2.setPosition({ x: 400, y: 500 });
-  $world2.add($player2);
 
   const $plane3 = plane({
     position: {
-      x: 0,
-      y: 600,
+      x: 400,
+      y: 300,
     },
     angle: 0,
     props: {
