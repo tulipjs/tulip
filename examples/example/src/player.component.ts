@@ -6,6 +6,7 @@ import {
   ContainerProps,
   DisplayObjectEvent,
   DisplayObjectMutable,
+  Event,
   EventMode,
   global,
   PlayStatus,
@@ -67,13 +68,8 @@ export const playerComponent: AsyncComponent<Props, Mutable> = async (
     currentKeyList = currentKeyList.filter((cKey) => cKey != key);
   };
 
-  document.addEventListener("keydown", onKeyDown);
-  document.addEventListener("keyup", onKeyUp);
-
-  $player.on(DisplayObjectEvent.REMOVED, () => {
-    document.removeEventListener("keydown", onKeyDown);
-    document.removeEventListener("keyup", onKeyUp);
-  });
+  global.events.on(Event.KEY_DOWN, onKeyDown, $player);
+  global.events.on(Event.KEY_UP, onKeyUp, $player);
 
   return $player.getComponent(playerComponent);
 };

@@ -66,6 +66,15 @@ export const application = async ({
   document.body.appendChild(application.canvas);
   global.$setApplication(application);
 
+  //### DOCUMENT #####################################################################################################//
+
+  document.addEventListener("keydown", (event: KeyboardEvent) =>
+    global.events.$emit(Event.KEY_DOWN, event),
+  );
+  document.addEventListener("keyup", (event: KeyboardEvent) =>
+    global.events.$emit(Event.KEY_UP, event),
+  );
+
   //### DEVELOPMENT ##################################################################################################//
   if (importMetaEnv?.DEV) {
     //@ts-ignore
