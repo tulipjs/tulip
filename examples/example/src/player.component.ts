@@ -5,6 +5,7 @@ import {
   Container,
   Direction,
   DisplayObjectMutable,
+  Event,
   EventMode,
   graphics,
   player,
@@ -93,6 +94,8 @@ export const playerComponent: AsyncComponent<Props, Mutable> = async () => {
     // $sprite.setFrame(0);
   };
 
+  // global.events.on(Event.KEY_DOWN, onKeyDown, $player);
+  // global.events.on(Event.KEY_UP, onKeyUp, $player);
   const $player = await player({
     render,
     onMove,
