@@ -1,16 +1,41 @@
-import { Event } from "../enums";
+import { DisplayObjectEvent, Event } from "../enums";
+import { DisplayObjectMutable } from "../types";
 
 export const events = () => {
-  let $eventMap: Record<Event, any[]> = {
+  let $eventMap: Record<Event, ((data?: any) => void)[]> = {
     [Event.TICK]: [],
+    [Event.KEY_DOWN]: [],
+    [Event.KEY_UP]: [],
   };
 
+  /**
+   * Usage
+   * ```
+   * const removeTick = global.events.on(Event.TICK, () => {});
+   * // Remove the event
+   * removeTick()
+   * ```
+   * or with displayObject
+   * ```
+   * global.events.on(Event.TICK, () => {}, displayObject);
+   * ```
+   * @param event
+   * @param callback
+   * @param displayObjectComponent
+   */
   const on = (
     event: Event,
     callback: (data?: any) => void | Promise<void>,
-  ): number => $eventMap[event].push(callback) - 1;
+    displayObjectComponent?: DisplayObjectMutable<any>,
+  ): (() => void) => {
+    const callbackId = $eventMap[event].push(callback) - 1;
+    displayObjectComponent?.on(DisplayObjectEvent.REMOVED, () => {
+      $remove(event, callbackId);
+    });
+    return () => $remove(event, callbackId);
+  };
 
-  const remove = (event: Event, callbackId: number) =>
+  const $remove = (event: Event, callbackId: number) =>
     ($eventMap[event] = $eventMap[event].map((callback, $callbackId) =>
       callbackId === $callbackId ? undefined : callback,
     ));
@@ -21,7 +46,7 @@ export const events = () => {
 
   return {
     on,
-    remove,
+    remove: $remove,
 
     $emit,
   };
