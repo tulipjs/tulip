@@ -3,4 +3,5 @@ export enum Shape {
   PLANE,
   BOX,
   CAPSULE,
+  CONVEX,
 }

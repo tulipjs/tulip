@@ -3,6 +3,7 @@ import {
   Container,
   container,
   DisplayObjectMutable,
+  plane,
   world,
 } from "@tulib/tulip";
 import { flyComponent } from "fly.component";
@@ -24,17 +25,31 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
     },
   });
 
-  for (let i = 0; i < 1000; i++) {
+  const $plane = plane({
+    position: {
+      x: 0,
+      y: 1200,
+    },
+    props: {
+      color: 0xff3333,
+    },
+    alpha: 0.25,
+  });
+  $world.add($plane);
+
+  for (let i = 0; i < 1; i++) {
     const _fly = flyComponent({
       label: `ball`,
       props: {
         color: 0xffffff,
         size: 4,
-        mass: 0.1,
+        mass: 1,
       },
       position: {
-        x: Math.random() * 1300,
-        y: Math.random() * 900,
+        x: 100 + i * 10,
+        y: 900,
+        // x: Math.random() * 1300,
+        // y: Math.random() * 900,
       },
     });
     $world.add(_fly);
@@ -42,6 +57,7 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
 
   const $player = await playerComponent();
   $player.setPosition({ x: 500, y: 1000 });
+
   $world.add($player);
   $container.add($world);
 

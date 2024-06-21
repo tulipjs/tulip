@@ -3,6 +3,7 @@ import {
   BoxShapeProps,
   CapsuleShapeProps,
   CircleShapeProps,
+  ConvexShapeProps,
   PlaneShapeProps,
   ShapeProps,
   Shapes,
@@ -25,6 +26,7 @@ export const getShape = ({ type, ...props }: Shapes) => {
   if (type === Shape.BOX) return getBoxShape(props as BoxShapeProps);
   if (type === Shape.CAPSULE)
     return getCapsuleShape(props as CapsuleShapeProps);
+  if (type === Shape.CONVEX) return getConvexShape(props as ConvexShapeProps);
 };
 
 export const getCircleShape = (props: CircleShapeProps): p2.Circle =>
@@ -38,3 +40,6 @@ export const getBoxShape = (props: BoxShapeProps): p2.Box =>
 
 export const getCapsuleShape = (props: CapsuleShapeProps): p2.Capsule =>
   new p2.Capsule(getBaseProps(props));
+
+export const getConvexShape = (props: ConvexShapeProps): p2.Convex =>
+  new p2.Convex(getBaseProps(props));

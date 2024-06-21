@@ -158,6 +158,7 @@ export const setDisplayObjectProps = <DisplayObject extends PIXIDisplayObject>(
     alpha = DISPLAY_OBJECT_DEFAULT_PROPS.alpha,
     angle = 0,
     zIndex = 0,
+    rotation = 0,
   }: DisplayObjectProps = DISPLAY_OBJECT_DEFAULT_PROPS,
   displayObjectMutable?: DisplayObjectMutable<DisplayObject>,
 ) => {
@@ -170,6 +171,8 @@ export const setDisplayObjectProps = <DisplayObject extends PIXIDisplayObject>(
 
   angle && (displayObject.angle = degreesToRadians(angle));
 
+  rotation && (displayObject.rotation = rotation);
+
   displayObject.visible = Boolean(visible);
 
   eventMode && (displayObject.eventMode = eventMode);
@@ -180,5 +183,6 @@ export const setDisplayObjectProps = <DisplayObject extends PIXIDisplayObject>(
 
     displayObject.position.copyFrom(displayObjectMutable.getPosition());
     displayObject.angle = radiansToDegrees(displayObjectMutable.getAngle());
+    displayObject.rotation = displayObjectMutable.getRotation();
   });
 };

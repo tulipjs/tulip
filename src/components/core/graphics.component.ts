@@ -24,6 +24,7 @@ type Mutable = {
   setPolygon: (polygon: number[]) => void;
   setCircle: (radius: number) => void;
   setCapsule: (length: number, radius: number) => void;
+  setTriangle: (width: number, height: number) => void;
 } & DisplayObjectMutable<Graphics>;
 
 export const graphics: Component<Props, Mutable, false> = (originalProps) => {
@@ -74,6 +75,16 @@ export const graphics: Component<Props, Mutable, false> = (originalProps) => {
       .circle(length / 2, 0, radius)
       .fill({ color: 0xffffff });
   };
+  const setTriangle = (width: number, height: number) => {
+    const _height = (Math.sqrt(3) / 2) * width;
+    graphics.clear();
+    graphics
+      .moveTo(width / 2, 0)
+      .lineTo(width, _height)
+      .lineTo(0, _height)
+      .lineTo(width / 2, 0)
+      .fill({ color: 0xffffff });
+  };
 
   const $getRaw = (): Props => {
     return {
@@ -107,6 +118,7 @@ export const graphics: Component<Props, Mutable, false> = (originalProps) => {
     setPolygon,
     setCircle,
     setCapsule,
+    setTriangle,
 
     // @ts-ignore
     getComponent: (component) => {

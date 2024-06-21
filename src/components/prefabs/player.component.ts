@@ -10,7 +10,9 @@ import { DisplayObjectEvent } from "../../enums";
 import { global } from "../../global";
 
 type PlayerProps = {
-  render: ($container: InternalMutable<ContainerMutable, false>) => void;
+  render: (
+    $container: InternalMutable<ContainerMutable, false>,
+  ) => Promise<void>;
   onMove?: (direction: Direction) => void; // TODO: change -> onTick -> keybinding
 } & ContainerProps;
 
@@ -43,6 +45,10 @@ export const player: AsyncComponent<PlayerProps, ContainerMutable> = async ({
     } else if (currentKeyList.includes("s")) {
       $body.addForceY(-1);
       onMove(Direction.DOWN);
+    } else if (currentKeyList.includes("q")) {
+      $container.setAngle((a) => a - 10);
+    } else if (currentKeyList.includes("e")) {
+      $container.setAngle((a) => a + 10);
     }
   });
 
