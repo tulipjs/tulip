@@ -6,7 +6,7 @@ import {
   Direction,
   InternalMutable,
 } from "../../types";
-import { DisplayObjectEvent } from "../../enums";
+import { DisplayObjectEvent, Event } from "../../enums";
 import { global } from "../../global";
 
 type PlayerProps = {
@@ -46,9 +46,9 @@ export const player: AsyncComponent<PlayerProps, ContainerMutable> = async ({
       $body.addForceY(-1);
       onMove(Direction.DOWN);
     } else if (currentKeyList.includes("q")) {
-      $container.setAngle((a) => a - 10);
+      $container.setAngle((a) => a - 2);
     } else if (currentKeyList.includes("e")) {
-      $container.setAngle((a) => a + 10);
+      $container.setAngle((a) => a + 2);
     }
   });
 
@@ -60,13 +60,8 @@ export const player: AsyncComponent<PlayerProps, ContainerMutable> = async ({
     currentKeyList = currentKeyList.filter((cKey) => cKey != key);
   };
 
-  document.addEventListener("keydown", onKeyDown);
-  document.addEventListener("keyup", onKeyUp);
-
-  $container.on(DisplayObjectEvent.REMOVED, () => {
-    document.removeEventListener("keydown", onKeyDown);
-    document.removeEventListener("keyup", onKeyUp);
-  });
+  global.events.on(Event.KEY_DOWN, onKeyDown, $container);
+  global.events.on(Event.KEY_UP, onKeyUp, $container);
 
   return $container.getComponent(player);
 };

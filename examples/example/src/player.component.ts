@@ -1,15 +1,11 @@
 import {
-  animatedSprite,
   AsyncComponent,
   body,
   Container,
   Direction,
   DisplayObjectMutable,
-  Event,
-  EventMode,
   graphics,
   player,
-  PlayStatus,
   Shape,
 } from "@tulib/tulip";
 
@@ -35,6 +31,12 @@ export const playerComponent: AsyncComponent<Props, Mutable> = async () => {
     });
 
     const _height = (Math.sqrt(3) / 2) * width;
+
+    console.log([
+      [width / 2, -_height / 2], // bottom-right
+      [width / 2, _height / 2], // top
+      [-width / 2, -_height / 2], // bottom-left
+    ]);
 
     $body.addShape({
       type: Shape.CONVEX,
@@ -94,8 +96,6 @@ export const playerComponent: AsyncComponent<Props, Mutable> = async () => {
     // $sprite.setFrame(0);
   };
 
-  // global.events.on(Event.KEY_DOWN, onKeyDown, $player);
-  // global.events.on(Event.KEY_UP, onKeyUp, $player);
   const $player = await player({
     render,
     onMove,

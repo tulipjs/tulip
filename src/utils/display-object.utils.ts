@@ -7,7 +7,7 @@ import {
 } from "../types";
 import { getValueMutableFunction } from "./mutables.utils";
 import { DISPLAY_OBJECT_DEFAULT_PROPS } from "../consts";
-import { degreesToRadians, radiansToDegrees } from "../utils";
+import { degreesToRadians } from "../utils";
 import { DisplayObjectEvent, Event } from "../enums";
 import { global } from "../global";
 
@@ -72,11 +72,10 @@ export const getDisplayObjectMutable = <
     alpha: getAlpha(),
   });
 
-  let $onTickEventId: number;
+  let $removeOnTickEvent: () => void;
   displayObject.on(DisplayObjectEvent.REMOVED, () => {
     $isRemoved = true;
-    $onTickEventId !== undefined &&
-      global.events.remove(Event.TICK, $onTickEventId);
+    $removeOnTickEvent !== undefined && $removeOnTickEvent();
   });
 
   const on = (event: DisplayObjectEvent, callback: (data?: any) => void) => {
@@ -87,7 +86,7 @@ export const getDisplayObjectMutable = <
 
     switch (event) {
       case DisplayObjectEvent.TICK:
-        $onTickEventId = global.events.on(Event.TICK, $callback);
+        $removeOnTickEvent = global.events.on(Event.TICK, $callback);
         return;
     }
     displayObject.on(event as any, $callback);
@@ -158,7 +157,6 @@ export const setDisplayObjectProps = <DisplayObject extends PIXIDisplayObject>(
     alpha = DISPLAY_OBJECT_DEFAULT_PROPS.alpha,
     angle = 0,
     zIndex = 0,
-    rotation = 0,
   }: DisplayObjectProps = DISPLAY_OBJECT_DEFAULT_PROPS,
   displayObjectMutable?: DisplayObjectMutable<DisplayObject>,
 ) => {
@@ -171,8 +169,6 @@ export const setDisplayObjectProps = <DisplayObject extends PIXIDisplayObject>(
 
   angle && (displayObject.angle = degreesToRadians(angle));
 
-  rotation && (displayObject.rotation = rotation);
-
   displayObject.visible = Boolean(visible);
 
   eventMode && (displayObject.eventMode = eventMode);
@@ -182,7 +178,6 @@ export const setDisplayObjectProps = <DisplayObject extends PIXIDisplayObject>(
     if (!displayObjectMutable?.getBody()) return;
 
     displayObject.position.copyFrom(displayObjectMutable.getPosition());
-    displayObject.angle = radiansToDegrees(displayObjectMutable.getAngle());
-    displayObject.rotation = displayObjectMutable.getRotation();
+    displayObject.angle = displayObjectMutable.getAngle();
   });
 };

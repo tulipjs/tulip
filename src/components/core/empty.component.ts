@@ -22,7 +22,7 @@ export type EmptyMutable<Data = unknown> = {} & ComponentMutable<
 export const empty = <Data>(
   originalProps: EmptyProps<Data> = {},
 ): InternalMutable<EmptyMutable<Data>, false> => {
-  const { label = "empty", position, rotation, initialData } = originalProps;
+  const { label = "empty", position, initialData } = originalProps;
   const $props = structuredClone(originalProps);
 
   let $id = `${label}_${getRandomNumber(0, 100_000)}`;
@@ -30,7 +30,6 @@ export const empty = <Data>(
     x: position?.x || 0,
     y: position?.y || 0,
   };
-  let $rotation = rotation || 0;
   let $angle = 0;
   let $label = label;
   let $body: BodyMutable;
@@ -56,18 +55,10 @@ export const empty = <Data>(
   };
   const getPosition = () => $body?.getPosition() || $position;
 
-  const setRotation = async (data) => {
-    $rotation = await getValueMutableFunction<number>(data, $rotation);
-    // $body?.setPosition($position);
-
-    // $soundList.forEach(($sound) => $sound.setPosition($position));
-  };
-  const getRotation = () => /*$body?.getPosition() ||*/ $rotation;
-
   const getAngle = () => $body?.getAngle() || $angle;
-  const setAngle = (angle: number) => {
-    $angle = angle;
-    $body?.setAngle(angle);
+  const setAngle = async (data) => {
+    $angle = await getValueMutableFunction<number>(data, getAngle());
+    $body?.setAngle($angle);
   };
 
   const getData = <R = Data>(selector?: (data: Data) => R): R => {
@@ -94,7 +85,6 @@ export const empty = <Data>(
     label: $label,
     position: getPosition(),
     angle: getAngle(),
-    rotation: getRotation(),
     initialData: $data,
   });
 
@@ -124,9 +114,6 @@ export const empty = <Data>(
       $soundList.forEach(($sound) => $sound.setPosition($position));
     },
     getPosition,
-
-    getRotation,
-    setRotation,
 
     getAngle,
     setAngle,
