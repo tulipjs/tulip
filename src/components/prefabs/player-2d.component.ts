@@ -1,6 +1,6 @@
 import { container } from "../";
 import {
-  AsyncComponent,
+  Component,
   ContainerMutable,
   ContainerProps,
   Direction,
@@ -9,10 +9,10 @@ import { DisplayObjectEvent, Event } from "../../enums";
 import { global } from "../../global";
 
 type PlayerProps = {
-  onTick?: (direction: Direction) => void; // TODO: change direction -> keybinding
+  onTick?: (direction: Direction) => void; // TODO: change direction -> keybinding -> https://github.com/tulipjs/tulip/issues/53
 } & ContainerProps;
 
-export const player2D: AsyncComponent<PlayerProps, ContainerMutable> = async ({
+export const player2D: Component<PlayerProps, ContainerMutable> = ({
   onTick = () => {},
   ...props
 }) => {

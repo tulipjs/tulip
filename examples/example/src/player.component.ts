@@ -34,7 +34,7 @@ export const playerComponent: AsyncComponent<Props, Mutable> = async () => {
     $sprite.setFrame(0);
   };
 
-  const $player = await player2D({
+  const $player = player2D({
     onTick,
   });
 
