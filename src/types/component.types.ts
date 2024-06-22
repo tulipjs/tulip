@@ -37,19 +37,19 @@ export type ComponentMutable<Props extends any = {}, Data = unknown> = {
   getBody: () => BodyMutable;
 
   //position
-  setPosition: (position: MutableFunction<Point>) => void;
-  setPositionX: (x: MutableFunction<number>) => void;
-  setPositionY: (y: MutableFunction<number>) => void;
+  setPosition: (position: MutableFunction<Point>) => Promise<void>;
+  setPositionX: (x: MutableFunction<number>) => Promise<void>;
+  setPositionY: (y: MutableFunction<number>) => Promise<void>;
   getPosition: () => Point;
 
   getAngle: () => number;
-  setAngle: (angle: MutableFunction<number>) => void;
+  setAngle: (angle: MutableFunction<number>) => Promise<void>;
 
   getData: <R = Data>(selector?: (data: Data) => R) => R;
   setData: (data: Data | ((data: Data) => Data)) => void;
 
-  addSound: (key: string, soundData: SoundProps) => Promise<SoundMutable>;
-  getSound: (key: string) => SoundMutable;
+  addSound: (soundData: SoundProps) => Promise<SoundMutable>;
+  getSound: (soundId: string) => SoundMutable[];
 
   getComponent?: <Mutable>(
     component: Component<any, Mutable> | AsyncComponent<any, Mutable>,

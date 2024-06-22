@@ -82,6 +82,8 @@ export const application = async ({
       pixi: PIXI,
       app: application,
     };
+    //@ts-ignore
+    globalThis.__PIXI_APP__ = application;
 
     // @ts-ignore
     if (importMetaHot)

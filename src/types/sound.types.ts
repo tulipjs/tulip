@@ -1,4 +1,4 @@
-import { Point, Point3D } from "./point.types";
+import { Point, Point3d } from "./point.types";
 
 export type PannerConfig = {
   coneInnerAngle?: number | undefined;
@@ -12,11 +12,12 @@ export type PannerConfig = {
 };
 
 export type SoundProps = {
+  id: string;
   sources: string[];
   volume?: number;
   loop?: boolean;
   pannerConfig?: PannerConfig;
-  orientation?: Point3D;
+  orientation?: Point3d;
 
   $verbose?: boolean;
 };
@@ -29,6 +30,8 @@ export type SoundMutable = {
   loop: () => void;
   fade: () => void;
   toggle: () => void;
+
+  getId: () => string;
   getVolume: () => number;
   getDuration: () => number;
   isPlaying: () => boolean;

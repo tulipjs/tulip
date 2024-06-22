@@ -14,7 +14,7 @@ export const getDisplayObjectMutable = <
   DisplayObject extends PIXIDisplayObject,
 >(
   displayObject: DisplayObject,
-  componentMutable?: ComponentMutable,
+  componentMutable: ComponentMutable,
 ) => {
   let $isRemoved = false;
 
@@ -22,6 +22,7 @@ export const getDisplayObjectMutable = <
     componentMutable.setLabel(label);
     displayObject.label = label;
   };
+  if (componentMutable.getLabel()) setLabel(componentMutable.getLabel());
 
   const setPosition = async (data) => {
     componentMutable.setPosition(data);
