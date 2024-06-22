@@ -4,28 +4,21 @@ import {
   ContainerMutable,
   ContainerProps,
   Direction,
-  InternalMutable,
 } from "../../types";
 import { DisplayObjectEvent, Event } from "../../enums";
 import { global } from "../../global";
 
 type PlayerProps = {
-  render: (
-    $container: InternalMutable<ContainerMutable, false>,
-  ) => Promise<void>;
-  onMove?: (direction: Direction) => void; // TODO: change -> onTick -> keybinding
+  onTick?: (direction: Direction) => void; // TODO: change direction -> keybinding
 } & ContainerProps;
 
-export const player: AsyncComponent<PlayerProps, ContainerMutable> = async ({
-  render,
-  onMove = () => {},
+export const player2D: AsyncComponent<PlayerProps, ContainerMutable> = async ({
+  onTick = () => {},
   ...props
 }) => {
   const $container = container({
     ...props,
   });
-
-  await render($container);
 
   let currentKeyList = [];
   $container.on(DisplayObjectEvent.TICK, () => {
@@ -35,20 +28,20 @@ export const player: AsyncComponent<PlayerProps, ContainerMutable> = async ({
 
     if (currentKeyList.includes("d")) {
       $body.addForceX(-1);
-      onMove(Direction.RIGHT);
+      onTick(Direction.RIGHT);
     } else if (currentKeyList.includes("a")) {
       $body.addForceX(1);
-      onMove(Direction.LEFT);
+      onTick(Direction.LEFT);
     } else if (currentKeyList.includes("w")) {
       $body.addForceY(1);
-      onMove(Direction.UP);
+      onTick(Direction.UP);
     } else if (currentKeyList.includes("s")) {
       $body.addForceY(-1);
-      onMove(Direction.DOWN);
+      onTick(Direction.DOWN);
     } else if (currentKeyList.includes("q")) {
-      $container.setAngle((a) => a - 2);
+      $container.setAngle((a) => a - 3);
     } else if (currentKeyList.includes("e")) {
-      $container.setAngle((a) => a + 2);
+      $container.setAngle((a) => a + 3);
     }
   });
 
@@ -63,5 +56,5 @@ export const player: AsyncComponent<PlayerProps, ContainerMutable> = async ({
   global.events.on(Event.KEY_DOWN, onKeyDown, $container);
   global.events.on(Event.KEY_UP, onKeyUp, $container);
 
-  return $container.getComponent(player);
+  return $container.getComponent(player2D);
 };

@@ -7,7 +7,6 @@ import {
 } from "../types";
 import { getValueMutableFunction } from "./mutables.utils";
 import { DISPLAY_OBJECT_DEFAULT_PROPS } from "../consts";
-import { degreesToRadians } from "../utils";
 import { DisplayObjectEvent, Event } from "../enums";
 import { global } from "../global";
 
@@ -167,7 +166,7 @@ export const setDisplayObjectProps = <DisplayObject extends PIXIDisplayObject>(
   displayObject.alpha = alpha || 0;
   zIndex !== undefined && (displayObject.zIndex = zIndex);
 
-  angle && (displayObject.angle = degreesToRadians(angle));
+  angle && (displayObject.angle = angle);
 
   displayObject.visible = Boolean(visible);
 

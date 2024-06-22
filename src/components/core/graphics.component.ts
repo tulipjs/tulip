@@ -76,14 +76,7 @@ export const graphics: Component<Props, Mutable, false> = (originalProps) => {
       .fill({ color: 0xffffff });
   };
   const setTriangle = (width: number, height: number) => {
-    const _height = (Math.sqrt(3) / 2) * width;
-    graphics.clear();
-    graphics
-      .moveTo(width / 2, 0)
-      .lineTo(width, _height)
-      .lineTo(0, _height)
-      .lineTo(width / 2, 0)
-      .fill({ color: 0xffffff });
+    setPolygon([-width / 2, height / 2, width / 2, height / 2, 0, -height / 2]);
   };
 
   const $getRaw = (): Props => {

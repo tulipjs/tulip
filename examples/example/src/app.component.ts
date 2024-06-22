@@ -37,19 +37,17 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
   });
   $world.add($plane);
 
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < 400; i++) {
     const _fly = flyComponent({
       label: `ball`,
       props: {
         color: 0xffffff,
-        size: 4,
-        mass: 1,
+        size: 2,
+        mass: 0.1,
       },
       position: {
-        x: 100 + i * 10,
-        y: 900,
-        // x: Math.random() * 1300,
-        // y: Math.random() * 900,
+        x: Math.random() * 1300,
+        y: Math.random() * 900,
       },
     });
     $world.add(_fly);
