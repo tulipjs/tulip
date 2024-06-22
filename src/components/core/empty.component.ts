@@ -56,9 +56,9 @@ export const empty = <Data>(
   const getPosition = () => $body?.getPosition() || $position;
 
   const getAngle = () => $body?.getAngle() || $angle;
-  const setAngle = (angle: number) => {
-    $angle = angle;
-    $body?.setAngle(angle);
+  const setAngle = async (data) => {
+    $angle = await getValueMutableFunction<number>(data, getAngle());
+    $body?.setAngle($angle);
   };
 
   const getData = <R = Data>(selector?: (data: Data) => R): R => {

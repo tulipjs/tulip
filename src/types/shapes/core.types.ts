@@ -32,8 +32,14 @@ export type CapsuleShapeProps = {
   radius: number;
 } & ShapeProps;
 
+export type ConvexShapeProps = {
+  type: Shape.CONVEX;
+  vertices: number[][];
+} & ShapeProps;
+
 export type Shapes =
   | PlaneShapeProps
   | CircleShapeProps
   | BoxShapeProps
-  | CapsuleShapeProps;
+  | CapsuleShapeProps
+  | ConvexShapeProps;

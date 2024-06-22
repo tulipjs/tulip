@@ -3,73 +3,72 @@ import {
   AsyncComponent,
   body,
   Container,
-  ContainerProps,
-  DisplayObjectEvent,
+  Direction,
   DisplayObjectMutable,
-  Event,
   EventMode,
-  global,
+  graphics,
+  player2D,
   PlayStatus,
+  Shape,
 } from "@tulib/tulip";
 
-type Props = {
-  props: {
-    color: number;
-    size: number;
-    mass: number;
-  };
-} & ContainerProps;
+type Props = {};
 
 type Mutable = {} & DisplayObjectMutable<Container>;
 
-export const playerComponent: AsyncComponent<Props, Mutable> = async (
-  props,
-) => {
-  const $player = await animatedSprite({
+export const playerComponent: AsyncComponent<Props, Mutable> = async () => {
+  let $sprite;
+
+  const onTick = (direction: Direction) => {
+    switch (direction) {
+      case Direction.RIGHT:
+        $sprite.setAnimation("turnRight");
+        $sprite.setPlayStatus(PlayStatus.PLAY_AND_STOP);
+        return;
+      case Direction.LEFT:
+        $sprite.setAnimation("turnLeft");
+        $sprite.setPlayStatus(PlayStatus.PLAY_AND_STOP);
+        return;
+    }
+
+    $sprite.setFrame(0);
+  };
+
+  const $player = player2D({
+    onTick,
+  });
+
+  const width = 175;
+  const height = 226;
+
+  $sprite = await animatedSprite({
     spriteSheet: "fighter/fighter.json",
     animation: "turnRight",
     eventMode: EventMode.NONE,
   });
+  $sprite.setPivot({ x: width / 2, y: height / 2 });
+  $player.add($sprite);
+
+  const $hitbox = graphics({
+    color: 0xff0000,
+    alpha: 0.1,
+  });
+  $hitbox.setTriangle(width, height);
+  $player.add($hitbox);
+
   const $body = body({
     mass: 1,
   });
-  $player.setBody($body);
-  $player.setPivot({ x: 175 / 2, y: 226 / 2 });
-  $player.setPosition({ x: 100, y: 50 });
 
-  let currentKeyList = [];
-  $player.on(DisplayObjectEvent.TICK, () => {
-    const position = $player.getPosition();
-    global.sounds.setPosition({ ...position, z: 2 });
-
-    if (currentKeyList.includes("d")) {
-      $body.addForceX(-1);
-      $player.setAnimation("turnRight");
-      $player.setPlayStatus(PlayStatus.PLAY_AND_STOP);
-      return;
-    } else if (currentKeyList.includes("a")) {
-      $body.addForceX(1);
-      $player.setAnimation("turnLeft");
-      $player.setPlayStatus(PlayStatus.PLAY_AND_STOP);
-      return;
-    } else if (currentKeyList.includes("w")) {
-      $body.addForceY(1);
-    } else if (currentKeyList.includes("s")) {
-      $body.addForceY(-1);
-    }
-    $player.setFrame(0);
+  $body.addShape({
+    type: Shape.CONVEX,
+    vertices: [
+      [-width / 2, -height / 2], // top-left
+      [width / 2, -height / 2], // top-right
+      [0, height / 2], // bottom
+    ],
   });
-
-  const onKeyDown = ({ key }) => {
-    currentKeyList = [...new Set([...currentKeyList, key])];
-  };
-
-  const onKeyUp = ({ key }) => {
-    currentKeyList = currentKeyList.filter((cKey) => cKey != key);
-  };
-
-  global.events.on(Event.KEY_DOWN, onKeyDown, $player);
-  global.events.on(Event.KEY_UP, onKeyUp, $player);
+  $player.setBody($body);
 
   return $player.getComponent(playerComponent);
 };

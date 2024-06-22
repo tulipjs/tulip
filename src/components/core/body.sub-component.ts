@@ -6,7 +6,7 @@ import {
   Shapes,
   SubComponent,
 } from "../../types";
-import { degreesToRadians, getShape } from "../../utils";
+import { degreesToRadians, getShape, radiansToDegrees } from "../../utils";
 
 export const body: SubComponent<BodyProps, BodyMutable> = ({
   mass,
@@ -51,7 +51,7 @@ export const body: SubComponent<BodyProps, BodyMutable> = ({
     y: -$body.position[1],
   });
 
-  const getAngle = (): number => $body.angle;
+  const getAngle = (): number => radiansToDegrees($body.angle);
   const setAngle = (angle: number) => ($body.angle = degreesToRadians(angle));
 
   const addForceX = (force: number) => ($body.force[0] = force);

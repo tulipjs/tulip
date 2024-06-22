@@ -43,7 +43,7 @@ export type ComponentMutable<Props extends any = {}, Data = unknown> = {
   getPosition: () => Point;
 
   getAngle: () => number;
-  setAngle: (angle: number) => void;
+  setAngle: (angle: MutableFunction<number>) => void;
 
   getData: <R = Data>(selector?: (data: Data) => R) => R;
   setData: (data: Data | ((data: Data) => Data)) => void;

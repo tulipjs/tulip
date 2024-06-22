@@ -7,7 +7,6 @@ import {
 } from "../types";
 import { getValueMutableFunction } from "./mutables.utils";
 import { DISPLAY_OBJECT_DEFAULT_PROPS } from "../consts";
-import { degreesToRadians, radiansToDegrees } from "../utils";
 import { DisplayObjectEvent, Event } from "../enums";
 import { global } from "../global";
 
@@ -72,11 +71,10 @@ export const getDisplayObjectMutable = <
     alpha: getAlpha(),
   });
 
-  let $onTickEventId: number;
+  let $removeOnTickEvent: () => void;
   displayObject.on(DisplayObjectEvent.REMOVED, () => {
     $isRemoved = true;
-    $onTickEventId !== undefined &&
-      global.events.remove(Event.TICK, $onTickEventId);
+    $removeOnTickEvent !== undefined && $removeOnTickEvent();
   });
 
   const on = (event: DisplayObjectEvent, callback: (data?: any) => void) => {
@@ -87,7 +85,7 @@ export const getDisplayObjectMutable = <
 
     switch (event) {
       case DisplayObjectEvent.TICK:
-        $onTickEventId = global.events.on(Event.TICK, $callback);
+        $removeOnTickEvent = global.events.on(Event.TICK, $callback);
         return;
     }
     displayObject.on(event as any, $callback);
@@ -168,7 +166,7 @@ export const setDisplayObjectProps = <DisplayObject extends PIXIDisplayObject>(
   displayObject.alpha = alpha || 0;
   zIndex !== undefined && (displayObject.zIndex = zIndex);
 
-  angle && (displayObject.angle = degreesToRadians(angle));
+  angle && (displayObject.angle = angle);
 
   displayObject.visible = Boolean(visible);
 
@@ -179,6 +177,6 @@ export const setDisplayObjectProps = <DisplayObject extends PIXIDisplayObject>(
     if (!displayObjectMutable?.getBody()) return;
 
     displayObject.position.copyFrom(displayObjectMutable.getPosition());
-    displayObject.angle = radiansToDegrees(displayObjectMutable.getAngle());
+    displayObject.angle = displayObjectMutable.getAngle();
   });
 };
