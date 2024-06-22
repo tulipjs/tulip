@@ -3,6 +3,7 @@ import {
   Container,
   container,
   DisplayObjectMutable,
+  global,
   plane,
   world,
 } from "@tulib/tulip";
@@ -12,6 +13,8 @@ import { playerComponent } from "player.component";
 type Mutable = {} & DisplayObjectMutable<Container>;
 
 export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
+  global.$setVisualHitboxes(true);
+
   const $container = container({ label: "app" });
 
   const $world = world({

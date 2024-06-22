@@ -19,9 +19,11 @@ export const body: SubComponent<BodyProps, BodyMutable> = ({
   },
 } = {}) => {
   const $body = new p2.Body({
-    mass: mass,
+    mass,
     angle: angle ? degreesToRadians(angle) : 0,
   });
+
+  let $shapesProps = [];
 
   const $materialProps = structuredClone(material);
   const $material = new p2.Material();
@@ -33,14 +35,18 @@ export const body: SubComponent<BodyProps, BodyMutable> = ({
   const $getMaterial = () => $material;
   const $getBody = () => $body;
 
+  const $getShapes = () => $shapesProps;
+
   const addShape = <Shape extends Shapes>(shapeProps: Shape): number => {
     const shape = getShape(shapeProps);
     shape.material = $material;
     $body.addShape(shape);
+    $shapesProps.push({ id: shape.id, props: shapeProps });
     return shape.id;
   };
   const removeShape = (shapeId: number) => {
     $body.removeShape($body.shapes.find((shape) => shape.id === shapeId));
+    $shapesProps = $shapesProps.filter((data) => data.id !== shapeId);
   };
 
   const setPosition = (position: Point) => {
@@ -75,5 +81,6 @@ export const body: SubComponent<BodyProps, BodyMutable> = ({
     $getBody,
     $getMaterial,
     $getContactBody,
+    $getShapes,
   };
 };
