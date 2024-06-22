@@ -9,6 +9,7 @@ import {
   Shapes,
 } from "../types";
 import { Shape } from "../enums";
+import { graphics } from "../components";
 
 const getBaseProps = <Props extends ShapeProps>({
   position,
@@ -29,17 +30,76 @@ export const getShape = ({ type, ...props }: Shapes) => {
   if (type === Shape.CONVEX) return getConvexShape(props as ConvexShapeProps);
 };
 
-export const getCircleShape = (props: CircleShapeProps): p2.Circle =>
+const getCircleShape = (props: CircleShapeProps): p2.Circle =>
   new p2.Circle(getBaseProps(props));
 
-export const getPlaneShape = (props: PlaneShapeProps): p2.Plane =>
+const getPlaneShape = (props: PlaneShapeProps): p2.Plane =>
   new p2.Plane(getBaseProps(props));
 
-export const getBoxShape = (props: BoxShapeProps): p2.Box =>
+const getBoxShape = (props: BoxShapeProps): p2.Box =>
   new p2.Box(getBaseProps(props));
 
-export const getCapsuleShape = (props: CapsuleShapeProps): p2.Capsule =>
+const getCapsuleShape = (props: CapsuleShapeProps): p2.Capsule =>
   new p2.Capsule(getBaseProps(props));
 
-export const getConvexShape = (props: ConvexShapeProps): p2.Convex =>
+const getConvexShape = (props: ConvexShapeProps): p2.Convex =>
   new p2.Convex(getBaseProps(props));
+
+export const getVisualShape = ({ type, ...props }: Shapes) => {
+  if (type === Shape.CIRCLE) return getVisualCircle(props as CircleShapeProps);
+  if (type === Shape.PLANE) return getVisualPlane(props as PlaneShapeProps);
+  if (type === Shape.BOX) return getVisualBox(props as BoxShapeProps);
+  if (type === Shape.CAPSULE)
+    return getVisualCapsule(props as CapsuleShapeProps);
+  if (type === Shape.CONVEX) return getVisualConvex(props as ConvexShapeProps);
+};
+
+const getVisualCircle = (props: CircleShapeProps) => {
+  const circle = graphics({
+    color: 0xff00ff,
+    alpha: 0.2,
+  });
+  circle.setCircle(props.radius);
+  return circle;
+};
+
+const getVisualPlane = (props: PlaneShapeProps) => {
+  const plane = graphics({
+    color: 0xff00ff,
+    alpha: 0.2,
+    angle: props.angle,
+  });
+  plane.setPolygon([0, 0, 10000, 0, 10000, 5, 0, 5]);
+  plane.setPivot({ x: 5000, y: 2.5 });
+
+  return plane;
+};
+
+const getVisualBox = (props: BoxShapeProps) => {
+  const { width, height } = props;
+  const box = graphics({
+    color: 0xff00ff,
+    alpha: 0.2,
+  });
+  box.setPolygon([0, 0, width, 0, width, height, 0, height]);
+  box.setPivot({ x: width / 2, y: height / 2 });
+  return box;
+};
+
+const getVisualCapsule = (props: CapsuleShapeProps) => {
+  const capsule = graphics({
+    color: 0xff00ff,
+    alpha: 0.2,
+  });
+  capsule.setCapsule(props.length, props.radius);
+  return capsule;
+};
+
+const getVisualConvex = (props: ConvexShapeProps) => {
+  const convex = graphics({
+    color: 0xff00ff,
+    alpha: 0.2,
+  });
+  convex.setTriangle(props.width, props.height);
+  return convex;
+};

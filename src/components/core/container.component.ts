@@ -1,14 +1,19 @@
 import * as PIXI from "pixi.js";
 import {
+  BodyMutable,
   Component,
-  Container,
-  ContainerProps,
-  ContainerMutable,
-  InternalMutable,
   ComponentMutable,
+  Container,
+  ContainerMutable,
+  ContainerProps,
   DisplayObjectMutable,
+  InternalMutable,
 } from "../../types";
-import { getDisplayObjectMutable, setDisplayObjectProps } from "../../utils";
+import {
+  getDisplayObjectMutable,
+  getVisualShape,
+  setDisplayObjectProps,
+} from "../../utils";
 import { empty } from "./empty.component";
 import { global } from "../../global";
 
@@ -55,6 +60,15 @@ export const container: Component<ContainerProps, ContainerMutable, false> = (
     global.$removeComponent(displayObjectMutable);
   };
 
+  const setBody = (body: BodyMutable) => {
+    displayObjectMutable.setBody(body);
+
+    if (global.$isVisualHitboxes()) {
+      const shapes = body.$getShapes();
+      shapes.forEach(({ props }) => add(getVisualShape(props)));
+    }
+  };
+
   const mutable: InternalMutable<ContainerMutable, false> = {
     ...displayObjectMutable,
     //
@@ -65,6 +79,8 @@ export const container: Component<ContainerProps, ContainerMutable, false> = (
       mutable.$componentName = component.name;
       return mutable;
     },
+
+    setBody,
 
     getProps: () => $props as any,
 

@@ -35,6 +35,8 @@ export type CapsuleShapeProps = {
 export type ConvexShapeProps = {
   type: Shape.CONVEX;
   vertices: number[][];
+  width: number;
+  height: number;
 } & ShapeProps;
 
 export type Shapes =

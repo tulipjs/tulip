@@ -1,6 +1,6 @@
 import p2 from "p2";
 import { Point } from "./point.types";
-import { Shapes } from "../types/shapes";
+import { Shapes } from "./shapes";
 import { BodyMaterialProps } from "./material.types";
 
 export type BodyProps = {
@@ -26,4 +26,5 @@ export type BodyMutable<Raw extends any = {}> = {
   $getBody: () => p2.Body;
   $getMaterial: () => p2.Material;
   $getContactBody: (bodyMutable: BodyMutable) => p2.ContactMaterial;
+  $getShapes: <Shape extends Shapes>() => { id: number; props: Shape }[];
 };

@@ -6,7 +6,6 @@ import {
   Direction,
   DisplayObjectMutable,
   EventMode,
-  graphics,
   player2D,
   PlayStatus,
   Shape,
@@ -49,23 +48,18 @@ export const playerComponent: AsyncComponent<Props, Mutable> = async () => {
   $sprite.setPivot({ x: width / 2, y: height / 2 });
   $player.add($sprite);
 
-  const $hitbox = graphics({
-    color: 0xff0000,
-    alpha: 0.1,
-  });
-  $hitbox.setTriangle(width, height);
-  $player.add($hitbox);
-
   const $body = body({
     mass: 1,
   });
 
   $body.addShape({
     type: Shape.CONVEX,
+    width,
+    height,
     vertices: [
-      [-width / 2, -height / 2], // top-left
-      [width / 2, -height / 2], // top-right
-      [0, height / 2], // bottom
+      [-width / 2, -height / 2],
+      [width / 2, -height / 2],
+      [0, height / 2],
     ],
   });
   $player.setBody($body);
