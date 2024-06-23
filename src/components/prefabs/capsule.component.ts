@@ -1,9 +1,11 @@
 import { body, container, graphics } from "../";
 import { Shape } from "../../enums";
-import { CapsuleProps, Component, ContainerMutable } from "../../types";
+import { AsyncComponent, CapsuleProps, ContainerMutable } from "../../types";
 
-export const capsule: Component<CapsuleProps, ContainerMutable> = (props) => {
-  const $container = container({
+export const capsule: AsyncComponent<CapsuleProps, ContainerMutable> = async (
+  props,
+) => {
+  const $container = await container({
     ...props,
   });
 
@@ -11,7 +13,7 @@ export const capsule: Component<CapsuleProps, ContainerMutable> = (props) => {
     props: { color, length, radius, mass, material },
   } = $container.getProps<CapsuleProps>();
 
-  const $capsule = graphics({
+  const $capsule = await graphics({
     color,
   });
   $capsule.setCapsule(length, radius);
@@ -27,7 +29,7 @@ export const capsule: Component<CapsuleProps, ContainerMutable> = (props) => {
     length,
   });
 
-  $container.setBody(spriteBody);
+  await $container.setBody(spriteBody);
 
   return $container.getComponent(capsule);
 };

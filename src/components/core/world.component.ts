@@ -1,5 +1,6 @@
 import p2 from "p2";
 import {
+  AsyncComponent,
   Component,
   DisplayObject,
   DisplayObjectMutable,
@@ -11,14 +12,14 @@ import { container } from "./container.component";
 import { WORLD_DEFAULT_PROPS } from "../../consts";
 import { DisplayObjectEvent } from "../../enums";
 
-export const world: Component<WorldProps, WorldMutable, false> = (
+export const world: AsyncComponent<WorldProps, WorldMutable, false> = async (
   originalProps = WORLD_DEFAULT_PROPS,
 ) => {
   const {
     add: addContainer,
     remove: removeContainer,
     ...componentMutable
-  } = container(originalProps);
+  } = await container(originalProps);
 
   const $props = structuredClone(originalProps);
 
@@ -36,7 +37,7 @@ export const world: Component<WorldProps, WorldMutable, false> = (
 
   const add = (...displayObjects: DisplayObjectMutable<DisplayObject>[]) => {
     displayObjects.forEach((displayObject) => {
-      const body = displayObject.getBody();
+      const body = displayObject.getBody ? displayObject.getBody() : null;
 
       displayObjectList.push(displayObject);
 

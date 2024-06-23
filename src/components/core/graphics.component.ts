@@ -1,12 +1,12 @@
 import * as PIXI from "pixi.js";
 import {
-  Component,
   DisplayObjectMutable,
   Graphics,
   ContainerProps,
   InternalMutable,
+  AsyncComponent,
 } from "../../types";
-import { getDisplayObjectMutable, setDisplayObjectProps } from "../../utils";
+import { initDisplayObjectMutable } from "../../utils";
 import { empty } from "./empty.component";
 
 type Props = {
@@ -27,14 +27,14 @@ type Mutable = {
   setTriangle: (width: number, height: number) => void;
 } & DisplayObjectMutable<Graphics>;
 
-export const graphics: Component<Props, Mutable, false> = (originalProps) => {
+export const graphics: AsyncComponent<Props, Mutable, false> = async (
+  originalProps,
+) => {
   const {
     color: defaultColor,
     radius: defaultRadius,
     polygon: defaultPolygon,
     length: defaultLength,
-    label,
-    ...props
   } = originalProps;
 
   const $props = structuredClone(originalProps);
@@ -46,13 +46,12 @@ export const graphics: Component<Props, Mutable, false> = (originalProps) => {
 
   const graphics = new PIXI.Graphics() as Graphics;
 
-  const emptyMutable = empty({ label });
+  const emptyMutable = empty(originalProps);
 
-  const displayObjectMutable = getDisplayObjectMutable<Graphics>(
+  const displayObjectMutable = await initDisplayObjectMutable<Graphics>(
     graphics,
     emptyMutable,
   );
-  setDisplayObjectProps<Graphics>(graphics, props, displayObjectMutable);
 
   const getColor = () => $color;
   const setColor = (color: number) => {

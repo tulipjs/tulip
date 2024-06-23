@@ -1,6 +1,6 @@
 import { container } from "../";
 import {
-  Component,
+  AsyncComponent,
   ContainerMutable,
   ContainerProps,
   Direction,
@@ -16,14 +16,14 @@ type PlayerProps = {
   onTick?: (direction: Direction) => void; // TODO: change direction -> keybinding -> https://github.com/tulipjs/tulip/issues/53
 } & ContainerProps;
 
-export const player2D: Component<PlayerProps, ContainerMutable> = ({
+export const player2D: AsyncComponent<PlayerProps, ContainerMutable> = async ({
   onTick = () => {},
   maxSpeed = 8,
   acceleration = 0.3,
   deceleration = 0.1,
   ...props
 }) => {
-  const $container = container({
+  const $container = await container({
     ...props,
   });
 

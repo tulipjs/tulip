@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
 import {
+  AsyncComponent,
   BodyMutable,
-  Component,
   ComponentMutable,
   Container,
   ContainerMutable,
@@ -9,31 +9,26 @@ import {
   DisplayObjectMutable,
   InternalMutable,
 } from "../../types";
-import {
-  getDisplayObjectMutable,
-  getVisualShape,
-  setDisplayObjectProps,
-} from "../../utils";
+import { initDisplayObjectMutable, getVisualShape } from "../../utils";
 import { empty } from "./empty.component";
 import { global } from "../../global";
 
-export const container: Component<ContainerProps, ContainerMutable, false> = (
-  originalProps = {},
-) => {
-  const { label, ...props } = originalProps;
-
+export const container: AsyncComponent<
+  ContainerProps,
+  ContainerMutable,
+  false
+> = async (originalProps = {}) => {
   const $props = structuredClone(originalProps);
 
   const container = new PIXI.Container() as Container;
-  const emptyMutable = empty({ label, position: props.position });
+  const emptyMutable = empty(originalProps);
 
   let childList: ComponentMutable[] = [];
 
-  const displayObjectMutable = getDisplayObjectMutable<Container>(
+  const displayObjectMutable = await initDisplayObjectMutable<Container>(
     container,
     emptyMutable,
   );
-  setDisplayObjectProps<Container>(container, props, displayObjectMutable);
 
   const $destroy = () => {
     //remove child first
@@ -64,12 +59,14 @@ export const container: Component<ContainerProps, ContainerMutable, false> = (
     });
   };
 
-  const setBody = (body: BodyMutable) => {
-    displayObjectMutable.setBody(body);
+  const setBody = async (body: BodyMutable) => {
+    await displayObjectMutable.setBody(body);
 
     if (global.$isVisualHitboxes()) {
       const shapes = body.$getShapes();
-      shapes.forEach(({ props }) => add(getVisualShape(props)));
+      await Promise.all(
+        shapes.map(async ({ props }) => add(await getVisualShape(props))),
+      );
     }
   };
 

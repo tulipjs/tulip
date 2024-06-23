@@ -1,9 +1,11 @@
 import { body, container, graphics } from "../";
 import { Shape } from "../../enums";
-import { BoxProps, Component, ContainerMutable } from "../../types";
+import { AsyncComponent, BoxProps, ContainerMutable } from "../../types";
 
-export const box: Component<BoxProps, ContainerMutable> = (props) => {
-  const $container = container({
+export const box: AsyncComponent<BoxProps, ContainerMutable> = async (
+  props,
+) => {
+  const $container = await container({
     ...props,
   });
 
@@ -11,11 +13,11 @@ export const box: Component<BoxProps, ContainerMutable> = (props) => {
     props: { color, width, height, mass, material },
   } = $container.getProps<BoxProps>();
 
-  const $box = graphics({
+  const $box = await graphics({
     color,
   });
   $box.setPolygon([0, 0, width, 0, width, height, 0, height]);
-  $box.setPivot({ x: width / 2, y: height / 2 });
+  await $box.setPivot({ x: width / 2, y: height / 2 });
   $container.add($box);
 
   const spriteBody = body({
@@ -28,7 +30,7 @@ export const box: Component<BoxProps, ContainerMutable> = (props) => {
     height,
   });
 
-  $container.setBody(spriteBody);
+  await $container.setBody(spriteBody);
 
   return $container.getComponent(box);
 };

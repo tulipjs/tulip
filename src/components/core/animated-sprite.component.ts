@@ -7,7 +7,7 @@ import {
   InternalMutable,
 } from "../../types";
 import { empty } from "./empty.component";
-import { getDisplayObjectMutable, setDisplayObjectProps } from "../../utils";
+import { initDisplayObjectMutable } from "../../utils";
 import { PlayStatus } from "../../enums";
 
 type Props = {
@@ -28,8 +28,7 @@ type Mutable = {
 export const animatedSprite: AsyncComponent<Props, Mutable, false> = async (
   originalProps,
 ) => {
-  const { label, spriteSheet, animation, frame, playStatus, ...props } =
-    originalProps;
+  const { spriteSheet, animation, frame, playStatus } = originalProps;
 
   const $props = structuredClone(originalProps);
 
@@ -75,16 +74,11 @@ export const animatedSprite: AsyncComponent<Props, Mutable, false> = async (
   };
   if ($playStatus !== undefined) setPlayStatus($playStatus);
 
-  const emptyMutable = empty({ label });
+  const emptyMutable = empty(originalProps);
   //
-  const displayObjectMutable = getDisplayObjectMutable<AnimatedSprite>(
+  const displayObjectMutable = await initDisplayObjectMutable<AnimatedSprite>(
     $animatedSprite,
     emptyMutable,
-  );
-  setDisplayObjectProps<AnimatedSprite>(
-    $animatedSprite,
-    props,
-    displayObjectMutable,
   );
   //
   const $getRaw = (): Props => ({

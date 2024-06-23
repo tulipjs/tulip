@@ -2,6 +2,7 @@ import { MutableFunction } from "./mutables.types";
 import { Point } from "./point.types";
 import { BodyMutable } from "./body.types";
 import { SoundMutable, SoundProps } from "./sound.types";
+import { EventMode } from "../enums/event-mode.enum";
 
 export type InternalMutable<Mutable, Bool> = Mutable & {
   $mutable: Bool;
@@ -24,6 +25,9 @@ export type ComponentProps = {
   label?: string;
   position?: Point;
   angle?: number;
+  alpha?: number;
+  zIndex?: number;
+  eventMode?: EventMode;
 };
 
 export type ComponentMutable<Props extends any = {}, Data = unknown> = {
@@ -33,7 +37,7 @@ export type ComponentMutable<Props extends any = {}, Data = unknown> = {
   getLabel: () => string;
   setLabel: (label: string) => void;
 
-  setBody: (body: BodyMutable) => void;
+  setBody: (body: BodyMutable) => Promise<void>;
   getBody: () => BodyMutable;
 
   //position

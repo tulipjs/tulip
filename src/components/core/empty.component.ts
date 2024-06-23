@@ -22,7 +22,7 @@ export type EmptyMutable<Data = unknown> = {} & ComponentMutable<
 export const empty = <Data>(
   originalProps: EmptyProps<Data> = {},
 ): InternalMutable<EmptyMutable<Data>, false> => {
-  const { label = "empty", position, initialData } = originalProps;
+  const { label = "empty", position, angle, initialData } = originalProps;
   const $props = structuredClone(originalProps);
 
   let $id = originalProps.id || `${label}_${getRandomNumber(0, 100_000)}`;
@@ -30,7 +30,7 @@ export const empty = <Data>(
     x: position?.x || 0,
     y: position?.y || 0,
   };
-  let $angle = 0;
+  let $angle = angle || 0;
   let $label = label;
   let $body: BodyMutable;
   let $data = initialData ?? ({} as Data);
@@ -42,7 +42,7 @@ export const empty = <Data>(
   const setLabel = (label: string) => ($label = label);
 
   const getBody = () => $body;
-  const setBody = (body: BodyMutable) => {
+  const setBody = async (body: BodyMutable) => {
     $body = body;
     $body.setPosition($position);
   };

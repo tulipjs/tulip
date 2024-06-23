@@ -1,11 +1,11 @@
 import {
-  Component,
   Container,
   DisplayObjectMutable,
   EventMode,
   ContainerProps,
   global,
   circle,
+  AsyncComponent,
 } from "@tulib/tulip";
 import { GlobalData } from "types";
 
@@ -19,8 +19,8 @@ type Props = {
 
 type Mutable = {} & DisplayObjectMutable<Container>;
 
-export const flyComponent: Component<Props, Mutable> = (props) => {
-  const container = circle({
+export const flyComponent: AsyncComponent<Props, Mutable> = async (props) => {
+  const container = await circle({
     ...props,
     eventMode: EventMode.STATIC,
     props: {
@@ -37,7 +37,7 @@ export const flyComponent: Component<Props, Mutable> = (props) => {
   const size = 15;
   const position = size - 2;
 
-  const circle2 = circle({
+  const circle2 = await circle({
     props: {
       size,
       color: global.getData<GlobalData>().ballColor,
@@ -50,7 +50,7 @@ export const flyComponent: Component<Props, Mutable> = (props) => {
     },
   });
 
-  const circle3 = circle({
+  const circle3 = await circle({
     props: {
       size,
       color: global.getData<GlobalData>().ballColor,

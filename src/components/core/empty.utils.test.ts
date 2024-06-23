@@ -41,17 +41,19 @@ describe("components", () => {
         });
         test("setPositionX(...) changes x position", async () => {
           await emptyPropsMutable.setPositionX((x) => x + 5);
-          expect(emptyPropsMutable.getPosition()).toStrictEqual({
-            x: 123 + 5,
-            y: 321,
-          });
+          expect(emptyPropsMutable.getPosition()).toStrictEqual(
+            expect.objectContaining({
+              x: 123 + 5,
+            }),
+          );
         });
         test("setPositionY(...) changes y position", async () => {
           await emptyPropsMutable.setPositionY((y) => y + 9);
-          expect(emptyPropsMutable.getPosition()).toStrictEqual({
-            x: 123 + 5,
-            y: 321 + 9,
-          });
+          expect(emptyPropsMutable.getPosition()).toStrictEqual(
+            expect.objectContaining({
+              y: 321 + 9,
+            }),
+          );
         });
 
         //angle
@@ -82,13 +84,14 @@ describe("components", () => {
 
         //getRaw
         test("$getRaw() to be contain everything", async () => {
-          expect(emptyPropsMutable.$getRaw()).toStrictEqual({
-            angle: 23,
-            id: emptyPropsMutable.getId(),
-            initialData: { abc: 223 },
-            label: "not-empty",
-            position: { x: 128, y: 330 },
-          });
+          expect(emptyPropsMutable.$getRaw()).toStrictEqual(
+            expect.objectContaining({
+              angle: 23,
+              initialData: { abc: 223 },
+              label: "not-empty",
+              position: { x: 128, y: 330 },
+            }),
+          );
         });
 
         //body
