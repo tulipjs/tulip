@@ -45,6 +45,7 @@ export const empty = <Data>(
   const setBody = async (body: BodyMutable) => {
     $body = body;
     $body.setPosition($position);
+    $body.setAngle($angle);
   };
 
   const setPosition = async (data) => {

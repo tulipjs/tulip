@@ -70,16 +70,18 @@ export const container: AsyncComponent<
     }
   };
 
+  const getComponent = (component) => {
+    mutable.$componentName = component.name;
+    return mutable;
+  };
+
   const mutable: InternalMutable<ContainerMutable, false> = {
     ...displayObjectMutable,
     //
     add,
     remove,
     // @ts-ignore
-    getComponent: (component) => {
-      mutable.$componentName = component.name;
-      return mutable;
-    },
+    getComponent,
 
     setBody,
 
