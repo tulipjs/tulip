@@ -6,6 +6,7 @@ import { BodyMaterialProps } from "./material.types";
 export type BodyProps = {
   mass?: number;
   angle?: number;
+  position?: Point;
 
   material?: BodyMaterialProps;
 };
