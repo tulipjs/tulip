@@ -69,7 +69,7 @@ export type ComponentMutable<Props extends any = {}, Data = unknown> = {
   //Destroys the display object (pixi) & physics
   $destroy: () => void;
   //retrieves the component name (can be undefined or null). Only the added to a father will be filled
-  $componentName?: string;
+  $getComponentName: () => string | undefined;
   //TODO Search for a better name
   //It's only used for types, it doesnt contain information
   $mutable: boolean;

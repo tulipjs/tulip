@@ -1,5 +1,5 @@
 import { body, container, graphics } from "../";
-import { Shape } from "../../enums";
+import { GraphicType, Shape } from "../../enums";
 import { AsyncComponent, CapsuleProps, ContainerMutable } from "../../types";
 
 export const capsule: AsyncComponent<CapsuleProps, ContainerMutable> = async (
@@ -15,8 +15,10 @@ export const capsule: AsyncComponent<CapsuleProps, ContainerMutable> = async (
 
   const $capsule = await graphics({
     color,
+    type: GraphicType.CAPSULE,
+    radius,
+    length,
   });
-  $capsule.setCapsule(length, radius);
   $container.add($capsule);
 
   const spriteBody = body({

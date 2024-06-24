@@ -105,6 +105,16 @@ export const initDisplayObjectMutable = async <
   };
   const getEventMode = () => displayObject.eventMode as EventMode;
 
+  const $destroy = () => {
+    componentMutable.getFather = null;
+
+    componentMutable.$destroy();
+  };
+
+  const getComponent = (component) => {
+    componentMutable.getComponent(component);
+    return $mutable;
+  };
   const $getRaw = (): DisplayObjectProps => ({
     ...componentMutable.$getRaw(),
     pivot: getPivot(),
@@ -155,7 +165,7 @@ export const initDisplayObjectMutable = async <
     });
   }
 
-  return {
+  const $mutable: DisplayObjectMutable<DisplayObject> = {
     ...componentMutable,
 
     getDisplayObject: (): DisplayObject => displayObject,
@@ -190,7 +200,13 @@ export const initDisplayObjectMutable = async <
     //events
     on,
 
+    //@ts-ignore
+    getComponent,
+
+    $destroy,
     $getRaw,
     $mutable: false,
   };
+
+  return $mutable;
 };

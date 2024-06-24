@@ -8,7 +8,7 @@ import {
   ShapeProps,
   Shapes,
 } from "../types";
-import { Shape } from "../enums";
+import { GraphicType, Shape } from "../enums";
 import { graphics } from "../components";
 
 const getBaseProps = <Props extends ShapeProps>({
@@ -58,8 +58,9 @@ const getVisualCircle = async (props: CircleShapeProps) => {
   const circle = await graphics({
     color: 0xff00ff,
     alpha: 0.2,
+    type: GraphicType.CIRCLE,
+    radius: props.radius,
   });
-  circle.setCircle(props.radius);
   return circle;
 };
 
@@ -68,8 +69,9 @@ const getVisualPlane = async (props: PlaneShapeProps) => {
     color: 0xff00ff,
     alpha: 0.2,
     angle: props.angle,
+    type: GraphicType.POLYGON,
+    polygon: [0, 0, 10000, 0, 10000, 5, 0, 5],
   });
-  plane.setPolygon([0, 0, 10000, 0, 10000, 5, 0, 5]);
   await plane.setPivot({ x: 5000, y: 2.5 });
 
   return plane;
@@ -80,26 +82,28 @@ const getVisualBox = async (props: BoxShapeProps) => {
   const box = await graphics({
     color: 0xff00ff,
     alpha: 0.2,
+    type: GraphicType.POLYGON,
+    polygon: [0, 0, width, 0, width, height, 0, height],
   });
-  box.setPolygon([0, 0, width, 0, width, height, 0, height]);
   await box.setPivot({ x: width / 2, y: height / 2 });
+
   return box;
 };
 
-const getVisualCapsule = async (props: CapsuleShapeProps) => {
-  const capsule = await graphics({
+const getVisualCapsule = async (props: CapsuleShapeProps) =>
+  await graphics({
     color: 0xff00ff,
     alpha: 0.2,
+    type: GraphicType.CAPSULE,
+    length: props.length,
+    radius: props.radius,
   });
-  capsule.setCapsule(props.length, props.radius);
-  return capsule;
-};
 
-const getVisualConvex = async (props: ConvexShapeProps) => {
-  const convex = await graphics({
+const getVisualConvex = async (props: ConvexShapeProps) =>
+  await graphics({
     color: 0xff00ff,
     alpha: 0.2,
+    type: GraphicType.TRIANGLE,
+    width: props.width,
+    height: props.height,
   });
-  convex.setTriangle(props.width, props.height);
-  return convex;
-};

@@ -36,6 +36,8 @@ export const container: AsyncComponent<
     displayObjectMutable.$destroy();
     //destroy pixi container
     container.destroy();
+    mutable.getFather = null;
+
     for (const childComponent of childList) childComponent.$destroy();
   };
 
@@ -70,18 +72,11 @@ export const container: AsyncComponent<
     }
   };
 
-  const getComponent = (component) => {
-    mutable.$componentName = component.name;
-    return mutable;
-  };
-
   const mutable: InternalMutable<ContainerMutable, false> = {
     ...displayObjectMutable,
     //
     add,
     remove,
-    // @ts-ignore
-    getComponent,
 
     setBody,
 

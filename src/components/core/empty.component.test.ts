@@ -110,8 +110,8 @@ describe("components", () => {
       test.todo("$destroy(...) to stop sounds");
 
       //componentName
-      test("$componentName to be null", async () => {
-        expect(emptyPropsMutable.$componentName).toStrictEqual(null);
+      test("$getComponentName() to be null", async () => {
+        expect(emptyPropsMutable.$getComponentName()).toStrictEqual(null);
       });
 
       //getFather

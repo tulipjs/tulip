@@ -1,6 +1,6 @@
 import { AsyncComponent, ContainerMutable, ContainerProps } from "../../types";
-import { graphics, body, container } from "../core";
-import { Shape } from "../../enums";
+import { body, container, graphics } from "../core";
+import { GraphicType, Shape } from "../../enums";
 
 type PlaneProps = {
   props?: {
@@ -27,8 +27,9 @@ export const plane: AsyncComponent<
   const $graphics = await graphics({
     angle: $props.angle,
     color: props?.color === undefined ? 0xff00ff : props.color,
+    polygon: [0, 0, 10000, 0, 10000, 5, 0, 5],
+    type: GraphicType.POLYGON,
   });
-  $graphics.setPolygon([0, 0, 10000, 0, 10000, 5, 0, 5]);
   await $graphics.setPivot({ x: 5000, y: 2.5 });
   $container.add($graphics);
 

@@ -18,6 +18,7 @@ type Props = {
 } & DisplayObjectProps;
 
 type Mutable = {
+  getSpriteSheet: () => string;
   setSpriteSheet: (spriteSheet?: string) => Promise<void>;
 
   setAnimation: (animation: string) => void;
@@ -36,20 +37,26 @@ export const animatedSprite: AsyncComponent<Props, Mutable, false> = async (
   let $currentAnimation = animation + "";
   let $frame = frame || 0;
   let $playStatus: PlayStatus = playStatus || PlayStatus.STOP;
-
-  const spriteSheetTexture = await PIXI.Assets.load(spriteSheet);
+  let $spriteSheetTexture = await PIXI.Assets.load(spriteSheet);
 
   const $animatedSprite = new PIXI.AnimatedSprite(
-    spriteSheetTexture.animations[$currentAnimation],
+    $spriteSheetTexture.animations[$currentAnimation],
   );
 
+  const setSpriteSheet = async (spriteSheet: string) => {
+    $spriteSheet = spriteSheet + "";
+    $spriteSheetTexture = await PIXI.Assets.load(spriteSheet);
+    $animatedSprite.textures =
+      $spriteSheetTexture.animations[$currentAnimation];
+  };
   const getSpriteSheet = () => $spriteSheet;
 
   const setAnimation = (animation: string) => {
     if ($currentAnimation === animation) return;
 
     $currentAnimation = animation;
-    $animatedSprite.textures = spriteSheetTexture.animations[$currentAnimation];
+    $animatedSprite.textures =
+      $spriteSheetTexture.animations[$currentAnimation];
   };
 
   const setFrame = (frame: number) => {
@@ -95,24 +102,19 @@ export const animatedSprite: AsyncComponent<Props, Mutable, false> = async (
     displayObjectMutable.$destroy();
     //destroy pixi graphics
     $animatedSprite.destroy();
+    mutable.getFather = null;
   };
 
   const mutable: InternalMutable<Mutable, false> = {
-    // container
     ...displayObjectMutable,
 
     getDisplayObject: () => $animatedSprite,
 
+    setSpriteSheet,
     getSpriteSheet,
     setAnimation,
     setFrame,
     setPlayStatus,
-
-    // @ts-ignore
-    getComponent: (component) => {
-      mutable.$componentName = component.name;
-      return mutable;
-    },
 
     getProps: () => $props as any,
 

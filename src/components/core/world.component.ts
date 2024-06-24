@@ -1,7 +1,6 @@
 import p2 from "p2";
 import {
   AsyncComponent,
-  Component,
   DisplayObject,
   DisplayObjectMutable,
   InternalMutable,
@@ -98,11 +97,6 @@ export const world: AsyncComponent<WorldProps, WorldMutable, false> = async (
       $getPhysicsEnabled() && $world.step(deltaTime * physics?.velocity || 1);
     },
   );
-
-  const getComponent = (component: Component<any, any>) => {
-    componentMutable.$componentName = mutable.$componentName = component.name;
-    return mutable;
-  };
 
   const $destroy = () => {
     componentMutable.$destroy();

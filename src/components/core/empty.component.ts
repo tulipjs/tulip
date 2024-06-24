@@ -36,6 +36,8 @@ export const empty = <Data>(
   let $data = initialData ?? ({} as Data);
   let $soundList: SoundMutable[] = [];
 
+  let $componentName;
+
   const getId = () => $id;
 
   const getLabel = () => $label;
@@ -100,11 +102,17 @@ export const empty = <Data>(
     initialData: $data,
   });
 
+  const getComponent = (component) => {
+    $componentName = component.name;
+    return $mutable;
+  };
+  const $getComponentName = () => $componentName || null;
+
   const $destroy = () => {
     $soundList.forEach(($sound) => $sound.stop());
   };
 
-  return {
+  const $mutable: InternalMutable<EmptyMutable<Data>, false> = {
     getId,
 
     getLabel,
@@ -132,10 +140,15 @@ export const empty = <Data>(
 
     getProps: () => $props as any,
 
+    //@ts-ignore
+    getComponent,
+
     $destroy,
     $getRaw,
 
-    $componentName: null,
+    $getComponentName,
     $mutable: false,
   };
+
+  return $mutable;
 };

@@ -1,5 +1,5 @@
 import { body, container, graphics } from "../";
-import { Shape } from "../../enums";
+import { GraphicType, Shape } from "../../enums";
 import { AsyncComponent, BoxProps, ContainerMutable } from "../../types";
 
 export const box: AsyncComponent<BoxProps, ContainerMutable> = async (
@@ -14,9 +14,10 @@ export const box: AsyncComponent<BoxProps, ContainerMutable> = async (
   } = $container.getProps<BoxProps>();
 
   const $box = await graphics({
+    type: GraphicType.POLYGON,
     color,
+    polygon: [0, 0, width, 0, width, height, 0, height],
   });
-  $box.setPolygon([0, 0, width, 0, width, height, 0, height]);
   await $box.setPivot({ x: width / 2, y: height / 2 });
   $container.add($box);
 
