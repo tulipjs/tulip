@@ -7,6 +7,7 @@ import {
 } from "../../types";
 import { DisplayObjectEvent, Event } from "../../enums";
 import { global } from "../../global";
+import { degreesToRadians } from "../../utils";
 
 type PlayerProps = {
   onTick?: (direction: Direction) => void; // TODO: change direction -> keybinding -> https://github.com/tulipjs/tulip/issues/53
@@ -16,29 +17,73 @@ export const player2D: Component<PlayerProps, ContainerMutable> = ({
   onTick = () => {},
   ...props
 }) => {
+  const speed = 8;
+  const acceleration = 0.3;
+  const deceleration = 0.05;
+
   const $container = container({
     ...props,
   });
 
   let currentKeyList = [];
+  let velocityX = 0;
+  let velocityY = 0;
+
   $container.on(DisplayObjectEvent.TICK, () => {
     const position = $container.getPosition();
     global.sounds.setPosition({ ...position, z: 2 });
     const $body = $container.getBody();
+    if (!$body) return;
+
+    const angle = degreesToRadians($container.getAngle());
 
     if (currentKeyList.includes("d")) {
-      $body.addForceX(-1);
+      velocityX -= acceleration * Math.cos(angle);
+      velocityY -= acceleration * Math.sin(angle);
+
       onTick(Direction.RIGHT);
     } else if (currentKeyList.includes("a")) {
-      $body.addForceX(1);
+      velocityX += acceleration * Math.cos(angle);
+      velocityY += acceleration * Math.sin(angle);
+
       onTick(Direction.LEFT);
     } else if (currentKeyList.includes("w")) {
-      $body.addForceY(1);
+      velocityX -= acceleration * Math.sin(angle);
+      velocityY += acceleration * Math.cos(angle);
+
       onTick(Direction.UP);
     } else if (currentKeyList.includes("s")) {
-      $body.addForceY(-1);
+      velocityX += acceleration * Math.sin(angle);
+      velocityY -= acceleration * Math.cos(angle);
+
       onTick(Direction.DOWN);
-    } else if (currentKeyList.includes("q")) {
+    } else {
+      if (velocityX > 0) {
+        velocityX = Math.max(0, velocityX - deceleration);
+      } else if (velocityX < 0) {
+        velocityX = Math.min(0, velocityX + deceleration);
+      }
+
+      if (velocityY > 0) {
+        velocityY = Math.max(0, velocityY - deceleration);
+      } else if (velocityY < 0) {
+        velocityY = Math.min(0, velocityY + deceleration);
+      }
+    }
+
+    // Max speed
+    const currentVelocity = Math.sqrt(
+      velocityX * velocityX + velocityY * velocityY,
+    );
+    if (currentVelocity > speed) {
+      const scalingFactor = speed / currentVelocity;
+      velocityX *= scalingFactor;
+      velocityY *= scalingFactor;
+    }
+    $body.setVelocity({ x: velocityX, y: velocityY });
+
+    // Rotation
+    if (currentKeyList.includes("q")) {
       $container.setAngle((a) => a - 3);
     } else if (currentKeyList.includes("e")) {
       $container.setAngle((a) => a + 3);
