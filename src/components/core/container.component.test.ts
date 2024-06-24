@@ -60,16 +60,13 @@ describe("components", () => {
       });
       test("getComponent(...) to retrieve the mutable with the component name", () => {
         const ComponentName = () => ({}) as any;
-        console.log(
-          $container.getComponent(ComponentName).$getComponentName(),
-          "<<<<<<<<<<<<<<<<",
+        const $containerMutable = $container.getComponent(ComponentName);
+        expect($containerMutable.$getComponentName()).toStrictEqual(
+          "ComponentName",
         );
-        // expect($container.getComponent(ComponentName)).toStrictEqual(
-        //   expect.objectContaining({
-        //     ...$container,
-        //     $componentName: "ComponentName",
-        //   }),
-        // );
+        expect($containerMutable.getLabel()).toStrictEqual(
+          "This is being called!",
+        );
       });
       test("getProps() to retrieve the current props", () => {
         expect($container.getProps()).toEqual({

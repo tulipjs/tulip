@@ -1,34 +1,20 @@
 import * as PIXI from "pixi.js";
 import {
   AnimatedSprite,
+  AnimatedSpriteMutable,
+  AnimatedSpriteProps,
   AsyncComponent,
-  DisplayObjectMutable,
-  DisplayObjectProps,
   InternalMutable,
 } from "../../types";
 import { empty } from "./empty.component";
 import { initDisplayObjectMutable } from "../../utils";
 import { PlayStatus } from "../../enums";
 
-type Props = {
-  spriteSheet: string;
-  animation: string;
-  frame?: number;
-  playStatus?: PlayStatus;
-} & DisplayObjectProps;
-
-type Mutable = {
-  getSpriteSheet: () => string;
-  setSpriteSheet: (spriteSheet?: string) => Promise<void>;
-
-  setAnimation: (animation: string) => void;
-  setFrame: (frame: number, playStatus?: PlayStatus) => void;
-  setPlayStatus: (playStatus: PlayStatus) => void;
-} & DisplayObjectMutable<AnimatedSprite>;
-
-export const animatedSprite: AsyncComponent<Props, Mutable, false> = async (
-  originalProps,
-) => {
+export const animatedSprite: AsyncComponent<
+  AnimatedSpriteProps,
+  AnimatedSpriteMutable,
+  false
+> = async (originalProps) => {
   const { spriteSheet, animation, frame, playStatus } = originalProps;
 
   const $props = structuredClone(originalProps);
@@ -36,7 +22,8 @@ export const animatedSprite: AsyncComponent<Props, Mutable, false> = async (
   let $spriteSheet = spriteSheet + "";
   let $currentAnimation = animation + "";
   let $frame = frame || 0;
-  let $playStatus: PlayStatus = playStatus || PlayStatus.STOP;
+  let $playStatus: PlayStatus =
+    playStatus === undefined ? playStatus : PlayStatus.STOP;
   let $spriteSheetTexture = await PIXI.Assets.load(spriteSheet);
 
   const $animatedSprite = new PIXI.AnimatedSprite(
@@ -58,14 +45,16 @@ export const animatedSprite: AsyncComponent<Props, Mutable, false> = async (
     $animatedSprite.textures =
       $spriteSheetTexture.animations[$currentAnimation];
   };
+  const getAnimation = () => $currentAnimation;
 
   const setFrame = (frame: number) => {
     $frame = frame;
     $playStatus === PlayStatus.PLAY
       ? $animatedSprite.gotoAndPlay(frame)
       : $animatedSprite.gotoAndStop(frame);
+    //TODO What happens with PLAY_AND_STOP ???
   };
-  if ($frame !== undefined) setFrame($frame);
+  const getFrame = () => $frame;
 
   const setPlayStatus = (playStatus: PlayStatus) => {
     $playStatus = playStatus;
@@ -79,7 +68,7 @@ export const animatedSprite: AsyncComponent<Props, Mutable, false> = async (
       $animatedSprite.play();
     }
   };
-  if ($playStatus !== undefined) setPlayStatus($playStatus);
+  const getPlayStatus = () => $playStatus;
 
   const emptyMutable = empty(originalProps);
   //
@@ -88,7 +77,7 @@ export const animatedSprite: AsyncComponent<Props, Mutable, false> = async (
     emptyMutable,
   );
   //
-  const $getRaw = (): Props => ({
+  const $getRaw = (): AnimatedSpriteProps => ({
     ...displayObjectMutable.$getRaw(),
     spriteSheet: $spriteSheet,
     animation: $currentAnimation,
@@ -104,17 +93,27 @@ export const animatedSprite: AsyncComponent<Props, Mutable, false> = async (
     $animatedSprite.destroy();
     mutable.getFather = null;
   };
+  {
+    if ($frame !== undefined) setFrame($frame);
+    if ($playStatus !== undefined) setPlayStatus($playStatus);
+  }
 
-  const mutable: InternalMutable<Mutable, false> = {
+  const mutable: InternalMutable<AnimatedSpriteMutable, false> = {
     ...displayObjectMutable,
 
     getDisplayObject: () => $animatedSprite,
 
     setSpriteSheet,
     getSpriteSheet,
+
     setAnimation,
+    getAnimation,
+
     setFrame,
+    getFrame,
+
     setPlayStatus,
+    getPlayStatus,
 
     getProps: () => $props as any,
 

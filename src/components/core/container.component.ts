@@ -41,14 +41,14 @@ export const container: AsyncComponent<
     for (const childComponent of childList) childComponent.$destroy();
   };
 
-  const add = (...displayObjectsMutables: DisplayObjectMutable<any>[]) => {
-    displayObjectsMutables.forEach((displayObjectMutable) => {
+  const add = (...displayObjectsMutable: DisplayObjectMutable<any>[]) => {
+    for (const displayObjectMutable of displayObjectsMutable) {
       displayObjectMutable.getFather = () => mutable;
 
       container.addChild(displayObjectMutable.getDisplayObject());
       childList.push(displayObjectMutable);
       global.$addComponent(displayObjectMutable);
-    });
+    }
   };
 
   const remove = (...displayObjectsMutables: DisplayObjectMutable<any>[]) => {

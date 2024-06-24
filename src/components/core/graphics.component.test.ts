@@ -42,10 +42,7 @@ describe("components", () => {
           width: 23,
           height: 45,
         });
-        $container.add($polygon);
-        $container.add($circle);
-        $container.add($capsule);
-        $container.add($triangle);
+        $container.add($polygon, $circle, $capsule, $triangle);
       });
       describe("polygon", () => {
         test("getType() check if is a polygon", async () => {

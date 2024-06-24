@@ -54,15 +54,13 @@ export const getVisualShape = ({ type, ...props }: Shapes) => {
   if (type === Shape.CONVEX) return getVisualConvex(props as ConvexShapeProps);
 };
 
-const getVisualCircle = async (props: CircleShapeProps) => {
-  const circle = await graphics({
+const getVisualCircle = async (props: CircleShapeProps) =>
+  await graphics({
     color: 0xff00ff,
     alpha: 0.2,
     type: GraphicType.CIRCLE,
     radius: props.radius,
   });
-  return circle;
-};
 
 const getVisualPlane = async (props: PlaneShapeProps) => {
   const plane = await graphics({
