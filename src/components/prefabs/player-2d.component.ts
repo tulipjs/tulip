@@ -10,17 +10,19 @@ import { global } from "../../global";
 import { degreesToRadians } from "../../utils";
 
 type PlayerProps = {
+  maxSpeed?: number;
+  acceleration?: number;
+  deceleration?: number;
   onTick?: (direction: Direction) => void; // TODO: change direction -> keybinding -> https://github.com/tulipjs/tulip/issues/53
 } & ContainerProps;
 
 export const player2D: Component<PlayerProps, ContainerMutable> = ({
   onTick = () => {},
+  maxSpeed = 8,
+  acceleration = 0.3,
+  deceleration = 0.1,
   ...props
 }) => {
-  const speed = 8;
-  const acceleration = 0.3;
-  const deceleration = 0.05;
-
   const $container = container({
     ...props,
   });
@@ -75,8 +77,8 @@ export const player2D: Component<PlayerProps, ContainerMutable> = ({
     const currentVelocity = Math.sqrt(
       velocityX * velocityX + velocityY * velocityY,
     );
-    if (currentVelocity > speed) {
-      const scalingFactor = speed / currentVelocity;
+    if (currentVelocity > maxSpeed) {
+      const scalingFactor = maxSpeed / currentVelocity;
       velocityX *= scalingFactor;
       velocityY *= scalingFactor;
     }

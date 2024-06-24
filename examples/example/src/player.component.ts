@@ -35,6 +35,8 @@ export const playerComponent: AsyncComponent<Props, Mutable> = async () => {
 
   const $player = player2D({
     onTick,
+    maxSpeed: 10,
+    acceleration: 3,
   });
 
   const width = 175;
@@ -49,7 +51,7 @@ export const playerComponent: AsyncComponent<Props, Mutable> = async () => {
   $player.add($sprite);
 
   const $body = body({
-    mass: 1,
+    mass: 10,
   });
 
   $body.addShape({
