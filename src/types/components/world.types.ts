@@ -15,7 +15,7 @@ export type WorldProps = {
 } & ContainerProps;
 
 export type WorldMutable = {
-  add: (displayObject: ComponentMutable) => void;
-  remove: (displayObject: ComponentMutable) => void;
+  add: (...displayObject: ComponentMutable[]) => void;
+  remove: (...displayObject: ComponentMutable[]) => void;
   setPhysicsEnabled: (enabled: boolean) => void;
 } & ContainerMutable;
