@@ -49,7 +49,6 @@ export const flyComponent: Component<Props, Mutable> = (props) => {
       y: position,
     },
   });
-  container.add(circle2);
 
   const circle3 = circle({
     props: {
@@ -63,7 +62,8 @@ export const flyComponent: Component<Props, Mutable> = (props) => {
       y: -position,
     },
   });
-  container.add(circle3);
+
+  container.add(circle2, circle3);
 
   return container.getComponent(flyComponent);
 };

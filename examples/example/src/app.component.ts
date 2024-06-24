@@ -38,9 +38,8 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
     },
     alpha: 0.25,
   });
-  $world.add($plane);
 
-  for (let i = 0; i < 400; i++) {
+  for (let i = 0; i < 300; i++) {
     const _fly = flyComponent({
       label: `ball`,
       props: {
@@ -59,7 +58,7 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
   const $player = await playerComponent();
   $player.setPosition({ x: 500, y: 1000 });
 
-  $world.add($player);
+  $world.add($player, $plane);
   $container.add($world);
 
   return $container.getComponent(appComponent);

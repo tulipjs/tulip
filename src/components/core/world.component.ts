@@ -34,43 +34,47 @@ export const world: Component<WorldProps, WorldMutable, false> = (
       : undefined,
   });
 
-  const add = (displayObject: DisplayObjectMutable<DisplayObject>) => {
-    const body = displayObject.getBody();
+  const add = (...displayObjects: DisplayObjectMutable<DisplayObject>[]) => {
+    displayObjects.forEach((displayObject) => {
+      const body = displayObject.getBody();
 
-    displayObjectList.push(displayObject);
+      displayObjectList.push(displayObject);
 
-    if (!body) {
-      console.warn(
-        `No body available on display object '${displayObject.getLabel()}'`,
-      );
-    } else {
-      const _body = body.$getBody();
+      if (!body) {
+        console.warn(
+          `No body available on display object '${displayObject.getLabel()}'`,
+        );
+      } else {
+        const _body = body.$getBody();
 
-      //add contact materials
-      for (const displayObject of displayObjectList) {
-        const displayObjectBody = displayObject.getBody();
-        if (!displayObjectBody) continue;
+        //add contact materials
+        for (const displayObject of displayObjectList) {
+          const displayObjectBody = displayObject.getBody();
+          if (!displayObjectBody) continue;
 
-        $world.addContactMaterial(body.$getContactBody(displayObjectBody));
+          $world.addContactMaterial(body.$getContactBody(displayObjectBody));
+        }
+        $world.addBody(_body);
+
+        // _world.addContactMaterial(
+        //   new p2.ContactMaterial(material, material, { restitution: 1 }),
+        // );
       }
-      $world.addBody(_body);
 
-      // _world.addContactMaterial(
-      //   new p2.ContactMaterial(material, material, { restitution: 1 }),
-      // );
-    }
-
-    addContainer(displayObject);
+      addContainer(displayObject);
+    });
   };
 
-  const remove = (displayObject: DisplayObjectMutable<DisplayObject>) => {
-    displayObjectList = displayObjectList.filter(
-      (_, index) => displayObjectList.indexOf(displayObject) !== index,
-    );
-    const body = displayObject.getBody();
-    if (body) $world.removeBody(body.$getBody());
+  const remove = (...displayObjects: DisplayObjectMutable<DisplayObject>[]) => {
+    displayObjects.forEach((displayObject) => {
+      displayObjectList = displayObjectList.filter(
+        (_, index) => displayObjectList.indexOf(displayObject) !== index,
+      );
+      const body = displayObject.getBody();
+      if (body) $world.removeBody(body.$getBody());
 
-    removeContainer(displayObject);
+      removeContainer(displayObject);
+    });
   };
 
   const setPhysicsEnabled = (enabled: boolean) => {

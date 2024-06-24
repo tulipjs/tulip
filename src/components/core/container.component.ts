@@ -44,20 +44,24 @@ export const container: Component<ContainerProps, ContainerMutable, false> = (
     for (const childComponent of childList) childComponent.$destroy();
   };
 
-  const add = (displayObjectMutable: DisplayObjectMutable<any>) => {
-    displayObjectMutable.getFather = () => mutable;
+  const add = (...displayObjectsMutables: DisplayObjectMutable<any>[]) => {
+    displayObjectsMutables.forEach((displayObjectMutable) => {
+      displayObjectMutable.getFather = () => mutable;
 
-    container.addChild(displayObjectMutable.getDisplayObject());
-    childList.push(displayObjectMutable);
-    global.$addComponent(displayObjectMutable);
+      container.addChild(displayObjectMutable.getDisplayObject());
+      childList.push(displayObjectMutable);
+      global.$addComponent(displayObjectMutable);
+    });
   };
 
-  const remove = (displayObjectMutable: DisplayObjectMutable<any>) => {
-    displayObjectMutable.getFather = null;
+  const remove = (...displayObjectsMutables: DisplayObjectMutable<any>[]) => {
+    displayObjectsMutables.forEach((displayObjectMutable) => {
+      displayObjectMutable.getFather = null;
 
-    container.removeChild(displayObjectMutable.getDisplayObject());
-    childList = childList.filter((child) => child !== displayObjectMutable);
-    global.$removeComponent(displayObjectMutable);
+      container.removeChild(displayObjectMutable.getDisplayObject());
+      childList = childList.filter((child) => child !== displayObjectMutable);
+      global.$removeComponent(displayObjectMutable);
+    });
   };
 
   const setBody = (body: BodyMutable) => {
