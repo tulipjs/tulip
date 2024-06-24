@@ -40,7 +40,7 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
   });
 
   for (let i = 0; i < 300; i++) {
-    const _fly = flyComponent({
+    const _fly = await flyComponent({
       label: `ball`,
       props: {
         color: 0xffffff,

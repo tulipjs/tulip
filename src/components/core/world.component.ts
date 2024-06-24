@@ -109,9 +109,6 @@ export const world: AsyncComponent<WorldProps, WorldMutable, false> = async (
     remove,
     setPhysicsEnabled,
 
-    // @ts-ignore
-    getComponent,
-
     getProps: () => $props as any,
 
     $destroy,

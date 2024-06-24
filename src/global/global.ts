@@ -40,8 +40,8 @@ export const global = (() => {
 
   const $getComponentList = ({ componentName }: GlobalFilterType = {}) =>
     $componentList.filter(
-      ({ $componentName }) =>
-        !componentName || componentName === $componentName,
+      ({ $getComponentName }) =>
+        !componentName || componentName === $getComponentName(),
     );
 
   const $isVisualHitboxes = () => $visualHitboxes;
