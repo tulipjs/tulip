@@ -23,6 +23,8 @@ export type BodyMutable<Raw extends any = {}> = {
   addForceY: (force: number) => void;
   addForce: (force: Point) => void;
 
+  setVelocity: (velocity: Point) => void;
+
   $getBody: () => p2.Body;
   $getMaterial: () => p2.Material;
   $getContactBody: (bodyMutable: BodyMutable) => p2.ContactMaterial;

@@ -64,6 +64,9 @@ export const body: SubComponent<BodyProps, BodyMutable> = ({
   const addForceY = (force: number) => ($body.force[1] = force);
   const addForce = (force: Point) => ($body.force = [force.x, force.y]);
 
+  const setVelocity = (velocity: Point) =>
+    ($body.velocity = [velocity.x, velocity.y]);
+
   return {
     addShape,
     removeShape,
@@ -77,6 +80,8 @@ export const body: SubComponent<BodyProps, BodyMutable> = ({
     addForceX,
     addForceY,
     addForce,
+
+    setVelocity,
 
     $getBody,
     $getMaterial,
