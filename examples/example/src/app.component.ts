@@ -13,7 +13,7 @@ import { playerComponent } from "player.component";
 type Mutable = {} & DisplayObjectMutable<Container>;
 
 export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
-  global.$setVisualHitboxes(false);
+  global.$setVisualHitBoxes(true);
 
   const $container = await container({ label: "app" });
 
@@ -57,6 +57,10 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
 
   const $player = await playerComponent();
   await $player.setPosition({ x: 500, y: 1000 });
+
+  setInterval(() => {
+    $player.doSomething();
+  }, 50);
 
   $world.add($player, $plane);
   $container.add($world);

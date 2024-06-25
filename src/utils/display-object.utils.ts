@@ -17,30 +17,40 @@ export const initDisplayObjectMutable = async <
 ): Promise<DisplayObjectMutable<DisplayObject>> => {
   let $isRemoved = false;
 
+  const $$setLabel = componentMutable.setLabel;
+  const $$setPosition = componentMutable.setPosition;
+  const $$getPosition = componentMutable.getPosition;
+  const $$setPositionX = componentMutable.setPositionX;
+  const $$setPositionY = componentMutable.setPositionY;
+  const $$setAngle = componentMutable.setAngle;
+  const $$getAngle = componentMutable.getAngle;
+  const $$destroy = componentMutable.$destroy;
+  const $$getRaw = componentMutable.$getRaw;
+
   const setLabel = (label: string) => {
-    componentMutable.setLabel(label);
+    $$setLabel(label);
     displayObject.label = label;
   };
 
   const setPosition = async (data) => {
-    await componentMutable.setPosition(data);
+    await $$setPosition(data);
     displayObject.position = await getValueMutableFunction<Point>(
       data,
-      componentMutable.getPosition(),
+      $$getPosition(),
     );
   };
   const setPositionX = async (data) => {
-    await componentMutable.setPositionX(data);
+    await $$setPositionX(data);
     displayObject.position.x = await getValueMutableFunction<number>(
       data,
-      componentMutable.getPosition().x,
+      $$getPosition().x,
     );
   };
   const setPositionY = async (data) => {
-    await componentMutable.setPositionY(data);
+    await $$setPositionY(data);
     displayObject.position.y = await getValueMutableFunction<number>(
       data,
-      componentMutable.getPosition().y,
+      $$getPosition().y,
     );
   };
 
@@ -92,31 +102,26 @@ export const initDisplayObjectMutable = async <
       data,
       displayObject.angle,
     );
-    await componentMutable.setAngle(displayObject.angle);
+    await $$setAngle(displayObject.angle);
   };
-  const getAngle = () => componentMutable.getAngle() || displayObject.angle;
+  const getAngle = () => $$getAngle() || displayObject.angle;
 
   const setEventMode = async (data) => {
     displayObject.eventMode = await getValueMutableFunction<EventMode>(
       data,
       displayObject.eventMode as EventMode,
     );
-    await componentMutable.setAngle(displayObject.angle);
+    await $$setAngle(displayObject.angle);
   };
   const getEventMode = () => displayObject.eventMode as EventMode;
 
   const $destroy = () => {
-    componentMutable.getFather = null;
+    componentMutable.getFather = () => null;
 
-    componentMutable.$destroy();
-  };
-
-  const getComponent = (component) => {
-    componentMutable.getComponent(component);
-    return $mutable;
+    $$destroy();
   };
   const $getRaw = (): DisplayObjectProps => ({
-    ...componentMutable.$getRaw(),
+    ...$$getRaw(),
     pivot: getPivot(),
     visible: getVisible(),
     zIndex: getZIndex(),
@@ -165,48 +170,45 @@ export const initDisplayObjectMutable = async <
     });
   }
 
-  const $mutable: DisplayObjectMutable<DisplayObject> = {
-    ...componentMutable,
+  const initDisplayObject = () => {};
+  return componentMutable.getComponent<DisplayObjectMutable<DisplayObject>>(
+    initDisplayObject as any,
+    {
+      getDisplayObject: (): DisplayObject => displayObject,
 
-    getDisplayObject: (): DisplayObject => displayObject,
+      setLabel,
+      //position
+      setPosition,
+      setPositionX,
+      setPositionY,
 
-    setLabel,
-    //position
-    setPosition,
-    setPositionX,
-    setPositionY,
+      //pivot
+      setPivot,
+      setPivotX,
+      setPivotY,
+      getPivot,
+      //visible
+      setVisible,
+      getVisible,
+      //zIndex
+      setZIndex,
+      getZIndex,
+      //alpha
+      setAlpha,
+      getAlpha,
+      //angle
+      setAngle,
+      getAngle,
+      //eventMode
+      setEventMode,
+      getEventMode,
 
-    //pivot
-    setPivot,
-    setPivotX,
-    setPivotY,
-    getPivot,
-    //visible
-    setVisible,
-    getVisible,
-    //zIndex
-    setZIndex,
-    getZIndex,
-    //alpha
-    setAlpha,
-    getAlpha,
-    //angle
-    setAngle,
-    getAngle,
-    //eventMode
-    setEventMode,
-    getEventMode,
+      //events
+      on,
 
-    //events
-    on,
-
-    //@ts-ignore
-    getComponent,
-
-    $destroy,
-    $getRaw,
-    $mutable: false,
-  };
-
-  return $mutable;
+      $destroy,
+      $getRaw,
+      $mutable: false,
+    },
+  );
 };

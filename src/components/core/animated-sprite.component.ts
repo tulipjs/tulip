@@ -76,9 +76,12 @@ export const animatedSprite: AsyncComponent<
     $animatedSprite,
     emptyMutable,
   );
-  //
+
+  const $$getRaw = displayObjectMutable.$getRaw;
+  const $$destroy = displayObjectMutable.$destroy;
+
   const $getRaw = (): AnimatedSpriteProps => ({
-    ...displayObjectMutable.$getRaw(),
+    ...$$getRaw(),
     spriteSheet: $spriteSheet,
     animation: $currentAnimation,
     frame: $frame,
@@ -88,24 +91,20 @@ export const animatedSprite: AsyncComponent<
   const $destroy = () => {
     //remove child first
     $animatedSprite?.parent?.removeChild($animatedSprite);
-    displayObjectMutable.$destroy();
+    $$destroy();
     //destroy pixi graphics
     $animatedSprite.destroy();
-    $mutable.getFather = null;
+
+    displayObjectMutable.getFather = () => null;
   };
   {
     if ($frame !== undefined) setFrame($frame);
     if ($playStatus !== undefined) setPlayStatus($playStatus);
   }
 
-  const getComponent = (component) => {
-    emptyMutable.getComponent(component);
-    return $mutable;
-  };
-
-  const $mutable: InternalMutable<AnimatedSpriteMutable, false> = {
-    ...displayObjectMutable,
-
+  return displayObjectMutable.getComponent<
+    InternalMutable<AnimatedSpriteMutable, false>
+  >(animatedSprite as any, {
     getDisplayObject: () => $animatedSprite,
 
     setSpriteSheet,
@@ -120,16 +119,11 @@ export const animatedSprite: AsyncComponent<
     setPlayStatus,
     getPlayStatus,
 
-    //@ts-ignore
-    getComponent,
-
     getProps: () => $props as any,
 
     $destroy,
     $getRaw,
 
     $mutable: false,
-  };
-
-  return $mutable;
+  });
 };

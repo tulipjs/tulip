@@ -13,7 +13,9 @@ import {
 
 type Props = {};
 
-type Mutable = {} & DisplayObjectMutable<Container>;
+type Mutable = {
+  doSomething: () => void;
+} & DisplayObjectMutable<Container>;
 
 export const playerComponent: AsyncComponent<Props, Mutable> = async () => {
   let $sprite;
@@ -66,5 +68,9 @@ export const playerComponent: AsyncComponent<Props, Mutable> = async () => {
   });
   await $player.setBody($body);
 
-  return $player.getComponent(playerComponent);
+  return $player.getComponent<Mutable>(playerComponent, {
+    doSomething: () => {
+      console.log("ABC");
+    },
+  });
 };

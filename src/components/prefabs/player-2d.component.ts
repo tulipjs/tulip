@@ -1,11 +1,6 @@
 import { container } from "../";
-import {
-  AsyncComponent,
-  ContainerMutable,
-  ContainerProps,
-  Direction,
-} from "../../types";
-import { DisplayObjectEvent, Event } from "../../enums";
+import { AsyncComponent, ContainerMutable, ContainerProps } from "../../types";
+import { DisplayObjectEvent, Event, Direction } from "../../enums";
 import { global } from "../../global";
 import { degreesToRadians } from "../../utils";
 
