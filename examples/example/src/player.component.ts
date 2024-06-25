@@ -68,7 +68,7 @@ export const playerComponent: AsyncComponent<Props, Mutable> = async () => {
   });
   await $player.setBody($body);
 
-  return $player.getComponent<Mutable>(playerComponent, {
+  return $player.getComponent(playerComponent, {
     doSomething: () => {
       console.log("ABC");
     },
