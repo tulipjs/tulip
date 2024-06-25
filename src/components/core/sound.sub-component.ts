@@ -8,6 +8,7 @@ import { global } from "../../global";
 import { DEFAULT_PANNER_CONFIG } from "../../consts";
 
 export const sound: AsyncSubComponent<SoundProps, SoundMutable> = async ({
+  id,
   sources,
   volume = 0.5,
   loop = false,
@@ -15,7 +16,10 @@ export const sound: AsyncSubComponent<SoundProps, SoundMutable> = async ({
   pannerConfig = DEFAULT_PANNER_CONFIG,
   $verbose = false,
 }) => {
+  let $id = id + "";
+
   const $sound = await global.sounds.$add({
+    id,
     sources,
     volume,
     loop,
@@ -41,6 +45,8 @@ export const sound: AsyncSubComponent<SoundProps, SoundMutable> = async ({
     }
   };
 
+  const $getSound = () => $sound;
+
   return {
     play: () => $sound.play(),
     pause: () => $sound.pause(),
@@ -50,9 +56,12 @@ export const sound: AsyncSubComponent<SoundProps, SoundMutable> = async ({
     fade: () => $sound.fade(1, 0, 500),
     toggle,
 
+    getId: () => $id,
     getVolume: () => $sound.volume(),
     getDuration: () => $sound.duration(),
     isPlaying: () => $sound.playing(),
     setPosition,
+
+    $getSound,
   };
 };

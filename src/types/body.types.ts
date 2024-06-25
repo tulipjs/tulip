@@ -6,6 +6,7 @@ import { BodyMaterialProps } from "./material.types";
 export type BodyProps = {
   mass?: number;
   angle?: number;
+  position?: Point;
 
   material?: BodyMaterialProps;
 };
@@ -22,6 +23,9 @@ export type BodyMutable<Raw extends any = {}> = {
   addForceX: (force: number) => void;
   addForceY: (force: number) => void;
   addForce: (force: Point) => void;
+
+  setMass: (mass: number) => void;
+  getMass: () => number;
 
   setVelocity: (velocity: Point) => void;
 

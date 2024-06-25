@@ -1,6 +1,6 @@
 import p2 from "p2";
 import {
-  Component,
+  AsyncComponent,
   DisplayObject,
   DisplayObjectMutable,
   InternalMutable,
@@ -11,20 +11,19 @@ import { container } from "./container.component";
 import { WORLD_DEFAULT_PROPS } from "../../consts";
 import { DisplayObjectEvent } from "../../enums";
 
-export const world: Component<WorldProps, WorldMutable, false> = (
+export const world: AsyncComponent<WorldProps, WorldMutable, false> = async (
   originalProps = WORLD_DEFAULT_PROPS,
 ) => {
   const {
     add: addContainer,
     remove: removeContainer,
     ...componentMutable
-  } = container(originalProps);
+  } = await container(originalProps);
 
   const $props = structuredClone(originalProps);
 
-  const {
-    props: { physics },
-  } = componentMutable.getProps<WorldProps>();
+  const { props = {} } = componentMutable.getProps<WorldProps>();
+  const { physics } = props;
 
   let displayObjectList: DisplayObjectMutable<any>[] = [];
 
@@ -36,7 +35,7 @@ export const world: Component<WorldProps, WorldMutable, false> = (
 
   const add = (...displayObjects: DisplayObjectMutable<DisplayObject>[]) => {
     displayObjects.forEach((displayObject) => {
-      const body = displayObject.getBody();
+      const body = displayObject.getBody ? displayObject.getBody() : null;
 
       displayObjectList.push(displayObject);
 
@@ -55,10 +54,6 @@ export const world: Component<WorldProps, WorldMutable, false> = (
           $world.addContactMaterial(body.$getContactBody(displayObjectBody));
         }
         $world.addBody(_body);
-
-        // _world.addContactMaterial(
-        //   new p2.ContactMaterial(material, material, { restitution: 1 }),
-        // );
       }
 
       addContainer(displayObject);
@@ -70,7 +65,7 @@ export const world: Component<WorldProps, WorldMutable, false> = (
       displayObjectList = displayObjectList.filter(
         (_, index) => displayObjectList.indexOf(displayObject) !== index,
       );
-      const body = displayObject.getBody();
+      const body = displayObject.getBody ? displayObject.getBody() : null;
       if (body) $world.removeBody(body.$getBody());
 
       removeContainer(displayObject);
@@ -81,45 +76,41 @@ export const world: Component<WorldProps, WorldMutable, false> = (
     componentMutable.setData({ physicsEnabled: enabled });
   };
 
-  const $getPhysicsEnabled = (): boolean =>
+  const getPhysicsEnabled = (): boolean =>
     componentMutable.getData((data: { physicsEnabled: boolean }) =>
       data.physicsEnabled === undefined
-        ? physics.enabled === undefined || physics.enabled
+        ? physics?.enabled === undefined || physics?.enabled
         : data.physicsEnabled,
     );
-  setPhysicsEnabled($getPhysicsEnabled());
+  setPhysicsEnabled(getPhysicsEnabled());
 
   componentMutable.on<{ deltaTime: number }>(
     DisplayObjectEvent.TICK,
     ({ deltaTime }) => {
       if (!displayObjectList.length) return;
 
-      $getPhysicsEnabled() && $world.step(deltaTime * physics?.velocity || 1);
+      getPhysicsEnabled() && $world.step(deltaTime * physics?.velocity || 1);
     },
   );
-
-  const getComponent = (component: Component<any, any>) => {
-    componentMutable.$componentName = mutable.$componentName = component.name;
-    return mutable;
-  };
 
   const $destroy = () => {
     componentMutable.$destroy();
     $world.clear();
   };
 
+  const $getWorld = () => $world;
+
   const mutable: InternalMutable<WorldMutable, false> = {
     ...componentMutable,
     add,
     remove,
     setPhysicsEnabled,
-
-    // @ts-ignore
-    getComponent,
+    getPhysicsEnabled,
 
     getProps: () => $props as any,
 
     $destroy,
+    $getWorld,
   };
 
   return mutable;

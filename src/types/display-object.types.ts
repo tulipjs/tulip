@@ -16,9 +16,9 @@ export type DisplayObjectMutable<DisplayObject> = {
   getDisplayObject: () => DisplayObject;
 
   //pivot
-  setPivot: (pivot: MutableFunction<Point>) => void;
-  setPivotX: (x: MutableFunction<number>) => void;
-  setPivotY: (y: MutableFunction<number>) => void;
+  setPivot: (pivot: MutableFunction<Point>) => Promise<void>;
+  setPivotX: (x: MutableFunction<number>) => Promise<void>;
+  setPivotY: (y: MutableFunction<number>) => Promise<void>;
   getPivot: () => Point;
   //events
   on: <Data>(
@@ -27,12 +27,15 @@ export type DisplayObjectMutable<DisplayObject> = {
   ) => void;
 
   //visible
-  setVisible: (visible: MutableFunction<boolean>) => void;
+  setVisible: (visible: MutableFunction<boolean>) => Promise<void>;
   getVisible: () => boolean;
   //zIndex
-  setZIndex: (zIndex: number) => void;
+  setZIndex: (zIndex: number) => Promise<void>;
   getZIndex: () => number;
   //alpha
-  setAlpha: (alpha: number) => void;
+  setAlpha: (alpha: number) => Promise<void>;
   getAlpha: () => number;
+  //eventMode
+  setEventMode: (eventMode: EventMode) => Promise<void>;
+  getEventMode: () => EventMode;
 } & ComponentMutable;

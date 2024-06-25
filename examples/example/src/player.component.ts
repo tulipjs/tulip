@@ -33,7 +33,7 @@ export const playerComponent: AsyncComponent<Props, Mutable> = async () => {
     $sprite.setFrame(0);
   };
 
-  const $player = player2D({
+  const $player = await player2D({
     onTick,
     maxSpeed: 10,
     acceleration: 3,
@@ -64,7 +64,7 @@ export const playerComponent: AsyncComponent<Props, Mutable> = async () => {
       [0, height / 2],
     ],
   });
-  $player.setBody($body);
+  await $player.setBody($body);
 
   return $player.getComponent(playerComponent);
 };

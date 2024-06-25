@@ -6,16 +6,15 @@ import {
   Point,
 } from "../types";
 import { getValueMutableFunction } from "./mutables.utils";
-import { DISPLAY_OBJECT_DEFAULT_PROPS } from "../consts";
-import { DisplayObjectEvent, Event } from "../enums";
+import { DisplayObjectEvent, Event, EventMode } from "../enums";
 import { global } from "../global";
 
-export const getDisplayObjectMutable = <
+export const initDisplayObjectMutable = async <
   DisplayObject extends PIXIDisplayObject,
 >(
   displayObject: DisplayObject,
-  componentMutable?: ComponentMutable,
-) => {
+  componentMutable: ComponentMutable,
+): Promise<DisplayObjectMutable<DisplayObject>> => {
   let $isRemoved = false;
 
   const setLabel = (label: string) => {
@@ -24,10 +23,24 @@ export const getDisplayObjectMutable = <
   };
 
   const setPosition = async (data) => {
-    componentMutable.setPosition(data);
+    await componentMutable.setPosition(data);
     displayObject.position = await getValueMutableFunction<Point>(
       data,
       componentMutable.getPosition(),
+    );
+  };
+  const setPositionX = async (data) => {
+    await componentMutable.setPositionX(data);
+    displayObject.position.x = await getValueMutableFunction<number>(
+      data,
+      componentMutable.getPosition().x,
+    );
+  };
+  const setPositionY = async (data) => {
+    await componentMutable.setPositionY(data);
+    displayObject.position.y = await getValueMutableFunction<number>(
+      data,
+      componentMutable.getPosition().y,
     );
   };
 
@@ -36,6 +49,17 @@ export const getDisplayObjectMutable = <
       data,
       displayObject.pivot,
     ));
+  const setPivotX = async (data) =>
+    (displayObject.pivot.x = await getValueMutableFunction<number>(
+      data,
+      displayObject.pivot.x,
+    ));
+  const setPivotY = async (data) =>
+    (displayObject.pivot.y = await getValueMutableFunction<number>(
+      data,
+      displayObject.pivot.y,
+    ));
+
   const getPivot = () =>
     ({
       x: displayObject?.pivot?.x || 0,
@@ -63,12 +87,41 @@ export const getDisplayObjectMutable = <
     ));
   const getAlpha = () => displayObject.alpha;
 
+  const setAngle = async (data) => {
+    displayObject.angle = await getValueMutableFunction<number>(
+      data,
+      displayObject.angle,
+    );
+    await componentMutable.setAngle(displayObject.angle);
+  };
+  const getAngle = () => componentMutable.getAngle() || displayObject.angle;
+
+  const setEventMode = async (data) => {
+    displayObject.eventMode = await getValueMutableFunction<EventMode>(
+      data,
+      displayObject.eventMode as EventMode,
+    );
+    await componentMutable.setAngle(displayObject.angle);
+  };
+  const getEventMode = () => displayObject.eventMode as EventMode;
+
+  const $destroy = () => {
+    componentMutable.getFather = null;
+
+    componentMutable.$destroy();
+  };
+
+  const getComponent = (component) => {
+    componentMutable.getComponent(component);
+    return $mutable;
+  };
   const $getRaw = (): DisplayObjectProps => ({
     ...componentMutable.$getRaw(),
     pivot: getPivot(),
     visible: getVisible(),
     zIndex: getZIndex(),
     alpha: getAlpha(),
+    eventMode: getEventMode(),
   });
 
   let $removeOnTickEvent: () => void;
@@ -91,7 +144,28 @@ export const getDisplayObjectMutable = <
     displayObject.on(event as any, $callback);
   };
 
-  return {
+  // Set initials
+  {
+    const { label, position, pivot, angle, alpha, eventMode } =
+      componentMutable.getProps<DisplayObjectProps>();
+
+    if (label !== undefined) setLabel(label);
+    if (position !== undefined) await setPosition(position);
+    if (pivot !== undefined) await setPivot(pivot);
+    if (angle) await setAngle(angle);
+    if (alpha) await setAlpha(alpha);
+    if (eventMode) await setEventMode(eventMode);
+
+    on(DisplayObjectEvent.TICK, () => {
+      // If not body present, it doesn't make sense to iterate
+      if (!componentMutable?.getBody()) return;
+
+      displayObject.position.copyFrom(componentMutable.getPosition());
+      displayObject.angle = componentMutable.getAngle();
+    });
+  }
+
+  const $mutable: DisplayObjectMutable<DisplayObject> = {
     ...componentMutable,
 
     getDisplayObject: (): DisplayObject => displayObject,
@@ -99,37 +173,14 @@ export const getDisplayObjectMutable = <
     setLabel,
     //position
     setPosition,
-    setPositionX: async (data) => {
-      componentMutable.setPositionX(data);
-      displayObject.position.x = await getValueMutableFunction<number>(
-        data,
-        componentMutable.getPosition().x,
-      );
-    },
-    setPositionY: async (data) => {
-      componentMutable.setPositionY(data);
-      displayObject.position.y = await getValueMutableFunction<number>(
-        data,
-        componentMutable.getPosition().y,
-      );
-    },
+    setPositionX,
+    setPositionY,
 
     //pivot
     setPivot,
-    setPivotX: async (data) =>
-      (displayObject.pivot.x = await getValueMutableFunction<number>(
-        data,
-        displayObject.pivot.x,
-      )),
-    setPivotY: async (data) =>
-      (displayObject.pivot.y = await getValueMutableFunction<number>(
-        data,
-        displayObject.pivot.y,
-      )),
+    setPivotX,
+    setPivotY,
     getPivot,
-
-    //events
-    on,
     //visible
     setVisible,
     getVisible,
@@ -139,44 +190,23 @@ export const getDisplayObjectMutable = <
     //alpha
     setAlpha,
     getAlpha,
+    //angle
+    setAngle,
+    getAngle,
+    //eventMode
+    setEventMode,
+    getEventMode,
 
+    //events
+    on,
+
+    //@ts-ignore
+    getComponent,
+
+    $destroy,
     $getRaw,
     $mutable: false,
   };
-};
 
-export const setDisplayObjectProps = <DisplayObject extends PIXIDisplayObject>(
-  displayObject: DisplayObject,
-  {
-    label,
-    position = DISPLAY_OBJECT_DEFAULT_PROPS.position,
-    pivot = DISPLAY_OBJECT_DEFAULT_PROPS.pivot,
-    eventMode = DISPLAY_OBJECT_DEFAULT_PROPS.eventMode,
-    visible = DISPLAY_OBJECT_DEFAULT_PROPS.visible,
-    alpha = DISPLAY_OBJECT_DEFAULT_PROPS.alpha,
-    angle = 0,
-    zIndex = 0,
-  }: DisplayObjectProps = DISPLAY_OBJECT_DEFAULT_PROPS,
-  displayObjectMutable?: DisplayObjectMutable<DisplayObject>,
-) => {
-  label && (displayObject.label = label);
-
-  position && displayObject.position.copyFrom(position);
-  pivot && displayObject.pivot.copyFrom(pivot);
-  displayObject.alpha = alpha || 0;
-  zIndex !== undefined && (displayObject.zIndex = zIndex);
-
-  angle && (displayObject.angle = angle);
-
-  displayObject.visible = Boolean(visible);
-
-  eventMode && (displayObject.eventMode = eventMode);
-
-  displayObjectMutable.on(DisplayObjectEvent.TICK, () => {
-    // If not body present, it doesn't make sense to iterate
-    if (!displayObjectMutable?.getBody()) return;
-
-    displayObject.position.copyFrom(displayObjectMutable.getPosition());
-    displayObject.angle = displayObjectMutable.getAngle();
-  });
+  return $mutable;
 };

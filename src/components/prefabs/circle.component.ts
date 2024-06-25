@@ -1,9 +1,11 @@
 import { body, container, graphics } from "../";
-import { Shape } from "../../enums";
-import { CircleProps, Component, ContainerMutable } from "../../types";
+import { GraphicType, Shape } from "../../enums";
+import { AsyncComponent, CircleProps, ContainerMutable } from "../../types";
 
-export const circle: Component<CircleProps, ContainerMutable> = (props) => {
-  const $container = container({
+export const circle: AsyncComponent<CircleProps, ContainerMutable> = async (
+  props,
+) => {
+  const $container = await container({
     ...props,
   });
 
@@ -11,10 +13,11 @@ export const circle: Component<CircleProps, ContainerMutable> = (props) => {
     props: { color, size, mass, material },
   } = $container.getProps<CircleProps>();
 
-  const $circle = graphics({
+  const $circle = await graphics({
     color,
+    type: GraphicType.CIRCLE,
+    radius: size,
   });
-  $circle.setCircle(size);
   $container.add($circle);
 
   const spriteBody = body({
@@ -26,7 +29,7 @@ export const circle: Component<CircleProps, ContainerMutable> = (props) => {
     radius: size,
   });
 
-  $container.setBody(spriteBody);
+  await $container.setBody(spriteBody);
 
   return $container.getComponent(circle);
 };

@@ -11,7 +11,7 @@ import { degreesToRadians, getShape, radiansToDegrees } from "../../utils";
 export const body: SubComponent<BodyProps, BodyMutable> = ({
   mass,
   angle,
-
+  position,
   material = {
     friction: 0.3,
     restitution: 0,
@@ -21,6 +21,7 @@ export const body: SubComponent<BodyProps, BodyMutable> = ({
   const $body = new p2.Body({
     mass,
     angle: angle ? degreesToRadians(angle) : 0,
+    position: [-position?.x || 0, -position?.y || 0],
   });
 
   let $shapesProps = [];
@@ -64,6 +65,9 @@ export const body: SubComponent<BodyProps, BodyMutable> = ({
   const addForceY = (force: number) => ($body.force[1] = force);
   const addForce = (force: Point) => ($body.force = [force.x, force.y]);
 
+  const setMass = (mass: number) => ($body.mass = mass);
+  const getMass = () => $body.mass;
+
   const setVelocity = (velocity: Point) =>
     ($body.velocity = [velocity.x, velocity.y]);
 
@@ -74,12 +78,15 @@ export const body: SubComponent<BodyProps, BodyMutable> = ({
     setPosition,
     getPosition,
 
-    getAngle,
     setAngle,
+    getAngle,
 
     addForceX,
     addForceY,
     addForce,
+
+    setMass,
+    getMass,
 
     setVelocity,
 

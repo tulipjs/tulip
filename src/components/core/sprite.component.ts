@@ -1,26 +1,18 @@
 import * as PIXI from "pixi.js";
 import {
   AsyncComponent,
-  DisplayObjectMutable,
-  DisplayObjectProps,
   InternalMutable,
   Sprite,
+  SpriteMutable,
+  SpriteProps,
 } from "../../types";
-import { getDisplayObjectMutable, setDisplayObjectProps } from "../../utils";
+import { initDisplayObjectMutable } from "../../utils";
 import { empty } from "./empty.component";
 
-type Props = {
-  texture: string;
-} & DisplayObjectProps;
-
-type Mutable = {
-  setTexture: (texture?: string) => Promise<void>;
-} & DisplayObjectMutable<Sprite>;
-
-export const sprite: AsyncComponent<Props, Mutable, false> = async (
+export const sprite: AsyncComponent<SpriteProps, SpriteMutable, false> = async (
   originalProps,
 ) => {
-  const { label, texture = undefined, ...props } = originalProps;
+  const { texture = undefined } = originalProps;
 
   const $props = structuredClone(originalProps);
 
@@ -39,46 +31,50 @@ export const sprite: AsyncComponent<Props, Mutable, false> = async (
   };
 
   const $sprite = new PIXI.Sprite(spriteTexture) as Sprite;
-  const emptyMutable = empty({ label });
+  const emptyMutable = empty(originalProps);
 
-  const displayObjectMutable = getDisplayObjectMutable<Sprite>(
+  const displayObjectMutable = await initDisplayObjectMutable<Sprite>(
     $sprite,
     emptyMutable,
   );
-  setDisplayObjectProps<Sprite>($sprite, props, displayObjectMutable);
 
   const setTexture = async (texture?: string) => {
     $texture = texture;
     $sprite.texture = await $getTexture(texture);
   };
 
-  const $getRaw = (): Props => ({
+  const getComponent = (component) => {
+    emptyMutable.getComponent(component);
+    return $mutable;
+  };
+
+  const $getRaw = (): SpriteProps => ({
     ...displayObjectMutable.$getRaw(),
     texture: $texture,
   });
 
   const $destroy = () => {
     //remove child first
-    spriteTexture?.parent?.removeChild(spriteTexture);
+    $sprite?.parent?.removeChild($sprite);
     displayObjectMutable.$destroy();
     //destroy pixi graphics
-    spriteTexture.destroy();
+    $sprite.destroy();
+    $mutable.getFather = null;
   };
 
-  const mutable: InternalMutable<Mutable, false> = {
+  const $mutable: InternalMutable<SpriteMutable, false> = {
     // container
     ...displayObjectMutable,
 
-    // sprite
-    setSpriteSheet: setTexture,
+    getDisplayObject: () => $sprite,
 
-    // @ts-ignore
-    getComponent: (component) => {
-      mutable.$componentName = component.name;
-      return mutable;
-    },
+    // sprite
+    setTexture,
 
     getProps: () => $props as any,
+
+    //@ts-ignore
+    getComponent,
 
     $destroy,
     $getRaw,
@@ -86,5 +82,5 @@ export const sprite: AsyncComponent<Props, Mutable, false> = async (
     $mutable: false,
   };
 
-  return mutable;
+  return $mutable;
 };

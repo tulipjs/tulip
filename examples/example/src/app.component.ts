@@ -15,9 +15,9 @@ type Mutable = {} & DisplayObjectMutable<Container>;
 export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
   global.$setVisualHitboxes(false);
 
-  const $container = container({ label: "app" });
+  const $container = await container({ label: "app" });
 
-  const $world = world({
+  const $world = await world({
     position: { x: 0, y: 0 },
     label: "world2",
     props: {
@@ -28,7 +28,7 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
     },
   });
 
-  const $plane = plane({
+  const $plane = await plane({
     position: {
       x: 0,
       y: 1200,
@@ -40,7 +40,7 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
   });
 
   for (let i = 0; i < 300; i++) {
-    const _fly = flyComponent({
+    const _fly = await flyComponent({
       label: `ball`,
       props: {
         color: 0xffffff,
@@ -56,7 +56,7 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
   }
 
   const $player = await playerComponent();
-  $player.setPosition({ x: 500, y: 1000 });
+  await $player.setPosition({ x: 500, y: 1000 });
 
   $world.add($player, $plane);
   $container.add($world);
