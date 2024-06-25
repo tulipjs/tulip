@@ -86,6 +86,10 @@ describe("sub-components", () => {
         $body.setMass(555);
         expect($body.$getBody().mass).toStrictEqual(555);
       });
+      test("setVelocity(...) to be changed on the body", () => {
+        $body.setVelocity({ x: 12, y: -34 });
+        expect($body.$getBody().velocity).toStrictEqual([12, -34]);
+      });
       test("$getContactBody(...) check that the contact material is valid", () => {
         const $newBody = body();
 
