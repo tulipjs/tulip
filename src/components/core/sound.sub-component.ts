@@ -45,6 +45,8 @@ export const sound: AsyncSubComponent<SoundProps, SoundMutable> = async ({
     }
   };
 
+  const $getSound = () => $sound;
+
   return {
     play: () => $sound.play(),
     pause: () => $sound.pause(),
@@ -59,5 +61,7 @@ export const sound: AsyncSubComponent<SoundProps, SoundMutable> = async ({
     getDuration: () => $sound.duration(),
     isPlaying: () => $sound.playing(),
     setPosition,
+
+    $getSound,
   };
 };

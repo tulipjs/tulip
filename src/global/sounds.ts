@@ -77,7 +77,6 @@ export const sounds = () => {
   };
 
   const $add = ({
-    id,
     sources,
     loop = false,
     volume = 0.5,

@@ -1,23 +1,15 @@
 import * as PIXI from "pixi.js";
 import {
   AsyncComponent,
-  DisplayObjectMutable,
-  DisplayObjectProps,
   InternalMutable,
   Sprite,
+  SpriteMutable,
+  SpriteProps,
 } from "../../types";
 import { initDisplayObjectMutable } from "../../utils";
 import { empty } from "./empty.component";
 
-type Props = {
-  texture: string;
-} & DisplayObjectProps;
-
-type Mutable = {
-  setTexture: (texture?: string) => Promise<void>;
-} & DisplayObjectMutable<Sprite>;
-
-export const sprite: AsyncComponent<Props, Mutable, false> = async (
+export const sprite: AsyncComponent<SpriteProps, SpriteMutable, false> = async (
   originalProps,
 ) => {
   const { texture = undefined } = originalProps;
@@ -51,23 +43,25 @@ export const sprite: AsyncComponent<Props, Mutable, false> = async (
     $sprite.texture = await $getTexture(texture);
   };
 
-  const $getRaw = (): Props => ({
+  const $getRaw = (): SpriteProps => ({
     ...displayObjectMutable.$getRaw(),
     texture: $texture,
   });
 
   const $destroy = () => {
     //remove child first
-    spriteTexture?.parent?.removeChild(spriteTexture);
+    $sprite?.parent?.removeChild($sprite);
     displayObjectMutable.$destroy();
     //destroy pixi graphics
-    spriteTexture.destroy();
+    $sprite.destroy();
     mutable.getFather = null;
   };
 
-  const mutable: InternalMutable<Mutable, false> = {
+  const mutable: InternalMutable<SpriteMutable, false> = {
     // container
     ...displayObjectMutable,
+
+    getDisplayObject: () => $sprite,
 
     // sprite
     setTexture,

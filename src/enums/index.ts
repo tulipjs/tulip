@@ -3,3 +3,4 @@ export * from "./shapes.enum";
 export * from "./events.enum";
 export * from "./animated-sprite.enum";
 export * from "./graphics.enum";
+export * from "./sound.enum";

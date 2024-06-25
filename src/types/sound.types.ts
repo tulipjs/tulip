@@ -1,12 +1,13 @@
 import { Point, Point3d } from "./point.types";
+import { PannerDistanceModel, PannerPanningModel } from "../enums/sound.enum";
 
 export type PannerConfig = {
   coneInnerAngle?: number | undefined;
   coneOuterAngle?: number | undefined;
   coneOuterGain?: number | undefined;
-  distanceModel?: "inverse" | "linear";
+  distanceModel?: PannerDistanceModel;
   maxDistance?: number;
-  panningModel?: "HRTF" | "equalpower";
+  panningModel?: PannerPanningModel;
   refDistance?: number;
   rolloffFactor?: number;
 };
@@ -36,4 +37,6 @@ export type SoundMutable = {
   getDuration: () => number;
   isPlaying: () => boolean;
   setPosition: (position: Point) => void;
+
+  $getSound: () => Howl;
 };
