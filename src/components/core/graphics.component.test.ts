@@ -177,7 +177,7 @@ describe("components", () => {
       test("$destroy(...)", () => {
         expect($polygon.getFather()).toStrictEqual($container);
         $polygon.$destroy();
-        expect($polygon.getFather).toStrictEqual(null);
+        expect($polygon.getFather()).toStrictEqual(null);
       });
     });
   });

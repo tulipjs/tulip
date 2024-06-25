@@ -19,42 +19,45 @@ export const container: AsyncComponent<
 > = async (originalProps = {}) => {
   const $props = structuredClone(originalProps);
 
-  const container = new PIXI.Container() as Container;
+  const $container = new PIXI.Container() as Container;
   const emptyMutable = empty(originalProps);
 
   let childList: DisplayObjectMutable<any>[] = [];
 
   const displayObjectMutable = await initDisplayObjectMutable<Container>(
-    container,
+    $container,
     emptyMutable,
   );
 
+  const $$destroy = displayObjectMutable.$destroy;
+  const $$setBody = displayObjectMutable.setBody;
+
   const $destroy = () => {
     //remove child first
-    container?.parent?.removeChild(container);
-    displayObjectMutable.$destroy();
+    $container?.parent?.removeChild($container);
+    $$destroy();
     //destroy pixi container
-    container.destroy();
-    $mutable.getFather = null;
+    $container.destroy();
+    displayObjectMutable.getFather = () => null;
 
     for (const childComponent of childList) childComponent.$destroy();
   };
 
   const add = (...displayObjectsMutable: DisplayObjectMutable<any>[]) => {
-    for (const displayObjectMutable of displayObjectsMutable) {
-      displayObjectMutable.getFather = () => $mutable;
+    for (const currentDisplayObjectMutable of displayObjectsMutable) {
+      currentDisplayObjectMutable.getFather = () => displayObjectMutable;
 
-      container.addChild(displayObjectMutable.getDisplayObject());
-      childList.push(displayObjectMutable);
-      global.$addComponent(displayObjectMutable);
+      $container.addChild(currentDisplayObjectMutable.getDisplayObject());
+      childList.push(currentDisplayObjectMutable);
+      global.$addComponent(currentDisplayObjectMutable);
     }
   };
 
   const remove = (...displayObjectsMutables: DisplayObjectMutable<any>[]) => {
     displayObjectsMutables.forEach((displayObjectMutable) => {
-      displayObjectMutable.getFather = null;
+      displayObjectMutable.getFather = () => null;
 
-      container.removeChild(displayObjectMutable.getDisplayObject());
+      $container.removeChild(displayObjectMutable.getDisplayObject());
       childList = childList.filter((child) => child !== displayObjectMutable);
       global.$removeComponent(displayObjectMutable);
     });
@@ -63,30 +66,25 @@ export const container: AsyncComponent<
   const getChildren = () => childList;
 
   const setBody = async (body: BodyMutable) => {
-    await displayObjectMutable.setBody(body);
+    await $$setBody(body);
 
     if (global.$isVisualHitBoxes()) {
       const shapes = body.$getShapes();
-      await Promise.all(
-        shapes.map(async ({ props }) => add(await getVisualShape(props))),
+      add(
+        ...(await Promise.all(
+          shapes.map(async ({ props }) => await getVisualShape(props)),
+        )),
       );
     }
   };
 
-  const getComponent = (component) => {
-    emptyMutable.getComponent(component);
-    return $mutable;
-  };
-
-  const $mutable: InternalMutable<ContainerMutable, false> = {
-    ...displayObjectMutable,
+  return displayObjectMutable.getComponent<
+    InternalMutable<ContainerMutable, false>
+  >(container as any, {
     //
     add,
     remove,
     getChildren,
-
-    //@ts-ignore
-    getComponent,
 
     setBody,
 
@@ -95,6 +93,5 @@ export const container: AsyncComponent<
     $destroy,
 
     $mutable: false,
-  };
-  return $mutable;
+  });
 };

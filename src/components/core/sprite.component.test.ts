@@ -74,7 +74,7 @@ describe("components", () => {
         $sprite.$destroy();
         expect($sprite.getDisplayObject().destroyed).toBe(true);
         expect($sprite.getDisplayObject().parent).toBe(null);
-        expect($sprite.getFather).toBe(null);
+        expect($sprite.getFather()).toBe(null);
       });
     });
   });

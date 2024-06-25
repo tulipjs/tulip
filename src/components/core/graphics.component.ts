@@ -37,12 +37,12 @@ export const graphics: AsyncComponent<
   let $width: number;
   let $height: number;
 
-  const graphics = new PIXI.Graphics() as Graphics;
+  const $graphics = new PIXI.Graphics() as Graphics;
 
   const emptyMutable = empty(originalProps);
 
   const displayObjectMutable = await initDisplayObjectMutable<Graphics>(
-    graphics,
+    $graphics,
     emptyMutable,
   );
 
@@ -56,9 +56,9 @@ export const graphics: AsyncComponent<
     $height = undefined;
   };
 
-  const getColor = () => graphics.tint;
+  const getColor = () => $graphics.tint;
   const setColor = (color: number) => {
-    graphics.tint = color;
+    $graphics.tint = color;
   };
 
   const setPolygon = (polygon: number[]) => {
@@ -67,8 +67,8 @@ export const graphics: AsyncComponent<
     $type = GraphicType.POLYGON;
     $polygon = polygon;
 
-    graphics.clear();
-    graphics.poly(polygon).fill({ color: 0xffffff });
+    $graphics.clear();
+    $graphics.poly(polygon).fill({ color: 0xffffff });
   };
   const setCircle = (radius: number) => {
     $clear();
@@ -76,8 +76,8 @@ export const graphics: AsyncComponent<
     $type = GraphicType.CIRCLE;
     $radius = radius;
 
-    graphics.clear();
-    graphics.circle(0, 0, radius).fill({ color: 0xffffff });
+    $graphics.clear();
+    $graphics.circle(0, 0, radius).fill({ color: 0xffffff });
   };
   const setCapsule = (length: number, radius: number) => {
     $clear();
@@ -86,8 +86,8 @@ export const graphics: AsyncComponent<
     $length = length;
     $radius = radius;
 
-    graphics.clear();
-    graphics
+    $graphics.clear();
+    $graphics
       .rect(-length / 2, -radius, length, 2 * radius)
       .circle(-length / 2, 0, radius)
       .circle(length / 2, 0, radius)
@@ -100,8 +100,8 @@ export const graphics: AsyncComponent<
     $width = width;
     $height = height;
 
-    graphics.clear();
-    graphics
+    $graphics.clear();
+    $graphics
       .poly([-width / 2, height / 2, width / 2, height / 2, 0, -height / 2])
       .fill({ color: 0xffffff });
   };
@@ -112,32 +112,28 @@ export const graphics: AsyncComponent<
   const getWidth = () => $width;
   const getHeight = () => $height;
 
-  const $getRaw = (): GraphicsProps => {
-    return {
-      ...displayObjectMutable.$getRaw(),
-      color: getColor(),
-      type: $type,
+  const $$destroy = displayObjectMutable.$destroy;
+  const $$getRaw = displayObjectMutable.$getRaw;
 
-      polygon: $polygon,
-      radius: $radius,
-      length: $length,
-      width: $width,
-      height: $height,
-    };
-  };
+  const $getRaw = (): GraphicsProps => ({
+    ...$$getRaw(),
+    color: getColor(),
+    type: $type,
 
-  const getComponent = (component) => {
-    emptyMutable.getComponent(component);
-    return $mutable;
-  };
+    polygon: $polygon,
+    radius: $radius,
+    length: $length,
+    width: $width,
+    height: $height,
+  });
 
   const $destroy = () => {
     //remove child first
-    graphics?.parent?.removeChild(graphics);
-    displayObjectMutable.$destroy();
+    $graphics?.parent?.removeChild($graphics);
+    $$destroy();
     //destroy pixi graphics
-    graphics.destroy();
-    $mutable.getFather = null;
+    $graphics.destroy();
+    displayObjectMutable.getFather = () => null;
   };
   {
     color !== undefined && setColor(color);
@@ -159,10 +155,9 @@ export const graphics: AsyncComponent<
     }
   }
 
-  const $mutable: InternalMutable<GraphicsMutable, false> = {
-    // container
-    ...displayObjectMutable,
-
+  return displayObjectMutable.getComponent<
+    InternalMutable<GraphicsMutable, false>
+  >(graphics as any, {
     getType,
 
     // graphics
@@ -182,14 +177,9 @@ export const graphics: AsyncComponent<
 
     getProps: () => $props as any,
 
-    //@ts-ignore
-    getComponent,
-
     $getRaw,
     $destroy,
 
     $mutable: false,
-  };
-
-  return $mutable;
+  });
 };

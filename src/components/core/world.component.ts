@@ -100,18 +100,19 @@ export const world: AsyncComponent<WorldProps, WorldMutable, false> = async (
 
   const $getWorld = () => $world;
 
-  const mutable: InternalMutable<WorldMutable, false> = {
-    ...componentMutable,
-    add,
-    remove,
-    setPhysicsEnabled,
-    getPhysicsEnabled,
+  return componentMutable.getComponent<InternalMutable<WorldMutable, false>>(
+    world as any,
+    {
+      ...componentMutable,
+      add,
+      remove,
+      setPhysicsEnabled,
+      getPhysicsEnabled,
 
-    getProps: () => $props as any,
+      getProps: () => $props as any,
 
-    $destroy,
-    $getWorld,
-  };
-
-  return mutable;
+      $destroy,
+      $getWorld,
+    },
+  );
 };

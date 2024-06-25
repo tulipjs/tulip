@@ -57,6 +57,7 @@ export type ComponentMutable<Props extends any = {}, Data = unknown> = {
 
   getComponent?: <Mutable>(
     component: Component<any, Mutable> | AsyncComponent<any, Mutable>,
+    mutable?: Object,
   ) => InternalMutable<Mutable, true>;
   getFather: () => ComponentMutable;
 

@@ -102,8 +102,12 @@ export const empty = <Data>(
     initialData: $data,
   });
 
-  const getComponent = (component) => {
+  const getComponent = (component: Function, mutable: Object = {}) => {
     $componentName = component.name;
+
+    for (const functionName of Object.keys(mutable))
+      $mutable[functionName] = mutable[functionName];
+
     return $mutable;
   };
   const $getComponentName = () => $componentName || null;
