@@ -70,7 +70,7 @@ export const playerComponent: AsyncComponent<Props, Mutable> = async () => {
 
   return $player.getComponent(playerComponent, {
     doSomething: () => {
-      console.log("ABC");
+      console.log("ABC12334");
     },
   });
 };
