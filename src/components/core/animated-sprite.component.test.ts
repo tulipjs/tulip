@@ -6,7 +6,6 @@ import { expect } from "@jest/globals";
 jest.mock("pixi.js", () => {
   const originalModule = jest.requireActual("pixi.js");
 
-  //Mock the default export and named export 'foo'
   return {
     ...originalModule,
     AnimatedSprite: jest.fn(() => ({
