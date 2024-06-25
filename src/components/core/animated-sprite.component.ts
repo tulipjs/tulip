@@ -91,14 +91,19 @@ export const animatedSprite: AsyncComponent<
     displayObjectMutable.$destroy();
     //destroy pixi graphics
     $animatedSprite.destroy();
-    mutable.getFather = null;
+    $mutable.getFather = null;
   };
   {
     if ($frame !== undefined) setFrame($frame);
     if ($playStatus !== undefined) setPlayStatus($playStatus);
   }
 
-  const mutable: InternalMutable<AnimatedSpriteMutable, false> = {
+  const getComponent = (component) => {
+    emptyMutable.getComponent(component);
+    return $mutable;
+  };
+
+  const $mutable: InternalMutable<AnimatedSpriteMutable, false> = {
     ...displayObjectMutable,
 
     getDisplayObject: () => $animatedSprite,
@@ -115,6 +120,9 @@ export const animatedSprite: AsyncComponent<
     setPlayStatus,
     getPlayStatus,
 
+    //@ts-ignore
+    getComponent,
+
     getProps: () => $props as any,
 
     $destroy,
@@ -123,5 +131,5 @@ export const animatedSprite: AsyncComponent<
     $mutable: false,
   };
 
-  return mutable;
+  return $mutable;
 };

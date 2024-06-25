@@ -9,7 +9,7 @@ export const global = (() => {
   let $componentList: ComponentMutable[] = [];
   const $sounds = sounds();
   $sounds.$load();
-  let $visualHitboxes = false;
+  let $visualHitBoxes = false;
 
   const getFPS = (): number => $application.ticker.FPS;
 
@@ -44,8 +44,8 @@ export const global = (() => {
         !componentName || componentName === $getComponentName(),
     );
 
-  const $isVisualHitboxes = () => $visualHitboxes;
-  const $setVisualHitboxes = (visual: boolean) => ($visualHitboxes = visual);
+  const $isVisualHitBoxes = () => $visualHitBoxes;
+  const $setVisualHitBoxes = (visual: boolean) => ($visualHitBoxes = visual);
 
   return {
     getFPS,
@@ -61,8 +61,8 @@ export const global = (() => {
     $removeComponent,
     $getComponentList,
 
-    $isVisualHitboxes,
-    $setVisualHitboxes,
+    $isVisualHitBoxes,
+    $setVisualHitBoxes,
 
     events: events(),
     sounds: $sounds,

@@ -46,8 +46,8 @@ export const events = () => {
 
   return {
     on,
-    remove: $remove,
 
+    $remove,
     $emit,
   };
 };

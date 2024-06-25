@@ -126,13 +126,18 @@ export const graphics: AsyncComponent<
     };
   };
 
+  const getComponent = (component) => {
+    emptyMutable.getComponent(component);
+    return $mutable;
+  };
+
   const $destroy = () => {
     //remove child first
     graphics?.parent?.removeChild(graphics);
     displayObjectMutable.$destroy();
     //destroy pixi graphics
     graphics.destroy();
-    mutable.getFather = null;
+    $mutable.getFather = null;
   };
   {
     color !== undefined && setColor(color);
@@ -154,7 +159,7 @@ export const graphics: AsyncComponent<
     }
   }
 
-  const mutable: InternalMutable<GraphicsMutable, false> = {
+  const $mutable: InternalMutable<GraphicsMutable, false> = {
     // container
     ...displayObjectMutable,
 
@@ -177,11 +182,14 @@ export const graphics: AsyncComponent<
 
     getProps: () => $props as any,
 
+    //@ts-ignore
+    getComponent,
+
     $getRaw,
     $destroy,
 
     $mutable: false,
   };
 
-  return mutable;
+  return $mutable;
 };

@@ -2,7 +2,6 @@ import * as PIXI from "pixi.js";
 import {
   AsyncComponent,
   BodyMutable,
-  ComponentMutable,
   Container,
   ContainerMutable,
   ContainerProps,
@@ -23,7 +22,7 @@ export const container: AsyncComponent<
   const container = new PIXI.Container() as Container;
   const emptyMutable = empty(originalProps);
 
-  let childList: ComponentMutable[] = [];
+  let childList: DisplayObjectMutable<any>[] = [];
 
   const displayObjectMutable = await initDisplayObjectMutable<Container>(
     container,
@@ -36,14 +35,14 @@ export const container: AsyncComponent<
     displayObjectMutable.$destroy();
     //destroy pixi container
     container.destroy();
-    mutable.getFather = null;
+    $mutable.getFather = null;
 
     for (const childComponent of childList) childComponent.$destroy();
   };
 
   const add = (...displayObjectsMutable: DisplayObjectMutable<any>[]) => {
     for (const displayObjectMutable of displayObjectsMutable) {
-      displayObjectMutable.getFather = () => mutable;
+      displayObjectMutable.getFather = () => $mutable;
 
       container.addChild(displayObjectMutable.getDisplayObject());
       childList.push(displayObjectMutable);
@@ -61,10 +60,12 @@ export const container: AsyncComponent<
     });
   };
 
+  const getChildren = () => childList;
+
   const setBody = async (body: BodyMutable) => {
     await displayObjectMutable.setBody(body);
 
-    if (global.$isVisualHitboxes()) {
+    if (global.$isVisualHitBoxes()) {
       const shapes = body.$getShapes();
       await Promise.all(
         shapes.map(async ({ props }) => add(await getVisualShape(props))),
@@ -72,11 +73,20 @@ export const container: AsyncComponent<
     }
   };
 
-  const mutable: InternalMutable<ContainerMutable, false> = {
+  const getComponent = (component) => {
+    emptyMutable.getComponent(component);
+    return $mutable;
+  };
+
+  const $mutable: InternalMutable<ContainerMutable, false> = {
     ...displayObjectMutable,
     //
     add,
     remove,
+    getChildren,
+
+    //@ts-ignore
+    getComponent,
 
     setBody,
 
@@ -86,5 +96,5 @@ export const container: AsyncComponent<
 
     $mutable: false,
   };
-  return mutable;
+  return $mutable;
 };

@@ -43,6 +43,11 @@ export const sprite: AsyncComponent<SpriteProps, SpriteMutable, false> = async (
     $sprite.texture = await $getTexture(texture);
   };
 
+  const getComponent = (component) => {
+    emptyMutable.getComponent(component);
+    return $mutable;
+  };
+
   const $getRaw = (): SpriteProps => ({
     ...displayObjectMutable.$getRaw(),
     texture: $texture,
@@ -54,10 +59,10 @@ export const sprite: AsyncComponent<SpriteProps, SpriteMutable, false> = async (
     displayObjectMutable.$destroy();
     //destroy pixi graphics
     $sprite.destroy();
-    mutable.getFather = null;
+    $mutable.getFather = null;
   };
 
-  const mutable: InternalMutable<SpriteMutable, false> = {
+  const $mutable: InternalMutable<SpriteMutable, false> = {
     // container
     ...displayObjectMutable,
 
@@ -68,11 +73,14 @@ export const sprite: AsyncComponent<SpriteProps, SpriteMutable, false> = async (
 
     getProps: () => $props as any,
 
+    //@ts-ignore
+    getComponent,
+
     $destroy,
     $getRaw,
 
     $mutable: false,
   };
 
-  return mutable;
+  return $mutable;
 };

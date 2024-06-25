@@ -37,6 +37,7 @@ describe("components", () => {
       test("add(...) add a display object to the container as a child", async () => {
         $container.add($childContainer);
 
+        expect($container.getChildren()).toContain($childContainer);
         expect($container.getDisplayObject().children).toContain(
           $childContainer.getDisplayObject(),
         );
@@ -49,6 +50,7 @@ describe("components", () => {
       });
       test("remove(...) remove a display object from other", () => {
         $container.remove($childContainer);
+        expect($container.getChildren()).not.toContain($childContainer);
         expect($container.getDisplayObject().children).not.toContain(
           $childContainer.getDisplayObject(),
         );

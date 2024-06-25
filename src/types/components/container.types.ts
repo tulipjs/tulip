@@ -9,4 +9,5 @@ export type ContainerProps = {} & DisplayObjectProps;
 export type ContainerMutable = {
   add: (...displayObjectsMutable: DisplayObjectMutable<any>[]) => void;
   remove: (...displayObjectsMutable: DisplayObjectMutable<any>[]) => void;
+  getChildren: () => DisplayObjectMutable<any>[];
 } & DisplayObjectMutable<Container>;
