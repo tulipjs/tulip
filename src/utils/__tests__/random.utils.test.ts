@@ -1,4 +1,4 @@
-import { getRandomNumber } from "./random.utils";
+import { getRandomNumber } from "../random.utils";
 
 describe("utils", () => {
   describe("getRandomNumber", () => {

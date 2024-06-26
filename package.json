@@ -36,6 +36,7 @@
     "test:coverage": "jest --coverage"
   },
   "jest": {
-    "verbose": true
+    "verbose": true,
+    "coverageReporters": ["json", "html"]
   }
 }

@@ -1,4 +1,4 @@
-import { getValueMutableFunction } from "./mutables.utils";
+import { getValueMutableFunction } from "../mutables.utils";
 
 describe("utils", () => {
   describe("getValueMutableFunction", () => {

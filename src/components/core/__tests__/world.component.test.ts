@@ -1,9 +1,9 @@
-import { ContainerMutable, WorldMutable } from "../../types";
+import { ContainerMutable, WorldMutable } from "../../../types";
 import { expect } from "@jest/globals";
 import * as PIXI from "pixi.js";
-import { world } from "./world.component";
-import { container } from "./container.component";
-import { body } from "./body.sub-component";
+import { world } from "../world.component";
+import { container } from "../container.component";
+import { body } from "../body.sub-component";
 
 jest.mock("pixi.js", () => {
   const originalModule = jest.requireActual("pixi.js");
@@ -67,7 +67,6 @@ describe("components", () => {
       test("add(...) adds a new element without body", async () => {
         $container = await container();
         $world.add($container);
-        expect(console.warn).toBeCalled();
       });
       test("remove(...) removes an element without body", async () => {
         expect($world.$getWorld().bodies.length).toEqual(0);
@@ -77,14 +76,37 @@ describe("components", () => {
       test("add(...) adds a new element with body", async () => {
         await $container.setBody(body({}));
         $world.add($container);
-        expect(console.warn).not.toBeCalled();
         expect($world.$getWorld().bodies.length).not.toEqual(0);
       });
       test("remove(...) removes an element with body", async () => {
         $world.remove($container);
         expect($world.$getWorld().bodies.length).toEqual(0);
       });
-      test("$destroy() destroys the world and the container", () => {
+      test("add(...) adds a new element with body on children", async () => {
+        $container = await container();
+        const $children = await container();
+        await $children.setBody(body({}));
+        $container.add($children);
+        $world.add($container);
+        expect($world.$getWorld().bodies.length).not.toEqual(0);
+      });
+      test("remove(...) removes an element with body on children", async () => {
+        $world.remove($container);
+        expect($world.$getWorld().bodies.length).toEqual(0);
+      });
+      test("add(...) adds a new element without body on children", async () => {
+        $container = await container();
+        const $children = await container();
+        $container.add($children);
+        $world.add($container);
+        expect($world.$getWorld().bodies.length).toEqual(0);
+      });
+      test("remove(...) removes an element without body on children", async () => {
+        $world.remove($container);
+        expect($world.$getWorld().bodies.length).toEqual(0);
+      });
+      test("$destroy() destroys the world and the container", async () => {
+        await $container.setBody(body({}));
         $world.add($container);
         expect($world.$getWorld().bodies.length).not.toEqual(0);
         $world.$destroy();

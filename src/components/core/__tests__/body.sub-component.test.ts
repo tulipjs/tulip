@@ -1,7 +1,7 @@
 import { expect, test } from "@jest/globals";
-import { body } from "./body.sub-component";
-import { Shape } from "../../enums";
-import { degreesToRadians } from "../../utils";
+import { body } from "../body.sub-component";
+import { Shape } from "../../../enums";
+import { degreesToRadians } from "../../../utils";
 
 describe("sub-components", () => {
   describe("core", () => {
@@ -85,6 +85,7 @@ describe("sub-components", () => {
       test("setMass(...) to be changed on the body", () => {
         $body.setMass(555);
         expect($body.$getBody().mass).toStrictEqual(555);
+        expect($body.getMass()).toStrictEqual(555);
       });
       test("setVelocity(...) to be changed on the body", () => {
         $body.setVelocity({ x: 12, y: -34 });

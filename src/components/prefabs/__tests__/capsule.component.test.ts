@@ -1,26 +1,27 @@
-import { ContainerMutable } from "../../types";
+import { ContainerMutable } from "../../../types";
 import { expect } from "@jest/globals";
-import { circle } from "./circle.component";
-import { GraphicType } from "../../enums";
+import { capsule } from "../capsule.component";
+import { GraphicType } from "../../../enums";
 
 describe("components", () => {
   describe("prefabs", () => {
-    describe("circle", () => {
-      let $circle: ContainerMutable;
+    describe("capsule", () => {
+      let $capsule: ContainerMutable;
 
       beforeAll(async () => {
-        $circle = await circle({
+        $capsule = await capsule({
           props: {
             color: 0xff00ff,
             mass: 99,
-            size: 5,
+            length: 54,
+            radius: 23,
             material: {},
           },
         });
       });
 
-      test("circle container contains graphics with a polygon", () => {
-        const child = $circle.getChildren()[0];
+      test("capsule container contains graphics with a polygon", () => {
+        const child = $capsule.getChildren()[0];
         expect(child.$getRaw()).toStrictEqual({
           alpha: 1,
           angle: 0,
@@ -30,11 +31,11 @@ describe("components", () => {
           id: child.getId(),
           initialData: {},
           label: "empty",
-          length: undefined,
+          length: 54,
           pivot: { x: 0, y: 0 },
           position: { x: 0, y: 0 },
-          radius: 5,
-          type: GraphicType.CIRCLE,
+          radius: 23,
+          type: GraphicType.CAPSULE,
           visible: true,
           width: undefined,
           polygon: undefined,
@@ -42,8 +43,8 @@ describe("components", () => {
         });
       });
 
-      test("circle contains a body", () => {
-        expect($circle.getBody()).not.toBe(null);
+      test("box contains a body", () => {
+        expect($capsule.getBody()).not.toBe(null);
       });
     });
   });

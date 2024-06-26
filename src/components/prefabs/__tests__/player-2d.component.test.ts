@@ -1,5 +1,5 @@
-import { ContainerMutable } from "../../types";
-import { player2D } from "./player-2d.component";
+import { ContainerMutable } from "../../../types";
+import { player2D } from "../player-2d.component";
 
 const mockOnTick = jest.fn();
 

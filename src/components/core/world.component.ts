@@ -1,6 +1,7 @@
 import p2 from "p2";
 import {
   AsyncComponent,
+  ContainerMutable,
   DisplayObject,
   DisplayObjectMutable,
   InternalMutable,
@@ -33,31 +34,45 @@ export const world: AsyncComponent<WorldProps, WorldMutable, false> = async (
       : undefined,
   });
 
+  const $addBody = (displayObject: DisplayObjectMutable<DisplayObject>) => {
+    const body = displayObject.getBody ? displayObject.getBody() : null;
+
+    if (!body) {
+      const children = (displayObject as ContainerMutable)?.getChildren() ?? [];
+      for (const child of children) $addBody(child);
+    } else {
+      const _body = body.$getBody();
+
+      //add contact materials
+      for (const currentDisplayObject of [
+        ...displayObjectList,
+        displayObject,
+      ]) {
+        const displayObjectBody = currentDisplayObject.getBody();
+        if (!displayObjectBody) continue;
+
+        $world.addContactMaterial(body.$getContactBody(displayObjectBody));
+      }
+      $world.addBody(_body);
+    }
+  };
+
   const add = (...displayObjects: DisplayObjectMutable<DisplayObject>[]) => {
     displayObjects.forEach((displayObject) => {
-      const body = displayObject.getBody ? displayObject.getBody() : null;
-
       displayObjectList.push(displayObject);
 
-      if (!body) {
-        console.warn(
-          `No body available on display object '${displayObject.getLabel()}'`,
-        );
-      } else {
-        const _body = body.$getBody();
-
-        //add contact materials
-        for (const displayObject of displayObjectList) {
-          const displayObjectBody = displayObject.getBody();
-          if (!displayObjectBody) continue;
-
-          $world.addContactMaterial(body.$getContactBody(displayObjectBody));
-        }
-        $world.addBody(_body);
-      }
-
+      $addBody(displayObject);
       addContainer(displayObject);
     });
+  };
+
+  const $removeBody = (displayObject: DisplayObjectMutable<DisplayObject>) => {
+    const body = displayObject.getBody ? displayObject.getBody() : null;
+    if (body) $world.removeBody(body.$getBody());
+    else {
+      const children = (displayObject as ContainerMutable)?.getChildren() ?? [];
+      for (const child of children) $removeBody(child);
+    }
   };
 
   const remove = (...displayObjects: DisplayObjectMutable<DisplayObject>[]) => {
@@ -65,9 +80,7 @@ export const world: AsyncComponent<WorldProps, WorldMutable, false> = async (
       displayObjectList = displayObjectList.filter(
         (_, index) => displayObjectList.indexOf(displayObject) !== index,
       );
-      const body = displayObject.getBody ? displayObject.getBody() : null;
-      if (body) $world.removeBody(body.$getBody());
-
+      $removeBody(displayObject);
       removeContainer(displayObject);
     });
   };

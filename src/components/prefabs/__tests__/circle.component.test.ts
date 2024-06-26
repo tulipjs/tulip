@@ -1,23 +1,26 @@
-import { ContainerMutable } from "../../types";
+import { ContainerMutable } from "../../../types";
 import { expect } from "@jest/globals";
-import { plane } from "./plane.component";
-import { GraphicType } from "../../enums";
+import { circle } from "../circle.component";
+import { GraphicType } from "../../../enums";
 
 describe("components", () => {
   describe("prefabs", () => {
-    describe("plane", () => {
-      let $plane: ContainerMutable;
+    describe("circle", () => {
+      let $circle: ContainerMutable;
 
       beforeAll(async () => {
-        $plane = await plane({
+        $circle = await circle({
           props: {
             color: 0xff00ff,
+            mass: 99,
+            size: 5,
+            material: {},
           },
         });
       });
 
       test("circle container contains graphics with a polygon", () => {
-        const child = $plane.getChildren()[0];
+        const child = $circle.getChildren()[0];
         expect(child.$getRaw()).toStrictEqual({
           alpha: 1,
           angle: 0,
@@ -28,19 +31,19 @@ describe("components", () => {
           initialData: {},
           label: "empty",
           length: undefined,
-          pivot: { x: 5000, y: 2.5 },
+          pivot: { x: 0, y: 0 },
           position: { x: 0, y: 0 },
-          radius: undefined,
-          type: GraphicType.POLYGON,
+          radius: 5,
+          type: GraphicType.CIRCLE,
           visible: true,
           width: undefined,
-          polygon: [0, 0, 10000, 0, 10000, 5, 0, 5],
+          polygon: undefined,
           zIndex: 0,
         });
       });
 
       test("circle contains a body", () => {
-        expect($plane.getBody()).not.toBe(null);
+        expect($circle.getBody()).not.toBe(null);
       });
     });
   });

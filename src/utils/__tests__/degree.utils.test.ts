@@ -1,4 +1,4 @@
-import { degreesToRadians, radiansToDegrees } from "./degree.utils";
+import { degreesToRadians, radiansToDegrees } from "../degree.utils";
 
 describe("utils", () => {
   describe("degreesToRadians", () => {

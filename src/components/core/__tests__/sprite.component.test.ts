@@ -1,8 +1,8 @@
-import { ContainerMutable, SpriteMutable } from "../../types";
-import { sprite } from "./sprite.component";
+import { ContainerMutable, SpriteMutable } from "../../../types";
+import { sprite } from "../sprite.component";
 import { expect } from "@jest/globals";
 import * as PIXI from "pixi.js";
-import { container } from "./container.component";
+import { container } from "../container.component";
 
 jest.mock("pixi.js", () => {
   const originalModule = jest.requireActual("pixi.js");
