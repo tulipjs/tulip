@@ -85,6 +85,7 @@ describe("sub-components", () => {
       test("setMass(...) to be changed on the body", () => {
         $body.setMass(555);
         expect($body.$getBody().mass).toStrictEqual(555);
+        expect($body.getMass()).toStrictEqual(555);
       });
       test("setVelocity(...) to be changed on the body", () => {
         $body.setVelocity({ x: 12, y: -34 });

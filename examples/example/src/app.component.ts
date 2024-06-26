@@ -13,7 +13,7 @@ import { playerComponent } from "player.component";
 type Mutable = {} & DisplayObjectMutable<Container>;
 
 export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
-  global.$setVisualHitBoxes(true);
+  global.$setVisualHitBoxes(false);
 
   const $container = await container({ label: "app" });
   const $c = await container({ label: "test" });
@@ -24,7 +24,7 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
     props: {
       physics: {
         enabled: true,
-        gravity: { x: 0, y: -0.1 },
+        gravity: { x: 0, y: -0 },
       },
     },
   });
@@ -40,7 +40,7 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
     alpha: 0.25,
   });
 
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 300; i++) {
     const _fly = await flyComponent({
       label: `ball`,
       props: {
