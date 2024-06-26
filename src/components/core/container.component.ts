@@ -50,6 +50,13 @@ export const container: AsyncComponent<
       $container.addChild(currentDisplayObjectMutable.getDisplayObject());
       childList.push(currentDisplayObjectMutable);
       global.$addComponent(currentDisplayObjectMutable);
+
+      // const body = currentDisplayObjectMutable.getBody();
+      // if (body && !displayObjectMutable.getBody()) {
+      //   body.setPosition(displayObjectMutable.getPosition());
+      //   setBody(body);
+      //   console.log(">>");
+      // }
     }
   };
 

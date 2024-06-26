@@ -1,5 +1,5 @@
-import { getShape, getVisualShape } from "./shapes.utils";
-import { GraphicType, Shape } from "../enums";
+import { getShape, getVisualShape } from "../shapes.utils";
+import { GraphicType, Shape } from "../../enums";
 
 describe("utils", () => {
   describe("shapes", () => {

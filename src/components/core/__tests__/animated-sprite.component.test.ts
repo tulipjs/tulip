@@ -1,6 +1,6 @@
-import { AnimatedSpriteMutable } from "../../types";
-import { animatedSprite } from "./animated-sprite.component";
-import { PlayStatus } from "../../enums";
+import { AnimatedSpriteMutable } from "../../../types";
+import { animatedSprite } from "../animated-sprite.component";
+import { PlayStatus } from "../../../enums";
 import { expect } from "@jest/globals";
 
 jest.mock("pixi.js", () => {

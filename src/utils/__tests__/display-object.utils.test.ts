@@ -1,9 +1,9 @@
 import * as PIXI from "pixi.js";
-import { initDisplayObjectMutable } from "./display-object.utils";
-import { empty } from "../components";
-import { Container, DisplayObjectMutable } from "../types";
+import { initDisplayObjectMutable } from "../display-object.utils";
+import { empty } from "../../components";
+import { Container, DisplayObjectMutable } from "../../types";
 import { expect } from "@jest/globals";
-import { EventMode } from "../enums";
+import { EventMode } from "../../enums";
 
 describe("utils", () => {
   describe("initDisplayObjectMutable", () => {

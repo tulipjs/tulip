@@ -1,7 +1,7 @@
-import { ContainerMutable } from "../../types";
+import { ContainerMutable } from "../../../types";
 import { expect } from "@jest/globals";
-import { box } from "./box.component";
-import { GraphicType } from "../../enums";
+import { box } from "../box.component";
+import { GraphicType } from "../../../enums";
 
 describe("components", () => {
   describe("prefabs", () => {

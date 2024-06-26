@@ -1,8 +1,8 @@
 import { expect, test } from "@jest/globals";
-import { ContainerMutable, GraphicsMutable } from "../../types";
-import { graphics } from "./graphics.component";
-import { GraphicType } from "../../enums";
-import { container } from "./container.component";
+import { ContainerMutable, GraphicsMutable } from "../../../types";
+import { graphics } from "../graphics.component";
+import { GraphicType } from "../../../enums";
+import { container } from "../container.component";
 
 describe("components", () => {
   describe("core", () => {

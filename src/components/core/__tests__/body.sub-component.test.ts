@@ -1,7 +1,7 @@
 import { expect, test } from "@jest/globals";
-import { body } from "./body.sub-component";
-import { Shape } from "../../enums";
-import { degreesToRadians } from "../../utils";
+import { body } from "../body.sub-component";
+import { Shape } from "../../../enums";
+import { degreesToRadians } from "../../../utils";
 
 describe("sub-components", () => {
   describe("core", () => {

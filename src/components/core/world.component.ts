@@ -43,6 +43,11 @@ export const world: AsyncComponent<WorldProps, WorldMutable, false> = async (
         console.warn(
           `No body available on display object '${displayObject.getLabel()}'`,
         );
+
+        // const childs = displayObject?.getChildren() ?? [];
+        // for (const child of childs) {
+        //   add(child);
+        // }
       } else {
         const _body = body.$getBody();
 
