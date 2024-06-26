@@ -13,8 +13,4 @@ application({
   global.setData<GlobalData>({ ballColor: 0x333333 });
 
   add(await appComponent());
-
-  setInterval(() => {
-    // console.info(global.getFPS());
-  }, 1000);
 });
