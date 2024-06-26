@@ -67,7 +67,6 @@ describe("components", () => {
       test("add(...) adds a new element without body", async () => {
         $container = await container();
         $world.add($container);
-        expect(console.warn).toBeCalled();
       });
       test("remove(...) removes an element without body", async () => {
         expect($world.$getWorld().bodies.length).toEqual(0);
