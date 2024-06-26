@@ -64,32 +64,6 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
   // }, 50);
 
   $world.add($player, $plane);
-  const fly2 = await flyComponent({
-    label: `ball`,
-    props: {
-      color: 0xffffff,
-      size: 2,
-      mass: 0.1,
-    },
-    position: {
-      x: 800,
-      y: 300,
-    },
-  });
-  const fly = await flyComponent({
-    label: `ball`,
-    props: {
-      color: 0xffffff,
-      size: 2,
-      mass: 0.1,
-    },
-    position: {
-      x: 600,
-      y: 300,
-    },
-  });
-
-  $world.add(fly, fly2);
   $world.add($c);
   $container.add($world);
 
