@@ -47,6 +47,8 @@ export const text: AsyncComponent<TextProps, TextMutable, false> = async (
     size,
   });
 
+  const $getText = () => $text;
+
   return displayObjectMutable.getComponent<InternalMutable<TextMutable, false>>(
     text as any,
     {
@@ -56,6 +58,7 @@ export const text: AsyncComponent<TextProps, TextMutable, false> = async (
       getProps: () => $props as any,
 
       $getRaw,
+      $getText,
 
       $mutable: false,
     },

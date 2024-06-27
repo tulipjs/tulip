@@ -9,7 +9,7 @@ export type Font = {
 };
 
 export type TextProps = {
-  font: string;
+  font?: string;
   text: string;
   color: number;
   size: number;
@@ -18,4 +18,5 @@ export type TextProps = {
 export type TextMutable = {
   setText: (text: string) => void;
   setSkew: (skew: Point) => void;
+  $getText: () => Text;
 } & DisplayObjectMutable<Text>;
