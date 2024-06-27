@@ -12,9 +12,12 @@ application({
 }).then(async ({ add }) => {
   global.setData<GlobalData>({ ballColor: 0x333333 });
 
-  add(await appComponent());
+  await global.setFonts([
+    {
+      src: "fonts/pixel.ttf",
+      alias: "Pixel",
+    },
+  ]);
 
-  setInterval(() => {
-    // console.info(global.getFPS());
-  }, 1000);
+  add(await appComponent());
 });

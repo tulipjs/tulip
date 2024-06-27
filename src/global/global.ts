@@ -1,7 +1,8 @@
-import { ComponentMutable, GlobalFilterType } from "../types";
+import { ComponentMutable, GlobalFilterType, Font } from "../types";
 import * as PIXI from "pixi.js";
 import { events } from "./events";
 import { sounds } from "./sounds";
+import { Assets } from "pixi.js";
 
 export const global = (() => {
   let $application: PIXI.Application;
@@ -47,6 +48,14 @@ export const global = (() => {
   const $isVisualHitBoxes = () => $visualHitBoxes;
   const $setVisualHitBoxes = (visual: boolean) => ($visualHitBoxes = visual);
 
+  const setFonts = async (fonts: Font[]) => {
+    PIXI.Assets.reset();
+    Assets.addBundle("fonts", fonts);
+    await Assets.loadBundle("fonts", (progress) =>
+      console.info(`[tulip] - loading fonts ${progress * 100}%`),
+    );
+  };
+
   return {
     getFPS,
 
@@ -54,6 +63,8 @@ export const global = (() => {
     getData,
 
     getApplication,
+
+    setFonts,
 
     $setApplication,
 

@@ -6,6 +6,7 @@ import {
   global,
   plane,
   world,
+  text,
 } from "@tulib/tulip";
 import { flyComponent } from "fly.component";
 import { playerComponent } from "player.component";
@@ -24,7 +25,7 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
     props: {
       physics: {
         enabled: true,
-        gravity: { x: 0, y: -0 },
+        gravity: { x: 0, y: -0.0 },
       },
     },
   });
@@ -40,7 +41,7 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
     alpha: 0.25,
   });
 
-  for (let i = 0; i < 300; i++) {
+  for (let i = 0; i < 1500; i++) {
     const _fly = await flyComponent({
       label: `ball`,
       props: {
@@ -66,6 +67,39 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
   $world.add($player, $plane);
   $world.add($c);
   $container.add($world);
+
+  const $text = await text({
+    text: `${Math.round(global.getFPS())} fps`,
+    font: "Pixel",
+    color: 0xffffff,
+    size: 25,
+    position: {
+      x: 10,
+      y: 10,
+    },
+  });
+
+  setInterval(() => {
+    $text.setText(`${Math.round(global.getFPS())} fps`);
+  }, 1000);
+
+  $container.add($text);
+
+  const $text2 = await text({
+    text: `🌷 tulip 🌷`,
+    font: "Pixel",
+    color: 0xeb34a8,
+    size: 50,
+    position: {
+      x: 900,
+      y: 1200,
+    },
+  });
+
+  await $text2.setPivot({ x: 0, y: 50 });
+  $text2.setSkew({ x: 0.2, y: 0 });
+
+  $container.add($text2);
 
   return $container.getComponent(appComponent);
 };
