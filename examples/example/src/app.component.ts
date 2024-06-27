@@ -25,7 +25,7 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
     props: {
       physics: {
         enabled: true,
-        gravity: { x: 0, y: -0 },
+        gravity: { x: 0, y: -0.0 },
       },
     },
   });
@@ -41,7 +41,7 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
     alpha: 0.25,
   });
 
-  for (let i = 0; i < 800; i++) {
+  for (let i = 0; i < 1500; i++) {
     const _fly = await flyComponent({
       label: `ball`,
       props: {
@@ -70,11 +70,9 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
 
   const $text = await text({
     text: `${Math.round(global.getFPS())} fps`,
-    font: {
-      src: "fonts/lineal.otf",
-      alias: "Lineal",
-    },
-    color: 0xffff00,
+    font: "Pixel",
+    color: 0xffffff,
+    size: 25,
     position: {
       x: 10,
       y: 10,
@@ -88,17 +86,18 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
   $container.add($text);
 
   const $text2 = await text({
-    text: `Holi`,
-    font: {
-      src: "fonts/lineal.otf",
-      alias: "Lineal",
-    },
-    color: 0xffff00,
+    text: `🌷 tulip 🌷`,
+    font: "Pixel",
+    color: 0xeb34a8,
+    size: 50,
     position: {
-      x: 800,
-      y: 500,
+      x: 900,
+      y: 1200,
     },
   });
+
+  await $text2.setPivot({ x: 0, y: 50 });
+  $text2.setSkew({ x: 0.2, y: 0 });
 
   $container.add($text2);
 
