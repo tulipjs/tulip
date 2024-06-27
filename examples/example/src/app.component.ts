@@ -87,5 +87,20 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
 
   $container.add($text);
 
+  const $text2 = await text({
+    text: `Holi`,
+    font: {
+      src: "fonts/lineal.otf",
+      alias: "Lineal",
+    },
+    color: 0xffff00,
+    position: {
+      x: 800,
+      y: 500,
+    },
+  });
+
+  $container.add($text2);
+
   return $container.getComponent(appComponent);
 };
