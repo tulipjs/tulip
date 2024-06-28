@@ -3,4 +3,5 @@ export type ApplicationProps = {
   scale?: number;
   importMetaEnv?: any;
   importMetaHot?: any;
+  showFPS?: boolean;
 };
