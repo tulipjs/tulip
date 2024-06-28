@@ -68,23 +68,6 @@ export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
   $world.add($c);
   $container.add($world);
 
-  const $text = await text({
-    text: `${Math.round(global.getFPS())} fps`,
-    font: "Pixel",
-    color: 0xffffff,
-    size: 25,
-    position: {
-      x: 10,
-      y: 10,
-    },
-  });
-
-  setInterval(() => {
-    $text.setText(`${Math.round(global.getFPS())} fps`);
-  }, 1000);
-
-  $container.add($text);
-
   const $text2 = await text({
     text: `🌷 tulip 🌷`,
     font: "Pixel",

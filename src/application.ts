@@ -4,17 +4,20 @@ import {
   ContainerMutable,
   DisplayObject,
   DisplayObjectMutable,
+  TextMutable,
 } from "./types";
 import { APPLICATION_DEFAULT_PROPS } from "./consts";
 import { global } from "./global";
 import { initViteTulipPlugin } from "@tulib/vite-tulip-plugin";
 import { Event } from "./enums";
+import { text } from "./components";
 
 export const application = async ({
   backgroundColor = APPLICATION_DEFAULT_PROPS.backgroundColor,
   scale = APPLICATION_DEFAULT_PROPS.scale,
   importMetaEnv = null,
   importMetaHot = null,
+  showFPS = APPLICATION_DEFAULT_PROPS.showFPS,
 }: ApplicationProps = APPLICATION_DEFAULT_PROPS) => {
   const application = new PIXI.Application();
 
@@ -36,13 +39,53 @@ export const application = async ({
 
   let $isStopped = false;
   let $lastUpdate = 0;
-  const update = (currentUpdate: number) => {
+
+  let $frames = 0;
+  let $prevTime = 0;
+  let $textFPS: TextMutable;
+
+  const $calculateFPS = () => {
+    $frames++;
+
+    let time = (performance || Date).now();
+
+    if (time >= $prevTime + 1000) {
+      const fps = ($frames * 1000) / (time - $prevTime);
+      $prevTime = time;
+      $frames = 0;
+      return Math.round(fps);
+    }
+  };
+
+  const update = async (currentUpdate: number) => {
     currentUpdate *= 0.01; // convert to ms
     let deltaTime = currentUpdate - $lastUpdate;
     $lastUpdate = currentUpdate;
 
     global.events.$emit(Event.TICK, { deltaTime });
     application.render();
+
+    // FPS
+    if (showFPS) {
+      const fps = $calculateFPS();
+      if (fps) {
+        if (!$textFPS) {
+          $textFPS = await text({
+            text: `${fps} fps`,
+            font: "Pixel",
+            color: 0xffffff,
+            size: 25,
+            position: {
+              x: 10,
+              y: 10,
+            },
+          });
+          mutable.add($textFPS);
+        }
+
+        $textFPS.setText(`${fps} fps`);
+      }
+    }
 
     if (!$isStopped) requestAnimationFrame(update);
   };
