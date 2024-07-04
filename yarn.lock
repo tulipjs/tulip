@@ -1269,10 +1269,10 @@
   dependencies:
     "@sinonjs/commons" "^3.0.0"
 
-"@tulib/vite-tulip-plugin@1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@tulib/vite-tulip-plugin/-/vite-tulip-plugin-1.0.3.tgz#e1bcee86967a7836ca464591424ad3ef924f76da"
-  integrity sha512-LiGYQxsMQTnjwKcV5vUGgV4z5ObEul8apDlt8YjPHBfHXDAkiV6n+QI+xVibiJznZJ2xzFdsKeg5y5DQ64KQYw==
+"@tulib/vite-tulip-plugin@1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@tulib/vite-tulip-plugin/-/vite-tulip-plugin-1.0.4.tgz#993b18882357891c3da3199a3736b02a817ef4b3"
+  integrity sha512-2v3vgK4+fDaySFUxfGJGgBqHsEZATfatDXS7N9lkpcSWcW29g9W+ABQqroP/XAz66O9ZV1uO3hle+he/MV4WAQ==
   dependencies:
     picocolors "1.0.1"
 
