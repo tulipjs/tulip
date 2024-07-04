@@ -152,7 +152,7 @@ export const application = async ({
               ...props,
               ...raw,
             });
-            father.add(component);
+            father && father.add(component);
             body && component.setBody(body);
           }
         },
