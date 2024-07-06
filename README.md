@@ -9,7 +9,6 @@ now you can create games with 🌷 tulip!
 
 Don't use this library for production games yet!
 
-
 ## How to "run" the project
 
 1. `yarn` the project

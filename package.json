@@ -33,10 +33,15 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "prettier:check": "prettier . --check",
+    "prettier": "prettier . --write"
   },
   "jest": {
     "verbose": true,
-    "coverageReporters": ["json", "html"]
+    "coverageReporters": [
+      "json",
+      "html"
+    ]
   }
 }
