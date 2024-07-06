@@ -6,7 +6,7 @@ import { expectTypeTestsToPassAsync } from "jest-tsd";
 describe("components", () => {
   describe("core", () => {
     describe("empty", () => {
-      it("types", async () => {
+      it("check types are not broken", async () => {
         await expectTypeTestsToPassAsync(__filename);
       });
 
