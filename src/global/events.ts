@@ -1,5 +1,5 @@
 import { DisplayObjectEvent, Event } from "../enums";
-import { DisplayObjectMutable } from "../types";
+import { DisplayObject, PartialDisplayObjectMutable } from "../types";
 
 export const events = () => {
   let $eventMap: Record<Event, ((data?: any) => void)[]> = {
@@ -26,7 +26,7 @@ export const events = () => {
   const on = (
     event: Event,
     callback: (data?: any) => void | Promise<void>,
-    displayObjectComponent?: DisplayObjectMutable<any>,
+    displayObjectComponent?: PartialDisplayObjectMutable<DisplayObject>,
   ): (() => void) => {
     const callbackId = $eventMap[event].push(callback) - 1;
     displayObjectComponent?.on(DisplayObjectEvent.REMOVED, () => {

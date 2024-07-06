@@ -1,5 +1,5 @@
 import { container } from "../";
-import { AsyncComponent, ContainerMutable, ContainerProps } from "../../types";
+import { ContainerComponent, PartialContainerMutable } from "../../types";
 import { DisplayObjectEvent, Event, Direction } from "../../enums";
 import { global } from "../../global";
 import { degreesToRadians } from "../../utils";
@@ -9,9 +9,12 @@ type PlayerProps = {
   acceleration?: number;
   deceleration?: number;
   onTick?: (direction: Direction) => void; // TODO: change direction -> keybinding -> https://github.com/tulipjs/tulip/issues/53
-} & ContainerProps;
+};
 
-export const player2D: AsyncComponent<PlayerProps, ContainerMutable> = async ({
+export const player2D: ContainerComponent<
+  PlayerProps,
+  PartialContainerMutable
+> = async ({
   onTick = () => {},
   maxSpeed = 8,
   acceleration = 0.3,

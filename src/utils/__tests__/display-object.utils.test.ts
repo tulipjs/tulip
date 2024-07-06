@@ -35,6 +35,7 @@ describe("utils", () => {
     test("getDisplayObject() returns the current container", async () => {
       displayObjectMutable = await initDisplayObjectMutable(
         container,
+        //@ts-ignore
         emptyMutable,
       );
 

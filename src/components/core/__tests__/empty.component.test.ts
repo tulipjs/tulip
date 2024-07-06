@@ -1,11 +1,16 @@
 import { expect, test } from "@jest/globals";
 import { empty } from "../empty.component";
 import { body } from "../body.sub-component";
+import { expectTypeTestsToPassAsync } from "jest-tsd";
 
 describe("components", () => {
   describe("core", () => {
     describe("empty", () => {
-      const emptyPropsMutable = empty<any>({});
+      it("types", async () => {
+        await expectTypeTestsToPassAsync(__filename);
+      });
+
+      const emptyPropsMutable = empty({});
 
       //id
       test("getId() return the original id", () => {

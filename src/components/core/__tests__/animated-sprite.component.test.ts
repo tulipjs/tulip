@@ -1,4 +1,4 @@
-import { AnimatedSpriteMutable } from "../../../types";
+import { PartialAnimatedSpriteMutable } from "../../../types";
 import { animatedSprite } from "../animated-sprite.component";
 import { PlayStatus } from "../../../enums";
 import { expect } from "@jest/globals";
@@ -38,7 +38,7 @@ const mockAssetsLoad = jest.fn(async (args) => ({
 describe("components", () => {
   describe("core", () => {
     describe("animated-sprite", () => {
-      let $animatedSprite: AnimatedSpriteMutable;
+      let $animatedSprite: PartialAnimatedSpriteMutable;
 
       beforeEach(() => {
         mockGotoAndStop.mockClear();

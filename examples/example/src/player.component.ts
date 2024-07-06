@@ -1,10 +1,9 @@
 import {
   animatedSprite,
-  AsyncComponent,
   body,
-  Container,
+  container,
+  ContainerComponent,
   Direction,
-  DisplayObjectMutable,
   EventMode,
   player2D,
   PlayStatus,
@@ -15,9 +14,10 @@ type Props = {};
 
 type Mutable = {
   doSomething: () => void;
-} & DisplayObjectMutable<Container>;
+};
 
-export const playerComponent: AsyncComponent<Props, Mutable> = async () => {
+export const playerComponent: ContainerComponent<Props, Mutable> = async () => {
+  const $container = await container<Props, Mutable>();
   let $sprite;
 
   const onTick = (direction: Direction) => {
@@ -66,9 +66,11 @@ export const playerComponent: AsyncComponent<Props, Mutable> = async () => {
       [0, height / 2],
     ],
   });
-  await $player.setBody($body);
 
-  return $player.getComponent(playerComponent, {
+  $container.add($player);
+  await $container.setBody($body);
+
+  return $container.getComponent(playerComponent, {
     doSomething: () => {
       console.log("ABC12334");
     },

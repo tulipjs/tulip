@@ -1,5 +1,5 @@
 import { expect, test } from "@jest/globals";
-import { ContainerMutable } from "../../../types";
+import { PartialContainerMutable } from "../../../types";
 import { container } from "../container.component";
 import { body } from "../body.sub-component";
 import { EventMode } from "../../../enums";
@@ -7,7 +7,7 @@ import { EventMode } from "../../../enums";
 describe("components", () => {
   describe("core", () => {
     describe("container", () => {
-      let $container: ContainerMutable;
+      let $container: PartialContainerMutable;
 
       test("getId() return the original id to check that empty is being called", async () => {
         $container = await container({
@@ -28,7 +28,7 @@ describe("components", () => {
         expect($container.getLabel()).toBe("This is being called!");
       });
 
-      let $childContainer: ContainerMutable;
+      let $childContainer: PartialContainerMutable;
       test("getFather() check father to be null", async () => {
         $childContainer = await container();
 

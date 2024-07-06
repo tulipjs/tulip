@@ -1,32 +1,23 @@
 import * as PIXI from "pixi.js";
 import {
-  AsyncComponent,
   Graphics,
   GraphicsCapsuleProps,
   GraphicsCircleProps,
-  GraphicsMutable,
+  PartialGraphicsMutable,
   GraphicsPolygonProps,
-  GraphicsProps,
+  PartialGraphicsProps,
   GraphicsTriangleProps,
-  InternalMutable,
+  InternalAsyncGraphicsMutable,
+  InternalGraphicsMutable,
 } from "../../types";
 import { initDisplayObjectMutable } from "../../utils";
 import { empty } from "./empty.component";
 import { GraphicType } from "../../enums";
 
-export const graphics: AsyncComponent<
-  GraphicsProps,
-  GraphicsMutable,
-  false
-> = async (originalProps) => {
-  const {
-    // color: defaultColor,
-    // radius: defaultRadius,
-    // polygon: defaultPolygon,
-    // length: defaultLength,
-    color,
-    type,
-  } = originalProps;
+export const graphics = async <Props, Mutable, Data>(
+  originalProps = {} as PartialGraphicsProps & Props,
+): InternalAsyncGraphicsMutable<Props, Mutable, Data> => {
+  const { color, type } = originalProps;
 
   const $props = structuredClone(originalProps);
 
@@ -39,10 +30,11 @@ export const graphics: AsyncComponent<
 
   const $graphics = new PIXI.Graphics() as Graphics;
 
-  const emptyMutable = empty(originalProps);
+  const emptyMutable = empty<Props, Mutable, Data>(originalProps);
 
   const displayObjectMutable = await initDisplayObjectMutable<Graphics>(
     $graphics,
+    //@ts-ignore
     emptyMutable,
   );
 
@@ -115,7 +107,7 @@ export const graphics: AsyncComponent<
   const $$destroy = displayObjectMutable.$destroy;
   const $$getRaw = displayObjectMutable.$getRaw;
 
-  const $getRaw = (): GraphicsProps => ({
+  const $getRaw = (): PartialGraphicsProps => ({
     ...$$getRaw(),
     color: getColor(),
     type: $type,
@@ -155,9 +147,8 @@ export const graphics: AsyncComponent<
     }
   }
 
-  return displayObjectMutable.getComponent<
-    InternalMutable<GraphicsMutable, false>
-  >(graphics as any, {
+  const $mutable: Partial<InternalGraphicsMutable<Props, unknown, Data>> &
+    PartialGraphicsMutable = {
     getType,
 
     // graphics
@@ -181,5 +172,10 @@ export const graphics: AsyncComponent<
     $destroy,
 
     $mutable: false,
-  });
+  };
+
+  return displayObjectMutable.getComponent(
+    graphics,
+    $mutable as InternalGraphicsMutable<Props, Mutable, Data>,
+  );
 };

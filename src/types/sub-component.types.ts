@@ -1,9 +1,5 @@
-type SyncSubComponent<Props, Mutable, Bool> = (props?: Props) => Mutable;
-export type AsyncSubComponent<Props, Mutable, Bool = true> = (
+type SyncSubComponent<Props, Mutable> = (props?: Props) => Mutable;
+export type AsyncSubComponent<Props, Mutable> = (
   props?: Props,
 ) => Promise<Mutable>;
-export type SubComponent<Props, Mutable, Bool = true> = SyncSubComponent<
-  Props,
-  Mutable,
-  Bool
->;
+export type SubComponent<Props, Mutable> = SyncSubComponent<Props, Mutable>;

@@ -1,18 +1,19 @@
 import { PlayStatus } from "../../enums";
 import {
+  AsyncDisplayObjectComponent,
+  InternalDisplayObjectMutable,
   DisplayObjectMutable,
-  DisplayObjectProps,
 } from "../display-object.types";
 import { AnimatedSprite } from "../pixi.types";
 
-export type AnimatedSpriteProps = {
+export type PartialAnimatedSpriteProps = {
   spriteSheet: string;
   animation: string;
   frame?: number;
   playStatus?: PlayStatus;
-} & DisplayObjectProps;
+};
 
-export type AnimatedSpriteMutable = {
+export type PartialAnimatedSpriteMutable = {
   getSpriteSheet: () => string;
   setSpriteSheet: (spriteSheet?: string) => Promise<void>;
 
@@ -24,4 +25,36 @@ export type AnimatedSpriteMutable = {
 
   setPlayStatus: (playStatus: PlayStatus) => void;
   getPlayStatus: () => PlayStatus;
-} & DisplayObjectMutable<AnimatedSprite>;
+};
+
+export type AnimatedSpriteMutable = DisplayObjectMutable<AnimatedSprite> &
+  PartialAnimatedSpriteMutable;
+
+////////////////////////////
+export type InternalAsyncAnimatedSpriteMutable<
+  Props = {},
+  Mutable = {},
+  Data = {},
+> = Promise<InternalAnimatedSpriteMutable<Props, Mutable, Data>>;
+export type InternalAnimatedSpriteMutable<
+  Props = {},
+  Mutable = {},
+  Data = {},
+> = InternalDisplayObjectMutable<
+  AnimatedSprite,
+  PartialAnimatedSpriteProps & Props,
+  PartialAnimatedSpriteMutable & Mutable,
+  Data
+>;
+
+////////////////////////////
+export type AnimatedSpriteComponent<
+  Props = {},
+  Mutable = {},
+  Data = {},
+> = AsyncDisplayObjectComponent<
+  AnimatedSprite,
+  PartialAnimatedSpriteProps & Props,
+  PartialAnimatedSpriteMutable & Mutable,
+  Data
+>;

@@ -6,6 +6,11 @@ export type Sprite = PIXI.Sprite;
 export type AnimatedSprite = PIXI.AnimatedSprite;
 export type Text = PIXI.Text;
 
-export type DisplayObject = Container | Graphics | Sprite;
+export type DisplayObject =
+  | Container
+  | Graphics
+  | Sprite
+  | AnimatedSprite
+  | Text;
 
 export type Texture = typeof PIXI.Texture;

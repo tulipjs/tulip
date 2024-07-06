@@ -1,27 +1,17 @@
 import {
   BodyMutable,
-  ComponentMutable,
-  ComponentProps,
   Point,
-  InternalMutable,
   SoundProps,
   SoundMutable,
+  PartialEmptyProps,
+  InternalEmptyMutable,
 } from "../../types";
 import { getRandomNumber, getValueMutableFunction } from "../../utils";
 import { sound } from "./sound.sub-component";
 
-export type EmptyProps<Data = unknown> = {
-  initialData?: Data;
-} & ComponentProps;
-
-export type EmptyMutable<Data = unknown> = {} & ComponentMutable<
-  ComponentProps,
-  Data
->;
-
-export const empty = <Data>(
-  originalProps: EmptyProps<Data> = {},
-): InternalMutable<EmptyMutable<Data>, false> => {
+export const empty = <Props, Mutable, Data>(
+  originalProps = {} as PartialEmptyProps<Data> & Props,
+): InternalEmptyMutable<Props, Mutable, Data> => {
   const { label = "empty", position, angle, initialData } = originalProps;
   const $props = structuredClone(originalProps);
 
@@ -33,7 +23,7 @@ export const empty = <Data>(
   let $angle = angle || 0;
   let $label = label;
   let $body: BodyMutable;
-  let $data = initialData ?? ({} as Data);
+  let $data = (initialData ?? {}) as Data;
   let $soundList: SoundMutable[] = [];
 
   let $componentName;
@@ -94,13 +84,14 @@ export const empty = <Data>(
   const getSound = (soundId: string) =>
     $soundList.filter((sound) => sound.getId() === soundId);
 
-  const $getRaw = (): EmptyProps<Data> => ({
-    id: $id,
-    label: $label,
-    position: getPosition(),
-    angle: getAngle(),
-    initialData: $data,
-  });
+  const $getRaw = () =>
+    ({
+      id: $id,
+      label: $label,
+      position: getPosition(),
+      angle: getAngle(),
+      initialData: $data,
+    }) as Props;
 
   const getComponent = (component: Function, mutable: Object = {}) => {
     $componentName = component.name;
@@ -116,7 +107,7 @@ export const empty = <Data>(
     $soundList.forEach(($sound) => $sound.stop());
   };
 
-  const $mutable: InternalMutable<EmptyMutable<Data>, false> = {
+  const $mutable: InternalEmptyMutable<Props, unknown, Data> = {
     getId,
 
     getLabel,
@@ -142,7 +133,7 @@ export const empty = <Data>(
     addSound,
     getSound,
 
-    getProps: () => $props as any,
+    getProps: () => $props as Props,
 
     //@ts-ignore
     getComponent,
@@ -154,5 +145,5 @@ export const empty = <Data>(
     $mutable: false,
   };
 
-  return $mutable;
+  return $mutable as InternalEmptyMutable<Props, Mutable, Data>;
 };

@@ -1,14 +1,16 @@
-import { ContainerProps } from "./container.types";
-import { DisplayObjectMutable } from "../display-object.types";
 import { Graphics } from "../pixi.types";
 import { GraphicType } from "../../enums";
+import {
+  AsyncDisplayObjectComponent,
+  InternalDisplayObjectMutable,
+  DisplayObjectMutable,
+} from "../display-object.types";
 
-export type GraphicsProps = {
+export type PartialGraphicsProps = {
   color: number;
-} & ContainerProps &
-  GraphicsTypesProps;
+} & GraphicsTypesProps;
 
-export type GraphicsMutable = {
+export type PartialGraphicsMutable = {
   getType: () => GraphicType;
 
   setColor: (color: number) => void;
@@ -24,7 +26,7 @@ export type GraphicsMutable = {
   getLength: () => number | undefined;
   getWidth: () => number | undefined;
   getHeight: () => number | undefined;
-} & DisplayObjectMutable<Graphics>;
+};
 
 export type GraphicsPolygonProps = {
   type: GraphicType.POLYGON;
@@ -50,3 +52,35 @@ export type GraphicsTypesProps =
   | GraphicsCircleProps
   | GraphicsCapsuleProps
   | GraphicsTriangleProps;
+
+export type GraphicsMutable = DisplayObjectMutable<Graphics> &
+  PartialGraphicsMutable;
+
+////////////////////////////
+export type InternalAsyncGraphicsMutable<
+  Props = {},
+  Mutable = {},
+  Data = {},
+> = Promise<InternalGraphicsMutable<Props, Mutable, Data>>;
+export type InternalGraphicsMutable<
+  Props = {},
+  Mutable = {},
+  Data = {},
+> = InternalDisplayObjectMutable<
+  Graphics,
+  PartialGraphicsProps & Props,
+  PartialGraphicsMutable & Mutable,
+  Data
+>;
+
+////////////////////////////
+export type GraphicsComponent<
+  Props = {},
+  Mutable = {},
+  Data = {},
+> = AsyncDisplayObjectComponent<
+  Graphics,
+  PartialGraphicsProps & Props,
+  PartialGraphicsMutable & Mutable,
+  Data
+>;

@@ -1,10 +1,8 @@
 import * as PIXI from "pixi.js";
 import {
   ApplicationProps,
-  ContainerMutable,
-  DisplayObject,
-  DisplayObjectMutable,
-  TextMutable,
+  PartialContainerMutable,
+  PartialTextMutable,
 } from "./types";
 import { APPLICATION_DEFAULT_PROPS } from "./consts";
 import { global } from "./global";
@@ -42,7 +40,7 @@ export const application = async ({
 
   let $frames = 0;
   let $prevTime = 0;
-  let $textFPS: TextMutable;
+  let $textFPS: PartialTextMutable;
 
   const $calculateFPS = () => {
     $frames++;
@@ -138,7 +136,7 @@ export const application = async ({
           });
 
           for (const mutable of componentList) {
-            const father = mutable.getFather() as ContainerMutable;
+            const father = mutable.getFather() as PartialContainerMutable;
 
             const raw = structuredClone(mutable.$getRaw());
             const props = structuredClone(mutable.getProps<any>());
@@ -158,10 +156,9 @@ export const application = async ({
         },
       );
   }
-
   //### MUTABLES #####################################################################################################//
   const mutable = {
-    add: (displayObjectMutable: DisplayObjectMutable<DisplayObject>) => {
+    add: (displayObjectMutable) => {
       displayObjectMutable.getFather = () => mutable as any;
 
       global.$addComponent(displayObjectMutable);
@@ -169,7 +166,7 @@ export const application = async ({
         displayObjectMutable.getDisplayObject({ __preventWarning: true }),
       );
     },
-    remove: (displayObjectMutable: DisplayObjectMutable<DisplayObject>) => {
+    remove: (displayObjectMutable) => {
       displayObjectMutable.getFather = null;
 
       global.$removeComponent(displayObjectMutable);
