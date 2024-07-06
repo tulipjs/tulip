@@ -157,9 +157,9 @@ export const initDisplayObjectMutable = async <
     if (label !== undefined) setLabel(label);
     if (position !== undefined) await setPosition(position);
     if (pivot !== undefined) await setPivot(pivot);
-    if (angle) await setAngle(angle);
-    if (alpha) await setAlpha(alpha);
-    if (eventMode) await setEventMode(eventMode);
+    if (angle !== undefined) await setAngle(angle);
+    if (alpha !== undefined) await setAlpha(alpha);
+    if (eventMode !== undefined) await setEventMode(eventMode);
 
     on(DisplayObjectEvent.TICK, () => {
       // If not body present, it doesn't make sense to iterate
