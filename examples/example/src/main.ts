@@ -4,7 +4,7 @@ import { GlobalData } from "types";
 
 application({
   backgroundColor: 0x030303,
-  scale: 1,
+  scale: 1.2,
   showFPS: true,
   //@ts-ignore
   importMetaEnv: import.meta.env,

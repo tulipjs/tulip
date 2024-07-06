@@ -23,7 +23,6 @@ export const application = async ({
     backgroundColor,
     antialias: true,
     sharedTicker: false,
-    resizeTo: window,
     preference: "webgpu",
   });
 
@@ -102,7 +101,20 @@ export const application = async ({
   // PIXI.settings.FAIL_IF_MAJOR_PERFORMANCE_CAVEAT = true;
   PIXI.AbstractRenderer.defaultOptions.failIfMajorPerformanceCaveat = true;
 
-  application.renderer.resolution = scale * Math.round(devicePixelRatio);
+  const resize = () => {
+    const { innerWidth, innerHeight } = window;
+
+    application.canvas.style.width = `${Math.round(innerWidth)}px`;
+    application.canvas.style.height = `${Math.round(innerHeight)}px`;
+
+    application.renderer.resize(
+      (innerWidth * devicePixelRatio) / scale,
+      (innerHeight * devicePixelRatio) / scale,
+    );
+    application.renderer.resolution = scale * Math.round(devicePixelRatio);
+  };
+  window.addEventListener("resize", resize);
+  resize();
 
   document.body.appendChild(application.canvas);
   global.$setApplication(application);
@@ -139,7 +151,7 @@ export const application = async ({
             const father = mutable.getFather() as PartialContainerMutable;
 
             const raw = structuredClone(mutable.$getRaw());
-            const props = structuredClone(mutable.getProps<any>());
+            const props = structuredClone(mutable.getProps());
             const body = mutable.getBody();
 
             mutable.$destroy();
