@@ -2,19 +2,31 @@ import {
   AsyncComponent,
   container,
   global,
+  graphics,
+  GraphicType,
   plane,
-  world,
   text,
+  world,
 } from "@tulib/tulip";
 import { flyComponent } from "fly.component";
 import { playerComponent } from "player.component";
 
+type Props = {};
 type Mutable = {};
 
-export const appComponent: AsyncComponent<{}, Mutable> = async () => {
+export const appComponent: AsyncComponent<Props, Mutable> = async () => {
   global.$setVisualHitBoxes(false);
 
   const $container = await container({ label: "app" });
+
+  const pixel = await graphics({
+    type: GraphicType.POLYGON,
+    polygon: [0, 0, 1, 0, 1, 1, 0, 1],
+    color: 0xff00ff,
+  });
+  await pixel.setPosition({ x: 10, y: 10 });
+  $container.add(pixel);
+
   const $c = await container({ label: "test" });
 
   const $world = await world({

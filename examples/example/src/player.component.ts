@@ -1,7 +1,6 @@
 import {
   animatedSprite,
   body,
-  container,
   ContainerComponent,
   Direction,
   EventMode,
@@ -17,7 +16,6 @@ type Mutable = {
 };
 
 export const playerComponent: ContainerComponent<Props, Mutable> = async () => {
-  const $container = await container<Props, Mutable>();
   let $sprite;
 
   const onTick = (direction: Direction) => {
@@ -67,12 +65,7 @@ export const playerComponent: ContainerComponent<Props, Mutable> = async () => {
     ],
   });
 
-  $container.add($player);
-  await $container.setBody($body);
+  await $player.setBody($body);
 
-  return $container.getComponent(playerComponent, {
-    doSomething: () => {
-      console.log("ABC12334");
-    },
-  });
+  return $player.getComponent(playerComponent);
 };
