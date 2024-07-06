@@ -1,8 +1,8 @@
 import {
-  ComponentMutable,
   DisplayObject as PIXIDisplayObject,
-  DisplayObjectMutable,
   DisplayObjectProps,
+  InternalAsyncDisplayObjectMutable,
+  InternalDisplayObjectMutable,
   Point,
 } from "../types";
 import { getValueMutableFunction } from "./mutables.utils";
@@ -14,8 +14,8 @@ export const initDisplayObjectMutable = async <
   DisplayObject extends PIXIDisplayObject,
 >(
   displayObject: DisplayObject,
-  componentMutable: ComponentMutable,
-): Promise<DisplayObjectMutable<DisplayObject>> => {
+  componentMutable: InternalDisplayObjectMutable<any>,
+): InternalAsyncDisplayObjectMutable<DisplayObject> => {
   let $isRemoved = false;
 
   const $$setLabel = componentMutable.setLabel;
@@ -144,7 +144,7 @@ export const initDisplayObjectMutable = async <
     $$destroy();
   };
   const $getRaw = (): DisplayObjectProps => ({
-    ...$$getRaw(),
+    ...($$getRaw() as object),
     pivot: getPivot(),
     visible: getVisible(),
     zIndex: getZIndex(),
@@ -175,7 +175,7 @@ export const initDisplayObjectMutable = async <
   // Set initials
   {
     const { label, position, pivot, angle, alpha, eventMode, tint } =
-      componentMutable.getProps<DisplayObjectProps>();
+      componentMutable.getProps();
 
     if (isNullish(label)) setLabel(label);
     if (isNullish(position)) await setPosition(position);
@@ -194,56 +194,60 @@ export const initDisplayObjectMutable = async <
     });
   }
 
-  const initDisplayObject = () => {};
-  return componentMutable.getComponent<DisplayObjectMutable<DisplayObject>>(
-    initDisplayObject as any,
-    {
-      getDisplayObject: (props): DisplayObject => {
-        if (!props?.__preventWarning)
-          console.warn(
-            `Prevent the use of "getDisplayObject()" in favor to add more functions to do specific tasks!`,
-          );
-        return displayObject;
-      },
-
-      setLabel,
-      //position
-      setPosition,
-      setPositionX,
-      setPositionY,
-
-      //pivot
-      setPivot,
-      setPivotX,
-      setPivotY,
-      getPivot,
-      //visible
-      setVisible,
-      getVisible,
-      //zIndex
-      setZIndex,
-      getZIndex,
-      //alpha
-      setAlpha,
-      getAlpha,
-      //angle
-      setAngle,
-      getAngle,
-      //eventMode
-      setEventMode,
-      getEventMode,
-      //tint
-      setTint,
-      getTint,
-      //bounds
-      getBounds,
-
-      //events
-      on,
-
-      $destroy,
-      $getRaw,
-      $mutable: false,
+  const $mutable: Partial<
+    InternalDisplayObjectMutable<DisplayObject, {}, {}, {}>
+  > = {
+    getDisplayObject: (props): DisplayObject => {
+      if (!props?.__preventWarning)
+        console.warn(
+          `Prevent the use of "getDisplayObject()" in favor to add more functions to do specific tasks!`,
+        );
+      return displayObject;
     },
+
+    setLabel,
+    //position
+    setPosition,
+    setPositionX,
+    setPositionY,
+
+    //pivot
+    setPivot,
+    setPivotX,
+    setPivotY,
+    getPivot,
+    //visible
+    setVisible,
+    getVisible,
+    //zIndex
+    setZIndex,
+    getZIndex,
+    //alpha
+    setAlpha,
+    getAlpha,
+    //angle
+    setAngle,
+    getAngle,
+    //eventMode
+    setEventMode,
+    getEventMode,
+    //tint
+    setTint,
+    getTint,
+    //bounds
+    getBounds,
+
+    //events
+    on,
+
+    $destroy,
+    $getRaw,
+    $mutable: false,
+  };
+
+  const initDisplayObject = () => {};
+  return componentMutable.getComponent(
+    initDisplayObject,
+    $mutable as InternalDisplayObjectMutable<DisplayObject, {}, {}, {}>,
   );
 };

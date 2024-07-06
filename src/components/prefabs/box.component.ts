@@ -1,17 +1,22 @@
 import { body, container, graphics } from "../";
 import { GraphicType, Shape } from "../../enums";
-import { AsyncComponent, BoxProps, ContainerMutable } from "../../types";
+import {
+  BoxProps,
+  ContainerComponent,
+  PartialContainerMutable,
+} from "../../types";
 
-export const box: AsyncComponent<BoxProps, ContainerMutable> = async (
-  props,
-) => {
+export const box: ContainerComponent<
+  BoxProps,
+  PartialContainerMutable
+> = async (props) => {
   const $container = await container({
     ...props,
   });
 
   const {
     props: { color, width, height, mass, material },
-  } = $container.getProps<BoxProps>();
+  } = $container.getProps();
 
   const $box = await graphics({
     type: GraphicType.POLYGON,

@@ -1,8 +1,6 @@
 import {
   AsyncComponent,
-  Container,
   container,
-  DisplayObjectMutable,
   global,
   plane,
   world,
@@ -11,9 +9,9 @@ import {
 import { flyComponent } from "fly.component";
 import { playerComponent } from "player.component";
 
-type Mutable = {} & DisplayObjectMutable<Container>;
+type Mutable = {};
 
-export const appComponent: AsyncComponent<unknown, Mutable> = async () => {
+export const appComponent: AsyncComponent<{}, Mutable> = async () => {
   global.$setVisualHitBoxes(false);
 
   const $container = await container({ label: "app" });

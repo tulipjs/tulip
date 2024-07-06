@@ -2,35 +2,43 @@ import { MutableFunction } from "./mutables.types";
 import { Point } from "./point.types";
 import { BodyMutable } from "./body.types";
 import { SoundMutable, SoundProps } from "./sound.types";
-import { EventMode } from "../enums/event-mode.enum";
 
-export type InternalMutable<Mutable, Bool> = Mutable & {
+export type InternalMutable<
+  Props,
+  // @ts-ignore
+  Mutable extends ComponentMutable<ComponentProps & Props, Mutable, Data>,
+  Data,
+  Bool,
+> = Mutable & {
   $mutable: Bool;
 };
 
-type SyncComponent<Props, Mutable, Bool> = (
-  props?: Props,
-) => InternalMutable<Mutable, Bool>;
-export type AsyncComponent<Props, Mutable, Bool = true> = (
-  props?: Props,
-) => Promise<InternalMutable<Mutable, Bool>>;
-export type Component<Props, Mutable, Bool = true> = SyncComponent<
-  Props,
-  Mutable,
-  Bool
->;
+export type Component<
+  Props = {},
+  // @ts-ignore
+  Mutable extends ComponentMutable<ComponentProps & Props, Mutable, Data> = {},
+  Data = {},
+> = (
+  props?: ComponentProps & Props,
+) => InternalMutable<ComponentProps & Props, Mutable, Data, true>;
+
+export type AsyncComponent<
+  Props = {},
+  // @ts-ignore
+  Mutable extends ComponentMutable<ComponentProps & Props, Mutable, Data> = {},
+  Data = {},
+> = (
+  props?: ComponentProps & Props,
+) => Promise<InternalMutable<ComponentProps & Props, Mutable, Data, true>>;
 
 export type ComponentProps = {
   id?: string;
   label?: string;
   position?: Point;
   angle?: number;
-  alpha?: number;
-  zIndex?: number;
-  eventMode?: EventMode;
 };
 
-export type ComponentMutable<Props extends any = {}, Data = unknown> = {
+export type ComponentMutable<Props = {}, Mutable = {}, Data = {}> = {
   getId: () => string;
 
   //label
@@ -55,16 +63,28 @@ export type ComponentMutable<Props extends any = {}, Data = unknown> = {
   addSound: (soundData: SoundProps) => Promise<SoundMutable>;
   getSound: (soundId: string) => SoundMutable[];
 
-  getComponent?: <Mutable>(
-    component: Component<any, Mutable> | AsyncComponent<any, Mutable>,
-    mutable?: Object,
-  ) => InternalMutable<Mutable, true>;
-  getFather: () => ComponentMutable;
+  getComponent?: (
+    component:
+      | Component<Props, Mutable & any, Data>
+      | AsyncComponent<Props, Mutable & any, Data>,
+    mutable?: Partial<Mutable>,
+  ) => InternalMutable<Props, Mutable & any, Data, true>;
+  getFather: <FProps, FMutable, FData>() => ComponentMutable<
+    FProps,
+    FMutable,
+    FData
+  >;
 
-  getProps: <Props>() => Props;
+  /**
+   * Return the original props
+   */
+  getProps: () => Props;
 
   //############### INTERNAL & DEVELOPMENT ###############
 
+  /**
+   * Returns all the props modified internally at the moment
+   */
   $getRaw: () => Props;
 
   //Destroys the display object (pixi) & physics
@@ -74,4 +94,4 @@ export type ComponentMutable<Props extends any = {}, Data = unknown> = {
   //TODO Search for a better name
   //It's only used for types, it doesnt contain information
   $mutable: boolean;
-};
+} & Mutable;

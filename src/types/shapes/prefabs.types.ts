@@ -1,4 +1,3 @@
-import { ContainerProps } from "../components";
 import { BodyMaterialProps } from "../../types";
 
 export type CircleProps = {
@@ -8,7 +7,7 @@ export type CircleProps = {
     mass: number;
     material?: BodyMaterialProps;
   };
-} & ContainerProps;
+};
 
 export type BoxProps = {
   props: {
@@ -18,7 +17,7 @@ export type BoxProps = {
     mass: number;
     material?: BodyMaterialProps;
   };
-} & ContainerProps;
+};
 
 export type CapsuleProps = {
   props: {
@@ -28,4 +27,4 @@ export type CapsuleProps = {
     mass: number;
     material?: BodyMaterialProps;
   };
-} & ContainerProps;
+};

@@ -1,12 +1,4 @@
-import {
-  Container,
-  DisplayObjectMutable,
-  EventMode,
-  ContainerProps,
-  global,
-  circle,
-  AsyncComponent,
-} from "@tulib/tulip";
+import { EventMode, global, circle, ContainerComponent } from "@tulib/tulip";
 import { GlobalData } from "types";
 
 type Props = {
@@ -15,11 +7,13 @@ type Props = {
     size: number;
     mass: number;
   };
-} & ContainerProps;
+};
 
-type Mutable = {} & DisplayObjectMutable<Container>;
+type Mutable = {};
 
-export const flyComponent: AsyncComponent<Props, Mutable> = async (props) => {
+export const flyComponent: ContainerComponent<Props, Mutable> = async (
+  props,
+) => {
   const container = await circle({
     ...props,
     eventMode: EventMode.STATIC,

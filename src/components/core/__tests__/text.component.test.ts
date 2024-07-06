@@ -41,7 +41,6 @@ describe("components", () => {
         $text.setSkew({ x: 1, y: -0.3 });
 
         const { x, y } = $text.$getText().skew;
-        console.log(x, y);
         expect({ x, y }).toEqual({ x: 1, y: -0.3 });
       });
     });

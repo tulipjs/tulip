@@ -1,6 +1,6 @@
-import { WorldProps } from "../types";
+import { PartialWorldProps } from "../types";
 
-export const WORLD_DEFAULT_PROPS: WorldProps = {
+export const WORLD_DEFAULT_PROPS: PartialWorldProps = {
   props: {
     physics: {
       gravity: { x: 0, y: 9.8 },

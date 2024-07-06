@@ -1,32 +1,34 @@
 import p2 from "p2";
 import {
-  AsyncComponent,
-  ContainerMutable,
+  ContainerComponent,
+  PartialContainerMutable,
   DisplayObject,
-  DisplayObjectMutable,
-  InternalMutable,
-  WorldMutable,
-  WorldProps,
+  InternalContainerMutable,
+  InternalDisplayObjectMutable,
+  PartialWorldMutable,
+  PartialWorldProps,
 } from "../../types";
 import { container } from "./container.component";
 import { WORLD_DEFAULT_PROPS } from "../../consts";
 import { DisplayObjectEvent } from "../../enums";
 
-export const world: AsyncComponent<WorldProps, WorldMutable, false> = async (
-  originalProps = WORLD_DEFAULT_PROPS,
-) => {
-  const {
-    add: addContainer,
-    remove: removeContainer,
-    ...componentMutable
-  } = await container(originalProps);
+export const world: ContainerComponent<
+  PartialWorldProps,
+  PartialWorldMutable
+> = async (originalProps = WORLD_DEFAULT_PROPS) => {
+  const $container = await container(originalProps);
 
   const $props = structuredClone(originalProps);
 
-  const { props = {} } = componentMutable.getProps<WorldProps>();
+  const { props = {} } = $container.getProps();
   const { physics } = props;
 
-  let displayObjectList: DisplayObjectMutable<any>[] = [];
+  let displayObjectList: InternalDisplayObjectMutable<
+    DisplayObject,
+    any,
+    any,
+    any
+  >[] = [];
 
   let $world = new p2.World({
     gravity: physics?.gravity
@@ -34,11 +36,14 @@ export const world: AsyncComponent<WorldProps, WorldMutable, false> = async (
       : undefined,
   });
 
-  const $addBody = (displayObject: DisplayObjectMutable<DisplayObject>) => {
+  const $addBody = (
+    displayObject: InternalDisplayObjectMutable<DisplayObject, any, any, any>,
+  ) => {
     const body = displayObject.getBody ? displayObject.getBody() : null;
 
     if (!body) {
-      const children = (displayObject as ContainerMutable)?.getChildren() ?? [];
+      const children =
+        (displayObject as PartialContainerMutable)?.getChildren() ?? [];
       for (const child of children) $addBody(child);
     } else {
       const _body = body.$getBody();
@@ -57,47 +62,59 @@ export const world: AsyncComponent<WorldProps, WorldMutable, false> = async (
     }
   };
 
-  const add = (...displayObjects: DisplayObjectMutable<DisplayObject>[]) => {
+  const $$add = $container.add;
+  const $$remove = $container.remove;
+  const $$destroy = $container.$destroy;
+
+  const add = (
+    ...displayObjects: InternalDisplayObjectMutable<DisplayObject>[]
+  ) => {
     displayObjects.forEach((displayObject) => {
       displayObjectList.push(displayObject);
 
       $addBody(displayObject);
-      addContainer(displayObject);
+      $$add(displayObject);
     });
   };
 
-  const $removeBody = (displayObject: DisplayObjectMutable<DisplayObject>) => {
+  const $removeBody = (
+    displayObject: InternalDisplayObjectMutable<DisplayObject>,
+  ) => {
     const body = displayObject.getBody ? displayObject.getBody() : null;
     if (body) $world.removeBody(body.$getBody());
     else {
-      const children = (displayObject as ContainerMutable)?.getChildren() ?? [];
-      for (const child of children) $removeBody(child);
+      const children =
+        (displayObject as InternalContainerMutable)?.getChildren() ?? [];
+      for (const child of children)
+        $removeBody(child as InternalDisplayObjectMutable<DisplayObject>);
     }
   };
 
-  const remove = (...displayObjects: DisplayObjectMutable<DisplayObject>[]) => {
+  const remove = (
+    ...displayObjects: InternalDisplayObjectMutable<DisplayObject>[]
+  ) => {
     displayObjects.forEach((displayObject) => {
       displayObjectList = displayObjectList.filter(
         (_, index) => displayObjectList.indexOf(displayObject) !== index,
       );
       $removeBody(displayObject);
-      removeContainer(displayObject);
+      $$remove(displayObject);
     });
   };
 
   const setPhysicsEnabled = (enabled: boolean) => {
-    componentMutable.setData({ physicsEnabled: enabled });
+    $container.setData({ physicsEnabled: enabled });
   };
 
   const getPhysicsEnabled = (): boolean =>
-    componentMutable.getData((data: { physicsEnabled: boolean }) =>
+    $container.getData((data: { physicsEnabled: boolean }) =>
       data.physicsEnabled === undefined
         ? physics?.enabled === undefined || physics?.enabled
         : data.physicsEnabled,
     );
   setPhysicsEnabled(getPhysicsEnabled());
 
-  componentMutable.on<{ deltaTime: number }>(
+  $container.on<{ deltaTime: number }>(
     DisplayObjectEvent.TICK,
     ({ deltaTime }) => {
       if (!displayObjectList.length) return;
@@ -107,25 +124,34 @@ export const world: AsyncComponent<WorldProps, WorldMutable, false> = async (
   );
 
   const $destroy = () => {
-    componentMutable.$destroy();
+    $$destroy();
     $world.clear();
   };
 
   const $getWorld = () => $world;
 
-  return componentMutable.getComponent<InternalMutable<WorldMutable, false>>(
-    world as any,
-    {
-      ...componentMutable,
-      add,
-      remove,
-      setPhysicsEnabled,
-      getPhysicsEnabled,
+  const $mutable: Partial<
+    InternalContainerMutable<PartialWorldProps, PartialWorldMutable, unknown>
+  > &
+    PartialWorldMutable = {
+    add,
+    remove,
 
-      getProps: () => $props as any,
+    setPhysicsEnabled,
+    getPhysicsEnabled,
 
-      $destroy,
-      $getWorld,
-    },
+    getProps: () => $props as any,
+
+    $destroy,
+    $getWorld,
+  };
+
+  return $container.getComponent(
+    world,
+    $mutable as InternalContainerMutable<
+      PartialWorldProps,
+      PartialWorldMutable,
+      unknown
+    >,
   );
 };

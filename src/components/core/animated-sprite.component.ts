@@ -1,20 +1,18 @@
 import * as PIXI from "pixi.js";
 import {
   AnimatedSprite,
-  AnimatedSpriteMutable,
-  AnimatedSpriteProps,
-  AsyncComponent,
-  InternalMutable,
+  PartialAnimatedSpriteMutable,
+  PartialAnimatedSpriteProps,
+  InternalAnimatedSpriteMutable,
+  InternalAsyncAnimatedSpriteMutable,
 } from "../../types";
 import { empty } from "./empty.component";
 import { initDisplayObjectMutable } from "../../utils";
 import { PlayStatus } from "../../enums";
 
-export const animatedSprite: AsyncComponent<
-  AnimatedSpriteProps,
-  AnimatedSpriteMutable,
-  false
-> = async (originalProps) => {
+export const animatedSprite = async <Props, Mutable, Data>(
+  originalProps = {} as PartialAnimatedSpriteProps & Props,
+): InternalAsyncAnimatedSpriteMutable<Props, Mutable, Data> => {
   const { spriteSheet, animation, frame, playStatus } = originalProps;
 
   const $props = structuredClone(originalProps);
@@ -70,17 +68,18 @@ export const animatedSprite: AsyncComponent<
   };
   const getPlayStatus = () => $playStatus;
 
-  const emptyMutable = empty(originalProps);
-  //
+  const emptyMutable = empty<Props, Mutable, Data>(originalProps);
+
   const displayObjectMutable = await initDisplayObjectMutable<AnimatedSprite>(
     $animatedSprite,
+    //@ts-ignore
     emptyMutable,
   );
 
   const $$getRaw = displayObjectMutable.$getRaw;
   const $$destroy = displayObjectMutable.$destroy;
 
-  const $getRaw = (): AnimatedSpriteProps => ({
+  const $getRaw = (): PartialAnimatedSpriteProps => ({
     ...$$getRaw(),
     spriteSheet: $spriteSheet,
     animation: $currentAnimation,
@@ -102,9 +101,8 @@ export const animatedSprite: AsyncComponent<
     if ($playStatus !== undefined) setPlayStatus($playStatus);
   }
 
-  return displayObjectMutable.getComponent<
-    InternalMutable<AnimatedSpriteMutable, false>
-  >(animatedSprite as any, {
+  const $mutable: Partial<InternalAnimatedSpriteMutable<Props, unknown, Data>> &
+    PartialAnimatedSpriteMutable = {
     setSpriteSheet,
     getSpriteSheet,
 
@@ -120,8 +118,14 @@ export const animatedSprite: AsyncComponent<
     getProps: () => $props as any,
 
     $destroy,
+    //@ts-ignore
     $getRaw,
 
     $mutable: false,
-  });
+  };
+
+  return displayObjectMutable.getComponent(
+    animatedSprite,
+    $mutable as InternalAnimatedSpriteMutable<Props, Mutable, Data>,
+  );
 };

@@ -20,8 +20,8 @@ type InventoryMutable = {
   equipHoe: () => void;
 };
 
-export const inventoryComponent: Component<{}, InventoryMutable> = () => {
-  const $inventory = empty<Inventory>({
+export const inventoryComponent: Component<{}, InventoryMutable, {}> = () => {
+  const $inventory = empty({
     initialData: INITIAL_INVENTORY,
   });
 

@@ -1,4 +1,4 @@
-import { AsyncComponent, ContainerMutable, ContainerProps } from "../../types";
+import { ContainerComponent, PartialContainerMutable } from "../../types";
 import { body, container, graphics } from "../core";
 import { GraphicType, Shape } from "../../enums";
 
@@ -6,12 +6,11 @@ type PlaneProps = {
   props?: {
     color?: number;
   };
-} & ContainerProps;
+};
 
-export const plane: AsyncComponent<
+export const plane: ContainerComponent<
   PlaneProps,
-  ContainerMutable,
-  false
+  PartialContainerMutable
 > = async ($props) => {
   const $container = await container($props);
 
@@ -22,7 +21,7 @@ export const plane: AsyncComponent<
 
   await $container.setBody($body);
 
-  const { props } = $container.getProps<PlaneProps>();
+  const { props } = $container.getProps();
 
   const $graphics = await graphics({
     angle: $props.angle,
@@ -33,5 +32,5 @@ export const plane: AsyncComponent<
   await $graphics.setPivot({ x: 5000, y: 2.5 });
   $container.add($graphics);
 
-  return $container;
+  return $container.getComponent(plane);
 };

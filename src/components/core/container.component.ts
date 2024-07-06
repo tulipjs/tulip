@@ -1,31 +1,32 @@
 import * as PIXI from "pixi.js";
 import {
-  AsyncComponent,
   BodyMutable,
+  ComponentMutable,
   Container,
-  ContainerMutable,
-  ContainerProps,
-  DisplayObjectMutable,
-  InternalMutable,
+  PartialContainerMutable,
+  PartialContainerProps,
+  DisplayObject,
+  InternalAsyncContainerMutable,
+  InternalContainerMutable,
+  InternalDisplayObjectMutable,
 } from "../../types";
 import { initDisplayObjectMutable, getVisualShape } from "../../utils";
 import { empty } from "./empty.component";
 import { global } from "../../global";
 
-export const container: AsyncComponent<
-  ContainerProps,
-  ContainerMutable,
-  false
-> = async (originalProps = {}) => {
+export const container = async <Props = {}, Mutable = {}, Data = {}>(
+  originalProps = {} as PartialContainerProps & Props,
+): InternalAsyncContainerMutable<Props, Mutable, Data> => {
   const $props = structuredClone(originalProps);
 
   const $container = new PIXI.Container() as Container;
-  const emptyMutable = empty(originalProps);
+  const emptyMutable = empty<Props, Mutable, Data>(originalProps);
 
-  let childList: DisplayObjectMutable<any>[] = [];
+  let childList: InternalDisplayObjectMutable<DisplayObject>[] = [];
 
   const displayObjectMutable = await initDisplayObjectMutable<Container>(
     $container,
+    //@ts-ignore
     emptyMutable,
   );
 
@@ -43,9 +44,17 @@ export const container: AsyncComponent<
     for (const childComponent of childList) childComponent.$destroy();
   };
 
-  const add = (...displayObjectsMutable: DisplayObjectMutable<any>[]) => {
+  const add = (
+    ...displayObjectsMutable: InternalDisplayObjectMutable<
+      DisplayObject,
+      any,
+      any,
+      any
+    >[]
+  ) => {
     for (const currentDisplayObjectMutable of displayObjectsMutable) {
-      currentDisplayObjectMutable.getFather = () => displayObjectMutable;
+      currentDisplayObjectMutable.getFather = () =>
+        displayObjectMutable as ComponentMutable<any, any, any>;
 
       $container.addChild(
         currentDisplayObjectMutable.getDisplayObject({
@@ -57,7 +66,14 @@ export const container: AsyncComponent<
     }
   };
 
-  const remove = (...displayObjectsMutable: DisplayObjectMutable<any>[]) => {
+  const remove = (
+    ...displayObjectsMutable: InternalDisplayObjectMutable<
+      DisplayObject,
+      any,
+      any,
+      any
+    >[]
+  ) => {
     displayObjectsMutable.forEach((displayObjectMutable) => {
       displayObjectMutable.getFather = () => null;
 
@@ -84,20 +100,23 @@ export const container: AsyncComponent<
     }
   };
 
-  return displayObjectMutable.getComponent<
-    InternalMutable<ContainerMutable, false>
-  >(container as any, {
-    //
+  const $mutable: Partial<InternalContainerMutable<Props, unknown, Data>> &
+    PartialContainerMutable = {
     add,
     remove,
     getChildren,
 
     setBody,
 
-    getProps: () => $props as any,
+    getProps: () => $props as Props,
 
     $destroy,
 
     $mutable: false,
-  });
+  };
+
+  return displayObjectMutable.getComponent(
+    container,
+    $mutable as InternalContainerMutable<Props, Mutable, Data>,
+  );
 };

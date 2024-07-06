@@ -1,4 +1,4 @@
-import { SoundMutable } from "../../types";
+import { SoundMutable } from "../../../types";
 
 describe("sub-components", () => {
   describe("core", () => {

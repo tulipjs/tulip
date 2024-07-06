@@ -10,7 +10,7 @@
     "@jridgewell/gen-mapping" "^0.3.5"
     "@jridgewell/trace-mapping" "^0.3.24"
 
-"@babel/code-frame@^7.0.0", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.24.7":
+"@babel/code-frame@^7.0.0", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.21.4", "@babel/code-frame@^7.24.7":
   version "7.24.7"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.24.7.tgz#882fd9e09e8ee324e496bd040401c6f046ef4465"
   integrity sha512-BcYH1CVJBO9tvyIZ2jVeXgSIMvGZ2FDRvDdOIVQyuklNKSsx+eppDEBq/g47Ayw+RqNFE+URvOShmf+f/qwAlA==
@@ -1269,6 +1269,11 @@
   dependencies:
     "@sinonjs/commons" "^3.0.0"
 
+"@tsd/typescript@^5.5.3":
+  version "5.5.3"
+  resolved "https://registry.yarnpkg.com/@tsd/typescript/-/typescript-5.5.3.tgz#f994fcb14ca44762efbbc63e1704cb33e05118e9"
+  integrity sha512-B/jKHNqHYlJHe6EciY5ldPnPDc3nyqoitQonMVRCq2elp5YjOZ88D7mD9OxSW9yY/WbJcG3CH+CB4efUyOx80g==
+
 "@tulib/vite-tulip-plugin@1.0.7":
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/@tulib/vite-tulip-plugin/-/vite-tulip-plugin-1.0.7.tgz#43e143fa3503616901d2191772ab8a26ac432ede"
@@ -1598,7 +1603,7 @@ chalk@^2.4.2:
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
-chalk@^4.0.0:
+chalk@^4.0.0, chalk@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-4.1.2.tgz#aac4e2b7734a740867aeb16bf02aad556a1e7a01"
   integrity sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==
@@ -2355,6 +2360,15 @@ jest-snapshot@^29.7.0:
     pretty-format "^29.7.0"
     semver "^7.5.3"
 
+jest-tsd@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/jest-tsd/-/jest-tsd-0.2.2.tgz#d2dec454f7ecdd8a26b37e37df4ba69f197ffe18"
+  integrity sha512-Nzgo5E9F1RON3GDkAHxVOf1dqSSRMnhJ5txULHhhK+qs2xSLmLWBbtYjKSlAYNpW/fOXSrGPOs6uE0YyWAchhA==
+  dependencies:
+    "@babel/code-frame" "^7.21.4"
+    chalk "^4.1.2"
+    tsd-lite "^0.7.0"
+
 jest-util@^29.7.0:
   version "29.7.0"
   resolved "https://registry.yarnpkg.com/jest-util/-/jest-util-29.7.0.tgz#23c2b62bfb22be82b44de98055802ff3710fc0bc"
@@ -2933,6 +2947,11 @@ to-regex-range@^5.0.1:
   integrity sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==
   dependencies:
     is-number "^7.0.0"
+
+tsd-lite@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/tsd-lite/-/tsd-lite-0.7.0.tgz#838b4cff49082802eb08158afe7875acd1d74d36"
+  integrity sha512-XhQ7w/RPzfjSb98LIQB1qx7yAvRV6+h5JFP4dCvd79Hbp23X8CCx4EdRAQm6faTkRdprKYvZE8kxlK6LpJp8vg==
 
 type-detect@4.0.8:
   version "4.0.8"

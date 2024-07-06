@@ -1,8 +1,14 @@
 import { MutableFunction } from "./mutables.types";
 import { Point } from "./point.types";
 import { DisplayObjectEvent, EventMode } from "../enums";
-import { ComponentMutable, ComponentProps } from "./component.types";
 import { Size } from "./size.types";
+import {
+  AsyncEmptyComponent,
+  EmptyComponent,
+  InternalEmptyMutable,
+} from "./components/empty.types";
+import { DisplayObject as DO } from "./pixi.types";
+import { ComponentMutable } from "./component.types";
 
 export type DisplayObjectProps = {
   pivot?: Point;
@@ -11,9 +17,9 @@ export type DisplayObjectProps = {
   zIndex?: number;
   alpha?: number;
   tint?: number;
-} & ComponentProps;
+};
 
-export type DisplayObjectMutable<DisplayObject> = {
+export type PartialDisplayObjectMutable<DisplayObject> = {
   //############### RENDER ###############
   /**
    * @deprecated Prevent the use of "getDisplayObject()" in favor to add more functions to do specific tasks!
@@ -48,4 +54,49 @@ export type DisplayObjectMutable<DisplayObject> = {
   getTint: () => number;
   //bounds
   getBounds: () => Size;
-} & ComponentMutable;
+};
+
+export type DisplayObjectMutable<DisplayObject> =
+  PartialDisplayObjectMutable<DisplayObject> & ComponentMutable;
+
+////////////////////////////
+export type InternalAsyncDisplayObjectMutable<
+  DisplayObject extends DO,
+  Props = {},
+  Mutable = {},
+  Data = {},
+> = Promise<InternalDisplayObjectMutable<DisplayObject, Props, Mutable, Data>>;
+
+export type InternalDisplayObjectMutable<
+  DisplayObject extends DO,
+  Props = {},
+  Mutable = {},
+  Data = {},
+> = InternalEmptyMutable<
+  DisplayObjectProps & Props,
+  PartialDisplayObjectMutable<DisplayObject> & Mutable,
+  Data
+>;
+
+////////////////////////////
+export type DisplayObjectComponent<
+  DisplayObject extends DO,
+  Props = {},
+  Mutable = {},
+  Data = {},
+> = EmptyComponent<
+  DisplayObjectProps & Props,
+  PartialDisplayObjectMutable<DisplayObject> & Mutable,
+  Data
+>;
+
+export type AsyncDisplayObjectComponent<
+  DisplayObject extends DO,
+  Props = {},
+  Mutable = {},
+  Data = {},
+> = AsyncEmptyComponent<
+  DisplayObjectProps & Props,
+  PartialDisplayObjectMutable<DisplayObject> & Mutable,
+  Data
+>;

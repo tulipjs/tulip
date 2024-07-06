@@ -1,17 +1,17 @@
 import * as PIXI from "pixi.js";
 import {
-  AsyncComponent,
-  InternalMutable,
+  InternalAsyncSpriteMutable,
+  InternalSpriteMutable,
   Sprite,
-  SpriteMutable,
-  SpriteProps,
+  PartialSpriteMutable,
+  PartialSpriteProps,
 } from "../../types";
 import { initDisplayObjectMutable } from "../../utils";
 import { empty } from "./empty.component";
 
-export const sprite: AsyncComponent<SpriteProps, SpriteMutable, false> = async (
-  originalProps,
-) => {
+export const sprite = async <Props, Mutable, Data>(
+  originalProps = {} as PartialSpriteProps & Props,
+): InternalAsyncSpriteMutable<Props, Mutable, Data> => {
   const { texture = undefined } = originalProps;
 
   const $props = structuredClone(originalProps);
@@ -31,10 +31,11 @@ export const sprite: AsyncComponent<SpriteProps, SpriteMutable, false> = async (
   };
 
   const $sprite = new PIXI.Sprite(spriteTexture) as Sprite;
-  const emptyMutable = empty(originalProps);
+  const emptyMutable = empty<Props, Mutable, Data>(originalProps);
 
   const displayObjectMutable = await initDisplayObjectMutable<Sprite>(
     $sprite,
+    //@ts-ignore
     emptyMutable,
   );
 
@@ -46,7 +47,7 @@ export const sprite: AsyncComponent<SpriteProps, SpriteMutable, false> = async (
   const $$getRaw = displayObjectMutable.$getRaw;
   const $$destroy = displayObjectMutable.$destroy;
 
-  const $getRaw = (): SpriteProps => ({
+  const $getRaw = (): PartialSpriteProps => ({
     ...$$getRaw(),
     texture: $texture,
   });
@@ -60,17 +61,22 @@ export const sprite: AsyncComponent<SpriteProps, SpriteMutable, false> = async (
     displayObjectMutable.getFather = () => null;
   };
 
-  return displayObjectMutable.getComponent<
-    InternalMutable<SpriteMutable, false>
-  >(sprite as any, {
+  const $mutable: Partial<InternalSpriteMutable<Props, unknown, Data>> &
+    PartialSpriteMutable = {
     // sprite
     setTexture,
 
     getProps: () => $props as any,
 
     $destroy,
+    //@ts-ignore
     $getRaw,
 
     $mutable: false,
-  });
+  };
+
+  return displayObjectMutable.getComponent(
+    sprite,
+    $mutable as InternalSpriteMutable<Props, Mutable, Data>,
+  );
 };

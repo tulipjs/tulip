@@ -1,24 +1,24 @@
 import * as PIXI from "pixi.js";
 import {
-  AsyncComponent,
-  InternalMutable,
+  InternalAsyncTextMutable,
+  InternalTextMutable,
   Point,
   Text,
-  TextMutable,
-  TextProps,
+  PartialTextMutable,
+  PartialTextProps,
 } from "../../types";
 import { initDisplayObjectMutable } from "../../utils";
 import { empty } from "./empty.component";
 
-export const text: AsyncComponent<TextProps, TextMutable, false> = async (
-  originalProps,
-) => {
-  const { font, text, color, size } = originalProps;
+export const text = async <Props, Mutable, Data>(
+  originalProps = {} as PartialTextProps & Props,
+): InternalAsyncTextMutable<Props, Mutable, Data> => {
+  const { font, text: currentText, color, size } = originalProps;
 
   const $props = structuredClone(originalProps);
 
   const $text = new PIXI.Text({
-    text,
+    text: currentText,
     style: { fontFamily: font, fontSize: size, fill: color },
   }) as Text;
 
@@ -26,6 +26,7 @@ export const text: AsyncComponent<TextProps, TextMutable, false> = async (
 
   const displayObjectMutable = await initDisplayObjectMutable<Text>(
     $text,
+    //@ts-ignore
     emptyMutable,
   );
 
@@ -39,28 +40,32 @@ export const text: AsyncComponent<TextProps, TextMutable, false> = async (
 
   const $$getRaw = displayObjectMutable.$getRaw;
 
-  const $getRaw = (): TextProps => ({
+  const $getRaw = (): PartialTextProps => ({
     ...$$getRaw(),
     font,
-    text,
+    text: currentText,
     color,
     size,
   });
 
   const $getText = () => $text;
 
-  return displayObjectMutable.getComponent<InternalMutable<TextMutable, false>>(
-    text as any,
-    {
-      setText,
-      setSkew,
+  const $mutable: Partial<InternalTextMutable<Props, unknown, Data>> &
+    PartialTextMutable = {
+    setText,
+    setSkew,
 
-      getProps: () => $props as any,
+    getProps: () => $props as any,
 
-      $getRaw,
-      $getText,
+    //@ts-ignore
+    $getRaw,
+    $getText,
 
-      $mutable: false,
-    },
+    $mutable: false,
+  };
+
+  return displayObjectMutable.getComponent(
+    text,
+    $mutable as InternalTextMutable<Props, Mutable, Data>,
   );
 };

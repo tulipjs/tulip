@@ -1,7 +1,8 @@
 {
   "scripts": {
     "start": "vite --host",
-    "build": "vite build"
+    "build": "vite build",
+    "link": "yarn link @tulib/tulip"
   },
   "type": "module",
   "devDependencies": {

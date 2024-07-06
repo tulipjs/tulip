@@ -1,17 +1,22 @@
 import { body, container, graphics } from "../";
 import { GraphicType, Shape } from "../../enums";
-import { AsyncComponent, CapsuleProps, ContainerMutable } from "../../types";
+import {
+  CapsuleProps,
+  ContainerComponent,
+  PartialContainerMutable,
+} from "../../types";
 
-export const capsule: AsyncComponent<CapsuleProps, ContainerMutable> = async (
-  props,
-) => {
+export const capsule: ContainerComponent<
+  CapsuleProps,
+  PartialContainerMutable
+> = async (props) => {
   const $container = await container({
     ...props,
   });
 
   const {
     props: { color, length, radius, mass, material },
-  } = $container.getProps<CapsuleProps>();
+  } = $container.getProps();
 
   const $capsule = await graphics({
     color,
