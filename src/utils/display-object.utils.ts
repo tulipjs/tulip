@@ -8,6 +8,7 @@ import {
 import { getValueMutableFunction } from "./mutables.utils";
 import { DisplayObjectEvent, Event, EventMode } from "../enums";
 import { global } from "../global";
+import { isNullish } from "./nullish.utils";
 
 export const initDisplayObjectMutable = async <
   DisplayObject extends PIXIDisplayObject,
@@ -24,14 +25,17 @@ export const initDisplayObjectMutable = async <
   const $$setPositionY = componentMutable.setPositionY;
   const $$setAngle = componentMutable.setAngle;
   const $$getAngle = componentMutable.getAngle;
+
   const $$destroy = componentMutable.$destroy;
   const $$getRaw = componentMutable.$getRaw;
 
+  //label
   const setLabel = (label: string) => {
     $$setLabel(label);
     displayObject.label = label;
   };
 
+  //position
   const setPosition = async (data) => {
     await $$setPosition(data);
     displayObject.position = await getValueMutableFunction<Point>(
@@ -54,6 +58,7 @@ export const initDisplayObjectMutable = async <
     );
   };
 
+  //pivot
   const setPivot = async (data) =>
     (displayObject.pivot = await getValueMutableFunction<Point>(
       data,
@@ -69,7 +74,6 @@ export const initDisplayObjectMutable = async <
       data,
       displayObject.pivot.y,
     ));
-
   const getPivot = () =>
     ({
       x: displayObject?.pivot?.x || 0,
@@ -83,6 +87,7 @@ export const initDisplayObjectMutable = async <
     ));
   const getVisible = () => displayObject.visible;
 
+  //zIndex
   const setZIndex = async (data) =>
     (displayObject.zIndex = await getValueMutableFunction<number>(
       data,
@@ -90,6 +95,7 @@ export const initDisplayObjectMutable = async <
     ));
   const getZIndex = () => displayObject.zIndex;
 
+  //alpha
   const setAlpha = async (data) =>
     (displayObject.alpha = await getValueMutableFunction<number>(
       data,
@@ -97,6 +103,7 @@ export const initDisplayObjectMutable = async <
     ));
   const getAlpha = () => displayObject.alpha;
 
+  //angle
   const setAngle = async (data) => {
     displayObject.angle = await getValueMutableFunction<number>(
       data,
@@ -106,6 +113,7 @@ export const initDisplayObjectMutable = async <
   };
   const getAngle = () => $$getAngle() || displayObject.angle;
 
+  //eventMode
   const setEventMode = async (data) => {
     displayObject.eventMode = await getValueMutableFunction<EventMode>(
       data,
@@ -114,6 +122,21 @@ export const initDisplayObjectMutable = async <
     await $$setAngle(displayObject.angle);
   };
   const getEventMode = () => displayObject.eventMode as EventMode;
+
+  //tint
+  const setTint = async (data) => {
+    displayObject.tint = await getValueMutableFunction<number>(
+      data,
+      displayObject.tint,
+    );
+  };
+  const getTint = () => displayObject.tint;
+
+  //bounds
+  const getBounds = () => {
+    const { width, height } = displayObject.getBounds();
+    return { width, height };
+  };
 
   const $destroy = () => {
     componentMutable.getFather = () => null;
@@ -151,15 +174,16 @@ export const initDisplayObjectMutable = async <
 
   // Set initials
   {
-    const { label, position, pivot, angle, alpha, eventMode } =
+    const { label, position, pivot, angle, alpha, eventMode, tint } =
       componentMutable.getProps<DisplayObjectProps>();
 
-    if (label !== undefined) setLabel(label);
-    if (position !== undefined) await setPosition(position);
-    if (pivot !== undefined) await setPivot(pivot);
-    if (angle !== undefined) await setAngle(angle);
-    if (alpha !== undefined) await setAlpha(alpha);
-    if (eventMode !== undefined) await setEventMode(eventMode);
+    if (isNullish(label)) setLabel(label);
+    if (isNullish(position)) await setPosition(position);
+    if (isNullish(pivot)) await setPivot(pivot);
+    if (isNullish(angle)) await setAngle(angle);
+    if (isNullish(alpha)) await setAlpha(alpha);
+    if (isNullish(eventMode)) await setEventMode(eventMode);
+    if (isNullish(tint)) await setEventMode(eventMode);
 
     on(DisplayObjectEvent.TICK, () => {
       // If not body present, it doesn't make sense to iterate
@@ -174,7 +198,13 @@ export const initDisplayObjectMutable = async <
   return componentMutable.getComponent<DisplayObjectMutable<DisplayObject>>(
     initDisplayObject as any,
     {
-      getDisplayObject: (): DisplayObject => displayObject,
+      getDisplayObject: (props): DisplayObject => {
+        if (!props?.__preventWarning)
+          console.warn(
+            `Prevent the use of "getDisplayObject()" in favor to add more functions to do specific tasks!`,
+          );
+        return displayObject;
+      },
 
       setLabel,
       //position
@@ -202,6 +232,11 @@ export const initDisplayObjectMutable = async <
       //eventMode
       setEventMode,
       getEventMode,
+      //tint
+      setTint,
+      getTint,
+      //bounds
+      getBounds,
 
       //events
       on,

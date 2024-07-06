@@ -64,9 +64,9 @@ describe("components", () => {
         );
       });
       test("getLabel() check that initDisplayObjectMutable(...) is being called", () => {
-        expect($animatedSprite.getDisplayObject().label).toStrictEqual(
-          "animated-sprite-label",
-        );
+        expect(
+          $animatedSprite.getDisplayObject({ __preventWarning: true }).label,
+        ).toStrictEqual("animated-sprite-label");
         expect($animatedSprite.getLabel()).toStrictEqual(
           "animated-sprite-label",
         );
@@ -96,7 +96,9 @@ describe("components", () => {
         expect($animatedSprite.getPlayStatus()).toStrictEqual(PlayStatus.PLAY);
         expect(mockPlay).toHaveBeenCalled();
         expect(mockStop).not.toHaveBeenCalled();
-        expect($animatedSprite.getDisplayObject().loop).toStrictEqual(true);
+        expect(
+          $animatedSprite.getDisplayObject({ __preventWarning: true }).loop,
+        ).toStrictEqual(true);
 
         mockPlay.mockClear();
         mockStop.mockClear();
@@ -115,7 +117,9 @@ describe("components", () => {
         );
         expect(mockPlay).toHaveBeenCalled();
         expect(mockStop).not.toHaveBeenCalled();
-        expect($animatedSprite.getDisplayObject().loop).toStrictEqual(false);
+        expect(
+          $animatedSprite.getDisplayObject({ __preventWarning: true }).loop,
+        ).toStrictEqual(false);
       });
       test("getProps() returns all the original properties", () => {
         expect($animatedSprite.getProps()).toEqual({

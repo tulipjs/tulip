@@ -111,11 +111,15 @@ describe("components", () => {
       });
       test("setColor(...) check if 'tint' is set", async () => {
         expect($polygon.getColor()).toStrictEqual(0xff00ff);
-        expect($polygon.getDisplayObject().tint).toStrictEqual(0xff00ff);
+        expect(
+          $polygon.getDisplayObject({ __preventWarning: true }).tint,
+        ).toStrictEqual(0xff00ff);
 
         $polygon.setColor(0xff0000);
         expect($polygon.getColor()).toStrictEqual(0xff0000);
-        expect($polygon.getDisplayObject().tint).toStrictEqual(0xff0000);
+        expect(
+          $polygon.getDisplayObject({ __preventWarning: true }).tint,
+        ).toStrictEqual(0xff0000);
       });
       test("setPolygon(...) change graphics type", () => {
         $circle.setPolygon([0, 20, 0, 230]);

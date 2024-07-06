@@ -38,21 +38,25 @@ describe("components", () => {
         $container.add($childContainer);
 
         expect($container.getChildren()).toContain($childContainer);
-        expect($container.getDisplayObject().children).toContain(
-          $childContainer.getDisplayObject(),
+        expect(
+          $container.getDisplayObject({ __preventWarning: true }).children,
+        ).toContain(
+          $childContainer.getDisplayObject({ __preventWarning: true }),
         );
       });
       test("getFather() check that father is the current container", async () => {
         expect($childContainer.getFather()).toBe($container);
-        expect($childContainer.getDisplayObject().parent).toEqual(
-          $container.getDisplayObject(),
-        );
+        expect(
+          $childContainer.getDisplayObject({ __preventWarning: true }).parent,
+        ).toEqual($container.getDisplayObject({ __preventWarning: true }));
       });
       test("remove(...) remove a display object from other", () => {
         $container.remove($childContainer);
         expect($container.getChildren()).not.toContain($childContainer);
-        expect($container.getDisplayObject().children).not.toContain(
-          $childContainer.getDisplayObject(),
+        expect(
+          $container.getDisplayObject({ __preventWarning: true }).children,
+        ).not.toContain(
+          $childContainer.getDisplayObject({ __preventWarning: true }),
         );
       });
       test("setBody(...) to add the body", () => {
@@ -83,8 +87,12 @@ describe("components", () => {
         });
       });
       test("$destroy()", () => {
-        const displayObject = $container.getDisplayObject();
-        const childDisplayObject = $childContainer.getDisplayObject();
+        const displayObject = $container.getDisplayObject({
+          __preventWarning: true,
+        });
+        const childDisplayObject = $childContainer.getDisplayObject({
+          __preventWarning: true,
+        });
 
         expect(displayObject.destroyed).toBe(false);
         expect(childDisplayObject.destroyed).toBe(false);
@@ -95,8 +103,10 @@ describe("components", () => {
 
         $container.$destroy();
 
-        expect($container.getDisplayObject().children).not.toContain(
-          $childContainer.getDisplayObject(),
+        expect(
+          $container.getDisplayObject({ __preventWarning: true }).children,
+        ).not.toContain(
+          $childContainer.getDisplayObject({ __preventWarning: true }),
         );
         expect(displayObject.parent).toEqual(null);
         expect(childDisplayObject.parent).toEqual(null);

@@ -5,6 +5,9 @@ import { Container, DisplayObjectMutable } from "../../types";
 import { expect } from "@jest/globals";
 import { EventMode } from "../../enums";
 
+const warnMock = jest.fn();
+console.warn = warnMock;
+
 describe("utils", () => {
   describe("initDisplayObjectMutable", () => {
     // const mockSetLabel = jest.fn();
@@ -22,6 +25,10 @@ describe("utils", () => {
       eventMode: EventMode.DYNAMIC,
     });
 
+    beforeEach(() => {
+      warnMock.mockClear();
+    });
+
     const container = new PIXI.Container();
     let displayObjectMutable: DisplayObjectMutable<Container>;
 
@@ -32,6 +39,12 @@ describe("utils", () => {
       );
 
       expect(container).toStrictEqual(displayObjectMutable.getDisplayObject());
+      expect(warnMock).toBeCalledWith(
+        'Prevent the use of "getDisplayObject()" in favor to add more functions to do specific tasks!',
+      );
+      warnMock.mockClear();
+      displayObjectMutable.getDisplayObject({ __preventWarning: true });
+      expect(warnMock).not.toBeCalled();
     });
     test("setLabel(...) of the display object", async () => {
       expect(container.label).toBe("Old label");
@@ -142,6 +155,28 @@ describe("utils", () => {
       expect(displayObjectMutable.getEventMode()).toStrictEqual(
         EventMode.PASSIVE,
       );
+    });
+    test("setTint(...) of the display object", async () => {
+      expect(container.tint).toBe(0xffffff);
+      expect(displayObjectMutable.getTint()).toStrictEqual(0xffffff);
+
+      await displayObjectMutable.setTint(0xff00ff);
+      expect(container.tint).toBe(0xff00ff);
+      expect(displayObjectMutable.getTint()).toStrictEqual(0xff00ff);
+    });
+    test("getBounds() of the display object", async () => {
+      expect(container.getBounds()).toStrictEqual(
+        expect.objectContaining({
+          maxX: 0,
+          maxY: 0,
+          minX: 0,
+          minY: 0,
+        }),
+      );
+      expect(displayObjectMutable.getBounds()).toStrictEqual({
+        height: 0,
+        width: 0,
+      });
     });
     test("$getRaw() to contain all the elements", async () => {
       expect(displayObjectMutable.$getRaw()).toStrictEqual({

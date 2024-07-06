@@ -2,6 +2,7 @@ import { MutableFunction } from "./mutables.types";
 import { Point } from "./point.types";
 import { DisplayObjectEvent, EventMode } from "../enums";
 import { ComponentMutable, ComponentProps } from "./component.types";
+import { Size } from "./size.types";
 
 export type DisplayObjectProps = {
   pivot?: Point;
@@ -9,11 +10,15 @@ export type DisplayObjectProps = {
   visible?: boolean;
   zIndex?: number;
   alpha?: number;
+  tint?: number;
 } & ComponentProps;
 
 export type DisplayObjectMutable<DisplayObject> = {
   //############### RENDER ###############
-  getDisplayObject: () => DisplayObject;
+  /**
+   * @deprecated Prevent the use of "getDisplayObject()" in favor to add more functions to do specific tasks!
+   */
+  getDisplayObject: (data?: { __preventWarning: boolean }) => DisplayObject;
 
   //pivot
   setPivot: (pivot: MutableFunction<Point>) => Promise<void>;
@@ -38,4 +43,9 @@ export type DisplayObjectMutable<DisplayObject> = {
   //eventMode
   setEventMode: (eventMode: EventMode) => Promise<void>;
   getEventMode: () => EventMode;
+  //tint
+  setTint: (tint: number) => Promise<void>;
+  getTint: () => number;
+  //bounds
+  getBounds: () => Size;
 } & ComponentMutable;

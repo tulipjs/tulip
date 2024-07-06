@@ -69,11 +69,17 @@ describe("components", () => {
         });
       });
       test("$destroy() destroys everything", () => {
-        expect($sprite.getDisplayObject().parent).not.toBe(null);
+        expect(
+          $sprite.getDisplayObject({ __preventWarning: true }).parent,
+        ).not.toBe(null);
         expect($sprite.getFather()).toBe($container);
         $sprite.$destroy();
-        expect($sprite.getDisplayObject().destroyed).toBe(true);
-        expect($sprite.getDisplayObject().parent).toBe(null);
+        expect(
+          $sprite.getDisplayObject({ __preventWarning: true }).destroyed,
+        ).toBe(true);
+        expect(
+          $sprite.getDisplayObject({ __preventWarning: true }).parent,
+        ).toBe(null);
         expect($sprite.getFather()).toBe(null);
       });
     });

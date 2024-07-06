@@ -47,17 +47,23 @@ export const container: AsyncComponent<
     for (const currentDisplayObjectMutable of displayObjectsMutable) {
       currentDisplayObjectMutable.getFather = () => displayObjectMutable;
 
-      $container.addChild(currentDisplayObjectMutable.getDisplayObject());
+      $container.addChild(
+        currentDisplayObjectMutable.getDisplayObject({
+          __preventWarning: true,
+        }),
+      );
       childList.push(currentDisplayObjectMutable);
       global.$addComponent(currentDisplayObjectMutable);
     }
   };
 
-  const remove = (...displayObjectsMutables: DisplayObjectMutable<any>[]) => {
-    displayObjectsMutables.forEach((displayObjectMutable) => {
+  const remove = (...displayObjectsMutable: DisplayObjectMutable<any>[]) => {
+    displayObjectsMutable.forEach((displayObjectMutable) => {
       displayObjectMutable.getFather = () => null;
 
-      $container.removeChild(displayObjectMutable.getDisplayObject());
+      $container.removeChild(
+        displayObjectMutable.getDisplayObject({ __preventWarning: true }),
+      );
       childList = childList.filter((child) => child !== displayObjectMutable);
       global.$removeComponent(displayObjectMutable);
     });
