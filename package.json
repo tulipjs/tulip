@@ -37,7 +37,8 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "prettier:check": "prettier . --check",
-    "prettier": "prettier . --write"
+    "prettier": "prettier . --write",
+    "link": "yarn link"
   },
   "exclude": [
     "**/*.test-d.ts"

@@ -14,8 +14,8 @@ export const initDisplayObjectMutable = async <
   DisplayObject extends PIXIDisplayObject,
 >(
   displayObject: DisplayObject,
-  componentMutable: InternalDisplayObjectMutable<any, {}, {}, {}>,
-): InternalAsyncDisplayObjectMutable<DisplayObject, {}, {}, {}> => {
+  componentMutable: InternalDisplayObjectMutable<any>,
+): InternalAsyncDisplayObjectMutable<DisplayObject> => {
   let $isRemoved = false;
 
   const $$setLabel = componentMutable.setLabel;

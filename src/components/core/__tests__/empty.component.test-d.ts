@@ -1,6 +1,6 @@
 import { expectAssignable } from "jest-tsd";
 import { empty } from "../empty.component";
-import { EmptyComponent } from "../../../types";
+import { BodyMutable, EmptyComponent, Point } from "../../../types";
 
 type Props = {
   abc: boolean;
@@ -9,31 +9,38 @@ type Mutable = {
   shazam: () => boolean;
 };
 type Data = {
-  aha: number;
+  aha: string;
 };
 
-const comp: EmptyComponent<Props, Mutable, Data> = ({
-  angle,
-  abc,
-  label,
-  position,
-  id,
-}) => {
-  const $container = empty();
-  return $container.getComponent(comp, {
-    shazam: () => {},
+const emptyComponent: EmptyComponent<Props, Mutable, Data> = () => {
+  const $container = empty<Props, Mutable, Data>();
+  return $container.getComponent(emptyComponent, {
+    shazam: () => false,
   });
 };
-(async () => {
-  const aaa = comp({ abc: false });
 
-  aaa.getProps().initialData;
-  aaa.shazam();
-  aaa.getProps().abc;
-  aaa.getData().aha;
-})();
+const $empty = emptyComponent({ abc: false });
 
-test("test", async () => {
-  const test = comp({ abc: false });
-  expectAssignable<{ initialData: Data }>(test.getProps());
+test("expect mutable from empty", async () => {
+  expectAssignable<Function>($empty.setLabel);
+  expectAssignable<Function>($empty.setBody);
+  expectAssignable<Function>($empty.setPosition);
+
+  expectAssignable<() => string>($empty.getId);
+  expectAssignable<() => string>($empty.getLabel);
+  expectAssignable<Function>($empty.getFather);
+  expectAssignable<() => BodyMutable>($empty.getBody);
+  expectAssignable<() => Point>($empty.getPosition);
+
+  expectAssignable<Function>($empty.$getRaw);
+
+  expectAssignable<Function>($empty.getProps);
+});
+
+test("expect custom mutable from empty", async () => {
+  expectAssignable<() => boolean>($empty.shazam);
+});
+
+test("expect custom props from empty", async () => {
+  expectAssignable<Partial<{ abc: boolean }>>($empty.getProps());
 });
