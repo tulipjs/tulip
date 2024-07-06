@@ -2,11 +2,7 @@ name: Build
 on:
   push:
     branches: [master]
-    paths:
-      - src/**
   pull_request:
-    paths:
-      - src/**
 
 jobs:
   tests:
