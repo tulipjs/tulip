@@ -110,7 +110,9 @@ describe("components", () => {
         $world.add($container);
         expect($world.$getWorld().bodies.length).not.toEqual(0);
         $world.$destroy();
-        expect($world.getDisplayObject().destroyed).toEqual(true);
+        expect(
+          $world.getDisplayObject({ __preventWarning: true }).destroyed,
+        ).toEqual(true);
         expect($world.$getWorld().bodies.length).toEqual(0);
       });
     });

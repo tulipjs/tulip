@@ -165,13 +165,17 @@ export const application = async ({
       displayObjectMutable.getFather = () => mutable as any;
 
       global.$addComponent(displayObjectMutable);
-      application.stage.addChild(displayObjectMutable.getDisplayObject());
+      application.stage.addChild(
+        displayObjectMutable.getDisplayObject({ __preventWarning: true }),
+      );
     },
     remove: (displayObjectMutable: DisplayObjectMutable<DisplayObject>) => {
       displayObjectMutable.getFather = null;
 
       global.$removeComponent(displayObjectMutable);
-      application.stage.removeChild(displayObjectMutable.getDisplayObject());
+      application.stage.removeChild(
+        displayObjectMutable.getDisplayObject({ __preventWarning: true }),
+      );
     },
 
     start,

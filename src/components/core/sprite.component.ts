@@ -63,8 +63,6 @@ export const sprite: AsyncComponent<SpriteProps, SpriteMutable, false> = async (
   return displayObjectMutable.getComponent<
     InternalMutable<SpriteMutable, false>
   >(sprite as any, {
-    getDisplayObject: () => $sprite,
-
     // sprite
     setTexture,
 

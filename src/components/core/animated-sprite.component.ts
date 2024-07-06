@@ -105,8 +105,6 @@ export const animatedSprite: AsyncComponent<
   return displayObjectMutable.getComponent<
     InternalMutable<AnimatedSpriteMutable, false>
   >(animatedSprite as any, {
-    getDisplayObject: () => $animatedSprite,
-
     setSpriteSheet,
     getSpriteSheet,
 
