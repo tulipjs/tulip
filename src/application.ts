@@ -16,6 +16,7 @@ export const application = async ({
   importMetaEnv = null,
   importMetaHot = null,
   showFPS = APPLICATION_DEFAULT_PROPS.showFPS,
+  pointerLock = APPLICATION_DEFAULT_PROPS.pointerLock,
 }: ApplicationProps = APPLICATION_DEFAULT_PROPS) => {
   const application = new PIXI.Application();
 
@@ -116,11 +117,17 @@ export const application = async ({
   window.addEventListener("resize", resize);
   resize();
 
-  document.body.appendChild(application.canvas);
   global.$setApplication(application);
+
+  if (pointerLock) {
+    application.canvas.addEventListener("click", () => {
+      application.canvas.requestPointerLock();
+    });
+  }
 
   //### DOCUMENT #####################################################################################################//
 
+  document.body.appendChild(application.canvas);
   document.addEventListener("keydown", (event: KeyboardEvent) =>
     global.events.$emit(Event.KEY_DOWN, event),
   );
