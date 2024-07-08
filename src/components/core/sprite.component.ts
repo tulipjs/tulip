@@ -17,9 +17,6 @@ export const sprite = async <Props, Mutable, Data>(
   const $props = structuredClone(originalProps);
 
   let $texture = texture;
-  const spriteTexture = texture
-    ? await PIXI.Assets.load(texture)
-    : PIXI.Texture.EMPTY;
 
   const $getTexture = async (texture?: string) => {
     const targetTexture = texture
@@ -29,6 +26,7 @@ export const sprite = async <Props, Mutable, Data>(
 
     return targetTexture;
   };
+  const spriteTexture = await $getTexture(texture);
 
   const $sprite = new PIXI.Sprite(spriteTexture) as Sprite;
   const emptyMutable = empty<Props, Mutable, Data>(originalProps);
