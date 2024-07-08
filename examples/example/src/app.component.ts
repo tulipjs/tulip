@@ -6,6 +6,7 @@ import {
   GraphicType,
   plane,
   text,
+  textSprite,
   world,
 } from "@tulib/tulip";
 import { flyComponent } from "fly.component";
@@ -93,6 +94,21 @@ export const appComponent: AsyncComponent<Props, Mutable> = async () => {
   $text2.setSkew({ x: 0.2, y: 0 });
 
   $container.add($text2);
+
+  const $pixelPerfectText = await textSprite({
+    text: "ab c$ABC;123",
+    spriteSheet: "fonts/default-font.json",
+    color: 0xff0000,
+    alpha: 0.75,
+  });
+
+  setTimeout(() => {
+    $pixelPerfectText.setColor(0x00ff00);
+  }, 500);
+  setTimeout(() => {
+    $pixelPerfectText.setText("hallo...");
+  }, 1_000);
+  $container.add($pixelPerfectText);
 
   return $container.getComponent(appComponent);
 };
