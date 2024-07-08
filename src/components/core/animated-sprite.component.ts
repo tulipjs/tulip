@@ -1,10 +1,10 @@
 import * as PIXI from "pixi.js";
 import {
   AnimatedSprite,
-  PartialAnimatedSpriteMutable,
-  PartialAnimatedSpriteProps,
   InternalAnimatedSpriteMutable,
   InternalAsyncAnimatedSpriteMutable,
+  PartialAnimatedSpriteMutable,
+  PartialAnimatedSpriteProps,
 } from "../../types";
 import { empty } from "./empty.component";
 import { initDisplayObjectMutable } from "../../utils";

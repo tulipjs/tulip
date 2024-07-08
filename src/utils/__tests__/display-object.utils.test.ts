@@ -3,7 +3,7 @@ import { initDisplayObjectMutable } from "../display-object.utils";
 import { empty } from "../../components";
 import { Container, DisplayObjectMutable } from "../../types";
 import { expect } from "@jest/globals";
-import { EventMode } from "../../enums";
+import { Cursor, EventMode } from "../../enums";
 
 const warnMock = jest.fn();
 console.warn = warnMock;
@@ -179,6 +179,28 @@ describe("utils", () => {
         width: 0,
       });
     });
+    test("setCursor(...) of the display object", async () => {
+      expect(container.cursor).toBe(undefined);
+      expect(displayObjectMutable.getCursor()).toStrictEqual(Cursor.AUTO);
+
+      await displayObjectMutable.setCursor(Cursor.CROSSHAIR);
+      expect(warnMock).toBeCalled();
+
+      expect(container.cursor).toBe(Cursor.CROSSHAIR);
+      expect(displayObjectMutable.getCursor()).toStrictEqual(Cursor.CROSSHAIR);
+
+      warnMock.mockClear();
+      await displayObjectMutable.setEventMode(EventMode.STATIC);
+      await displayObjectMutable.setCursor(Cursor.ALIAS);
+      expect(displayObjectMutable.getCursor()).toStrictEqual(Cursor.ALIAS);
+      expect(warnMock).not.toBeCalled();
+
+      warnMock.mockClear();
+      await displayObjectMutable.setEventMode(EventMode.NONE);
+      await displayObjectMutable.setCursor(Cursor.COL_E_SIZE, true);
+      expect(displayObjectMutable.getCursor()).toStrictEqual(Cursor.COL_E_SIZE);
+      expect(warnMock).not.toBeCalled();
+    });
     test("$getRaw() to contain all the elements", async () => {
       expect(displayObjectMutable.$getRaw()).toStrictEqual({
         id: displayObjectMutable.getId(),
@@ -190,7 +212,7 @@ describe("utils", () => {
         position: { x: 323, y: 747 },
         visible: false,
         zIndex: -95,
-        eventMode: EventMode.PASSIVE,
+        eventMode: EventMode.NONE,
       });
     });
 

@@ -1,6 +1,6 @@
 import { MutableFunction } from "./mutables.types";
 import { Point } from "./point.types";
-import { DisplayObjectEvent, EventMode } from "../enums";
+import { Cursor, DisplayObjectEvent, EventMode } from "../enums";
 import { Size } from "./size.types";
 import {
   AsyncEmptyComponent,
@@ -17,6 +17,7 @@ export type DisplayObjectProps = {
   zIndex?: number;
   alpha?: number;
   tint?: number;
+  cursor?: Cursor;
 };
 
 export type PartialDisplayObjectMutable<DisplayObject> = {
@@ -41,19 +42,25 @@ export type PartialDisplayObjectMutable<DisplayObject> = {
   setVisible: (visible: MutableFunction<boolean>) => Promise<void>;
   getVisible: () => boolean;
   //zIndex
-  setZIndex: (zIndex: number) => Promise<void>;
+  setZIndex: (zIndex: MutableFunction<number>) => Promise<void>;
   getZIndex: () => number;
   //alpha
-  setAlpha: (alpha: number) => Promise<void>;
+  setAlpha: (alpha: MutableFunction<number>) => Promise<void>;
   getAlpha: () => number;
   //eventMode
-  setEventMode: (eventMode: EventMode) => Promise<void>;
+  setEventMode: (eventMode: MutableFunction<EventMode>) => Promise<void>;
   getEventMode: () => EventMode;
   //tint
-  setTint: (tint: number) => Promise<void>;
+  setTint: (tint: MutableFunction<number>) => Promise<void>;
   getTint: () => number;
   //bounds
   getBounds: () => Size;
+  //
+  setCursor: (
+    cursor: MutableFunction<Cursor>,
+    ignoreWarn?: boolean,
+  ) => Promise<void>;
+  getCursor: () => Cursor;
 };
 
 export type DisplayObjectMutable<DisplayObject> =

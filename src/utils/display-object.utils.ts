@@ -6,9 +6,9 @@ import {
   Point,
 } from "../types";
 import { getValueMutableFunction } from "./mutables.utils";
-import { DisplayObjectEvent, Event, EventMode } from "../enums";
+import { Cursor, DisplayObjectEvent, Event, EventMode } from "../enums";
 import { global } from "../global";
-import { isNullish } from "./nullish.utils";
+import { isNotNullish } from "./nullish.utils";
 
 export const initDisplayObjectMutable = async <
   DisplayObject extends PIXIDisplayObject,
@@ -138,6 +138,26 @@ export const initDisplayObjectMutable = async <
     return { width, height };
   };
 
+  //cursor
+  const setCursor = async (data, ignoreWarn: boolean = false) => {
+    displayObject.cursor = await getValueMutableFunction<Cursor>(
+      data,
+      displayObject.cursor as Cursor,
+    );
+    const eventMode = getEventMode();
+    if (
+      displayObject.cursor !== Cursor.AUTO &&
+      eventMode !== EventMode.STATIC &&
+      eventMode !== EventMode.DYNAMIC &&
+      !ignoreWarn
+    )
+      console.warn(
+        `Cursor cannot be set if 'EventMode' is not 'static' or 'dynamic'!`,
+      );
+  };
+  const getCursor = (): Cursor =>
+    (displayObject.cursor as Cursor) || Cursor.AUTO;
+
   const $destroy = () => {
     componentMutable.getFather = () => null;
 
@@ -174,16 +194,17 @@ export const initDisplayObjectMutable = async <
 
   // Set initials
   {
-    const { label, position, pivot, angle, alpha, eventMode, tint } =
+    const { label, position, pivot, angle, alpha, eventMode, tint, cursor } =
       componentMutable.getProps();
 
-    if (isNullish(label)) setLabel(label);
-    if (isNullish(position)) await setPosition(position);
-    if (isNullish(pivot)) await setPivot(pivot);
-    if (isNullish(angle)) await setAngle(angle);
-    if (isNullish(alpha)) await setAlpha(alpha);
-    if (isNullish(eventMode)) await setEventMode(eventMode);
-    if (isNullish(tint)) await setEventMode(eventMode);
+    if (isNotNullish(label)) setLabel(label);
+    if (isNotNullish(position)) await setPosition(position);
+    if (isNotNullish(pivot)) await setPivot(pivot);
+    if (isNotNullish(angle)) await setAngle(angle);
+    if (isNotNullish(alpha)) await setAlpha(alpha);
+    if (isNotNullish(eventMode)) await setEventMode(eventMode);
+    if (isNotNullish(tint)) await setEventMode(eventMode);
+    if (isNotNullish(cursor)) await setCursor(cursor);
 
     on(DisplayObjectEvent.TICK, () => {
       // If not body present, it doesn't make sense to iterate
@@ -236,6 +257,9 @@ export const initDisplayObjectMutable = async <
     getTint,
     //bounds
     getBounds,
+    //cursor
+    setCursor,
+    getCursor,
 
     //events
     on,
