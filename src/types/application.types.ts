@@ -5,4 +5,5 @@ export type ApplicationProps = {
   importMetaHot?: any;
   showFPS?: boolean;
   pointerLock?: boolean;
+  pixelPerfect?: boolean;
 };
