@@ -5,4 +5,5 @@ export const APPLICATION_DEFAULT_PROPS: ApplicationProps = {
   scale: 3,
   showFPS: false,
   pointerLock: false,
+  pixelPerfect: false,
 };

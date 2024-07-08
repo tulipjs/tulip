@@ -3,6 +3,7 @@ import {
   ApplicationProps,
   PartialContainerMutable,
   PartialTextMutable,
+  Size,
 } from "./types";
 import { APPLICATION_DEFAULT_PROPS } from "./consts";
 import { global } from "./global";
@@ -17,6 +18,7 @@ export const application = async ({
   importMetaHot = null,
   showFPS = APPLICATION_DEFAULT_PROPS.showFPS,
   pointerLock = APPLICATION_DEFAULT_PROPS.pointerLock,
+  pixelPerfect = APPLICATION_DEFAULT_PROPS.pixelPerfect,
 }: ApplicationProps = APPLICATION_DEFAULT_PROPS) => {
   const application = new PIXI.Application();
 
@@ -31,6 +33,7 @@ export const application = async ({
   application.stage.sortableChildren = true;
   application.stage.eventMode = "static";
 
+  //TODO #104
   // ticker
   application.ticker.autoStart = false;
   application.ticker.stop();
@@ -102,23 +105,33 @@ export const application = async ({
   // PIXI.settings.FAIL_IF_MAJOR_PERFORMANCE_CAVEAT = true;
   PIXI.AbstractRenderer.defaultOptions.failIfMajorPerformanceCaveat = true;
 
-  const resize = () => {
+  //TODO #104
+  const getWindowBounds = (): Size => {
     const { innerWidth, innerHeight } = window;
 
-    application.canvas.style.width = `${Math.round(innerWidth)}px`;
-    application.canvas.style.height = `${Math.round(innerHeight)}px`;
+    const _getOddExtra = (value: number): number =>
+      pixelPerfect ? (value % 2 === 1 ? 1 : 0) + value : value;
+    return {
+      width: _getOddExtra(Math.round(innerWidth / scale)),
+      height: _getOddExtra(Math.round(innerHeight / scale)),
+    };
+  };
 
-    application.renderer.resize(
-      (innerWidth * devicePixelRatio) / scale,
-      (innerHeight * devicePixelRatio) / scale,
-    );
+  //TODO #104
+  const resize = () => {
+    const { width, height } = getWindowBounds();
     application.renderer.resolution = scale * Math.round(devicePixelRatio);
+    application.canvas.style.width = `${width * scale}px`;
+    application.canvas.style.height = `${height * scale}px`;
+
+    application.renderer.resize(width, height);
   };
   window.addEventListener("resize", resize);
   resize();
 
   global.$setApplication(application);
 
+  //TODO #104
   if (pointerLock) {
     application.canvas.addEventListener("click", () => {
       application.canvas.requestPointerLock();
@@ -127,6 +140,7 @@ export const application = async ({
 
   //### DOCUMENT #####################################################################################################//
 
+  //TODO #104
   document.body.appendChild(application.canvas);
   document.addEventListener("keydown", (event: KeyboardEvent) =>
     global.events.$emit(Event.KEY_DOWN, event),
@@ -136,6 +150,8 @@ export const application = async ({
   );
 
   //### DEVELOPMENT ##################################################################################################//
+
+  //TODO #104
   if (importMetaEnv?.DEV) {
     //@ts-ignore
     window.__PIXI_DEVTOOLS__ = {
