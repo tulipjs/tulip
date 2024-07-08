@@ -10,7 +10,7 @@ application({
   importMetaEnv: import.meta.env,
   //@ts-ignore
   importMetaHot: import.meta.hot,
-  pointerLock: true,
+  // pointerLock: true,
 }).then(async ({ add }) => {
   global.setData<GlobalData>({ ballColor: 0x333333 });
 

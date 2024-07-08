@@ -1,7 +1,9 @@
 import {
   animatedSprite,
+  AnimatedSpriteMutable,
   body,
   ContainerComponent,
+  Cursor,
   Direction,
   EventMode,
   player2D,
@@ -16,7 +18,7 @@ type Mutable = {
 };
 
 export const playerComponent: ContainerComponent<Props, Mutable> = async () => {
-  let $sprite;
+  let $sprite: AnimatedSpriteMutable;
 
   const onTick = (direction: Direction) => {
     switch (direction) {
@@ -45,9 +47,11 @@ export const playerComponent: ContainerComponent<Props, Mutable> = async () => {
   $sprite = await animatedSprite({
     spriteSheet: "fighter/fighter.json",
     animation: "turnRight",
-    eventMode: EventMode.NONE,
+    // eventMode: EventMode.NONE,
+    eventMode: EventMode.STATIC,
+    cursor: Cursor.WAIT,
   });
-  $sprite.setPivot({ x: width / 2, y: height / 2 });
+  await $sprite.setPivot({ x: width / 2, y: height / 2 });
   $player.add($sprite);
 
   const $body = body({
