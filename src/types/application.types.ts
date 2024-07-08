@@ -4,4 +4,5 @@ export type ApplicationProps = {
   importMetaEnv?: any;
   importMetaHot?: any;
   showFPS?: boolean;
+  pointerLock?: boolean;
 };

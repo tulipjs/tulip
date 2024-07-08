@@ -4,12 +4,13 @@ import { GlobalData } from "types";
 
 application({
   backgroundColor: 0x030303,
-  scale: 1.2,
+  scale: 1,
   showFPS: true,
   //@ts-ignore
   importMetaEnv: import.meta.env,
   //@ts-ignore
   importMetaHot: import.meta.hot,
+  pointerLock: true,
 }).then(async ({ add }) => {
   global.setData<GlobalData>({ ballColor: 0x333333 });
 
