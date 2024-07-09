@@ -3,34 +3,6 @@ import { Point } from "./point.types";
 import { BodyMutable } from "./body.types";
 import { SoundMutable, SoundProps } from "./sound.types";
 
-export type InternalMutable<
-  Props,
-  // @ts-ignore
-  Mutable extends ComponentMutable<ComponentProps & Props, Mutable, Data>,
-  Data,
-  Bool,
-> = Mutable & {
-  $mutable: Bool;
-};
-
-export type Component<
-  Props = {},
-  // @ts-ignore
-  Mutable extends ComponentMutable<ComponentProps & Props, Mutable, Data> = {},
-  Data = {},
-> = (
-  props?: ComponentProps & Props,
-) => InternalMutable<ComponentProps & Props, Mutable, Data, true>;
-
-export type AsyncComponent<
-  Props = {},
-  // @ts-ignore
-  Mutable extends ComponentMutable<ComponentProps & Props, Mutable, Data> = {},
-  Data = {},
-> = (
-  props?: ComponentProps & Props,
-) => Promise<InternalMutable<ComponentProps & Props, Mutable, Data, true>>;
-
 export type ComponentProps = {
   id?: string;
   label?: string;
@@ -95,3 +67,33 @@ export type ComponentMutable<Props = {}, Mutable = {}, Data = {}> = {
   //It's only used for types, it doesnt contain information
   $mutable: boolean;
 } & Mutable;
+
+//--------
+
+export type InternalMutable<
+  Props,
+  // @ts-ignore
+  Mutable extends ComponentMutable<ComponentProps & Props, Mutable, Data>,
+  Data,
+  Bool,
+> = Mutable & {
+  $mutable: Bool;
+};
+
+export type Component<
+  Props = {},
+  // @ts-ignore
+  Mutable extends ComponentMutable<ComponentProps & Props, Mutable, Data> = {},
+  Data = {},
+> = (
+  props?: ComponentProps & Props,
+) => InternalMutable<ComponentProps & Props, Mutable, Data, true>;
+
+export type AsyncComponent<
+  Props = {},
+  // @ts-ignore
+  Mutable extends ComponentMutable<ComponentProps & Props, Mutable, Data> = {},
+  Data = {},
+> = (
+  props?: ComponentProps & Props,
+) => Promise<InternalMutable<ComponentProps & Props, Mutable, Data, true>>;

@@ -4,6 +4,7 @@ import {
   AsyncDisplayObjectComponent,
   InternalDisplayObjectMutable,
   DisplayObjectMutable,
+  DisplayObjectProps,
 } from "../display-object.types";
 
 export type PartialGraphicsProps = {
@@ -53,6 +54,8 @@ export type GraphicsTypesProps =
   | GraphicsCapsuleProps
   | GraphicsTriangleProps;
 
+export type GraphicsProps<Data = {}> = DisplayObjectProps<Data> &
+  PartialGraphicsProps;
 export type GraphicsMutable = DisplayObjectMutable<Graphics> &
   PartialGraphicsMutable;
 

@@ -6,9 +6,11 @@ import {
   InternalMutable,
 } from "../component.types";
 
-export type PartialEmptyProps<Data> = {
+export type PartialEmptyProps<Data = {}> = {
   initialData?: Data;
-} & ComponentProps;
+};
+
+export type EmptyProps<Data = {}> = ComponentProps & PartialEmptyProps<Data>;
 
 ////////////////////////////
 export type InternalEmptyMutable<
@@ -16,14 +18,14 @@ export type InternalEmptyMutable<
   Mutable = {},
   Data = {},
 > = InternalMutable<
-  Props,
+  PartialEmptyProps<Data> & Props,
   ComponentMutable<PartialEmptyProps<Data> & Props, Mutable, Data>,
   Data,
   false
 >;
 
 export type EmptyMutable<Props = {}, Mutable = {}, Data = {}> = InternalMutable<
-  Props,
+  PartialEmptyProps<Data> & Props,
   ComponentMutable<PartialEmptyProps<Data> & Props, Mutable, Data>,
   Data,
   true
@@ -31,7 +33,7 @@ export type EmptyMutable<Props = {}, Mutable = {}, Data = {}> = InternalMutable<
 
 ////////////////////////////
 export type EmptyComponent<Props = {}, Mutable = {}, Data = {}> = Component<
-  Props,
+  PartialEmptyProps<Data> & Props,
   EmptyMutable<PartialEmptyProps<Data> & Props, Mutable, Data>,
   Data
 >;

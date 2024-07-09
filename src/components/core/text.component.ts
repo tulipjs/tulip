@@ -6,12 +6,13 @@ import {
   Text,
   PartialTextMutable,
   PartialTextProps,
+  TextProps,
 } from "../../types";
 import { initDisplayObjectMutable } from "../../utils";
 import { empty } from "./empty.component";
 
 export const text = async <Props, Mutable, Data>(
-  originalProps = {} as PartialTextProps & Props,
+  originalProps = {} as TextProps<Data> & Props,
 ): InternalAsyncTextMutable<Props, Mutable, Data> => {
   const { font, text: currentText, color, size } = originalProps;
 

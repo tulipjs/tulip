@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js";
 import {
   AnimatedSprite,
+  AnimatedSpriteProps,
   InternalAnimatedSpriteMutable,
   InternalAsyncAnimatedSpriteMutable,
   PartialAnimatedSpriteMutable,
@@ -11,7 +12,7 @@ import { initDisplayObjectMutable } from "../../utils";
 import { PlayStatus } from "../../enums";
 
 export const animatedSprite = async <Props, Mutable, Data>(
-  originalProps = {} as PartialAnimatedSpriteProps & Props,
+  originalProps = {} as AnimatedSpriteProps<Data> & Props,
 ): InternalAsyncAnimatedSpriteMutable<Props, Mutable, Data> => {
   const { spriteSheet, animation, frame, playStatus } = originalProps;
 

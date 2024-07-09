@@ -2,6 +2,7 @@ import {
   AsyncDisplayObjectComponent,
   InternalDisplayObjectMutable,
   DisplayObjectMutable,
+  DisplayObjectProps,
 } from "../display-object.types";
 import { Sprite } from "../pixi.types";
 
@@ -12,6 +13,8 @@ export type PartialSpriteMutable = {
   setTexture: (texture?: string) => Promise<void>;
 };
 
+export type SpriteProps<Data = {}> = DisplayObjectProps<Data> &
+  PartialSpriteProps;
 export type SpriteMutable = DisplayObjectMutable<Sprite> & PartialSpriteMutable;
 
 ////////////////////////////

@@ -3,7 +3,7 @@ import { empty } from "../empty.component";
 import { BodyMutable, EmptyComponent, Point } from "../../../types";
 
 type Props = {
-  abc: boolean;
+  abc?: boolean;
 };
 type Mutable = {
   shazam: () => boolean;
@@ -13,7 +13,9 @@ type Data = {
 };
 
 const emptyComponent: EmptyComponent<Props, Mutable, Data> = () => {
-  const $container = empty<Props, Mutable, Data>();
+  const $container = empty<Props, Mutable, Data>({
+    label: "adada",
+  });
   return $container.getComponent(emptyComponent, {
     shazam: () => false,
   });

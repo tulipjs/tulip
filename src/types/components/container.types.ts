@@ -2,6 +2,7 @@ import {
   AsyncDisplayObjectComponent,
   InternalDisplayObjectMutable,
   DisplayObjectMutable,
+  DisplayObjectProps,
 } from "../display-object.types";
 import { Container, DisplayObject } from "../pixi.types";
 
@@ -27,6 +28,8 @@ export type PartialContainerMutable = {
   getChildren: () => DisplayObjectMutable<DisplayObject>[];
 };
 
+export type ContainerProps<Data = {}> = DisplayObjectProps<Data> &
+  PartialContainerProps;
 export type ContainerMutable = DisplayObjectMutable<Container> &
   PartialContainerMutable;
 

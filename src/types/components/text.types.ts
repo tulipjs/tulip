@@ -4,6 +4,7 @@ import {
   AsyncDisplayObjectComponent,
   InternalDisplayObjectMutable,
   DisplayObjectMutable,
+  DisplayObjectProps,
 } from "../display-object.types";
 
 export type Font = {
@@ -24,6 +25,7 @@ export type PartialTextMutable = {
   $getText: () => Text;
 };
 
+export type TextProps<Data = {}> = DisplayObjectProps<Data> & PartialTextProps;
 export type TextMutable = DisplayObjectMutable<Text> & PartialTextMutable;
 
 ////////////////////////////

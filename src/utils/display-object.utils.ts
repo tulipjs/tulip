@@ -1,20 +1,22 @@
 import {
   DisplayObject as PIXIDisplayObject,
-  DisplayObjectProps,
+  PartialDisplayObjectProps,
   InternalAsyncDisplayObjectMutable,
   InternalDisplayObjectMutable,
   Point,
+  DisplayObjectProps,
 } from "../types";
 import { getValueMutableFunction } from "./mutables.utils";
 import { Cursor, DisplayObjectEvent, Event, EventMode } from "../enums";
 import { global } from "../global";
 import { isNotNullish } from "./nullish.utils";
+import * as PIXI from "pixi.js";
 
 export const initDisplayObjectMutable = async <
   DisplayObject extends PIXIDisplayObject,
 >(
   displayObject: DisplayObject,
-  componentMutable: InternalDisplayObjectMutable<any>,
+  componentMutable: InternalDisplayObjectMutable<any, DisplayObjectProps<any>>,
 ): InternalAsyncDisplayObjectMutable<DisplayObject> => {
   let $isRemoved = false;
 
@@ -158,12 +160,19 @@ export const initDisplayObjectMutable = async <
   const getCursor = (): Cursor =>
     (displayObject.cursor as Cursor) || Cursor.AUTO;
 
+  //hitArea
+  const setHitArea = async (data) => {
+    const hitArea = await getValueMutableFunction<number[]>(data, getHitArea());
+    displayObject.hitArea = new PIXI.Polygon(hitArea);
+  };
+  const getHitArea = () => (displayObject.hitArea as any)?.points || [];
+
   const $destroy = () => {
     componentMutable.getFather = () => null;
 
     $$destroy();
   };
-  const $getRaw = (): DisplayObjectProps => ({
+  const $getRaw = (): PartialDisplayObjectProps => ({
     ...($$getRaw() as object),
     pivot: getPivot(),
     visible: getVisible(),
@@ -194,8 +203,17 @@ export const initDisplayObjectMutable = async <
 
   // Set initials
   {
-    const { label, position, pivot, angle, alpha, eventMode, tint, cursor } =
-      componentMutable.getProps();
+    const {
+      label,
+      position,
+      pivot,
+      angle,
+      alpha,
+      eventMode,
+      tint,
+      cursor,
+      hitArea,
+    } = componentMutable.getProps();
 
     if (isNotNullish(label)) setLabel(label);
     if (isNotNullish(position)) await setPosition(position);
@@ -205,6 +223,7 @@ export const initDisplayObjectMutable = async <
     if (isNotNullish(eventMode)) await setEventMode(eventMode);
     if (isNotNullish(tint)) await setEventMode(eventMode);
     if (isNotNullish(cursor)) await setCursor(cursor);
+    if (isNotNullish(hitArea)) await setHitArea(hitArea);
 
     on(DisplayObjectEvent.TICK, () => {
       // If not body present, it doesn't make sense to iterate
@@ -260,6 +279,9 @@ export const initDisplayObjectMutable = async <
     //cursor
     setCursor,
     getCursor,
+    //hitArea
+    setHitArea,
+    getHitArea,
 
     //events
     on,

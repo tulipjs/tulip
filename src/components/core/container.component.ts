@@ -4,18 +4,18 @@ import {
   ComponentMutable,
   Container,
   PartialContainerMutable,
-  PartialContainerProps,
   DisplayObject,
   InternalAsyncContainerMutable,
   InternalContainerMutable,
   InternalDisplayObjectMutable,
+  ContainerProps,
 } from "../../types";
 import { initDisplayObjectMutable, getVisualShape } from "../../utils";
 import { empty } from "./empty.component";
 import { global } from "../../global";
 
 export const container = async <Props = {}, Mutable = {}, Data = {}>(
-  originalProps = {} as PartialContainerProps & Props,
+  originalProps = {} as ContainerProps<Data> & Props,
 ): InternalAsyncContainerMutable<Props, Mutable, Data> => {
   const $props = structuredClone(originalProps);
 
