@@ -1,4 +1,12 @@
-import { EventMode, global, circle, ContainerComponent } from "@tulib/tulip";
+import {
+  circle,
+  ContainerComponent,
+  DisplayObjectEvent,
+  EventMode,
+  global,
+  graphics,
+  GraphicType,
+} from "@tulib/tulip";
 import { GlobalData } from "types";
 
 type Props = {
@@ -14,7 +22,8 @@ type Mutable = {};
 export const flyComponent: ContainerComponent<Props, Mutable> = async (
   props,
 ) => {
-  const container = await circle({
+  const polygon = [0, 0, 20, 0, 20, 20];
+  const $container = await circle({
     ...props,
     eventMode: EventMode.STATIC,
     props: {
@@ -25,11 +34,21 @@ export const flyComponent: ContainerComponent<Props, Mutable> = async (
         surfaceVelocity: 200,
       },
     },
+    hitArea: polygon,
+  });
+  $container.on(DisplayObjectEvent.CLICK, () => {
+    console.log("click hitArea");
   });
 
   const alpha = 0.25;
   const size = 15;
   const position = size - 2;
+
+  const pol = await graphics({
+    polygon,
+    color: 0xff00ff,
+    type: GraphicType.POLYGON,
+  });
 
   const circle2 = await circle({
     props: {
@@ -57,7 +76,7 @@ export const flyComponent: ContainerComponent<Props, Mutable> = async (
     },
   });
 
-  container.add(circle2, circle3);
+  $container.add(circle2, circle3, pol);
 
-  return container.getComponent(flyComponent);
+  return $container.getComponent(flyComponent);
 };

@@ -5,12 +5,13 @@ import { Size } from "./size.types";
 import {
   AsyncEmptyComponent,
   EmptyComponent,
+  EmptyProps,
   InternalEmptyMutable,
 } from "./components/empty.types";
 import { DisplayObject as DO } from "./pixi.types";
 import { ComponentMutable } from "./component.types";
 
-export type DisplayObjectProps = {
+export type PartialDisplayObjectProps = {
   pivot?: Point;
   eventMode?: EventMode;
   visible?: boolean;
@@ -18,6 +19,7 @@ export type DisplayObjectProps = {
   alpha?: number;
   tint?: number;
   cursor?: Cursor;
+  hitArea?: number[];
 };
 
 export type PartialDisplayObjectMutable<DisplayObject> = {
@@ -55,13 +57,19 @@ export type PartialDisplayObjectMutable<DisplayObject> = {
   getTint: () => number;
   //bounds
   getBounds: () => Size;
-  //
+  //cursor
   setCursor: (
     cursor: MutableFunction<Cursor>,
     ignoreWarn?: boolean,
   ) => Promise<void>;
   getCursor: () => Cursor;
+  //hitArea
+  setHitArea: (polygon: number[]) => Promise<void>;
+  getHitArea: () => number[];
 };
+
+export type DisplayObjectProps<Data = {}> = EmptyProps<Data> &
+  PartialDisplayObjectProps;
 
 export type DisplayObjectMutable<DisplayObject> =
   PartialDisplayObjectMutable<DisplayObject> & ComponentMutable;
@@ -80,7 +88,7 @@ export type InternalDisplayObjectMutable<
   Mutable = {},
   Data = {},
 > = InternalEmptyMutable<
-  DisplayObjectProps & Props,
+  PartialDisplayObjectProps & Props,
   PartialDisplayObjectMutable<DisplayObject> & Mutable,
   Data
 >;
@@ -92,7 +100,7 @@ export type DisplayObjectComponent<
   Mutable = {},
   Data = {},
 > = EmptyComponent<
-  DisplayObjectProps & Props,
+  PartialDisplayObjectProps & Props,
   PartialDisplayObjectMutable<DisplayObject> & Mutable,
   Data
 >;
@@ -103,7 +111,7 @@ export type AsyncDisplayObjectComponent<
   Mutable = {},
   Data = {},
 > = AsyncEmptyComponent<
-  DisplayObjectProps & Props,
+  PartialDisplayObjectProps & Props,
   PartialDisplayObjectMutable<DisplayObject> & Mutable,
   Data
 >;

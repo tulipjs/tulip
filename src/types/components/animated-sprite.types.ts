@@ -3,6 +3,7 @@ import {
   AsyncDisplayObjectComponent,
   InternalDisplayObjectMutable,
   DisplayObjectMutable,
+  DisplayObjectProps,
 } from "../display-object.types";
 import { AnimatedSprite } from "../pixi.types";
 
@@ -27,6 +28,9 @@ export type PartialAnimatedSpriteMutable = {
   getPlayStatus: () => PlayStatus;
 };
 
+export type AnimatedSpriteProps<Data = {}> = DisplayObjectProps<Data> &
+  PartialAnimatedSpriteProps;
+
 export type AnimatedSpriteMutable = DisplayObjectMutable<AnimatedSprite> &
   PartialAnimatedSpriteMutable;
 
@@ -42,7 +46,7 @@ export type InternalAnimatedSpriteMutable<
   Data = {},
 > = InternalDisplayObjectMutable<
   AnimatedSprite,
-  PartialAnimatedSpriteProps & Props,
+  AnimatedSpriteProps<Data> & Props,
   PartialAnimatedSpriteMutable & Mutable,
   Data
 >;

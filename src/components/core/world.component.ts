@@ -7,15 +7,16 @@ import {
   InternalDisplayObjectMutable,
   PartialWorldMutable,
   PartialWorldProps,
+  WorldProps,
+  WorldMutable,
 } from "../../types";
 import { container } from "./container.component";
 import { WORLD_DEFAULT_PROPS } from "../../consts";
 import { DisplayObjectEvent } from "../../enums";
 
-export const world: ContainerComponent<
-  PartialWorldProps,
-  PartialWorldMutable
-> = async (originalProps = WORLD_DEFAULT_PROPS) => {
+export const world: ContainerComponent<WorldProps<{}>, WorldMutable> = async (
+  originalProps = WORLD_DEFAULT_PROPS,
+) => {
   const $container = await container(originalProps);
 
   const $props = structuredClone(originalProps);

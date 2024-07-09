@@ -1,4 +1,4 @@
-import { ContainerMutable } from "./container.types";
+import { ContainerMutable, ContainerProps } from "./container.types";
 
 export type PartialTextSpriteProps = {
   spriteSheet: string;
@@ -7,7 +7,8 @@ export type PartialTextSpriteProps = {
   color?: number;
 };
 
-export type TextSpriteProps = PartialTextSpriteProps & ContainerMutable;
+export type TextSpriteProps<Data = {}> = PartialTextSpriteProps &
+  ContainerProps<Data>;
 
 export type PartialTextSpriteMutable = {
   setText: (text: string) => void;

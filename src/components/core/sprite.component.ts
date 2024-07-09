@@ -5,12 +5,13 @@ import {
   Sprite,
   PartialSpriteMutable,
   PartialSpriteProps,
+  SpriteProps,
 } from "../../types";
 import { initDisplayObjectMutable } from "../../utils";
 import { empty } from "./empty.component";
 
 export const sprite = async <Props, Mutable, Data>(
-  originalProps = {} as PartialSpriteProps & Props,
+  originalProps = {} as SpriteProps<Data> & Props,
 ): InternalAsyncSpriteMutable<Props, Mutable, Data> => {
   const { texture = undefined } = originalProps;
 

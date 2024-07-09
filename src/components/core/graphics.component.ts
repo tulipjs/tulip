@@ -9,13 +9,14 @@ import {
   GraphicsTriangleProps,
   InternalAsyncGraphicsMutable,
   InternalGraphicsMutable,
+  GraphicsProps,
 } from "../../types";
 import { initDisplayObjectMutable } from "../../utils";
 import { empty } from "./empty.component";
 import { GraphicType } from "../../enums";
 
 export const graphics = async <Props, Mutable, Data>(
-  originalProps = {} as PartialGraphicsProps & Props,
+  originalProps = {} as GraphicsProps<Data> & Props,
 ): InternalAsyncGraphicsMutable<Props, Mutable, Data> => {
   const { color, type } = originalProps;
 

@@ -1,7 +1,7 @@
 import { Point } from "../point.types";
 import { ComponentMutable } from "../component.types";
 import p2 from "p2";
-import { ContainerMutable } from "./container.types";
+import { ContainerMutable, ContainerProps } from "./container.types";
 
 export type WorldPhysics = {
   enabled?: boolean;
@@ -29,4 +29,5 @@ export type PartialWorldMutable = {
   $getWorld: () => p2.World;
 };
 
+export type WorldProps<Data = {}> = ContainerProps<Data> & PartialWorldProps;
 export type WorldMutable = ContainerMutable & PartialWorldMutable;

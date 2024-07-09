@@ -201,6 +201,18 @@ describe("utils", () => {
       expect(displayObjectMutable.getCursor()).toStrictEqual(Cursor.COL_E_SIZE);
       expect(warnMock).not.toBeCalled();
     });
+    test("setHitArea(...) of the display object", async () => {
+      expect(displayObjectMutable.getHitArea()).toStrictEqual([]);
+      expect(container.hitArea).toStrictEqual(undefined);
+
+      await displayObjectMutable.setHitArea([0, 10, 10, 10, 10, 0, 0, 0]);
+      expect(displayObjectMutable.getHitArea()).toStrictEqual([
+        0, 10, 10, 10, 10, 0, 0, 0,
+      ]);
+      expect(container.hitArea).toStrictEqual(
+        new PIXI.Polygon([0, 10, 10, 10, 10, 0, 0, 0]),
+      );
+    });
     test("$getRaw() to contain all the elements", async () => {
       expect(displayObjectMutable.$getRaw()).toStrictEqual({
         id: displayObjectMutable.getId(),

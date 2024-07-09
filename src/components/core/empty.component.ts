@@ -3,14 +3,14 @@ import {
   Point,
   SoundProps,
   SoundMutable,
-  PartialEmptyProps,
   InternalEmptyMutable,
+  EmptyProps,
 } from "../../types";
 import { getRandomNumber, getValueMutableFunction } from "../../utils";
 import { sound } from "./sound.sub-component";
 
 export const empty = <Props, Mutable, Data>(
-  originalProps = {} as PartialEmptyProps<Data> & Props,
+  originalProps = {} as EmptyProps<Data> & Props,
 ): InternalEmptyMutable<Props, Mutable, Data> => {
   const { label = "empty", position, angle, initialData } = originalProps;
   const $props = structuredClone(originalProps);
