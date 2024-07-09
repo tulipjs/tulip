@@ -39,6 +39,10 @@ export const text = async <Props, Mutable, Data>(
     $text.skew.set(skew.x, skew.y);
   };
 
+  const setColor = (color: number) => {
+    $text.style.fill = color;
+  };
+
   const $$getRaw = displayObjectMutable.$getRaw;
 
   const $getRaw = (): PartialTextProps => ({
@@ -55,6 +59,7 @@ export const text = async <Props, Mutable, Data>(
     PartialTextMutable = {
     setText,
     setSkew,
+    setColor,
 
     getProps: () => $props as any,
 
