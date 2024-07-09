@@ -21,6 +21,7 @@ export type PartialTextProps = {
 export type PartialTextMutable = {
   setText: (text: string) => void;
   setSkew: (skew: Point) => void;
+  setColor: (color: number) => void;
   $getText: () => Text;
 };
 
