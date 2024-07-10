@@ -6,3 +6,4 @@ export * from "./sprite.types";
 export * from "./text.types";
 export * from "./empty.types";
 export * from "./text-sprite.types";
+export * from "./input-text-sprite.types";

@@ -23,7 +23,7 @@ const mockAssetsLoad = jest.fn(async (args) => ({
 
 describe("components", () => {
   describe("core", () => {
-    describe("animated-sprite", () => {
+    describe("text-sprite", () => {
       beforeEach(() => {
         mockAssetsLoad.mockClear();
       });
