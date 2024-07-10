@@ -9,6 +9,7 @@ export type ApplicationProps = {
   showFPS?: boolean;
   pointerLock?: boolean;
   pixelPerfect?: boolean;
+  disabledZoom?: boolean;
 };
 
 export type ApplicationMutable = {

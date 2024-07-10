@@ -5,12 +5,12 @@ import {
   ContainerMutable,
   Size,
   TextMutable,
-} from "./types";
-import { APPLICATION_DEFAULT_PROPS } from "./consts";
-import { global } from "./global";
+} from "../types";
+import { APPLICATION_DEFAULT_PROPS } from "../consts";
+import { global } from "../global";
 import { initViteTulipPlugin } from "@tulib/vite-tulip-plugin";
-import { Event } from "./enums";
-import { text } from "./components";
+import { Event } from "../enums";
+import { text } from "../components";
 
 export const application = async ({
   backgroundColor = APPLICATION_DEFAULT_PROPS.backgroundColor,
@@ -20,6 +20,7 @@ export const application = async ({
   showFPS = APPLICATION_DEFAULT_PROPS.showFPS,
   pointerLock = APPLICATION_DEFAULT_PROPS.pointerLock,
   pixelPerfect = APPLICATION_DEFAULT_PROPS.pixelPerfect,
+  disabledZoom = APPLICATION_DEFAULT_PROPS.disabledZoom,
 }: ApplicationProps = APPLICATION_DEFAULT_PROPS) => {
   const application = new PIXI.Application();
 
@@ -125,7 +126,10 @@ export const application = async ({
     application.canvas.style.width = `${width * scale}px`;
     application.canvas.style.height = `${height * scale}px`;
 
-    application.renderer.resize(width, height);
+    application.renderer.resize(
+      width * (disabledZoom ? devicePixelRatio : 1),
+      height * (disabledZoom ? devicePixelRatio : 1),
+    );
   };
   window.addEventListener("resize", resize);
   resize();
