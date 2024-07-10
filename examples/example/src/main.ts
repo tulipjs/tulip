@@ -12,6 +12,7 @@ application({
   //@ts-ignore
   importMetaHot: import.meta.hot,
   // pointerLock: true,
+  disabledZoom: true,
 }).then(async ({ add }) => {
   global.setData<GlobalData>({ ballColor: 0x333333 });
 
