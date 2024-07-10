@@ -16,6 +16,7 @@ export type PartialTextSpriteMutable = {
 
   setColor: (color: number) => void;
   getColor: () => number;
+  $getSize: (letter: string) => { width: number; height: number };
 };
 
 export type TextSpriteMutable = PartialTextSpriteMutable & ContainerMutable;

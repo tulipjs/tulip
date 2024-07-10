@@ -4,6 +4,7 @@ import {
   global,
   graphics,
   GraphicType,
+  inputTextSprite,
   plane,
   text,
   textSprite,
@@ -109,6 +110,18 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
     $pixelPerfectText.setText("hallo...");
   }, 1_000);
   $container.add($pixelPerfectText);
+
+  const $input = await inputTextSprite({
+    spriteSheet: "fonts/default-font.json",
+    color: 0xff00ff,
+    editable: true,
+    position: {
+      x: 10,
+      y: 80,
+    },
+  });
+
+  $container.add($input);
 
   return $container.getComponent(appComponent);
 };

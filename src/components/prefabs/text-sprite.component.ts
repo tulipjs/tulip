@@ -58,5 +58,13 @@ export const textSprite: ContainerComponent<
 
     setColor,
     getColor,
+
+    $getSize: (letter: string) =>
+      textures[letter]
+        ? {
+            width: textures[letter].width,
+            height: textures[letter].height,
+          }
+        : { width: 0, height: 0 },
   });
 };

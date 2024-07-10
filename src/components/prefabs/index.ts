@@ -4,3 +4,4 @@ export * from "./box.component";
 export * from "./capsule.component";
 export * from "./player-2d.component";
 export * from "./text-sprite.component";
+export * from "./input-text-sprite.component";
