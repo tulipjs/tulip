@@ -3,6 +3,7 @@ import {
   ContainerMutable,
   ContainerProps,
 } from "./container.types";
+import { Size } from "../size.types";
 
 export type PartialTextSpriteProps<Props = {}> = {
   spriteSheet: string;
@@ -17,7 +18,7 @@ export type PartialTextSpriteMutable<Mutable = {}> = {
 
   setColor: (color: number) => void;
   getColor: () => number;
-	$getSize: (letter: string) => { width: number; height: number };
+  $getSize: (letter: string) => Size;
 } & Mutable;
 
 ////////////////////////////
