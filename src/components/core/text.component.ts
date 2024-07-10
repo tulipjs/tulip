@@ -1,35 +1,25 @@
 import * as PIXI from "pixi.js";
 import {
-  InternalAsyncTextMutable,
-  InternalTextMutable,
   Point,
   Text,
-  PartialTextMutable,
   PartialTextProps,
   TextProps,
+  TextMutable,
 } from "../../types";
-import { initDisplayObjectMutable } from "../../utils";
-import { empty } from "./empty.component";
+import { displayObject } from "./display-object.component";
+import { isNotNullish } from "../../utils";
 
-export const text = async <Props, Mutable, Data>(
-  originalProps = {} as TextProps<Data> & Props,
-): InternalAsyncTextMutable<Props, Mutable, Data> => {
+export const text = async <Props = {}, Mutable = {}, Data = {}>(
+  originalProps: TextProps<Props, Data> = {} as TextProps<Props, Data>,
+): Promise<TextMutable<Props, Mutable, Data>> => {
+  const $displayObject = await displayObject<Text, TextProps<Props>>({
+    ...originalProps,
+    displayObject: new PIXI.Text({ text: "" }),
+  });
+
   const { font, text: currentText, color, size } = originalProps;
 
-  const $props = structuredClone(originalProps);
-
-  const $text = new PIXI.Text({
-    text: currentText,
-    style: { fontFamily: font, fontSize: size, fill: color },
-  }) as Text;
-
-  const emptyMutable = empty(originalProps);
-
-  const displayObjectMutable = await initDisplayObjectMutable<Text>(
-    $text,
-    //@ts-ignore
-    emptyMutable,
-  );
+  const $text = $displayObject.getDisplayObject({ __preventWarning: true });
 
   const setText = (_text: string) => {
     $text.text = _text;
@@ -43,7 +33,15 @@ export const text = async <Props, Mutable, Data>(
     $text.style.fill = color;
   };
 
-  const $$getRaw = displayObjectMutable.$getRaw;
+  const setSize = (size: number) => {
+    $text.style.fontSize = size;
+  };
+
+  const setFont = (font: string) => {
+    $text.style.fontFamily = font;
+  };
+
+  const $$getRaw = $displayObject.$getRaw;
 
   const $getRaw = (): PartialTextProps => ({
     ...$$getRaw(),
@@ -55,23 +53,23 @@ export const text = async <Props, Mutable, Data>(
 
   const $getText = () => $text;
 
-  const $mutable: Partial<InternalTextMutable<Props, unknown, Data>> &
-    PartialTextMutable = {
+  {
+    if (isNotNullish(currentText)) setText(currentText);
+    if (isNotNullish(size)) setSize(size);
+    if (isNotNullish(font)) setFont(font);
+    if (isNotNullish(color)) setColor(color);
+  }
+
+  const $mutable = {
     setText,
     setSkew,
     setColor,
+    setSize,
+    setFont,
 
-    getProps: () => $props as any,
-
-    //@ts-ignore
     $getRaw,
     $getText,
+  } as TextMutable<Props, Mutable, Data>;
 
-    $mutable: false,
-  };
-
-  return displayObjectMutable.getComponent(
-    text,
-    $mutable as InternalTextMutable<Props, Mutable, Data>,
-  );
+  return $displayObject.getComponent(text, $mutable);
 };

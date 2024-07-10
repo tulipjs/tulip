@@ -37,11 +37,10 @@ export type ComponentMutable<Props = {}, Mutable = {}, Data = {}> = {
   getSound: (soundId: string) => SoundMutable[];
 
   getComponent?: (
-    component:
-      | Component<Props, Mutable, Data>
-      | AsyncComponent<Props, Mutable, Data>,
-    mutable?: Mutable,
+    component: unknown,
+    mutable?: Partial<ComponentMutable<Props, Mutable, Data>>,
   ) => ComponentMutable<Props, any & { $expose: true }, Data>;
+
   getFather: <FProps, FMutable, FData>() => ComponentMutable<
     FProps,
     FMutable,

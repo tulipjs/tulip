@@ -10,11 +10,9 @@ import {
 import { GlobalData } from "types";
 
 type Props = {
-  props: {
-    color: number;
-    size: number;
-    mass: number;
-  };
+  color: number;
+  size: number;
+  mass: number;
 };
 
 type Mutable = {};
@@ -26,13 +24,10 @@ export const flyComponent: ContainerComponent<Props, Mutable> = async (
   const $container = await circle({
     ...props,
     eventMode: EventMode.STATIC,
-    props: {
-      ...props.props,
-      material: {
-        friction: 0.3,
-        restitution: 2,
-        surfaceVelocity: 200,
-      },
+    material: {
+      friction: 0.3,
+      restitution: 2,
+      surfaceVelocity: 200,
     },
     hitArea: polygon,
   });
@@ -51,11 +46,9 @@ export const flyComponent: ContainerComponent<Props, Mutable> = async (
   });
 
   const circle2 = await circle({
-    props: {
-      size,
-      color: global.getData<GlobalData>().ballColor,
-      mass: 0,
-    },
+    size,
+    color: global.getData<GlobalData>().ballColor,
+    mass: 0,
     alpha,
     position: {
       x: position,
@@ -64,11 +57,9 @@ export const flyComponent: ContainerComponent<Props, Mutable> = async (
   });
 
   const circle3 = await circle({
-    props: {
-      size,
-      color: global.getData<GlobalData>().ballColor,
-      mass: 0,
-    },
+    size,
+    color: global.getData<GlobalData>().ballColor,
+    mass: 0,
     alpha,
     position: {
       x: -position,

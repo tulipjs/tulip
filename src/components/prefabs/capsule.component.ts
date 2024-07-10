@@ -10,13 +10,11 @@ export const capsule: ContainerComponent<
   CapsuleProps,
   PartialContainerMutable
 > = async (props) => {
-  const $container = await container({
-    ...props,
-  });
+  const $container = await container<CapsuleProps, PartialContainerMutable>(
+    props,
+  );
 
-  const {
-    props: { color, length, radius, mass, material },
-  } = $container.getProps();
+  const { color, length, radius, mass, material } = $container.getProps();
 
   const $capsule = await graphics({
     color,

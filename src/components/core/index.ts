@@ -1,4 +1,6 @@
 export * from "./component.component";
+export * from "./display-object.component";
+
 export * from "./container.component";
 export * from "./sprite.component";
 export * from "./graphics.component";

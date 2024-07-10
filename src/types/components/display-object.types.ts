@@ -3,10 +3,15 @@ import { Point } from "../point.types";
 import { Cursor, DisplayObjectEvent, EventMode } from "../../enums";
 import { Size } from "../size.types";
 import { DisplayObject as DO } from "../pixi.types";
-import { Component, ComponentMutable, ComponentProps } from "./component.types";
+import {
+  AsyncComponent,
+  Component,
+  ComponentMutable,
+  ComponentProps,
+} from "./component.types";
 
 export type PartialDisplayObjectProps = {
-  displayObject: DO;
+  displayObject?: DO;
   pivot?: Point;
   eventMode?: EventMode;
   visible?: boolean;
@@ -97,10 +102,8 @@ export type AsyncDisplayObjectComponent<
   Props = {},
   Mutable = {},
   Data = {},
-> = Promise<
-  Component<
-    DisplayObjectProps<Props, Data>,
-    DisplayObjectMutable<DisplayObject, Props, Mutable, Data>,
-    Data
-  >
+> = AsyncComponent<
+  DisplayObjectProps<Props, Data>,
+  DisplayObjectMutable<DisplayObject, Props, Mutable, Data>,
+  Data
 >;

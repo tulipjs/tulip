@@ -1,38 +1,29 @@
 import {
-  ComponentProps,
-  DisplayObject,
   DisplayObject as DO,
   DisplayObjectMutable,
   DisplayObjectProps,
   Point,
 } from "../../types";
 import { component } from "./component.component";
-import { getValueMutableFunction } from "../../utils";
+import { getValueMutableFunction, isNotNullish } from "../../utils";
 import { Cursor, DisplayObjectEvent, Event, EventMode } from "../../enums";
 import { global } from "../../global";
 import * as PIXI from "pixi.js";
 
-export const displayObject = <
+export const displayObject = async <
   DisplayObject extends DO,
   Props = {},
   Mutable = {},
   Data = {},
 >(
-  originalProps: DisplayObjectProps<Props, Data> = {} as DisplayObjectProps<
-    Props,
-    Data
-  >,
-): DisplayObjectMutable<
-  DisplayObject,
-  DisplayObjectProps<Props, Data>,
-  Mutable,
-  Data
-> => {
-  const $component = component<DisplayObjectProps<Props, Data>, Mutable, Data>(
-    originalProps,
+  {
+    displayObject: $displayObject,
+    ...originalProps
+  }: DisplayObjectProps<Props, Data> = {} as DisplayObjectProps<Props, Data>,
+): Promise<DisplayObjectMutable<DisplayObject, Props, Mutable, Data>> => {
+  const $component = component<DisplayObjectProps<Props, Data>>(
+    originalProps as DisplayObjectProps<Props, Data>,
   );
-
-  const { displayObject: $displayObject } = $component.getProps();
 
   let $isRemoved = false;
 
@@ -179,15 +170,14 @@ export const displayObject = <
 
     $$destroy();
   };
-  const $getRaw = (): DisplayObjectProps =>
-    ({
-      ...($$getRaw() as ComponentProps),
-      pivot: getPivot(),
-      visible: getVisible(),
-      zIndex: getZIndex(),
-      alpha: getAlpha(),
-      eventMode: getEventMode(),
-    }) as DisplayObjectProps;
+  const $getRaw = (): DisplayObjectProps<Props, Data> => ({
+    ...$$getRaw(),
+    pivot: getPivot(),
+    visible: getVisible(),
+    zIndex: getZIndex(),
+    alpha: getAlpha(),
+    eventMode: getEventMode(),
+  });
   let $removeOnTickEvent: () => void;
 
   $displayObject.on(DisplayObjectEvent.REMOVED, () => {
@@ -209,7 +199,40 @@ export const displayObject = <
     $displayObject.on(event as any, $callback);
   };
 
-  return $component.getComponent(displayObject, {
+  // Set initials
+  {
+    const {
+      label,
+      position,
+      pivot,
+      angle,
+      alpha,
+      eventMode,
+      tint,
+      cursor,
+      hitArea,
+    } = $component.getProps();
+
+    if (isNotNullish(label)) setLabel(label);
+    if (isNotNullish(position)) await setPosition(position);
+    if (isNotNullish(pivot)) await setPivot(pivot);
+    if (isNotNullish(angle)) await setAngle(angle);
+    if (isNotNullish(alpha)) await setAlpha(alpha);
+    if (isNotNullish(eventMode)) await setEventMode(eventMode);
+    if (isNotNullish(tint)) await setEventMode(eventMode);
+    if (isNotNullish(cursor)) await setCursor(cursor);
+    if (isNotNullish(hitArea)) await setHitArea(hitArea);
+
+    on(DisplayObjectEvent.TICK, () => {
+      // If not body present, it doesn't make sense to iterate
+      if (!$component?.getBody()) return;
+
+      setPosition(global.normalizePoint($component.getPosition()));
+      setAngle($component.getAngle());
+    });
+  }
+
+  const $mutable = {
     getDisplayObject: (props) => {
       if (!props?.__preventWarning)
         console.warn(
@@ -261,5 +284,7 @@ export const displayObject = <
 
     $destroy,
     $getRaw,
-  });
+  } as DisplayObjectMutable<DisplayObject, Props, Mutable, Data>;
+
+  return $component.getComponent(displayObject, $mutable);
 };

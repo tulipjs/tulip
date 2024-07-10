@@ -1,4 +1,4 @@
-import { ContainerMutable, WorldMutable } from "../../../types";
+import { ContainerMutable, WorldComponent } from "../../../types";
 import { expect } from "@jest/globals";
 import * as PIXI from "pixi.js";
 import { world } from "../world.component";
@@ -25,7 +25,7 @@ global.console = { warn: jest.fn() };
 describe("components", () => {
   describe("core", () => {
     describe("world", () => {
-      let $world: WorldMutable;
+      let $world: Awaited<ReturnType<WorldComponent>>;
       let $container: ContainerMutable;
 
       beforeEach(() => {
@@ -39,10 +39,8 @@ describe("components", () => {
       test("check that p2 world is being created", async () => {
         $world = await world({
           label: "world",
-          props: {
-            physics: {
-              gravity: { x: 3, y: 4 },
-            },
+          physics: {
+            gravity: { x: 3, y: 4 },
           },
         });
         expect($world.$getWorld().gravity[0]).toBe(3);
@@ -61,7 +59,7 @@ describe("components", () => {
       test("getProps() returns initial props", () => {
         expect($world.getProps()).toEqual({
           label: "world",
-          props: { physics: { gravity: { x: 3, y: 4 } } },
+          physics: { gravity: { x: 3, y: 4 } },
         });
       });
       test("add(...) adds a new element without body", async () => {

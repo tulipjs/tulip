@@ -15,7 +15,7 @@ export const component = <Props = {}, Mutable = {}, Data = {}>(
     Props,
     Data
   >,
-): ComponentMutable<Props, Mutable, Data> => {
+): ComponentMutable<ComponentProps<Props, Data>, Mutable, Data> => {
   const { label = "empty", position, angle, initialData } = originalProps;
   const $props = structuredClone(originalProps);
 
@@ -151,6 +151,7 @@ export const component = <Props = {}, Mutable = {}, Data = {}>(
     $getRaw,
 
     $getComponentName,
+    //@ts-ignore
     $expose: false,
   };
 

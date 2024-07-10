@@ -7,9 +7,9 @@ import {
   ContainerMutable,
   DisplayObjectMutable,
 } from "../../types";
-import { initDisplayObjectMutable, getVisualShape } from "../../utils";
-import { empty } from "./empty.component";
+import { getVisualShape } from "../../utils";
 import { global } from "../../global";
+import { displayObject } from "./display-object.component";
 
 export const container = async <Props = {}, Mutable = {}, Data = {}>(
   originalProps: ContainerProps<Props, Data> = {} as ContainerProps<
@@ -17,21 +17,18 @@ export const container = async <Props = {}, Mutable = {}, Data = {}>(
     Data
   >,
 ): Promise<ContainerMutable<Props, Mutable, Data>> => {
-  const $props = structuredClone(originalProps);
-
-  const $container = new PIXI.Container() as Container;
-  const emptyMutable = empty<Props, Mutable, Data>(originalProps);
+  const $displayObject = await displayObject<Container, ContainerProps<Props>>({
+    ...originalProps,
+    displayObject: new PIXI.Container(),
+  });
 
   let childList: DisplayObjectMutable<DisplayObject>[] = [];
 
-  const displayObjectMutable = await initDisplayObjectMutable<Container>(
-    $container,
-    //@ts-ignore
-    emptyMutable,
-  );
-
-  const $$destroy = displayObjectMutable.$destroy;
-  const $$setBody = displayObjectMutable.setBody;
+  const $container = $displayObject.getDisplayObject({
+    __preventWarning: true,
+  });
+  const $$destroy = $displayObject.$destroy;
+  const $$setBody = $displayObject.setBody;
 
   const $destroy = () => {
     //remove child first
@@ -39,7 +36,7 @@ export const container = async <Props = {}, Mutable = {}, Data = {}>(
     $$destroy();
     //destroy pixi container
     $container.destroy();
-    displayObjectMutable.getFather = () => null;
+    $displayObject.getFather = () => null;
 
     for (const childComponent of childList) childComponent.$destroy();
   };
@@ -49,11 +46,7 @@ export const container = async <Props = {}, Mutable = {}, Data = {}>(
   ) => {
     for (const currentDisplayObjectMutable of displayObjectsMutable) {
       currentDisplayObjectMutable.getFather = () =>
-        displayObjectMutable as DisplayObjectMutable<
-          DisplayObject,
-          unknown,
-          any
-        >;
+        $displayObject as DisplayObjectMutable<DisplayObject, unknown, any>;
 
       $container.addChild(
         currentDisplayObjectMutable.getDisplayObject({
@@ -94,19 +87,15 @@ export const container = async <Props = {}, Mutable = {}, Data = {}>(
     }
   };
 
-  const $mutable: ContainerMutable<any, any, any> = {
+  const $mutable = {
     add,
     remove,
     getChildren,
 
     setBody,
 
-    getProps: () => $props as Props,
-
     $destroy,
+  } as ContainerMutable<Props, Mutable, Data>;
 
-    $mutable: false,
-  };
-
-  return displayObjectMutable.getComponent(container, $mutable);
+  return $displayObject.getComponent(container, $mutable);
 };

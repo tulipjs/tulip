@@ -10,12 +10,10 @@ describe("components", () => {
 
       beforeAll(async () => {
         $circle = await circle({
-          props: {
-            color: 0xff00ff,
-            mass: 99,
-            size: 5,
-            material: {},
-          },
+          color: 0xff00ff,
+          mass: 99,
+          size: 5,
+          material: {},
         });
       });
 

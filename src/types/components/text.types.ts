@@ -22,6 +22,8 @@ export type PartialTextMutable<Mutable = {}> = {
   setText: (text: string) => void;
   setSkew: (skew: Point) => void;
   setColor: (color: number) => void;
+  setFont: (font: string) => void;
+  setSize: (size: number) => void;
   $getText: () => Text;
 } & Mutable;
 

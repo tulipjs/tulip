@@ -12,7 +12,9 @@ export const plane: ContainerComponent<
   PlaneProps,
   PartialContainerMutable
 > = async ($props) => {
-  const $container = await container($props);
+  const $container = await container<PlaneProps, PartialContainerMutable>(
+    $props,
+  );
 
   const $body = body({ angle: $props.angle });
   $body.addShape({
