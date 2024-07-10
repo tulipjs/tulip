@@ -1,22 +1,18 @@
 import * as PIXI from "pixi.js";
-import {
-  InternalAsyncSpriteMutable,
-  InternalSpriteMutable,
-  Sprite,
-  PartialSpriteMutable,
-  PartialSpriteProps,
-  SpriteProps,
-} from "../../types";
-import { initDisplayObjectMutable } from "../../utils";
-import { empty } from "./empty.component";
+import { Sprite, SpriteProps, SpriteMutable } from "../../types";
+import { displayObject } from "./display-object.component";
 
-export const sprite = async <Props, Mutable, Data>(
-  originalProps = {} as SpriteProps<Data> & Props,
-): InternalAsyncSpriteMutable<Props, Mutable, Data> => {
-  const { texture = undefined } = originalProps;
+export const sprite = async <Props = {}, Mutable = {}, Data = {}>(
+  originalProps: SpriteProps<Props, Data> = {} as SpriteProps<Props, Data>,
+): Promise<SpriteMutable<Props, Mutable, Data>> => {
+  const $displayObject = await displayObject<Sprite, SpriteProps<Props>>({
+    ...originalProps,
+    displayObject: new PIXI.Sprite(),
+  });
 
-  const $props = structuredClone(originalProps);
+  const { texture } = $displayObject.getProps();
 
+  const $sprite = $displayObject.getDisplayObject({ __preventWarning: true });
   let $texture = texture;
 
   const $getTexture = async (texture?: string) => {
@@ -27,26 +23,16 @@ export const sprite = async <Props, Mutable, Data>(
 
     return targetTexture;
   };
-  const spriteTexture = await $getTexture(texture);
-
-  const $sprite = new PIXI.Sprite(spriteTexture) as Sprite;
-  const emptyMutable = empty<Props, Mutable, Data>(originalProps);
-
-  const displayObjectMutable = await initDisplayObjectMutable<Sprite>(
-    $sprite,
-    //@ts-ignore
-    emptyMutable,
-  );
 
   const setTexture = async (texture?: string) => {
     $texture = texture;
     $sprite.texture = await $getTexture(texture);
   };
 
-  const $$getRaw = displayObjectMutable.$getRaw;
-  const $$destroy = displayObjectMutable.$destroy;
+  const $$getRaw = $displayObject.$getRaw;
+  const $$destroy = $displayObject.$destroy;
 
-  const $getRaw = (): PartialSpriteProps => ({
+  const $getRaw = (): SpriteProps => ({
     ...$$getRaw(),
     texture: $texture,
   });
@@ -57,25 +43,19 @@ export const sprite = async <Props, Mutable, Data>(
     $$destroy();
     //destroy pixi graphics
     $sprite.destroy();
-    displayObjectMutable.getFather = () => null;
+    $displayObject.getFather = () => null;
   };
 
-  const $mutable: Partial<InternalSpriteMutable<Props, unknown, Data>> &
-    PartialSpriteMutable = {
-    // sprite
+  {
+    await setTexture(texture);
+  }
+
+  const $mutable = {
     setTexture,
 
-    getProps: () => $props as any,
-
     $destroy,
-    //@ts-ignore
     $getRaw,
+  } as SpriteMutable<Props, Mutable, Data>;
 
-    $mutable: false,
-  };
-
-  return displayObjectMutable.getComponent(
-    sprite,
-    $mutable as InternalSpriteMutable<Props, Mutable, Data>,
-  );
+  return $displayObject.getComponent(sprite, $mutable);
 };

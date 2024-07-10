@@ -2,16 +2,16 @@ import { Graphics } from "../pixi.types";
 import { GraphicType } from "../../enums";
 import {
   AsyncDisplayObjectComponent,
-  InternalDisplayObjectMutable,
   DisplayObjectMutable,
   DisplayObjectProps,
-} from "../display-object.types";
+} from "./display-object.types";
 
-export type PartialGraphicsProps = {
+export type PartialGraphicsProps<Props = {}> = {
   color: number;
-} & GraphicsTypesProps;
+} & GraphicsTypesProps &
+  Props;
 
-export type PartialGraphicsMutable = {
+export type PartialGraphicsMutable<Mutable = {}> = {
   getType: () => GraphicType;
 
   setColor: (color: number) => void;
@@ -27,7 +27,7 @@ export type PartialGraphicsMutable = {
   getLength: () => number | undefined;
   getWidth: () => number | undefined;
   getHeight: () => number | undefined;
-};
+} & Mutable;
 
 export type GraphicsPolygonProps = {
   type: GraphicType.POLYGON;
@@ -54,25 +54,20 @@ export type GraphicsTypesProps =
   | GraphicsCapsuleProps
   | GraphicsTriangleProps;
 
-export type GraphicsProps<Data = {}> = DisplayObjectProps<Data> &
-  PartialGraphicsProps;
-export type GraphicsMutable = DisplayObjectMutable<Graphics> &
-  PartialGraphicsMutable;
-
 ////////////////////////////
-export type InternalAsyncGraphicsMutable<
+export type GraphicsProps<Props = {}, Data = {}> = DisplayObjectProps<
+  PartialGraphicsProps<Props>,
+  Data
+>;
+
+export type GraphicsMutable<
   Props = {},
   Mutable = {},
   Data = {},
-> = Promise<InternalGraphicsMutable<Props, Mutable, Data>>;
-export type InternalGraphicsMutable<
-  Props = {},
-  Mutable = {},
-  Data = {},
-> = InternalDisplayObjectMutable<
+> = DisplayObjectMutable<
   Graphics,
-  PartialGraphicsProps & Props,
-  PartialGraphicsMutable & Mutable,
+  GraphicsProps<Props, Data>,
+  PartialGraphicsMutable<Mutable>,
   Data
 >;
 
@@ -83,7 +78,7 @@ export type GraphicsComponent<
   Data = {},
 > = AsyncDisplayObjectComponent<
   Graphics,
-  PartialGraphicsProps & Props,
-  PartialGraphicsMutable & Mutable,
+  GraphicsProps<Props, Data>,
+  GraphicsMutable<Props, Mutable, Data>,
   Data
 >;

@@ -10,13 +10,9 @@ export const box: ContainerComponent<
   BoxProps,
   PartialContainerMutable
 > = async (props) => {
-  const $container = await container({
-    ...props,
-  });
+  const $container = await container<BoxProps, PartialContainerMutable>(props);
 
-  const {
-    props: { color, width, height, mass, material },
-  } = $container.getProps();
+  const { color, width, height, mass, material } = $container.getProps();
 
   const $box = await graphics({
     type: GraphicType.POLYGON,

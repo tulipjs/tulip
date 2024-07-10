@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js";
-import { DisplayObjectMutable } from "./display-object.types";
+import { DisplayObjectMutable } from "../types/components";
 
 export type ApplicationProps = {
   backgroundColor?: number;

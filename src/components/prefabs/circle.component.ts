@@ -10,13 +10,11 @@ export const circle: ContainerComponent<
   CircleProps,
   PartialContainerMutable
 > = async (props) => {
-  const $container = await container({
-    ...props,
-  });
+  const $container = await container<CircleProps, PartialContainerMutable>(
+    props,
+  );
 
-  const {
-    props: { color, size, mass, material },
-  } = $container.getProps();
+  const { color, size, mass, material } = $container.getProps();
 
   const $circle = await graphics({
     color,

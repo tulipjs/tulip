@@ -10,13 +10,11 @@ describe("components", () => {
 
       beforeAll(async () => {
         $capsule = await capsule({
-          props: {
-            color: 0xff00ff,
-            mass: 99,
-            length: 54,
-            radius: 23,
-            material: {},
-          },
+          color: 0xff00ff,
+          mass: 99,
+          length: 54,
+          radius: 23,
+          material: {},
         });
       });
 

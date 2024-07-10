@@ -34,11 +34,9 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
   const $world = await world({
     position: { x: 0, y: 0 },
     label: "world2",
-    props: {
-      physics: {
-        enabled: true,
-        gravity: { x: 0, y: -0.0 },
-      },
+    physics: {
+      enabled: true,
+      gravity: { x: 0, y: -0.0 },
     },
   });
 
@@ -56,11 +54,9 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
   for (let i = 0; i < 2; i++) {
     const _fly = await flyComponent({
       label: `ball`,
-      props: {
-        color: 0xffffff,
-        size: 2,
-        mass: 0.1,
-      },
+      color: 0xffffff,
+      size: 2,
+      mass: 0.1,
       position: {
         x: Math.random() * 1300,
         y: Math.random() * 900,

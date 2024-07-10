@@ -3,24 +3,25 @@ import {
   Graphics,
   GraphicsCapsuleProps,
   GraphicsCircleProps,
-  PartialGraphicsMutable,
   GraphicsPolygonProps,
-  PartialGraphicsProps,
   GraphicsTriangleProps,
-  InternalAsyncGraphicsMutable,
-  InternalGraphicsMutable,
   GraphicsProps,
+  GraphicsMutable,
 } from "../../types";
-import { initDisplayObjectMutable } from "../../utils";
-import { empty } from "./empty.component";
 import { GraphicType } from "../../enums";
+import { displayObject } from "./display-object.component";
 
-export const graphics = async <Props, Mutable, Data>(
-  originalProps = {} as GraphicsProps<Data> & Props,
-): InternalAsyncGraphicsMutable<Props, Mutable, Data> => {
-  const { color, type } = originalProps;
+export const graphics = async <Props = {}, Mutable = {}, Data = {}>(
+  originalProps: GraphicsProps<Props, Data> = {} as GraphicsProps<Props, Data>,
+): Promise<GraphicsMutable<Props, Mutable, Data>> => {
+  const $displayObject = await displayObject<Graphics, GraphicsProps<Props>>({
+    ...originalProps,
+    displayObject: new PIXI.Graphics(),
+  });
 
-  const $props = structuredClone(originalProps);
+  const { type, color } = $displayObject.getProps();
+
+  const $graphics = $displayObject.getDisplayObject({ __preventWarning: true });
 
   let $type: GraphicType = type;
   let $polygon: number[];
@@ -28,16 +29,6 @@ export const graphics = async <Props, Mutable, Data>(
   let $length: number;
   let $width: number;
   let $height: number;
-
-  const $graphics = new PIXI.Graphics() as Graphics;
-
-  const emptyMutable = empty<Props, Mutable, Data>(originalProps);
-
-  const displayObjectMutable = await initDisplayObjectMutable<Graphics>(
-    $graphics,
-    //@ts-ignore
-    emptyMutable,
-  );
 
   const getType = () => $type;
 
@@ -105,10 +96,10 @@ export const graphics = async <Props, Mutable, Data>(
   const getWidth = () => $width;
   const getHeight = () => $height;
 
-  const $$destroy = displayObjectMutable.$destroy;
-  const $$getRaw = displayObjectMutable.$getRaw;
+  const $$destroy = $displayObject.$destroy;
+  const $$getRaw = $displayObject.$getRaw;
 
-  const $getRaw = (): PartialGraphicsProps => ({
+  const $getRaw = (): GraphicsProps => ({
     ...$$getRaw(),
     color: getColor(),
     type: $type,
@@ -126,7 +117,7 @@ export const graphics = async <Props, Mutable, Data>(
     $$destroy();
     //destroy pixi graphics
     $graphics.destroy();
-    displayObjectMutable.getFather = () => null;
+    $displayObject.getFather = () => null;
   };
   {
     color !== undefined && setColor(color);
@@ -148,11 +139,9 @@ export const graphics = async <Props, Mutable, Data>(
     }
   }
 
-  const $mutable: Partial<InternalGraphicsMutable<Props, unknown, Data>> &
-    PartialGraphicsMutable = {
+  const $mutable = {
     getType,
 
-    // graphics
     setColor,
     getColor,
 
@@ -167,16 +156,9 @@ export const graphics = async <Props, Mutable, Data>(
     getWidth,
     getHeight,
 
-    getProps: () => $props as any,
-
     $getRaw,
     $destroy,
+  } as GraphicsMutable<Props, Mutable, Data>;
 
-    $mutable: false,
-  };
-
-  return displayObjectMutable.getComponent(
-    graphics,
-    $mutable as InternalGraphicsMutable<Props, Mutable, Data>,
-  );
+  return $displayObject.getComponent(graphics, $mutable);
 };

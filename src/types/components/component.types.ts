@@ -1,14 +1,15 @@
-import { MutableFunction } from "./mutables.types";
-import { Point } from "./point.types";
-import { BodyMutable } from "./body.types";
-import { SoundMutable, SoundProps } from "./sound.types";
+import { MutableFunction } from "../mutables.types";
+import { Point } from "../point.types";
+import { BodyMutable } from "../body.types";
+import { SoundMutable, SoundProps } from "../sound.types";
 
-export type ComponentProps = {
+export type ComponentProps<Props = {}, Data = {}> = {
   id?: string;
   label?: string;
   position?: Point;
   angle?: number;
-};
+  initialData?: Data;
+} & Props;
 
 export type ComponentMutable<Props = {}, Mutable = {}, Data = {}> = {
   getId: () => string;
@@ -36,11 +37,10 @@ export type ComponentMutable<Props = {}, Mutable = {}, Data = {}> = {
   getSound: (soundId: string) => SoundMutable[];
 
   getComponent?: (
-    component:
-      | Component<Props, Mutable & any, Data>
-      | AsyncComponent<Props, Mutable & any, Data>,
-    mutable?: Partial<Mutable>,
-  ) => InternalMutable<Props, Mutable & any, Data, true>;
+    component: unknown,
+    mutable?: Partial<ComponentMutable<Props, Mutable, Data>>,
+  ) => ComponentMutable<Props, any & { $expose: true }, Data>;
+
   getFather: <FProps, FMutable, FData>() => ComponentMutable<
     FProps,
     FMutable,
@@ -63,37 +63,13 @@ export type ComponentMutable<Props = {}, Mutable = {}, Data = {}> = {
   $destroy: () => void;
   //retrieves the component name (can be undefined or null). Only the added to a father will be filled
   $getComponentName: () => string | undefined;
-  //TODO Search for a better name
-  //It's only used for types, it doesnt contain information
-  $mutable: boolean;
 } & Mutable;
 
-//--------
+////////////////////////////
+export type Component<Props = {}, Mutable = {}, Data = {}> = (
+  props?: ComponentProps<Props, Data>,
+) => ComponentMutable<Props, Mutable & { $expose: true }, Data>;
 
-export type InternalMutable<
-  Props,
-  // @ts-ignore
-  Mutable extends ComponentMutable<ComponentProps & Props, Mutable, Data>,
-  Data,
-  Bool,
-> = Mutable & {
-  $mutable: Bool;
-};
-
-export type Component<
-  Props = {},
-  // @ts-ignore
-  Mutable extends ComponentMutable<ComponentProps & Props, Mutable, Data> = {},
-  Data = {},
-> = (
+export type AsyncComponent<Props = {}, Mutable = {}, Data = {}> = (
   props?: ComponentProps & Props,
-) => InternalMutable<ComponentProps & Props, Mutable, Data, true>;
-
-export type AsyncComponent<
-  Props = {},
-  // @ts-ignore
-  Mutable extends ComponentMutable<ComponentProps & Props, Mutable, Data> = {},
-  Data = {},
-> = (
-  props?: ComponentProps & Props,
-) => Promise<InternalMutable<ComponentProps & Props, Mutable, Data, true>>;
+) => Promise<ComponentMutable<Props, Mutable & { $expose: true }, Data>>;

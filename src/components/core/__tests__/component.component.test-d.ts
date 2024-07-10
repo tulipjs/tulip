@@ -1,6 +1,6 @@
 import { expectAssignable } from "jest-tsd";
-import { empty } from "../empty.component";
-import { BodyMutable, EmptyComponent, Point } from "../../../types";
+import { BodyMutable, Component, Point } from "../../../types";
+import { component } from "../component.component";
 
 type Props = {
   abc?: boolean;
@@ -12,8 +12,8 @@ type Data = {
   aha: string;
 };
 
-const emptyComponent: EmptyComponent<Props, Mutable, Data> = () => {
-  const $container = empty<Props, Mutable, Data>({
+const emptyComponent: Component<Props, Mutable, Data> = () => {
+  const $container = component<Props, Mutable, Data>({
     label: "adada",
   });
   return $container.getComponent(emptyComponent, {

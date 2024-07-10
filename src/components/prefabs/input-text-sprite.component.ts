@@ -36,12 +36,10 @@ export const inputTextSprite: ContainerComponent<
   const { height } = $textSprite.$getSize("A");
 
   const $cursor = await box({
-    props: {
-      width: 1,
-      height: height,
-      mass: 0,
-      color: props.color,
-    },
+    width: 1,
+    height: height,
+    mass: 0,
+    color: props.color,
     pivot: { x: 0, y: -height / 2 },
   });
 

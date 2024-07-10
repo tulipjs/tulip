@@ -1,16 +1,16 @@
 import { expect, test } from "@jest/globals";
-import { empty } from "../empty.component";
 import { body } from "../body.sub-component";
 import { expectTypeTestsToPassAsync } from "jest-tsd";
+import { component } from "../component.component";
 
 describe("components", () => {
   describe("core", () => {
-    describe("empty", () => {
+    describe("component", () => {
       it("check types are not broken", async () => {
         await expectTypeTestsToPassAsync(__filename);
       });
 
-      const emptyPropsMutable = empty({});
+      const emptyPropsMutable = component({});
 
       //id
       test("getId() return the original id", () => {
@@ -78,7 +78,7 @@ describe("components", () => {
         expect(emptyPropsMutable.getData()).toStrictEqual({
           abc: 123,
         });
-        emptyPropsMutable.setData((data) => ({
+        emptyPropsMutable.setData((data: any) => ({
           abc: data.abc + 100,
         }));
         expect(emptyPropsMutable.getData()).toStrictEqual({
@@ -126,7 +126,8 @@ describe("components", () => {
 
       //mutable
       test("$mutable to be false", async () => {
-        expect(emptyPropsMutable.$mutable).toStrictEqual(false);
+        //@ts-ignore
+        expect(emptyPropsMutable.$expose).toStrictEqual(false);
       });
     });
   });

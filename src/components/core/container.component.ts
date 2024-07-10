@@ -1,37 +1,34 @@
 import * as PIXI from "pixi.js";
 import {
   BodyMutable,
-  ComponentMutable,
   Container,
-  PartialContainerMutable,
   DisplayObject,
-  InternalAsyncContainerMutable,
-  InternalContainerMutable,
-  InternalDisplayObjectMutable,
   ContainerProps,
+  ContainerMutable,
+  DisplayObjectMutable,
 } from "../../types";
-import { initDisplayObjectMutable, getVisualShape } from "../../utils";
-import { empty } from "./empty.component";
+import { getVisualShape } from "../../utils";
 import { global } from "../../global";
+import { displayObject } from "./display-object.component";
 
 export const container = async <Props = {}, Mutable = {}, Data = {}>(
-  originalProps = {} as ContainerProps<Data> & Props,
-): InternalAsyncContainerMutable<Props, Mutable, Data> => {
-  const $props = structuredClone(originalProps);
+  originalProps: ContainerProps<Props, Data> = {} as ContainerProps<
+    Props,
+    Data
+  >,
+): Promise<ContainerMutable<Props, Mutable, Data>> => {
+  const $displayObject = await displayObject<Container, ContainerProps<Props>>({
+    ...originalProps,
+    displayObject: new PIXI.Container(),
+  });
 
-  const $container = new PIXI.Container() as Container;
-  const emptyMutable = empty<Props, Mutable, Data>(originalProps);
+  let childList: DisplayObjectMutable<DisplayObject>[] = [];
 
-  let childList: InternalDisplayObjectMutable<DisplayObject>[] = [];
-
-  const displayObjectMutable = await initDisplayObjectMutable<Container>(
-    $container,
-    //@ts-ignore
-    emptyMutable,
-  );
-
-  const $$destroy = displayObjectMutable.$destroy;
-  const $$setBody = displayObjectMutable.setBody;
+  const $container = $displayObject.getDisplayObject({
+    __preventWarning: true,
+  });
+  const $$destroy = $displayObject.$destroy;
+  const $$setBody = $displayObject.setBody;
 
   const $destroy = () => {
     //remove child first
@@ -39,22 +36,17 @@ export const container = async <Props = {}, Mutable = {}, Data = {}>(
     $$destroy();
     //destroy pixi container
     $container.destroy();
-    displayObjectMutable.getFather = () => null;
+    $displayObject.getFather = () => null;
 
     for (const childComponent of childList) childComponent.$destroy();
   };
 
   const add = (
-    ...displayObjectsMutable: InternalDisplayObjectMutable<
-      DisplayObject,
-      any,
-      any,
-      any
-    >[]
+    ...displayObjectsMutable: DisplayObjectMutable<DisplayObject>[]
   ) => {
     for (const currentDisplayObjectMutable of displayObjectsMutable) {
       currentDisplayObjectMutable.getFather = () =>
-        displayObjectMutable as ComponentMutable<any, any, any>;
+        $displayObject as DisplayObjectMutable<DisplayObject, unknown, any>;
 
       $container.addChild(
         currentDisplayObjectMutable.getDisplayObject({
@@ -67,12 +59,7 @@ export const container = async <Props = {}, Mutable = {}, Data = {}>(
   };
 
   const remove = (
-    ...displayObjectsMutable: InternalDisplayObjectMutable<
-      DisplayObject,
-      any,
-      any,
-      any
-    >[]
+    ...displayObjectsMutable: DisplayObjectMutable<DisplayObject>[]
   ) => {
     displayObjectsMutable.forEach((displayObjectMutable) => {
       displayObjectMutable.getFather = () => null;
@@ -100,23 +87,15 @@ export const container = async <Props = {}, Mutable = {}, Data = {}>(
     }
   };
 
-  const $mutable: Partial<InternalContainerMutable<Props, unknown, Data>> &
-    PartialContainerMutable = {
+  const $mutable = {
     add,
     remove,
     getChildren,
 
     setBody,
 
-    getProps: () => $props as Props,
-
     $destroy,
+  } as ContainerMutable<Props, Mutable, Data>;
 
-    $mutable: false,
-  };
-
-  return displayObjectMutable.getComponent(
-    container,
-    $mutable as InternalContainerMutable<Props, Mutable, Data>,
-  );
+  return $displayObject.getComponent(container, $mutable);
 };

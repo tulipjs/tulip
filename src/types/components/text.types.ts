@@ -2,47 +2,45 @@ import { Text } from "../pixi.types";
 import { Point } from "../point.types";
 import {
   AsyncDisplayObjectComponent,
-  InternalDisplayObjectMutable,
   DisplayObjectMutable,
   DisplayObjectProps,
-} from "../display-object.types";
+} from "./display-object.types";
 
 export type Font = {
   alias: string;
   src: string;
 };
 
-export type PartialTextProps = {
+export type PartialTextProps<Props = {}> = {
   font?: string;
   text: string;
   color: number;
   size: number;
-};
+} & Props;
 
-export type PartialTextMutable = {
+export type PartialTextMutable<Mutable = {}> = {
   setText: (text: string) => void;
   setSkew: (skew: Point) => void;
   setColor: (color: number) => void;
+  setFont: (font: string) => void;
+  setSize: (size: number) => void;
   $getText: () => Text;
-};
-
-export type TextProps<Data = {}> = DisplayObjectProps<Data> & PartialTextProps;
-export type TextMutable = DisplayObjectMutable<Text> & PartialTextMutable;
+} & Mutable;
 
 ////////////////////////////
-export type InternalAsyncTextMutable<
+export type TextProps<Props = {}, Data = {}> = DisplayObjectProps<
+  PartialTextProps<Props>,
+  Data
+>;
+
+export type TextMutable<
   Props = {},
   Mutable = {},
   Data = {},
-> = Promise<InternalTextMutable<Props, Mutable, Data>>;
-export type InternalTextMutable<
-  Props = {},
-  Mutable = {},
-  Data = {},
-> = InternalDisplayObjectMutable<
+> = DisplayObjectMutable<
   Text,
-  PartialTextProps & Props,
-  PartialTextMutable & Mutable,
+  TextProps<Props, Data>,
+  PartialTextMutable<Mutable>,
   Data
 >;
 
@@ -53,7 +51,7 @@ export type TextComponent<
   Data = {},
 > = AsyncDisplayObjectComponent<
   Text,
-  PartialTextProps & Props,
-  PartialTextMutable & Mutable,
+  TextProps<Props, Data>,
+  TextMutable<Props, Mutable, Data>,
   Data
 >;

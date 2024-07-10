@@ -1,35 +1,24 @@
 import p2 from "p2";
 import {
-  ContainerComponent,
-  PartialContainerMutable,
   DisplayObject,
-  InternalContainerMutable,
-  InternalDisplayObjectMutable,
-  PartialWorldMutable,
-  PartialWorldProps,
   WorldProps,
   WorldMutable,
+  DisplayObjectMutable,
+  ContainerMutable,
+  WorldComponent,
 } from "../../types";
 import { container } from "./container.component";
 import { WORLD_DEFAULT_PROPS } from "../../consts";
 import { DisplayObjectEvent } from "../../enums";
 
-export const world: ContainerComponent<WorldProps<{}>, WorldMutable> = async (
+export const world: WorldComponent = async (
   originalProps = WORLD_DEFAULT_PROPS,
 ) => {
-  const $container = await container(originalProps);
+  const $container = await container<WorldProps, WorldMutable>(originalProps);
 
-  const $props = structuredClone(originalProps);
+  const { physics } = $container.getProps();
 
-  const { props = {} } = $container.getProps();
-  const { physics } = props;
-
-  let displayObjectList: InternalDisplayObjectMutable<
-    DisplayObject,
-    any,
-    any,
-    any
-  >[] = [];
+  let displayObjectList: DisplayObjectMutable<DisplayObject>[] = [];
 
   let $world = new p2.World({
     gravity: physics?.gravity
@@ -37,14 +26,11 @@ export const world: ContainerComponent<WorldProps<{}>, WorldMutable> = async (
       : undefined,
   });
 
-  const $addBody = (
-    displayObject: InternalDisplayObjectMutable<DisplayObject, any, any, any>,
-  ) => {
+  const $addBody = (displayObject: DisplayObjectMutable<DisplayObject>) => {
     const body = displayObject.getBody ? displayObject.getBody() : null;
 
     if (!body) {
-      const children =
-        (displayObject as PartialContainerMutable)?.getChildren() ?? [];
+      const children = (displayObject as ContainerMutable)?.getChildren() ?? [];
       for (const child of children) $addBody(child);
     } else {
       const _body = body.$getBody();
@@ -67,9 +53,7 @@ export const world: ContainerComponent<WorldProps<{}>, WorldMutable> = async (
   const $$remove = $container.remove;
   const $$destroy = $container.$destroy;
 
-  const add = (
-    ...displayObjects: InternalDisplayObjectMutable<DisplayObject>[]
-  ) => {
+  const add = (...displayObjects: DisplayObjectMutable<DisplayObject>[]) => {
     displayObjects.forEach((displayObject) => {
       displayObjectList.push(displayObject);
 
@@ -78,22 +62,17 @@ export const world: ContainerComponent<WorldProps<{}>, WorldMutable> = async (
     });
   };
 
-  const $removeBody = (
-    displayObject: InternalDisplayObjectMutable<DisplayObject>,
-  ) => {
+  const $removeBody = (displayObject: DisplayObjectMutable<DisplayObject>) => {
     const body = displayObject.getBody ? displayObject.getBody() : null;
     if (body) $world.removeBody(body.$getBody());
     else {
-      const children =
-        (displayObject as InternalContainerMutable)?.getChildren() ?? [];
+      const children = (displayObject as ContainerMutable)?.getChildren() ?? [];
       for (const child of children)
-        $removeBody(child as InternalDisplayObjectMutable<DisplayObject>);
+        $removeBody(child as DisplayObjectMutable<DisplayObject>);
     }
   };
 
-  const remove = (
-    ...displayObjects: InternalDisplayObjectMutable<DisplayObject>[]
-  ) => {
+  const remove = (...displayObjects: DisplayObjectMutable<DisplayObject>[]) => {
     displayObjects.forEach((displayObject) => {
       displayObjectList = displayObjectList.filter(
         (_, index) => displayObjectList.indexOf(displayObject) !== index,
@@ -131,28 +110,16 @@ export const world: ContainerComponent<WorldProps<{}>, WorldMutable> = async (
 
   const $getWorld = () => $world;
 
-  const $mutable: Partial<
-    InternalContainerMutable<PartialWorldProps, PartialWorldMutable, unknown>
-  > &
-    PartialWorldMutable = {
+  const $mutable = {
     add,
     remove,
 
     setPhysicsEnabled,
     getPhysicsEnabled,
 
-    getProps: () => $props as any,
-
     $destroy,
     $getWorld,
   };
 
-  return $container.getComponent(
-    world,
-    $mutable as InternalContainerMutable<
-      PartialWorldProps,
-      PartialWorldMutable,
-      unknown
-    >,
-  );
+  return $container.getComponent(world, $mutable);
 };

@@ -1,33 +1,40 @@
 import * as PIXI from "pixi.js";
 import {
   AnimatedSprite,
+  AnimatedSpriteMutable,
   AnimatedSpriteProps,
-  InternalAnimatedSpriteMutable,
-  InternalAsyncAnimatedSpriteMutable,
-  PartialAnimatedSpriteMutable,
-  PartialAnimatedSpriteProps,
 } from "../../types";
-import { empty } from "./empty.component";
-import { initDisplayObjectMutable } from "../../utils";
 import { PlayStatus } from "../../enums";
+import { displayObject } from "./display-object.component";
+import { isNotNullish } from "../../utils";
 
-export const animatedSprite = async <Props, Mutable, Data>(
-  originalProps = {} as AnimatedSpriteProps<Data> & Props,
-): InternalAsyncAnimatedSpriteMutable<Props, Mutable, Data> => {
-  const { spriteSheet, animation, frame, playStatus } = originalProps;
+export const animatedSprite = async <Props = {}, Mutable = {}, Data = {}>(
+  originalProps: AnimatedSpriteProps<Props, Data> = {} as AnimatedSpriteProps<
+    Props,
+    Data
+  >,
+): Promise<AnimatedSpriteMutable<Props, Mutable, Data>> => {
+  const $displayObject = await displayObject<
+    AnimatedSprite,
+    AnimatedSpriteProps<Props>
+  >({
+    ...originalProps,
+    displayObject: new PIXI.AnimatedSprite([PIXI.Texture.EMPTY]),
+  });
 
-  const $props = structuredClone(originalProps);
+  const { spriteSheet, animation, frame, playStatus } =
+    $displayObject.getProps();
 
   let $spriteSheet = spriteSheet + "";
-  let $currentAnimation = animation + "";
+  let $currentAnimation = "";
   let $frame = frame || 0;
   let $playStatus: PlayStatus =
     playStatus === undefined ? playStatus : PlayStatus.STOP;
   let $spriteSheetTexture = await PIXI.Assets.load(spriteSheet);
 
-  const $animatedSprite = new PIXI.AnimatedSprite(
-    $spriteSheetTexture.animations[$currentAnimation],
-  );
+  const $animatedSprite = $displayObject.getDisplayObject({
+    __preventWarning: true,
+  });
 
   const setSpriteSheet = async (spriteSheet: string) => {
     $spriteSheet = spriteSheet + "";
@@ -69,18 +76,10 @@ export const animatedSprite = async <Props, Mutable, Data>(
   };
   const getPlayStatus = () => $playStatus;
 
-  const emptyMutable = empty<Props, Mutable, Data>(originalProps);
+  const $$getRaw = $displayObject.$getRaw;
+  const $$destroy = $displayObject.$destroy;
 
-  const displayObjectMutable = await initDisplayObjectMutable<AnimatedSprite>(
-    $animatedSprite,
-    //@ts-ignore
-    emptyMutable,
-  );
-
-  const $$getRaw = displayObjectMutable.$getRaw;
-  const $$destroy = displayObjectMutable.$destroy;
-
-  const $getRaw = (): PartialAnimatedSpriteProps => ({
+  const $getRaw = (): AnimatedSpriteProps => ({
     ...$$getRaw(),
     spriteSheet: $spriteSheet,
     animation: $currentAnimation,
@@ -95,15 +94,15 @@ export const animatedSprite = async <Props, Mutable, Data>(
     //destroy pixi graphics
     $animatedSprite.destroy();
 
-    displayObjectMutable.getFather = () => null;
+    $displayObject.getFather = () => null;
   };
   {
-    if ($frame !== undefined) setFrame($frame);
-    if ($playStatus !== undefined) setPlayStatus($playStatus);
+    if (isNotNullish(animation)) setAnimation(animation);
+    if (isNotNullish($frame)) setFrame($frame);
+    if (isNotNullish($playStatus)) setPlayStatus($playStatus);
   }
 
-  const $mutable: Partial<InternalAnimatedSpriteMutable<Props, unknown, Data>> &
-    PartialAnimatedSpriteMutable = {
+  const $mutable = {
     setSpriteSheet,
     getSpriteSheet,
 
@@ -116,17 +115,9 @@ export const animatedSprite = async <Props, Mutable, Data>(
     setPlayStatus,
     getPlayStatus,
 
-    getProps: () => $props as any,
-
-    $destroy,
-    //@ts-ignore
     $getRaw,
+    $destroy,
+  } as AnimatedSpriteMutable<Props, Mutable, Data>;
 
-    $mutable: false,
-  };
-
-  return displayObjectMutable.getComponent(
-    animatedSprite,
-    $mutable as InternalAnimatedSpriteMutable<Props, Mutable, Data>,
-  );
+  return $displayObject.getComponent(animatedSprite, $mutable);
 };

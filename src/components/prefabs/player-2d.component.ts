@@ -21,9 +21,9 @@ export const player2D: ContainerComponent<
   deceleration = 0.1,
   ...props
 }) => {
-  const $container = await container({
-    ...props,
-  });
+  const $container = await container<PlayerProps, PartialContainerMutable>(
+    props,
+  );
 
   let currentKeyList = [];
   let velocityX = 0;

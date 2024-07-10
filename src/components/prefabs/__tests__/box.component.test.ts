@@ -10,13 +10,11 @@ describe("components", () => {
 
       beforeAll(async () => {
         $box = await box({
-          props: {
-            color: 0xff00ff,
-            height: 200,
-            width: 100,
-            mass: 99,
-            material: {},
-          },
+          color: 0xff00ff,
+          height: 200,
+          width: 100,
+          mass: 99,
+          material: {},
         });
       });
 
