@@ -1,52 +1,46 @@
 import {
   AsyncDisplayObjectComponent,
-  InternalDisplayObjectMutable,
   DisplayObjectMutable,
   DisplayObjectProps,
-} from "../display-object.types";
+} from "./display-object.types";
 import { Container, DisplayObject } from "../pixi.types";
 
-export type PartialContainerProps = {};
+export type PartialContainerProps<Props = {}> = {} & Props;
 
-export type PartialContainerMutable = {
+export type PartialContainerMutable<Mutable = {}> = {
   add: (
-    ...displayObjectsMutable: InternalDisplayObjectMutable<
+    ...displayObjectsMutable: DisplayObjectMutable<
       DisplayObject,
-      any,
-      any,
-      any
+      unknown,
+      unknown,
+      unknown
     >[]
   ) => void;
   remove: (
-    ...displayObjectsMutable: InternalDisplayObjectMutable<
+    ...displayObjectsMutable: DisplayObjectMutable<
       DisplayObject,
-      any,
-      any,
-      any
+      unknown,
+      unknown,
+      unknown
     >[]
   ) => void;
   getChildren: () => DisplayObjectMutable<DisplayObject>[];
-};
-
-export type ContainerProps<Data = {}> = DisplayObjectProps<Data> &
-  PartialContainerProps;
-export type ContainerMutable = DisplayObjectMutable<Container> &
-  PartialContainerMutable;
+} & Mutable;
 
 ////////////////////////////
-export type InternalAsyncContainerMutable<
+export type ContainerProps<Props = {}, Data = {}> = DisplayObjectProps<
+  PartialContainerProps<Props>,
+  Data
+>;
+
+export type ContainerMutable<
   Props = {},
   Mutable = {},
   Data = {},
-> = Promise<InternalContainerMutable<Props, Mutable, Data>>;
-export type InternalContainerMutable<
-  Props = {},
-  Mutable = {},
-  Data = {},
-> = InternalDisplayObjectMutable<
+> = DisplayObjectMutable<
   Container,
-  PartialContainerProps & Props,
-  PartialContainerMutable & Mutable,
+  ContainerProps<Props, Data>,
+  PartialContainerMutable<Mutable>,
   Data
 >;
 
@@ -57,7 +51,7 @@ export type ContainerComponent<
   Data = {},
 > = AsyncDisplayObjectComponent<
   Container,
-  PartialContainerProps & Props,
-  PartialContainerMutable & Mutable,
+  ContainerProps<Props, Data>,
+  ContainerMutable<Props, Mutable, Data>,
   Data
 >;

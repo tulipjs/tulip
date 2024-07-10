@@ -1,17 +1,12 @@
-import { MutableFunction } from "./mutables.types";
-import { Point } from "./point.types";
-import { Cursor, DisplayObjectEvent, EventMode } from "../enums";
-import { Size } from "./size.types";
-import {
-  AsyncEmptyComponent,
-  EmptyComponent,
-  EmptyProps,
-  InternalEmptyMutable,
-} from "./components/empty.types";
-import { DisplayObject as DO } from "./pixi.types";
-import { ComponentMutable } from "./component.types";
+import { MutableFunction } from "../mutables.types";
+import { Point } from "../point.types";
+import { Cursor, DisplayObjectEvent, EventMode } from "../../enums";
+import { Size } from "../size.types";
+import { DisplayObject as DO } from "../pixi.types";
+import { Component, ComponentMutable, ComponentProps } from "./component.types";
 
 export type PartialDisplayObjectProps = {
+  displayObject: DO;
   pivot?: Point;
   eventMode?: EventMode;
   visible?: boolean;
@@ -22,7 +17,7 @@ export type PartialDisplayObjectProps = {
   hitArea?: number[];
 };
 
-export type PartialDisplayObjectMutable<DisplayObject> = {
+export type PartialDisplayObjectMutable<DisplayObject, Mutable = {}> = {
   //############### RENDER ###############
   /**
    * @deprecated Prevent the use of "getDisplayObject()" in favor to add more functions to do specific tasks!
@@ -66,30 +61,22 @@ export type PartialDisplayObjectMutable<DisplayObject> = {
   //hitArea
   setHitArea: (polygon: number[]) => Promise<void>;
   getHitArea: () => number[];
-};
-
-export type DisplayObjectProps<Data = {}> = EmptyProps<Data> &
-  PartialDisplayObjectProps;
-
-export type DisplayObjectMutable<DisplayObject> =
-  PartialDisplayObjectMutable<DisplayObject> & ComponentMutable;
+} & Mutable;
 
 ////////////////////////////
-export type InternalAsyncDisplayObjectMutable<
-  DisplayObject extends DO,
-  Props = {},
-  Mutable = {},
-  Data = {},
-> = Promise<InternalDisplayObjectMutable<DisplayObject, Props, Mutable, Data>>;
-
-export type InternalDisplayObjectMutable<
-  DisplayObject extends DO,
-  Props = {},
-  Mutable = {},
-  Data = {},
-> = InternalEmptyMutable<
+export type DisplayObjectProps<Props = {}, Data = {}> = ComponentProps<
   PartialDisplayObjectProps & Props,
-  PartialDisplayObjectMutable<DisplayObject> & Mutable,
+  Data
+>;
+
+export type DisplayObjectMutable<
+  DisplayObject extends DO,
+  Props = {},
+  Mutable = {},
+  Data = {},
+> = ComponentMutable<
+  DisplayObjectProps<Props, Data>,
+  PartialDisplayObjectMutable<DisplayObject, Mutable>,
   Data
 >;
 
@@ -99,9 +86,9 @@ export type DisplayObjectComponent<
   Props = {},
   Mutable = {},
   Data = {},
-> = EmptyComponent<
-  PartialDisplayObjectProps & Props,
-  PartialDisplayObjectMutable<DisplayObject> & Mutable,
+> = Component<
+  DisplayObjectProps<Props, Data>,
+  DisplayObjectMutable<DisplayObject, Props, Mutable, Data>,
   Data
 >;
 
@@ -110,8 +97,10 @@ export type AsyncDisplayObjectComponent<
   Props = {},
   Mutable = {},
   Data = {},
-> = AsyncEmptyComponent<
-  PartialDisplayObjectProps & Props,
-  PartialDisplayObjectMutable<DisplayObject> & Mutable,
-  Data
+> = Promise<
+  Component<
+    DisplayObjectProps<Props, Data>,
+    DisplayObjectMutable<DisplayObject, Props, Mutable, Data>,
+    Data
+  >
 >;

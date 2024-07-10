@@ -3,16 +3,19 @@ import {
   Point,
   SoundProps,
   SoundMutable,
-  InternalEmptyMutable,
-  EmptyProps,
+  ComponentProps,
+  ComponentMutable,
 } from "../../types";
 import { getRandomNumber, getValueMutableFunction } from "../../utils";
 import { sound } from "./sound.sub-component";
 import { global } from "../../global";
 
-export const empty = <Props, Mutable, Data>(
-  originalProps = {} as EmptyProps<Data> & Props,
-): InternalEmptyMutable<Props, Mutable, Data> => {
+export const component = <Props = {}, Mutable = {}, Data = {}>(
+  originalProps: ComponentProps<Props, Data> = {} as ComponentProps<
+    Props,
+    Data
+  >,
+): ComponentMutable<Props, Mutable, Data> => {
   const { label = "empty", position, angle, initialData } = originalProps;
   const $props = structuredClone(originalProps);
 
@@ -113,7 +116,7 @@ export const empty = <Props, Mutable, Data>(
     $soundList.forEach(($sound) => $sound.stop());
   };
 
-  const $mutable: InternalEmptyMutable<Props, unknown, Data> = {
+  const $mutable: ComponentMutable<Props, unknown, Data> = {
     getId,
 
     getLabel,
@@ -148,8 +151,8 @@ export const empty = <Props, Mutable, Data>(
     $getRaw,
 
     $getComponentName,
-    $mutable: false,
+    $expose: false,
   };
 
-  return $mutable as InternalEmptyMutable<Props, Mutable, Data>;
+  return $mutable as ComponentMutable<Props, Mutable, Data>;
 };

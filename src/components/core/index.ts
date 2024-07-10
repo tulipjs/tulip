@@ -1,4 +1,4 @@
-export * from "./empty.component";
+export * from "./component.component";
 export * from "./container.component";
 export * from "./sprite.component";
 export * from "./graphics.component";

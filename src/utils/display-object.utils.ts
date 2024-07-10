@@ -5,6 +5,7 @@ import {
   InternalDisplayObjectMutable,
   Point,
   DisplayObjectProps,
+  DisplayObjectMutable,
 } from "../types";
 import { getValueMutableFunction } from "./mutables.utils";
 import { Cursor, DisplayObjectEvent, Event, EventMode } from "../enums";
@@ -17,7 +18,7 @@ export const initDisplayObjectMutable = async <
 >(
   displayObject: DisplayObject,
   componentMutable: InternalDisplayObjectMutable<any, DisplayObjectProps<any>>,
-): InternalAsyncDisplayObjectMutable<DisplayObject> => {
+): DisplayObjectMutable<DisplayObject> => {
   let $isRemoved = false;
 
   const $$setLabel = componentMutable.setLabel;

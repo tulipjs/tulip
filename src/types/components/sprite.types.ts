@@ -1,36 +1,31 @@
 import {
   AsyncDisplayObjectComponent,
-  InternalDisplayObjectMutable,
   DisplayObjectMutable,
   DisplayObjectProps,
-} from "../display-object.types";
+} from "./display-object.types";
 import { Sprite } from "../pixi.types";
 
-export type PartialSpriteProps = {
+export type PartialSpriteProps<Props = {}> = {
   texture: string;
-};
-export type PartialSpriteMutable = {
+} & Props;
+export type PartialSpriteMutable<Mutable = {}> = {
   setTexture: (texture?: string) => Promise<void>;
-};
-
-export type SpriteProps<Data = {}> = DisplayObjectProps<Data> &
-  PartialSpriteProps;
-export type SpriteMutable = DisplayObjectMutable<Sprite> & PartialSpriteMutable;
+} & Mutable;
 
 ////////////////////////////
-export type InternalAsyncSpriteMutable<
+export type SpriteProps<Props = {}, Data = {}> = DisplayObjectProps<
+  PartialSpriteProps<Props>,
+  Data
+>;
+
+export type SpriteMutable<
   Props = {},
   Mutable = {},
   Data = {},
-> = Promise<InternalSpriteMutable<Props, Mutable, Data>>;
-export type InternalSpriteMutable<
-  Props = {},
-  Mutable = {},
-  Data = {},
-> = InternalDisplayObjectMutable<
+> = DisplayObjectMutable<
   Sprite,
-  PartialSpriteProps & Props,
-  PartialSpriteMutable & Mutable,
+  SpriteProps<Props, Data>,
+  PartialSpriteMutable<Mutable>,
   Data
 >;
 
@@ -41,7 +36,7 @@ export type SpriteComponent<
   Data = {},
 > = AsyncDisplayObjectComponent<
   Sprite,
-  PartialSpriteProps & Props,
-  PartialSpriteMutable & Mutable,
+  SpriteProps<Props, Data>,
+  SpriteMutable<Props, Mutable, Data>,
   Data
 >;

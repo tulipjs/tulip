@@ -1,7 +1,11 @@
 import { Point } from "../point.types";
-import { ComponentMutable } from "../component.types";
+import { ComponentMutable } from "./component.types";
 import p2 from "p2";
-import { ContainerMutable, ContainerProps } from "./container.types";
+import {
+  ContainerComponent,
+  ContainerMutable,
+  ContainerProps,
+} from "./container.types";
 
 export type WorldPhysics = {
   enabled?: boolean;
@@ -9,13 +13,11 @@ export type WorldPhysics = {
   velocity?: number;
 };
 
-export type PartialWorldProps = {
-  props?: {
-    physics?: WorldPhysics;
-  };
-};
+export type PartialWorldProps<Props = {}> = {
+  physics?: WorldPhysics;
+} & Props;
 
-export type PartialWorldMutable = {
+export type PartialWorldMutable<Mutable = {}> = {
   add: (
     ...displayObject: ComponentMutable<unknown, unknown, unknown>[]
   ) => void;
@@ -27,7 +29,31 @@ export type PartialWorldMutable = {
   getPhysicsEnabled: () => boolean;
 
   $getWorld: () => p2.World;
-};
+} & Mutable;
 
-export type WorldProps<Data = {}> = ContainerProps<Data> & PartialWorldProps;
-export type WorldMutable = ContainerMutable & PartialWorldMutable;
+////////////////////////////
+export type WorldProps<Props = {}, Data = {}> = ContainerProps<
+  PartialWorldProps<Props>,
+  Data
+>;
+
+export type WorldMutable<
+  Props = {},
+  Mutable = {},
+  Data = {},
+> = ContainerMutable<
+  WorldProps<Props, Data>,
+  PartialWorldMutable<Mutable>,
+  Data
+>;
+
+////////////////////////////
+export type WorldComponent<
+  Props = {},
+  Mutable = {},
+  Data = {},
+> = ContainerComponent<
+  WorldProps<Props, Data>,
+  WorldMutable<Props, Mutable, Data>,
+  Data
+>;
