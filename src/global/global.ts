@@ -1,18 +1,24 @@
-import { ComponentMutable, GlobalFilterType, Font } from "../types";
+import {
+  ComponentMutable,
+  GlobalFilterType,
+  Font,
+  ApplicationMutable,
+  Point,
+} from "../types";
 import * as PIXI from "pixi.js";
 import { events } from "./events";
 import { sounds } from "./sounds";
 import { Assets } from "pixi.js";
 
 export const global = (() => {
-  let $application: PIXI.Application;
+  let $application: ApplicationMutable;
   let $data = {};
   let $componentList: ComponentMutable[] = [];
   const $sounds = sounds();
   $sounds.$load();
   let $visualHitBoxes = false;
 
-  const getFPS = (): number => $application.ticker.FPS;
+  const getFPS = (): number => $application.$getApplication().ticker.FPS;
 
   const getData = <Data extends {}>(selector?: (data: Data) => Data): Data => {
     return selector ? selector($data as Data) : ($data as unknown as Data);
@@ -25,8 +31,7 @@ export const global = (() => {
     }
   };
 
-  const $setApplication = (application: PIXI.Application) =>
-    ($application = application);
+  const $setApplication = (application) => ($application = application);
 
   const getApplication = () => $application;
 
@@ -56,6 +61,17 @@ export const global = (() => {
     );
   };
 
+  const normalizeValue = (value: number): number =>
+    getApplication()?.isPixelPerfect() ? Math.round(value) : value;
+  const normalizePoint = (point: Point): Point => {
+    return getApplication()?.isPixelPerfect()
+      ? {
+          x: Math.round(point.x),
+          y: Math.round(point.y),
+        }
+      : point;
+  };
+
   return {
     getFPS,
 
@@ -65,6 +81,9 @@ export const global = (() => {
     getApplication,
 
     setFonts,
+
+    normalizeValue,
+    normalizePoint,
 
     $setApplication,
 

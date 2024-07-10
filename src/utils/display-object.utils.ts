@@ -40,42 +40,33 @@ export const initDisplayObjectMutable = async <
   //position
   const setPosition = async (data) => {
     await $$setPosition(data);
-    displayObject.position = await getValueMutableFunction<Point>(
-      data,
-      $$getPosition(),
-    );
+    displayObject.position = $$getPosition();
   };
   const setPositionX = async (data) => {
     await $$setPositionX(data);
-    displayObject.position.x = await getValueMutableFunction<number>(
-      data,
-      $$getPosition().x,
-    );
+    displayObject.position.x = $$getPosition().x;
   };
   const setPositionY = async (data) => {
     await $$setPositionY(data);
-    displayObject.position.y = await getValueMutableFunction<number>(
-      data,
-      $$getPosition().y,
-    );
+    displayObject.position.y = $$getPosition().y;
   };
 
   //pivot
-  const setPivot = async (data) =>
-    (displayObject.pivot = await getValueMutableFunction<Point>(
-      data,
-      displayObject.pivot,
-    ));
-  const setPivotX = async (data) =>
-    (displayObject.pivot.x = await getValueMutableFunction<number>(
-      data,
-      displayObject.pivot.x,
-    ));
-  const setPivotY = async (data) =>
-    (displayObject.pivot.y = await getValueMutableFunction<number>(
-      data,
-      displayObject.pivot.y,
-    ));
+  const setPivot = async (data) => {
+    displayObject.pivot = global.normalizePoint(
+      await getValueMutableFunction<Point>(data, displayObject.pivot),
+    );
+  };
+  const setPivotX = async (data) => {
+    displayObject.pivot.x = global.normalizeValue(
+      await getValueMutableFunction<number>(data, displayObject.pivot.x),
+    );
+  };
+  const setPivotY = async (data) => {
+    displayObject.pivot.y = global.normalizeValue(
+      await getValueMutableFunction<number>(data, displayObject.pivot.y),
+    );
+  };
   const getPivot = () =>
     ({
       x: displayObject?.pivot?.x || 0,
@@ -229,8 +220,8 @@ export const initDisplayObjectMutable = async <
       // If not body present, it doesn't make sense to iterate
       if (!componentMutable?.getBody()) return;
 
-      displayObject.position.copyFrom(componentMutable.getPosition());
-      displayObject.angle = componentMutable.getAngle();
+      setPosition(global.normalizePoint(componentMutable.getPosition()));
+      setAngle(componentMutable.getAngle());
     });
   }
 

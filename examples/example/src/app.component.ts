@@ -1,6 +1,6 @@
 import {
-  AsyncComponent,
   container,
+  ContainerComponent,
   global,
   graphics,
   GraphicType,
@@ -15,7 +15,7 @@ import { playerComponent } from "player.component";
 type Props = {};
 type Mutable = {};
 
-export const appComponent: AsyncComponent<Props, Mutable> = async () => {
+export const appComponent: ContainerComponent<Props, Mutable> = async () => {
   global.$setVisualHitBoxes(false);
 
   const $container = await container({ label: "app" });
@@ -52,7 +52,7 @@ export const appComponent: AsyncComponent<Props, Mutable> = async () => {
     alpha: 0.25,
   });
 
-  for (let i = 0; i < 300; i++) {
+  for (let i = 0; i < 2; i++) {
     const _fly = await flyComponent({
       label: `ball`,
       props: {

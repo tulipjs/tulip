@@ -1,3 +1,6 @@
+import * as PIXI from "pixi.js";
+import { DisplayObjectMutable } from "./display-object.types";
+
 export type ApplicationProps = {
   backgroundColor?: number;
   scale?: number;
@@ -6,4 +9,16 @@ export type ApplicationProps = {
   showFPS?: boolean;
   pointerLock?: boolean;
   pixelPerfect?: boolean;
+};
+
+export type ApplicationMutable = {
+  add: (displayObjectMutable: DisplayObjectMutable<any>) => void;
+  remove: (displayObjectMutable: DisplayObjectMutable<any>) => void;
+
+  start: () => void;
+  stop: () => void;
+
+  isPixelPerfect: () => boolean;
+
+  $getApplication: () => PIXI.Application;
 };
