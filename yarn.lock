@@ -1370,10 +1370,10 @@
   dependencies:
     undici-types "~5.26.4"
 
-"@types/p2@0.7.44":
-  version "0.7.44"
-  resolved "https://registry.yarnpkg.com/@types/p2/-/p2-0.7.44.tgz#ad906d83c33aa16da5043b87194cdf4dd0abbe68"
-  integrity sha512-EIgtRscxlzwoZmr1/vpyxTb5FVZTe6vJpD4ONciLzmd4M2mfnh8yiz845J0ZIQYdo9+N4NxXAXm6Wk8IhYNqXA==
+"@types/p2@0.7.45":
+  version "0.7.45"
+  resolved "https://registry.yarnpkg.com/@types/p2/-/p2-0.7.45.tgz#50e2945049edc85a339d83509af6b2b26ff53b31"
+  integrity sha512-f7M4MH7a9j4k6PyhsgZd1jBYqaqkfjuGXauWcB5EDyhzygMCjNVfkE/lAeaRwXqfpt6zOkXi7gVci9CLf6HBCQ==
 
 "@types/stack-utils@^2.0.0":
   version "2.0.3"
