@@ -2689,10 +2689,10 @@ poly-decomp@0.1.1:
   resolved "https://registry.yarnpkg.com/poly-decomp/-/poly-decomp-0.1.1.tgz#9f68c4fa558663791c9ba4c2df7283f3096c23c9"
   integrity sha512-clSDtuC48FR2PL2z/+VIRhfnxC7776GlJgDNAh1ZIqYOiaGqrINB+xGIWQypLgpz6Z/Ht/w7rTFEGFRNuSPOuA==
 
-prettier@3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.3.0.tgz#d173ea0524a691d4c0b1181752f2b46724328cdf"
-  integrity sha512-J9odKxERhCQ10OC2yb93583f6UnYutOeiV5i0zEDS7UGTdUt0u+y8erxl3lBKvwo/JHyyoEdXjwp4dke9oyZ/g==
+prettier@3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.3.2.tgz#03ff86dc7c835f2d2559ee76876a3914cec4a90a"
+  integrity sha512-rAVeHYMcv8ATV5d508CFdn+8/pHPpXeIid1DdrPwXnaAdH7cqjVbpJaT5eq4yRAFU/lsbwYwSF/n5iNrdJHPQA==
 
 pretty-format@^29.0.0, pretty-format@^29.7.0:
   version "29.7.0"
