@@ -1,9 +1,10 @@
 import * as PIXI from "pixi.js";
 import {
+  ApplicationMutable,
   ApplicationProps,
-  PartialContainerMutable,
-  PartialTextMutable,
+  ContainerMutable,
   Size,
+  TextMutable,
 } from "./types";
 import { APPLICATION_DEFAULT_PROPS } from "./consts";
 import { global } from "./global";
@@ -43,7 +44,7 @@ export const application = async ({
 
   let $frames = 0;
   let $prevTime = 0;
-  let $textFPS: PartialTextMutable;
+  let $textFPS: TextMutable;
 
   const $calculateFPS = () => {
     $frames++;
@@ -129,8 +130,6 @@ export const application = async ({
   window.addEventListener("resize", resize);
   resize();
 
-  global.$setApplication(application);
-
   //TODO #104
   if (pointerLock) {
     application.canvas.addEventListener("click", () => {
@@ -171,7 +170,7 @@ export const application = async ({
           });
 
           for (const mutable of componentList) {
-            const father = mutable.getFather() as PartialContainerMutable;
+            const father = mutable.getFather() as ContainerMutable;
 
             const raw = structuredClone(mutable.$getRaw());
             const props = structuredClone(mutable.getProps());
@@ -191,8 +190,10 @@ export const application = async ({
         },
       );
   }
+
+  const isPixelPerfect = () => pixelPerfect;
   //### MUTABLES #####################################################################################################//
-  const mutable = {
+  const mutable: ApplicationMutable = {
     add: (displayObjectMutable) => {
       displayObjectMutable.getFather = () => mutable as any;
 
@@ -212,7 +213,13 @@ export const application = async ({
 
     start,
     stop,
+
+    isPixelPerfect,
+
+    $getApplication: () => application,
   };
+
+  global.$setApplication(mutable);
 
   return mutable;
 };

@@ -8,6 +8,7 @@ import {
 } from "../../types";
 import { getRandomNumber, getValueMutableFunction } from "../../utils";
 import { sound } from "./sound.sub-component";
+import { global } from "../../global";
 
 export const empty = <Props, Mutable, Data>(
   originalProps = {} as EmptyProps<Data> & Props,
@@ -41,19 +42,24 @@ export const empty = <Props, Mutable, Data>(
   };
 
   const setPosition = async (data) => {
-    $position = await getValueMutableFunction<Point>(data, $position);
+    $position = global.normalizePoint(
+      await getValueMutableFunction<Point>(data, $position),
+    );
     $body?.setPosition($position);
-
     $soundList.forEach(($sound) => $sound.setPosition($position));
   };
   const getPosition = () => $body?.getPosition() || $position;
   const setPositionX = async (data) => {
-    $position.x = await getValueMutableFunction<number>(data, $position.x);
+    $position.x = global.normalizeValue(
+      await getValueMutableFunction<number>(data, $position.x),
+    );
     $body?.setPosition($position);
     $soundList.forEach(($sound) => $sound.setPosition($position));
   };
   const setPositionY = async (data) => {
-    $position.y = await getValueMutableFunction<number>(data, $position.y);
+    $position.y = global.normalizeValue(
+      await getValueMutableFunction<number>(data, $position.y),
+    );
     $body?.setPosition($position);
     $soundList.forEach(($sound) => $sound.setPosition($position));
   };
