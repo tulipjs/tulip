@@ -66,5 +66,13 @@ export const textSprite: ContainerComponent<
             height: textures[letter].height,
           }
         : { width: 0, height: 0 },
+    $getFullSize: () =>
+      text.split("").reduce(
+        (acc, curr) => ({
+          width: acc.width + textures[curr].width + 1,
+          height: Math.max(acc.height, textures[curr].height),
+        }),
+        { width: 0, height: 0 },
+      ),
   });
 };
