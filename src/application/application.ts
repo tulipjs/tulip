@@ -151,6 +151,9 @@ export const application = async ({
   document.addEventListener("keyup", (event: KeyboardEvent) =>
     global.events.$emit(Event.KEY_UP, event),
   );
+  document.addEventListener("keypress", (event: KeyboardEvent) =>
+    global.events.$emit(Event.KEY_PRESS, event),
+  );
 
   //### DEVELOPMENT ##################################################################################################//
 

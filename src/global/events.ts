@@ -6,6 +6,7 @@ export const events = () => {
     [Event.TICK]: [],
     [Event.KEY_DOWN]: [],
     [Event.KEY_UP]: [],
+    [Event.KEY_PRESS]: [],
   };
 
   /**

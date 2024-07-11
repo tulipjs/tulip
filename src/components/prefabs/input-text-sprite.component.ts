@@ -27,6 +27,7 @@ export const inputTextSprite: ContainerComponent<
   let $text = "";
   let $editable = false;
   let $cursorPosition = 0;
+  let $cursorInterval: number;
 
   const $textSprite = await textSprite({
     spriteSheet: props.spriteSheet,
@@ -43,7 +44,20 @@ export const inputTextSprite: ContainerComponent<
     pivot: { x: 0, y: -height / 2 },
   });
 
+  const $startCursorBlink = () => {
+    clearInterval($cursorInterval);
+    // @ts-ignore
+    $cursorInterval = setInterval(() => {
+      $cursor.setVisible((v) => !v);
+    }, 530);
+  };
+  const $stopCursorBlink = (visible = true) => {
+    clearInterval($cursorInterval);
+    $cursor.setVisible(visible);
+  };
+
   const onKeyDown = ({ key }) => {
+    $stopCursorBlink();
     if (!$editable || $text.length === 0) return;
 
     if (key === "Backspace" && $cursorPosition > 0) {
@@ -84,7 +98,7 @@ export const inputTextSprite: ContainerComponent<
     }
   };
 
-  const onKeyUp = ({ key }) => {
+  const onKeyPress = ({ key }) => {
     if (!$editable || !ALPHABET.includes(key.toLowerCase())) {
       return;
     }
@@ -98,29 +112,36 @@ export const inputTextSprite: ContainerComponent<
     $cursor.setPositionX((x) => x + width + 1);
   };
 
+  const onKeyUp = () => {
+    $startCursorBlink();
+  };
+
   global.events.on(Event.KEY_DOWN, onKeyDown, $textSprite);
+  global.events.on(Event.KEY_PRESS, onKeyPress, $textSprite);
   global.events.on(Event.KEY_UP, onKeyUp, $textSprite);
 
   $container.add($cursor, $textSprite);
 
   const setEditable = (editable: boolean) => {
     $editable = editable;
-
-    if ($editable) {
-      setInterval(() => {
-        $cursor.setVisible((v) => !v);
-      }, 530);
-    } else {
-      $cursor.setVisible(false);
-    }
+    $editable ? $startCursorBlink() : $stopCursorBlink(false);
   };
 
   const getText = () => $textSprite.getText();
+  const reset = () => {
+    $text = "";
+    $cursorPosition = 0;
+
+    setEditable($editable);
+
+    $textSprite.setText("");
+  };
 
   setEditable(props.editable ?? true);
 
   return $container.getComponent(inputTextSprite, {
     setEditable,
     getText,
+    reset,
   });
 };
