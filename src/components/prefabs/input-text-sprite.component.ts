@@ -131,6 +131,7 @@ export const inputTextSprite: ContainerComponent<
   const reset = () => {
     $text = "";
     $cursorPosition = 0;
+    $cursor.setPosition({ x: 0, y: 0 });
 
     setEditable($editable);
 
