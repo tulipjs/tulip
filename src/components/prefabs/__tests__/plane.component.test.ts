@@ -36,6 +36,9 @@ describe("components", () => {
           width: undefined,
           polygon: [0, 0, 10000, 0, 10000, 5, 0, 5],
           zIndex: 0,
+          focused: false,
+          hitArea: [],
+          withContext: false,
         });
       });
 

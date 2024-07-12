@@ -146,6 +146,9 @@ describe("components", () => {
           spriteSheet: "testing.json",
           visible: undefined,
           zIndex: undefined,
+          focused: false,
+          hitArea: [],
+          withContext: false,
         });
       });
       test.todo("$destroy() destroys everything");

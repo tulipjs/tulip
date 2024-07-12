@@ -8,7 +8,7 @@ import { container } from "../core";
 import { box } from "./box.component";
 import { textSprite } from "./text-sprite.component";
 import { global } from "../../global";
-import { Event } from "../../enums";
+import { DisplayObjectEvent, Event } from "../../enums";
 
 export const inputTextSprite: ContainerComponent<
   InputTextSpriteProps,
@@ -42,9 +42,11 @@ export const inputTextSprite: ContainerComponent<
     mass: 0,
     color: props.color,
     pivot: { x: 0, y: -height / 2 },
+    visible: false,
   });
 
   const $startCursorBlink = () => {
+    $cursor.setVisible(true);
     clearInterval($cursorInterval);
     // @ts-ignore
     $cursorInterval = setInterval(() => {
@@ -116,9 +118,29 @@ export const inputTextSprite: ContainerComponent<
     $startCursorBlink();
   };
 
-  global.events.on(Event.KEY_DOWN, onKeyDown, $textSprite);
-  global.events.on(Event.KEY_PRESS, onKeyPress, $textSprite);
-  global.events.on(Event.KEY_UP, onKeyUp, $textSprite);
+  let removeOnKeyDown;
+  let removeOnKeyPress;
+  let removeOnKeyUp;
+
+  $container.on(DisplayObjectEvent.CONTEXT_ENTER, () => {
+    removeOnKeyDown = global.events.on(Event.KEY_DOWN, onKeyDown, $textSprite);
+    removeOnKeyPress = global.events.on(
+      Event.KEY_PRESS,
+      onKeyPress,
+      $textSprite,
+    );
+    removeOnKeyUp = global.events.on(Event.KEY_UP, onKeyUp, $textSprite);
+
+    setEditable(props.editable ?? true);
+    $startCursorBlink();
+  });
+  $container.on(DisplayObjectEvent.CONTEXT_LEAVE, () => {
+    setEditable(false);
+
+    removeOnKeyDown();
+    removeOnKeyPress();
+    removeOnKeyUp();
+  });
 
   $container.add($cursor, $textSprite);
 
@@ -137,8 +159,6 @@ export const inputTextSprite: ContainerComponent<
 
     $textSprite.setText("");
   };
-
-  setEditable(props.editable ?? true);
 
   return $container.getComponent(inputTextSprite, {
     setEditable,

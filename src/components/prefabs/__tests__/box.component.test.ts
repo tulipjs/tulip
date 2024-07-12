@@ -38,6 +38,9 @@ describe("components", () => {
           visible: true,
           width: undefined,
           zIndex: 0,
+          focused: false,
+          hitArea: [],
+          withContext: false,
         });
       });
 

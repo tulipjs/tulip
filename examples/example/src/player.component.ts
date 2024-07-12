@@ -17,7 +17,9 @@ type Mutable = {
   doSomething: () => void;
 };
 
-export const playerComponent: ContainerComponent<Props, Mutable> = async () => {
+export const playerComponent: ContainerComponent<Props, Mutable> = async (
+  props,
+) => {
   let $sprite: AnimatedSpriteMutable;
 
   const onTick = (direction: Direction) => {
@@ -36,6 +38,7 @@ export const playerComponent: ContainerComponent<Props, Mutable> = async () => {
   };
 
   const $player = await player2D({
+    ...props,
     onTick,
     maxSpeed: 10,
     acceleration: 3,

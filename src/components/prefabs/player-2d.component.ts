@@ -1,6 +1,6 @@
 import { container } from "../";
 import { ContainerComponent, PartialContainerMutable } from "../../types";
-import { DisplayObjectEvent, Event, Direction } from "../../enums";
+import { Direction, DisplayObjectEvent, Event } from "../../enums";
 import { global } from "../../global";
 import { degreesToRadians } from "../../utils";
 
@@ -30,6 +30,8 @@ export const player2D: ContainerComponent<
   let velocityY = 0;
 
   $container.on(DisplayObjectEvent.TICK, () => {
+    if (!global.context.has($container)) return;
+
     const position = $container.getPosition();
     global.sounds.setPosition({ ...position, z: 2 });
     const $body = $container.getBody();
@@ -98,8 +100,21 @@ export const player2D: ContainerComponent<
     currentKeyList = currentKeyList.filter((cKey) => cKey != key);
   };
 
-  global.events.on(Event.KEY_DOWN, onKeyDown, $container);
-  global.events.on(Event.KEY_UP, onKeyUp, $container);
+  let removeOnKeyDown;
+  let remvoeOnKeyUp;
+
+  const start = () => {
+    removeOnKeyDown = global.events.on(Event.KEY_DOWN, onKeyDown, $container);
+    remvoeOnKeyUp = global.events.on(Event.KEY_UP, onKeyUp, $container);
+  };
+
+  $container.on(DisplayObjectEvent.CONTEXT_ENTER, start);
+  $container.on(DisplayObjectEvent.CONTEXT_LEAVE, () => {
+    removeOnKeyDown();
+    remvoeOnKeyUp();
+  });
+
+  if ($container.getWithContext()) start();
 
   return $container.getComponent(player2D);
 };

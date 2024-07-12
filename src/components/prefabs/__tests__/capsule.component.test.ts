@@ -38,6 +38,9 @@ describe("components", () => {
           width: undefined,
           polygon: undefined,
           zIndex: 0,
+          hitArea: [],
+          withContext: false,
+          focused: false,
         });
       });
 

@@ -25,7 +25,10 @@ export const displayObject = async <
     originalProps as DisplayObjectProps<Props, Data>,
   );
 
+  const { focused, withContext } = $component.getProps();
+
   let $isRemoved = false;
+  let $withContext = withContext;
 
   const $$setLabel = $component.setLabel;
   const $$setPosition = $component.setPosition;
@@ -177,6 +180,9 @@ export const displayObject = async <
     zIndex: getZIndex(),
     alpha: getAlpha(),
     eventMode: getEventMode(),
+    hitArea: getHitArea(),
+    focused: isFocused(),
+    withContext: getWithContext(),
   });
   let $removeOnTickEvent: () => void;
 
@@ -199,6 +205,39 @@ export const displayObject = async <
     $displayObject.on(event as any, $callback);
   };
 
+  const $emit = (event: DisplayObjectMutable<any>, data: any) =>
+    $displayObject.emit(event as any, data);
+
+  const $getContextBaseMutable = () =>
+    ({
+      getId: $component.getId,
+      $emit,
+      getWithContext,
+    }) as unknown as DisplayObjectMutable<any>;
+
+  const focus = () => {
+    if (!getWithContext()) return;
+    // Implements only the necessary functions
+    global.context.set($getContextBaseMutable());
+  };
+
+  const blur = () => {
+    if (!getWithContext()) return;
+    // Implements only the necessary functions
+    global.context.remove($getContextBaseMutable());
+  };
+
+  const isFocused = () => global.context.has($getContextBaseMutable());
+
+  const setWithContext = async (data) => {
+    $withContext = await getValueMutableFunction<boolean>(
+      data,
+      getWithContext(),
+    );
+  };
+
+  const getWithContext = () => $withContext;
+
   // Set initials
   {
     const {
@@ -211,6 +250,8 @@ export const displayObject = async <
       tint,
       cursor,
       hitArea,
+      visible,
+      zIndex,
     } = $component.getProps();
 
     if (isNotNullish(label)) setLabel(label);
@@ -222,6 +263,12 @@ export const displayObject = async <
     if (isNotNullish(tint)) await setEventMode(eventMode);
     if (isNotNullish(cursor)) await setCursor(cursor);
     if (isNotNullish(hitArea)) await setHitArea(hitArea);
+    if (isNotNullish(visible)) await setVisible(visible);
+    if (isNotNullish(zIndex)) await setZIndex(zIndex);
+
+    await setWithContext(isNotNullish(withContext) ? withContext : false);
+    // This is not an error
+    if ($withContext && focused) global.context.add($getContextBaseMutable());
 
     on(DisplayObjectEvent.TICK, () => {
       // If not body present, it doesn't make sense to iterate
@@ -281,6 +328,14 @@ export const displayObject = async <
 
     //events
     on,
+    $emit,
+
+    //context
+    focus,
+    blur,
+    isFocused,
+    setWithContext,
+    getWithContext,
 
     $destroy,
     $getRaw,

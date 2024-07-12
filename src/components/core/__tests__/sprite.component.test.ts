@@ -60,6 +60,9 @@ describe("components", () => {
           texture: "texture.png",
           visible: true,
           zIndex: 0,
+          focused: false,
+          hitArea: [],
+          withContext: false,
         });
       });
       test("getProps(...) To return the original properties", () => {
