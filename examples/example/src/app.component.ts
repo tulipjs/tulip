@@ -138,7 +138,7 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
     eventMode: EventMode.NONE,
   });
 
-  $inputBackground.on(DisplayObjectEvent.CLICK, () => {
+  $inputBackground.on(DisplayObjectEvent.POINTER_TAP, () => {
     $input.focus();
   });
   global.context.onNoContext(() => {

@@ -9,7 +9,7 @@ export enum Event {
 export enum DisplayObjectEvent {
   //Prevent the use of other than POINTER
   //### PIXI ########################################################################################################//
-  CLICK = "click",
+  // CLICK = "click",
   // CLICK_CAPTURE = "clickcapture",
   // GLOBAL_MOUSE_MOVE = "globalmousemove",
   // GLOBAL_POINTER_MOVE = "globalpointermove",
