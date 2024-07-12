@@ -257,7 +257,6 @@ export const displayObject = async <
     if (isNotNullish(label)) setLabel(label);
     if (isNotNullish(position)) await setPosition(position);
     if (isNotNullish(pivot)) await setPivot(pivot);
-    if (isNotNullish(angle)) await setAngle(angle);
     if (isNotNullish(alpha)) await setAlpha(alpha);
     if (isNotNullish(tint)) await setTint(eventMode);
     if (isNotNullish(cursor)) await setCursor(cursor);
@@ -265,6 +264,7 @@ export const displayObject = async <
     if (isNotNullish(visible)) await setVisible(visible);
     if (isNotNullish(zIndex)) await setZIndex(zIndex);
 
+    await setAngle(angle || 0);
     await setEventMode(eventMode || EventMode.PASSIVE);
     await setWithContext(isNotNullish(withContext) ? withContext : false);
     // This is not an error
