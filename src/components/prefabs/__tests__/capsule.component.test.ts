@@ -1,7 +1,7 @@
 import { ContainerMutable } from "../../../types";
 import { expect } from "@jest/globals";
 import { capsule } from "../capsule.component";
-import { GraphicType } from "../../../enums";
+import { EventMode, GraphicType } from "../../../enums";
 
 describe("components", () => {
   describe("prefabs", () => {
@@ -24,7 +24,7 @@ describe("components", () => {
           alpha: 1,
           angle: 0,
           color: 0xff00ff,
-          eventMode: undefined,
+          eventMode: EventMode.PASSIVE,
           height: undefined,
           id: child.getId(),
           initialData: {},
@@ -40,7 +40,7 @@ describe("components", () => {
           zIndex: 0,
           hitArea: [],
           withContext: false,
-          focused: false,
+          focused: true,
         });
       });
 

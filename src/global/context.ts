@@ -7,6 +7,7 @@ export const context = () => {
   const $contextualBackgroundGraphics = new Graphics();
 
   let $currentContext: DisplayObjectMutable<any>[] = [];
+  let $onNoContextCallbackList: Function[] = [];
 
   const $resizeBelowContainer = ({ width, height }: Size) => {
     $contextualBackgroundGraphics
@@ -57,13 +58,17 @@ export const context = () => {
     );
 
     const currentContextIdList = $getCurrentContextIdList();
+
     if (
       $targetComponentMutable.length === currentContextIdList.length &&
-      $currentContext.every(($component) =>
+      $targetComponentMutable.every(($component) =>
         currentContextIdList.includes($component.getId()),
       )
     )
       return;
+    for (const $currentContextElement of $currentContext)
+      $currentContextElement.$emit(DisplayObjectEvent.CONTEXT_LEAVE, {});
+
     $currentContext = $targetComponentMutable;
 
     for (const $currentContextElement of $currentContext)
@@ -87,6 +92,8 @@ export const context = () => {
     $currentContext = $currentContext.filter(
       ($component) => !componentList.includes($component.getId()),
     );
+
+    if (!$currentContext.length) clear();
   };
 
   const get = () => $currentContext;
@@ -94,12 +101,24 @@ export const context = () => {
     if (componentMutable.every(($component) => !$component.getWithContext()))
       return true;
     const currentContextIdList = $getCurrentContextIdList();
-    return !componentMutable.some(
-      ($component) => !currentContextIdList.includes($component.getId()),
+    return componentMutable.every(($component) =>
+      currentContextIdList.includes($component.getId()),
     );
   };
 
-  const clear = () => ($currentContext = []);
+  const clear = () => {
+    $currentContext = [];
+    for (const onNoContextFunc of $onNoContextCallbackList) onNoContextFunc();
+  };
+
+  const onNoContext = (callback: () => void | Promise<void>) => {
+    const index = $onNoContextCallbackList.push(callback);
+
+    return () =>
+      ($onNoContextCallbackList = $onNoContextCallbackList.filter((func, i) =>
+        i === index ? undefined : func,
+      ));
+  };
 
   return {
     $load,
@@ -110,5 +129,7 @@ export const context = () => {
     get,
     has,
     clear,
+
+    onNoContext,
   };
 };

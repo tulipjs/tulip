@@ -30,8 +30,6 @@ export const player2D: ContainerComponent<
   let velocityY = 0;
 
   $container.on(DisplayObjectEvent.TICK, () => {
-    if (!global.context.has($container)) return;
-
     const position = $container.getPosition();
     global.sounds.setPosition({ ...position, z: 2 });
     const $body = $container.getBody();
@@ -101,20 +99,22 @@ export const player2D: ContainerComponent<
   };
 
   let removeOnKeyDown;
-  let remvoeOnKeyUp;
+  let removeOnKeyUp;
 
   const start = () => {
+    console.log("START AGAIN?");
     removeOnKeyDown = global.events.on(Event.KEY_DOWN, onKeyDown, $container);
-    remvoeOnKeyUp = global.events.on(Event.KEY_UP, onKeyUp, $container);
+    removeOnKeyUp = global.events.on(Event.KEY_UP, onKeyUp, $container);
   };
 
   $container.on(DisplayObjectEvent.CONTEXT_ENTER, start);
   $container.on(DisplayObjectEvent.CONTEXT_LEAVE, () => {
-    removeOnKeyDown();
-    remvoeOnKeyUp();
+    currentKeyList = [];
+    removeOnKeyDown && removeOnKeyDown();
+    removeOnKeyUp && removeOnKeyUp();
   });
 
-  if ($container.getWithContext()) start();
+  if (!$container.getWithContext() || $container.isFocused()) start();
 
   return $container.getComponent(player2D);
 };

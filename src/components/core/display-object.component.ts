@@ -259,13 +259,13 @@ export const displayObject = async <
     if (isNotNullish(pivot)) await setPivot(pivot);
     if (isNotNullish(angle)) await setAngle(angle);
     if (isNotNullish(alpha)) await setAlpha(alpha);
-    if (isNotNullish(eventMode)) await setEventMode(eventMode);
-    if (isNotNullish(tint)) await setEventMode(eventMode);
+    if (isNotNullish(tint)) await setTint(eventMode);
     if (isNotNullish(cursor)) await setCursor(cursor);
     if (isNotNullish(hitArea)) await setHitArea(hitArea);
     if (isNotNullish(visible)) await setVisible(visible);
     if (isNotNullish(zIndex)) await setZIndex(zIndex);
 
+    await setEventMode(eventMode || EventMode.PASSIVE);
     await setWithContext(isNotNullish(withContext) ? withContext : false);
     // This is not an error
     if ($withContext && focused) global.context.add($getContextBaseMutable());

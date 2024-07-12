@@ -4,7 +4,7 @@ import { GlobalData } from "types";
 
 const app = application({
   backgroundColor: 0x030303,
-  scale: 1,
+  scale: 2,
   pixelPerfect: true,
   showFPS: true,
   //@ts-ignore
