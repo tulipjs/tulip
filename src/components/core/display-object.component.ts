@@ -154,7 +154,7 @@ export const displayObject = async <
       eventMode !== EventMode.DYNAMIC &&
       !ignoreWarn
     )
-      console.warn(
+      console.trace(
         `Cursor cannot be set if 'EventMode' is not 'static' or 'dynamic'!`,
       );
   };
@@ -259,7 +259,6 @@ export const displayObject = async <
     if (isNotNullish(pivot)) await setPivot(pivot);
     if (isNotNullish(alpha)) await setAlpha(alpha);
     if (isNotNullish(tint)) await setTint(eventMode);
-    if (isNotNullish(cursor)) await setCursor(cursor);
     if (isNotNullish(hitArea)) await setHitArea(hitArea);
     if (isNotNullish(visible)) await setVisible(visible);
     if (isNotNullish(zIndex)) await setZIndex(zIndex);
@@ -269,6 +268,7 @@ export const displayObject = async <
     await setWithContext(isNotNullish(withContext) ? withContext : false);
     // This is not an error
     if ($withContext && focused) global.context.add($getContextBaseMutable());
+    if (isNotNullish(cursor)) await setCursor(cursor);
 
     on(DisplayObjectEvent.TICK, () => {
       // If not body present, it doesn't make sense to iterate

@@ -133,6 +133,17 @@ export const inputTextSprite: ContainerComponent<
 
     setEditable(props.editable ?? true);
     $startCursorBlink();
+
+    const target =
+      document.getElementsByTagName("input")[0] ||
+      document.createElement("input");
+    target.style.position = "absolute";
+    target.style.left = "-20px";
+    target.style.top = "-20px";
+    target.style.zIndex = "-10";
+    document.body.append(target);
+    target.focus();
+    target.click();
   });
   $container.on(DisplayObjectEvent.CONTEXT_LEAVE, () => {
     setEditable(false);

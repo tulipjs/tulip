@@ -3,7 +3,6 @@ import {
   AnimatedSpriteMutable,
   body,
   ContainerComponent,
-  Cursor,
   Direction,
   EventMode,
   player2D,
@@ -53,7 +52,6 @@ export const playerComponent: ContainerComponent<Props, Mutable> = async (
   $sprite = await animatedSprite({
     spriteSheet: "fighter/fighter.json",
     animation: "turnRight",
-    cursor: Cursor.WAIT,
   });
   await $sprite.setPivot({ x: width / 2, y: height / 2 });
   $player.add($sprite);

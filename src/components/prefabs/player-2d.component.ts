@@ -102,7 +102,6 @@ export const player2D: ContainerComponent<
   let removeOnKeyUp;
 
   const start = () => {
-    console.log("START AGAIN?");
     removeOnKeyDown = global.events.on(Event.KEY_DOWN, onKeyDown, $container);
     removeOnKeyUp = global.events.on(Event.KEY_UP, onKeyUp, $container);
   };
