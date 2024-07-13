@@ -3,4 +3,5 @@ export enum GraphicType {
   CIRCLE,
   CAPSULE,
   TRIANGLE,
+  RECTANGLE,
 }

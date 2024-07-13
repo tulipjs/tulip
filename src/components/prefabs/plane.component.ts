@@ -1,6 +1,7 @@
 import { ContainerComponent, PartialContainerMutable } from "../../types";
-import { body, container, graphics } from "../core";
+import { container, graphics } from "../core";
 import { GraphicType, Shape } from "../../enums";
+import { body } from "../sub";
 
 type PlaneProps = {
   props?: {

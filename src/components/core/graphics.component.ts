@@ -7,6 +7,7 @@ import {
   GraphicsTriangleProps,
   GraphicsProps,
   GraphicsMutable,
+  GraphicsRectangleProps,
 } from "../../types";
 import { GraphicType } from "../../enums";
 import { displayObject } from "./display-object.component";
@@ -89,6 +90,18 @@ export const graphics = async <Props = {}, Mutable = {}, Data = {}>(
       .poly([-width / 2, height / 2, width / 2, height / 2, 0, -height / 2])
       .fill({ color: 0xffffff });
   };
+  const setRectangle = (width: number, height: number) => {
+    $clear();
+
+    $type = GraphicType.RECTANGLE;
+    $width = width;
+    $height = height;
+
+    $graphics.clear();
+    $graphics
+      .poly([0, 0, width, 0, width, height, 0, height])
+      .fill({ color: 0xffffff });
+  };
 
   const getPolygon = () => $polygon;
   const getRadius = () => $radius;
@@ -133,8 +146,12 @@ export const graphics = async <Props = {}, Mutable = {}, Data = {}>(
         setCapsule(length, radius);
         break;
       case GraphicType.TRIANGLE:
-        const { width, height } = originalProps as GraphicsTriangleProps;
-        setTriangle(width, height);
+        const triangleProps = originalProps as GraphicsTriangleProps;
+        setTriangle(triangleProps.width, triangleProps.height);
+        break;
+      case GraphicType.RECTANGLE:
+        const rectangleProps = originalProps as GraphicsRectangleProps;
+        setRectangle(rectangleProps.width, rectangleProps.height);
         break;
     }
   }
