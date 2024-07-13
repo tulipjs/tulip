@@ -3,7 +3,7 @@ import { expect } from "@jest/globals";
 import * as PIXI from "pixi.js";
 import { world } from "../world.component";
 import { container } from "../container.component";
-import { body } from "../body.sub-component";
+import { body } from "../../sub/body.sub-component";
 
 jest.mock("pixi.js", () => {
   const originalModule = jest.requireActual("pixi.js");

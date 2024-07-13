@@ -47,12 +47,18 @@ export type GraphicsTriangleProps = {
   width: number;
   height: number;
 };
+export type GraphicsRectangleProps = {
+  type: GraphicType.RECTANGLE;
+  width: number;
+  height: number;
+};
 
 export type GraphicsTypesProps =
   | GraphicsPolygonProps
   | GraphicsCircleProps
   | GraphicsCapsuleProps
-  | GraphicsTriangleProps;
+  | GraphicsTriangleProps
+  | GraphicsRectangleProps;
 
 ////////////////////////////
 export type GraphicsProps<Props = {}, Data = {}> = DisplayObjectProps<

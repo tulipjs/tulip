@@ -1,7 +1,7 @@
 import { expect, test } from "@jest/globals";
 import { ContainerMutable } from "../../../types";
 import { container } from "../container.component";
-import { body } from "../body.sub-component";
+import { body } from "../../sub/body.sub-component";
 import { EventMode } from "../../../enums";
 
 describe("components", () => {

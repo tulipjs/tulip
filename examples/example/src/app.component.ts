@@ -119,8 +119,9 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
   $container.add($inputContainer);
 
   const $inputBackground = await graphics({
-    type: GraphicType.POLYGON,
-    polygon: [0, 0, 60, 0, 60, 10, 0, 10],
+    type: GraphicType.RECTANGLE,
+    width: 60,
+    height: 10,
     color: 0x333333,
     eventMode: EventMode.STATIC,
     cursor: Cursor.TEXT,

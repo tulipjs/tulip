@@ -1,5 +1,5 @@
 import { expect, test } from "@jest/globals";
-import { body } from "../body.sub-component";
+import { body } from "../../sub/body.sub-component";
 import { expectTypeTestsToPassAsync } from "jest-tsd";
 import { component } from "../component.component";
 
