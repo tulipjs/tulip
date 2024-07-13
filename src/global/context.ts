@@ -107,6 +107,9 @@ export const context = () => {
   };
 
   const clear = () => {
+    for (const $currentContextElement of $currentContext)
+      $currentContextElement.$emit(DisplayObjectEvent.CONTEXT_LEAVE, {});
+
     $currentContext = [];
     for (const onNoContextFunc of $onNoContextCallbackList) onNoContextFunc();
   };
