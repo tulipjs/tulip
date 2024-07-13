@@ -3,6 +3,7 @@ import { Container, DisplayObjectMutable } from "../../../types";
 import { expect } from "@jest/globals";
 import { Cursor, EventMode } from "../../../enums";
 import { displayObject } from "../display-object.component";
+import { global } from "../../../global";
 
 const warnMock = jest.fn();
 console.warn = warnMock;
@@ -31,7 +32,10 @@ describe("components", () => {
           angle: 34,
           alpha: 0.4,
           zIndex: 99,
+          visible: false,
           eventMode: EventMode.DYNAMIC,
+          focused: true,
+          withContext: true,
         });
       });
 
@@ -113,16 +117,16 @@ describe("components", () => {
         );
       });
       test("setVisible(...) of the display object", async () => {
-        expect(container.visible).toBe(true);
-        expect(displayObjectMutable.getVisible()).toStrictEqual(true);
-
-        await displayObjectMutable.setVisible(false);
         expect(container.visible).toBe(false);
         expect(displayObjectMutable.getVisible()).toStrictEqual(false);
+
+        await displayObjectMutable.setVisible(true);
+        expect(container.visible).toBe(true);
+        expect(displayObjectMutable.getVisible()).toStrictEqual(true);
       });
       test("setZIndex(...) of the display object", async () => {
-        expect(container.zIndex).toBe(0);
-        expect(displayObjectMutable.getZIndex()).toStrictEqual(0);
+        expect(container.zIndex).toBe(99);
+        expect(displayObjectMutable.getZIndex()).toStrictEqual(99);
 
         await displayObjectMutable.setZIndex(-95);
         expect(container.zIndex).toBe(-95);
@@ -150,10 +154,10 @@ describe("components", () => {
           EventMode.DYNAMIC,
         );
 
-        await displayObjectMutable.setEventMode(EventMode.PASSIVE);
-        expect(container.eventMode).toBe(EventMode.PASSIVE);
+        await displayObjectMutable.setEventMode(EventMode.NONE);
+        expect(container.eventMode).toBe(EventMode.NONE);
         expect(displayObjectMutable.getEventMode()).toStrictEqual(
-          EventMode.PASSIVE,
+          EventMode.NONE,
         );
       });
       test("setTint(...) of the display object", async () => {
@@ -216,6 +220,47 @@ describe("components", () => {
           new PIXI.Polygon([0, 10, 10, 10, 10, 0, 0, 0]),
         );
       });
+      test("blur() to be called", async () => {
+        expect(displayObjectMutable.getWithContext()).toStrictEqual(true);
+        displayObjectMutable.blur();
+        expect(displayObjectMutable.isFocused()).toStrictEqual(false);
+        expect(global.context.has(displayObjectMutable)).toStrictEqual(false);
+      });
+      test("focus() to be called", async () => {
+        expect(displayObjectMutable.getWithContext()).toStrictEqual(true);
+        displayObjectMutable.focus();
+        expect(displayObjectMutable.isFocused()).toStrictEqual(true);
+        expect(global.context.has(displayObjectMutable)).toStrictEqual(true);
+      });
+      test("setWithContext() to be called", async () => {
+        expect(displayObjectMutable.getWithContext()).toStrictEqual(true);
+        expect(displayObjectMutable.isFocused()).toStrictEqual(true);
+        expect(global.context.has(displayObjectMutable)).toStrictEqual(true);
+
+        await displayObjectMutable.setWithContext(false);
+        expect(displayObjectMutable.getWithContext()).toStrictEqual(false);
+        displayObjectMutable.blur();
+        expect(displayObjectMutable.isFocused()).toStrictEqual(true);
+        expect(global.context.has(displayObjectMutable)).toStrictEqual(true);
+
+        await displayObjectMutable.setWithContext(true);
+        expect(displayObjectMutable.getWithContext()).toStrictEqual(true);
+        displayObjectMutable.blur();
+        expect(displayObjectMutable.isFocused()).toStrictEqual(false);
+        expect(global.context.has(displayObjectMutable)).toStrictEqual(false);
+
+        await displayObjectMutable.setWithContext(false);
+        expect(displayObjectMutable.getWithContext()).toStrictEqual(false);
+        displayObjectMutable.focus();
+        expect(displayObjectMutable.isFocused()).toStrictEqual(true);
+        expect(global.context.has(displayObjectMutable)).toStrictEqual(true);
+
+        await displayObjectMutable.setWithContext(true);
+        expect(displayObjectMutable.getWithContext()).toStrictEqual(true);
+        displayObjectMutable.focus();
+        expect(displayObjectMutable.isFocused()).toStrictEqual(true);
+        expect(global.context.has(displayObjectMutable)).toStrictEqual(true);
+      });
       test("$getRaw() to contain all the elements", async () => {
         expect(displayObjectMutable.$getRaw()).toStrictEqual({
           id: displayObjectMutable.getId(),
@@ -225,9 +270,12 @@ describe("components", () => {
           label: "Hello there!",
           pivot: { x: 555, y: 363 },
           position: { x: 323, y: 747 },
-          visible: false,
+          visible: true,
           zIndex: -95,
           eventMode: EventMode.NONE,
+          focused: true,
+          hitArea: [0, 10, 10, 10, 10, 0, 0, 0],
+          withContext: true,
         });
       });
 

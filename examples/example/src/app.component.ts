@@ -1,6 +1,9 @@
 import {
   container,
   ContainerComponent,
+  Cursor,
+  DisplayObjectEvent,
+  EventMode,
   global,
   graphics,
   GraphicType,
@@ -66,7 +69,7 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
   }
 
   const $player = await playerComponent();
-  await $player.setPosition({ x: 500, y: 1000 });
+  await $player.setPosition({ x: 200, y: 200 });
 
   // setInterval(() => {
   //   $player.doSomething();
@@ -107,17 +110,41 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
   }, 1_000);
   $container.add($pixelPerfectText);
 
-  const $input = await inputTextSprite({
-    spriteSheet: "fonts/default-font.json",
-    color: 0xff00ff,
-    editable: true,
+  const $inputContainer = await container({
     position: {
       x: 10,
       y: 80,
     },
   });
+  $container.add($inputContainer);
 
-  $container.add($input);
+  const $inputBackground = await graphics({
+    type: GraphicType.POLYGON,
+    polygon: [0, 0, 60, 0, 60, 10, 0, 10],
+    color: 0x333333,
+    eventMode: EventMode.STATIC,
+    cursor: Cursor.TEXT,
+  });
+
+  const $input = await inputTextSprite({
+    spriteSheet: "fonts/default-font.json",
+    color: 0xffffff,
+    editable: true,
+    withContext: true,
+    pivot: {
+      x: -2,
+      y: -2,
+    },
+    eventMode: EventMode.NONE,
+  });
+
+  $inputBackground.on(DisplayObjectEvent.POINTER_TAP, () => {
+    $input.focus();
+  });
+  global.context.onNoContext(() => {
+    $player.focus();
+  });
+  $inputContainer.add($inputBackground, $input);
 
   return $container.getComponent(appComponent);
 };

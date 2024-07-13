@@ -1,11 +1,14 @@
 import * as PIXI from "pixi.js";
 import { DisplayObjectMutable } from "../types/components";
+import { WindowMutable } from "./window.types";
 
 export type ApplicationProps = {
-  backgroundColor?: number;
-  scale?: number;
+  // Development
   importMetaEnv?: any;
   importMetaHot?: any;
+
+  backgroundColor?: number;
+  scale?: number;
   showFPS?: boolean;
   pointerLock?: boolean;
   pixelPerfect?: boolean;
@@ -13,6 +16,8 @@ export type ApplicationProps = {
 };
 
 export type ApplicationMutable = {
+  load: (load: () => Promise<void> | void) => void;
+
   add: (displayObjectMutable: DisplayObjectMutable<any>) => void;
   remove: (displayObjectMutable: DisplayObjectMutable<any>) => void;
 
@@ -20,6 +25,10 @@ export type ApplicationMutable = {
   stop: () => void;
 
   isPixelPerfect: () => boolean;
+  getScale: () => number;
+  isDisabledZoom: () => boolean;
 
   $getApplication: () => PIXI.Application;
+
+  window: WindowMutable;
 };

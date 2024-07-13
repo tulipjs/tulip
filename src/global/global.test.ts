@@ -42,6 +42,7 @@ describe("global", () => {
       mockEventsOn.mockClear();
     });
 
+    //TODO create new file with events only
     test("emit on events", async () => {
       global.events.$emit(Event.TICK, { data: 123 });
       expect(mockEventsOn).toHaveBeenCalledWith({ data: 123 });
@@ -52,5 +53,7 @@ describe("global", () => {
       global.events.$emit(Event.TICK, { data: 123 });
       expect(mockEventsOn).not.toHaveBeenCalled();
     });
+
+    //TODO create context
   });
 });

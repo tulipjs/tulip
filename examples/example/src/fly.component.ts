@@ -31,7 +31,7 @@ export const flyComponent: ContainerComponent<Props, Mutable> = async (
     },
     hitArea: polygon,
   });
-  $container.on(DisplayObjectEvent.CLICK, () => {
+  $container.on(DisplayObjectEvent.POINTER_TAP, () => {
     console.log("click hitArea");
   });
 

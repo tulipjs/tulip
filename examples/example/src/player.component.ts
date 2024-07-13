@@ -3,7 +3,6 @@ import {
   AnimatedSpriteMutable,
   body,
   ContainerComponent,
-  Cursor,
   Direction,
   EventMode,
   player2D,
@@ -17,7 +16,9 @@ type Mutable = {
   doSomething: () => void;
 };
 
-export const playerComponent: ContainerComponent<Props, Mutable> = async () => {
+export const playerComponent: ContainerComponent<Props, Mutable> = async (
+  props,
+) => {
   let $sprite: AnimatedSpriteMutable;
 
   const onTick = (direction: Direction) => {
@@ -36,9 +37,13 @@ export const playerComponent: ContainerComponent<Props, Mutable> = async () => {
   };
 
   const $player = await player2D({
+    ...props,
     onTick,
     maxSpeed: 10,
     acceleration: 3,
+    withContext: true,
+    focused: true,
+    eventMode: EventMode.NONE,
   });
 
   const width = 175;
@@ -47,9 +52,6 @@ export const playerComponent: ContainerComponent<Props, Mutable> = async () => {
   $sprite = await animatedSprite({
     spriteSheet: "fighter/fighter.json",
     animation: "turnRight",
-    // eventMode: EventMode.NONE,
-    eventMode: EventMode.STATIC,
-    cursor: Cursor.WAIT,
   });
   await $sprite.setPivot({ x: width / 2, y: height / 2 });
   $player.add($sprite);

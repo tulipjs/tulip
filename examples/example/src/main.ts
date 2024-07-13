@@ -2,9 +2,9 @@ import { application, global } from "@tulib/tulip";
 import { appComponent } from "app.component";
 import { GlobalData } from "types";
 
-application({
+const app = application({
   backgroundColor: 0x030303,
-  scale: 3,
+  scale: 2,
   pixelPerfect: true,
   showFPS: true,
   //@ts-ignore
@@ -13,7 +13,9 @@ application({
   importMetaHot: import.meta.hot,
   // pointerLock: true,
   disabledZoom: true,
-}).then(async ({ add }) => {
+});
+
+app.load(async () => {
   global.setData<GlobalData>({ ballColor: 0x333333 });
 
   await global.setFonts([
@@ -23,5 +25,5 @@ application({
     },
   ]);
 
-  add(await appComponent());
+  app.add(await appComponent());
 });

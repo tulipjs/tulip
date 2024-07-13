@@ -7,8 +7,8 @@ export * from "./body.types";
 export * from "./global.types";
 export * from "./material.types";
 export * from "./size.types";
+export * from "./window.types";
+export * from "./sound.types";
 
 export * from "./components";
 export * from "./shapes";
-
-export * from "./sound.types";

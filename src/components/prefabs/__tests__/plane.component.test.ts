@@ -1,7 +1,7 @@
 import { ContainerMutable } from "../../../types";
 import { expect } from "@jest/globals";
 import { plane } from "../plane.component";
-import { GraphicType } from "../../../enums";
+import { EventMode, GraphicType } from "../../../enums";
 
 describe("components", () => {
   describe("prefabs", () => {
@@ -22,7 +22,7 @@ describe("components", () => {
           alpha: 1,
           angle: 0,
           color: 0xff00ff,
-          eventMode: undefined,
+          eventMode: EventMode.PASSIVE,
           height: undefined,
           id: child.getId(),
           initialData: {},
@@ -36,6 +36,9 @@ describe("components", () => {
           width: undefined,
           polygon: [0, 0, 10000, 0, 10000, 5, 0, 5],
           zIndex: 0,
+          focused: true,
+          hitArea: [],
+          withContext: false,
         });
       });
 

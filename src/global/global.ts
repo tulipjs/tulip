@@ -9,14 +9,21 @@ import * as PIXI from "pixi.js";
 import { events } from "./events";
 import { sounds } from "./sounds";
 import { Assets } from "pixi.js";
+import { context } from "./context";
 
 export const global = (() => {
   let $application: ApplicationMutable;
   let $data = {};
   let $componentList: ComponentMutable[] = [];
-  const $sounds = sounds();
-  $sounds.$load();
   let $visualHitBoxes = false;
+
+  const $context = context();
+  const $sounds = sounds();
+
+  const $load = () => {
+    $sounds.$load();
+    $context.$load();
+  };
 
   const getFPS = (): number => $application.$getApplication().ticker.FPS;
 
@@ -73,6 +80,8 @@ export const global = (() => {
   };
 
   return {
+    $load,
+
     getFPS,
 
     setData,
@@ -96,5 +105,6 @@ export const global = (() => {
 
     events: events(),
     sounds: $sounds,
+    context: $context,
   };
 })();

@@ -3,6 +3,7 @@ import { sprite } from "../sprite.component";
 import { expect } from "@jest/globals";
 import * as PIXI from "pixi.js";
 import { container } from "../container.component";
+import { EventMode } from "../../../enums";
 
 jest.mock("pixi.js", () => {
   const originalModule = jest.requireActual("pixi.js");
@@ -51,7 +52,7 @@ describe("components", () => {
         expect($sprite.$getRaw()).toStrictEqual({
           alpha: 1,
           angle: 0,
-          eventMode: undefined,
+          eventMode: EventMode.PASSIVE,
           id: $sprite.getId(),
           initialData: {},
           label: "sprite-label",
@@ -60,6 +61,9 @@ describe("components", () => {
           texture: "texture.png",
           visible: true,
           zIndex: 0,
+          focused: true,
+          hitArea: [],
+          withContext: false,
         });
       });
       test("getProps(...) To return the original properties", () => {

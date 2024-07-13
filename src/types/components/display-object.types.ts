@@ -20,6 +20,9 @@ export type PartialDisplayObjectProps = {
   tint?: number;
   cursor?: Cursor;
   hitArea?: number[];
+
+  focused?: boolean;
+  withContext?: boolean;
 };
 
 export type PartialDisplayObjectMutable<DisplayObject, Mutable = {}> = {
@@ -39,6 +42,7 @@ export type PartialDisplayObjectMutable<DisplayObject, Mutable = {}> = {
     event: DisplayObjectEvent,
     callback: (data: Data) => void | Promise<void>,
   ) => void;
+  $emit: <Data>(event: DisplayObjectEvent, data: Data) => void | Promise<void>;
 
   //visible
   setVisible: (visible: MutableFunction<boolean>) => Promise<void>;
@@ -66,6 +70,13 @@ export type PartialDisplayObjectMutable<DisplayObject, Mutable = {}> = {
   //hitArea
   setHitArea: (polygon: number[]) => Promise<void>;
   getHitArea: () => number[];
+
+  //context
+  focus: () => void;
+  blur: () => void;
+  isFocused: () => boolean;
+  setWithContext: (withContext: MutableFunction<boolean>) => Promise<void>;
+  getWithContext: () => boolean;
 } & Mutable;
 
 ////////////////////////////

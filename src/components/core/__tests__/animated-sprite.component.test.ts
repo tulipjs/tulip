@@ -1,6 +1,6 @@
 import { AnimatedSpriteMutable } from "../../../types";
 import { animatedSprite } from "../animated-sprite.component";
-import { PlayStatus } from "../../../enums";
+import { EventMode, PlayStatus } from "../../../enums";
 import { expect } from "@jest/globals";
 
 jest.mock("pixi.js", () => {
@@ -131,11 +131,11 @@ describe("components", () => {
         });
       });
       test("$getRaw() returns everything needed to hot reload", () => {
-        expect($animatedSprite.$getRaw()).toEqual({
+        expect($animatedSprite.$getRaw()).toStrictEqual({
           alpha: undefined,
           angle: 0,
           animation: "animation-name-2",
-          eventMode: undefined,
+          eventMode: EventMode.PASSIVE,
           frame: 3,
           id: $animatedSprite.getId(),
           initialData: {},
@@ -146,6 +146,9 @@ describe("components", () => {
           spriteSheet: "testing.json",
           visible: undefined,
           zIndex: undefined,
+          focused: true,
+          hitArea: [],
+          withContext: false,
         });
       });
       test.todo("$destroy() destroys everything");

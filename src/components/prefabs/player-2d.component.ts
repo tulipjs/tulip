@@ -1,6 +1,6 @@
 import { container } from "../";
 import { ContainerComponent, PartialContainerMutable } from "../../types";
-import { DisplayObjectEvent, Event, Direction } from "../../enums";
+import { Direction, DisplayObjectEvent, Event } from "../../enums";
 import { global } from "../../global";
 import { degreesToRadians } from "../../utils";
 
@@ -98,8 +98,22 @@ export const player2D: ContainerComponent<
     currentKeyList = currentKeyList.filter((cKey) => cKey != key);
   };
 
-  global.events.on(Event.KEY_DOWN, onKeyDown, $container);
-  global.events.on(Event.KEY_UP, onKeyUp, $container);
+  let removeOnKeyDown;
+  let removeOnKeyUp;
+
+  const start = () => {
+    removeOnKeyDown = global.events.on(Event.KEY_DOWN, onKeyDown, $container);
+    removeOnKeyUp = global.events.on(Event.KEY_UP, onKeyUp, $container);
+  };
+
+  $container.on(DisplayObjectEvent.CONTEXT_ENTER, start);
+  $container.on(DisplayObjectEvent.CONTEXT_LEAVE, () => {
+    currentKeyList = [];
+    removeOnKeyDown && removeOnKeyDown();
+    removeOnKeyUp && removeOnKeyUp();
+  });
+
+  if (!$container.getWithContext() || $container.isFocused()) start();
 
   return $container.getComponent(player2D);
 };
