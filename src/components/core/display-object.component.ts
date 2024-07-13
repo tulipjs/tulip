@@ -154,7 +154,7 @@ export const displayObject = async <
       eventMode !== EventMode.DYNAMIC &&
       !ignoreWarn
     )
-      console.trace(
+      console.warn(
         `Cursor cannot be set if 'EventMode' is not 'static' or 'dynamic'!`,
       );
   };

@@ -154,10 +154,10 @@ describe("components", () => {
           EventMode.DYNAMIC,
         );
 
-        await displayObjectMutable.setEventMode(EventMode.PASSIVE);
-        expect(container.eventMode).toBe(EventMode.PASSIVE);
+        await displayObjectMutable.setEventMode(EventMode.NONE);
+        expect(container.eventMode).toBe(EventMode.NONE);
         expect(displayObjectMutable.getEventMode()).toStrictEqual(
-          EventMode.PASSIVE,
+          EventMode.NONE,
         );
       });
       test("setTint(...) of the display object", async () => {
