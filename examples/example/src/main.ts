@@ -4,7 +4,7 @@ import { GlobalData } from "types";
 
 const app = application({
   backgroundColor: 0x030303,
-  scale: 2,
+  scale: 3,
   pixelPerfect: true,
   showFPS: true,
   //@ts-ignore
@@ -12,7 +12,6 @@ const app = application({
   //@ts-ignore
   importMetaHot: import.meta.hot,
   // pointerLock: true,
-  disabledZoom: true,
 });
 
 app.load(async () => {

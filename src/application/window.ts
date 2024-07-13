@@ -22,17 +22,13 @@ export const window = (): WindowMutable => {
   const $resize = () => {
     const { width, height } = getBounds();
     const scale = $application.getScale();
-    const disabledZoom = $application.isDisabledZoom();
     const application = $application.$getApplication();
 
     application.renderer.resolution = scale * Math.round(devicePixelRatio);
-    application.canvas.style.width = `${width * scale}px`;
-    application.canvas.style.height = `${height * scale}px`;
+    application.canvas.style.width = `${Math.round(width * scale)}px`;
+    application.canvas.style.height = `${Math.round(height * scale)}px`;
 
-    application.renderer.resize(
-      width * (disabledZoom ? devicePixelRatio : 1),
-      height * (disabledZoom ? devicePixelRatio : 1),
-    );
+    application.renderer.resize(width, height);
 
     global.events.$emit(Event.RESIZE, getBounds());
   };

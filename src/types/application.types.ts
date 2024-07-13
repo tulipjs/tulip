@@ -12,7 +12,6 @@ export type ApplicationProps = {
   showFPS?: boolean;
   pointerLock?: boolean;
   pixelPerfect?: boolean;
-  disabledZoom?: boolean;
 };
 
 export type ApplicationMutable = {
@@ -26,7 +25,6 @@ export type ApplicationMutable = {
 
   isPixelPerfect: () => boolean;
   getScale: () => number;
-  isDisabledZoom: () => boolean;
 
   $getApplication: () => PIXI.Application;
 
