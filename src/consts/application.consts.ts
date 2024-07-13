@@ -6,5 +6,4 @@ export const APPLICATION_DEFAULT_PROPS: ApplicationProps = {
   showFPS: false,
   pointerLock: false,
   pixelPerfect: false,
-  disabledZoom: false,
 };

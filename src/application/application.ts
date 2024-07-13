@@ -21,7 +21,6 @@ export const application = ({
   showFPS = APPLICATION_DEFAULT_PROPS.showFPS,
   pointerLock = APPLICATION_DEFAULT_PROPS.pointerLock,
   pixelPerfect = APPLICATION_DEFAULT_PROPS.pixelPerfect,
-  disabledZoom = APPLICATION_DEFAULT_PROPS.disabledZoom,
 }: ApplicationProps = APPLICATION_DEFAULT_PROPS): ApplicationMutable => {
   const application = new PIXI.Application();
   const $window = window();
@@ -200,7 +199,6 @@ export const application = ({
 
   const isPixelPerfect = () => pixelPerfect;
   const getScale = () => scale;
-  const isDisabledZoom = () => disabledZoom;
 
   //### MUTABLES #####################################################################################################//
   const mutable: ApplicationMutable = {
@@ -214,7 +212,6 @@ export const application = ({
 
     isPixelPerfect,
     getScale,
-    isDisabledZoom,
 
     $getApplication: () => application,
 
