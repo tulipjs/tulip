@@ -10,9 +10,11 @@ export const openKeyboard = () => {
   document.body.append(target);
   target.focus();
   target.click();
+  target.value = "";
 };
 
 export const closeKeyboard = () => {
   const target = getInputElement();
   target.blur();
+  target.value = "";
 };
