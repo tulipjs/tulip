@@ -25,7 +25,7 @@ export const displayObject = async <
     originalProps as DisplayObjectProps<Props, Data>,
   );
 
-  const { focused, withContext } = $component.getProps();
+  const { withContext } = $component.getProps();
 
   let $isRemoved = false;
   let $withContext = withContext;
@@ -182,7 +182,10 @@ export const displayObject = async <
     eventMode: getEventMode(),
     hitArea: getHitArea(),
     focused: isFocused(),
+    cursor: getCursor(),
     withContext: getWithContext(),
+    sortableChildren: isSortableChildren(),
+    tint: getTint(),
   });
   let $removeOnTickEvent: () => void;
 
@@ -238,6 +241,16 @@ export const displayObject = async <
 
   const getWithContext = () => $withContext;
 
+  const setSortableChildren = async (data) => {
+    $displayObject.sortableChildren = await getValueMutableFunction<boolean>(
+      data,
+      isSortableChildren(),
+    );
+  };
+
+  const isSortableChildren = () => $displayObject.sortableChildren;
+  const sortChildren = () => $displayObject.sortChildren();
+
   // Set initials
   {
     const {
@@ -252,13 +265,15 @@ export const displayObject = async <
       hitArea,
       visible,
       zIndex,
+      focused,
+      sortableChildren,
     } = $component.getProps();
 
     if (isNotNullish(label)) setLabel(label);
     if (isNotNullish(position)) await setPosition(position);
     if (isNotNullish(pivot)) await setPivot(pivot);
     if (isNotNullish(alpha)) await setAlpha(alpha);
-    if (isNotNullish(tint)) await setTint(eventMode);
+    if (isNotNullish(tint)) await setTint(tint);
     if (isNotNullish(hitArea)) await setHitArea(hitArea);
     if (isNotNullish(visible)) await setVisible(visible);
     if (isNotNullish(zIndex)) await setZIndex(zIndex);
@@ -268,7 +283,8 @@ export const displayObject = async <
     await setWithContext(isNotNullish(withContext) ? withContext : false);
     // This is not an error
     if ($withContext && focused) global.context.add($getContextBaseMutable());
-    if (isNotNullish(cursor)) await setCursor(cursor);
+    await setCursor(cursor || Cursor.AUTO);
+    await setSortableChildren(Boolean(sortableChildren));
 
     on(DisplayObjectEvent.TICK, () => {
       // If not body present, it doesn't make sense to iterate
@@ -325,6 +341,10 @@ export const displayObject = async <
     //hitArea
     setHitArea,
     getHitArea,
+    //sortableChildren
+    setSortableChildren,
+    isSortableChildren,
+    sortChildren,
 
     //events
     on,

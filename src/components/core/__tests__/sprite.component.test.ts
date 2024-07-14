@@ -3,7 +3,7 @@ import { sprite } from "../sprite.component";
 import { expect } from "@jest/globals";
 import * as PIXI from "pixi.js";
 import { container } from "../container.component";
-import { EventMode } from "../../../enums";
+import { Cursor, EventMode } from "../../../enums";
 
 jest.mock("pixi.js", () => {
   const originalModule = jest.requireActual("pixi.js");
@@ -113,6 +113,9 @@ describe("components", () => {
             focused: true,
             hitArea: [],
             withContext: false,
+            cursor: Cursor.AUTO,
+            sortableChildren: false,
+            tint: 0xffffff,
           });
         });
         test("getProps(...) To return the original properties", () => {

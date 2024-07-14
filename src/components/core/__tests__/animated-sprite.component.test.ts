@@ -1,6 +1,6 @@
 import { AnimatedSpriteMutable } from "../../../types";
 import { animatedSprite } from "../animated-sprite.component";
-import { EventMode, PlayStatus } from "../../../enums";
+import { Cursor, EventMode, PlayStatus } from "../../../enums";
 import { expect } from "@jest/globals";
 
 jest.mock("pixi.js", () => {
@@ -153,6 +153,9 @@ describe("components", () => {
           focused: true,
           hitArea: [],
           withContext: false,
+          sortableChildren: false,
+          tint: undefined,
+          cursor: Cursor.AUTO,
         });
       });
       test.todo("$destroy() destroys everything");
