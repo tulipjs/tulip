@@ -1,6 +1,8 @@
 import * as PIXI from "pixi.js";
 import { Sprite, SpriteProps, SpriteMutable } from "../../types";
 import { displayObject } from "./display-object.component";
+import { isNotNullish } from "../../utils";
+import { Spritesheet } from "pixi.js";
 
 export const sprite = async <Props = {}, Mutable = {}, Data = {}>(
   originalProps: SpriteProps<Props, Data> = {} as SpriteProps<Props, Data>,
@@ -10,12 +12,34 @@ export const sprite = async <Props = {}, Mutable = {}, Data = {}>(
     displayObject: new PIXI.Sprite(),
   });
 
-  const { texture } = $displayObject.getProps();
+  const { texture, spriteSheet } = $displayObject.getProps();
 
   const $sprite = $displayObject.getDisplayObject({ __preventWarning: true });
-  let $texture = texture;
 
-  const $getTexture = async (texture?: string) => {
+  let $texture = texture;
+  let $spriteSheet = spriteSheet;
+  let $spriteSheetTexture: Spritesheet;
+
+  const setSpriteSheet = async (spriteSheet: string) => {
+    $spriteSheet = spriteSheet + "";
+    $spriteSheetTexture = await PIXI.Assets.load(spriteSheet);
+    $spriteSheetTexture.textureSource.scaleMode = "nearest";
+
+    $sprite.texture = await $getTexture($texture);
+  };
+  const getSpriteSheet = () => $spriteSheet;
+
+  const $getTexture = async (texture?: string): Promise<PIXI.Texture> => {
+    if (isNotNullish($spriteSheet)) {
+      const $targetTexture = $spriteSheetTexture.textures[$texture];
+
+      if (!isNotNullish($targetTexture))
+        console.error(
+          `SpriteSheet ${$spriteSheet} doesn't contain ${$texture} texture!`,
+        );
+
+      return $targetTexture;
+    }
     const targetTexture = texture
       ? await PIXI.Assets.load(texture)
       : PIXI.Texture.EMPTY;
@@ -47,11 +71,15 @@ export const sprite = async <Props = {}, Mutable = {}, Data = {}>(
   };
 
   {
+    if (isNotNullish(spriteSheet)) await setSpriteSheet($spriteSheet);
     await setTexture(texture);
   }
 
   const $mutable = {
     setTexture,
+
+    setSpriteSheet,
+    getSpriteSheet,
 
     $destroy,
     $getRaw,

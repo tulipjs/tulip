@@ -9,6 +9,7 @@ import {
   GraphicType,
   inputTextSprite,
   plane,
+  sprite,
   text,
   textSprite,
   world,
@@ -146,6 +147,17 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
     $player.focus();
   });
   $inputContainer.add($inputBackground, $input);
+
+  const $spriteFromSpriteSheet = await sprite({
+    spriteSheet: "fighter/fighter.json",
+    texture: "rollSequence0014.png",
+    eventMode: EventMode.NONE,
+  });
+  $container.add($spriteFromSpriteSheet);
+
+  setTimeout(() => {
+    $spriteFromSpriteSheet.setTexture("rollSequence0018.png");
+  }, 2_000);
 
   return $container.getComponent(appComponent);
 };
