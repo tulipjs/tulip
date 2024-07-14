@@ -7,6 +7,7 @@ import {
 import { PlayStatus } from "../../enums";
 import { displayObject } from "./display-object.component";
 import { isNotNullish } from "../../utils";
+import { Spritesheet } from "pixi.js";
 
 export const animatedSprite = async <Props = {}, Mutable = {}, Data = {}>(
   originalProps: AnimatedSpriteProps<Props, Data> = {} as AnimatedSpriteProps<
@@ -25,12 +26,12 @@ export const animatedSprite = async <Props = {}, Mutable = {}, Data = {}>(
   const { spriteSheet, animation, frame, playStatus } =
     $displayObject.getProps();
 
-  let $spriteSheet = spriteSheet + "";
+  let $spriteSheet = spriteSheet;
   let $currentAnimation = "";
   let $frame = frame || 0;
   let $playStatus: PlayStatus =
     playStatus === undefined ? playStatus : PlayStatus.STOP;
-  let $spriteSheetTexture = await PIXI.Assets.load(spriteSheet);
+  let $spriteSheetTexture: Spritesheet;
 
   const $animatedSprite = $displayObject.getDisplayObject({
     __preventWarning: true,
@@ -39,8 +40,10 @@ export const animatedSprite = async <Props = {}, Mutable = {}, Data = {}>(
   const setSpriteSheet = async (spriteSheet: string) => {
     $spriteSheet = spriteSheet + "";
     $spriteSheetTexture = await PIXI.Assets.load(spriteSheet);
-    $animatedSprite.textures =
-      $spriteSheetTexture.animations[$currentAnimation];
+    $spriteSheetTexture.textureSource.scaleMode = "nearest";
+    if ($currentAnimation)
+      $animatedSprite.textures =
+        $spriteSheetTexture.animations[$currentAnimation];
   };
   const getSpriteSheet = () => $spriteSheet;
 
@@ -97,6 +100,7 @@ export const animatedSprite = async <Props = {}, Mutable = {}, Data = {}>(
     $displayObject.getFather = () => null;
   };
   {
+    await setSpriteSheet($spriteSheet);
     if (isNotNullish(animation)) setAnimation(animation);
     if (isNotNullish($frame)) setFrame($frame);
     if (isNotNullish($playStatus)) setPlayStatus($playStatus);

@@ -33,6 +33,10 @@ const mockAssetsLoad = jest.fn(async (args) => ({
     "animation-name": ["texture1"],
     "animation-name-2": ["texture2"],
   },
+  textureSource: jest.fn(() => ({
+    //TODO Test this with #151
+    scaleMode: jest.fn(),
+  })),
 }));
 
 describe("components", () => {
