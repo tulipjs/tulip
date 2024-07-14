@@ -4,11 +4,10 @@ import {
   InputTextSpriteProps,
   PartialInputTextSpriteProps,
 } from "../../types";
-import { container } from "../core";
-import { box } from "./box.component";
+import { container, graphics } from "../core";
 import { textSprite } from "./text-sprite.component";
 import { global } from "../../global";
-import { DisplayObjectEvent, Event } from "../../enums";
+import { DisplayObjectEvent, Event, GraphicType } from "../../enums";
 import { closeKeyboard, openKeyboard } from "../../utils";
 
 export const inputTextSprite: ContainerComponent<
@@ -37,13 +36,13 @@ export const inputTextSprite: ContainerComponent<
   });
   const { height } = $textSprite.$getSize("A");
 
-  const $cursor = await box({
+  const $cursor = await graphics({
+    type: GraphicType.RECTANGLE,
     width: 1,
-    height: height,
-    mass: 0,
+    height: height + 3,
     color: props.color,
-    pivot: { x: 0, y: -height / 2 },
     visible: false,
+    pivot: { x: 0, y: 2 },
   });
 
   const $startCursorBlink = () => {
