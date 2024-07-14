@@ -1,7 +1,7 @@
 import { ContainerMutable } from "../../../types";
 import { expect } from "@jest/globals";
 import { circle } from "../circle.component";
-import { EventMode, GraphicType } from "../../../enums";
+import { Cursor, EventMode, GraphicType } from "../../../enums";
 
 describe("components", () => {
   describe("prefabs", () => {
@@ -40,6 +40,9 @@ describe("components", () => {
           focused: true,
           hitArea: [],
           withContext: false,
+          tint: 0xff00ff,
+          sortableChildren: false,
+          cursor: Cursor.AUTO,
         });
       });
 

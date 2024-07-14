@@ -20,6 +20,7 @@ export type PartialDisplayObjectProps = {
   tint?: number;
   cursor?: Cursor;
   hitArea?: number[];
+  sortableChildren?: boolean;
 
   focused?: boolean;
   withContext?: boolean;
@@ -68,8 +69,14 @@ export type PartialDisplayObjectMutable<DisplayObject, Mutable = {}> = {
   ) => Promise<void>;
   getCursor: () => Cursor;
   //hitArea
-  setHitArea: (polygon: number[]) => Promise<void>;
+  setHitArea: (polygon: MutableFunction<number[]>) => Promise<void>;
   getHitArea: () => number[];
+  //sortableChildren
+  setSortableChildren: (
+    sortableChildren: MutableFunction<boolean>,
+  ) => Promise<void>;
+  isSortableChildren: () => boolean;
+  sortChildren: () => void;
 
   //context
   focus: () => void;

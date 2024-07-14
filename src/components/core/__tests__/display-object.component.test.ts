@@ -36,6 +36,7 @@ describe("components", () => {
           eventMode: EventMode.DYNAMIC,
           focused: true,
           withContext: true,
+          sortableChildren: true,
         });
       });
 
@@ -183,7 +184,7 @@ describe("components", () => {
         });
       });
       test("setCursor(...) of the display object", async () => {
-        expect(container.cursor).toBe(undefined);
+        expect(container.cursor).toBe(Cursor.AUTO);
         expect(displayObjectMutable.getCursor()).toStrictEqual(Cursor.AUTO);
 
         await displayObjectMutable.setCursor(Cursor.CROSSHAIR);
@@ -202,9 +203,9 @@ describe("components", () => {
 
         warnMock.mockClear();
         await displayObjectMutable.setEventMode(EventMode.NONE);
-        await displayObjectMutable.setCursor(Cursor.COL_E_SIZE, true);
+        await displayObjectMutable.setCursor(Cursor.COL_RESIZE, true);
         expect(displayObjectMutable.getCursor()).toStrictEqual(
-          Cursor.COL_E_SIZE,
+          Cursor.COL_RESIZE,
         );
         expect(warnMock).not.toBeCalled();
       });
@@ -261,6 +262,20 @@ describe("components", () => {
         expect(displayObjectMutable.isFocused()).toStrictEqual(true);
         expect(global.context.has(displayObjectMutable)).toStrictEqual(true);
       });
+      test("setSortableChildren() to be called", async () => {
+        expect(
+          displayObjectMutable.getDisplayObject({ __preventWarning: true })
+            .sortableChildren,
+        ).toStrictEqual(true);
+        expect(displayObjectMutable.isSortableChildren()).toStrictEqual(true);
+
+        await displayObjectMutable.setSortableChildren(false);
+        expect(displayObjectMutable.isSortableChildren()).toStrictEqual(false);
+        expect(
+          displayObjectMutable.getDisplayObject({ __preventWarning: true })
+            .sortableChildren,
+        ).toStrictEqual(false);
+      });
       test("$getRaw() to contain all the elements", async () => {
         expect(displayObjectMutable.$getRaw()).toStrictEqual({
           id: displayObjectMutable.getId(),
@@ -276,6 +291,9 @@ describe("components", () => {
           focused: true,
           hitArea: [0, 10, 10, 10, 10, 0, 0, 0],
           withContext: true,
+          sortableChildren: false,
+          tint: 0xff00ff,
+          cursor: Cursor.COL_RESIZE,
         });
       });
 

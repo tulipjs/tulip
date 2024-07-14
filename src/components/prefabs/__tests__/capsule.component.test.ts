@@ -1,7 +1,7 @@
 import { ContainerMutable } from "../../../types";
 import { expect } from "@jest/globals";
 import { capsule } from "../capsule.component";
-import { EventMode, GraphicType } from "../../../enums";
+import { Cursor, EventMode, GraphicType } from "../../../enums";
 
 describe("components", () => {
   describe("prefabs", () => {
@@ -41,6 +41,9 @@ describe("components", () => {
           hitArea: [],
           withContext: false,
           focused: true,
+          tint: 0xff00ff,
+          sortableChildren: false,
+          cursor: Cursor.AUTO,
         });
       });
 
