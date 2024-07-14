@@ -6,10 +6,14 @@ import {
 import { Sprite } from "../pixi.types";
 
 export type PartialSpriteProps<Props = {}> = {
+  spriteSheet?: string;
   texture: string;
 } & Props;
 export type PartialSpriteMutable<Mutable = {}> = {
   setTexture: (texture?: string) => Promise<void>;
+
+  getSpriteSheet: () => string;
+  setSpriteSheet: (spriteSheet?: string) => Promise<void>;
 } & Mutable;
 
 ////////////////////////////
