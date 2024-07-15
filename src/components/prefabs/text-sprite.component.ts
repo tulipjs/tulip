@@ -23,8 +23,13 @@ export const textSprite: ContainerComponent<
   let $currentText = "";
   let $currentColor = 0xffffff;
 
-  const { spriteSheet, text, color } = $containerComponent.getProps();
+  const { spriteSheet, text, color, passwordCharacter } =
+    $containerComponent.getProps();
   const { textures } = await PIXI.Assets.load(spriteSheet);
+
+  const $passwordCharacter = passwordCharacter?.length
+    ? passwordCharacter.split("")[0]
+    : undefined;
 
   const renderText = ({ text, color }: { text?: string; color?: number }) => {
     if (isNotNullish(text)) $currentText = text;
@@ -35,7 +40,10 @@ export const textSprite: ContainerComponent<
 
     let nextPositionX = 0;
     for (const character of $currentText.split("")) {
-      const characterSprite = new PIXI.Sprite(textures[character]);
+      const $charTexture = textures[$passwordCharacter || character];
+      if (!$charTexture) continue;
+
+      const characterSprite = new PIXI.Sprite($charTexture);
 
       characterSprite.position.x = nextPositionX;
       $container.addChild(characterSprite);
