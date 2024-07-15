@@ -138,6 +138,7 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
       y: -2,
     },
     eventMode: EventMode.NONE,
+    passwordChar: ".",
   });
 
   $inputBackground.on(DisplayObjectEvent.POINTER_TAP, () => {

@@ -9,6 +9,7 @@ import { textSprite } from "./text-sprite.component";
 import { global } from "../../global";
 import { DisplayObjectEvent, Event, GraphicType } from "../../enums";
 import { closeKeyboard, openKeyboard } from "../../utils";
+import { Texture } from "pixi.js";
 
 export const inputTextSprite: ContainerComponent<
   InputTextSpriteProps,
@@ -24,16 +25,25 @@ export const inputTextSprite: ContainerComponent<
       "",
     );
 
+  const { passwordChar, spriteSheet, color } = $container.getProps();
+
   let $text = "";
   let $editable = false;
   let $cursorPosition = 0;
   let $cursorInterval: number;
 
   const $textSprite = await textSprite({
-    spriteSheet: props.spriteSheet,
-    color: props.color,
+    spriteSheet,
+    color,
     text: "",
   });
+
+  const $passwordCharText = passwordChar?.length
+    ? passwordChar?.split("")[0]
+    : undefined;
+  const $passwordChar = $passwordCharText
+    ? $textSprite.$getCharacter($passwordCharText)
+    : undefined;
   const { height } = $textSprite.$getCharacter("a");
 
   const $cursor = await graphics({
@@ -58,47 +68,58 @@ export const inputTextSprite: ContainerComponent<
     $cursor.setVisible(visible);
   };
 
+  const $getCurrentText = () =>
+    $passwordChar
+      ? $text
+          .split("")
+          .map(() => $passwordCharText)
+          .join("")
+      : $text;
+
   const onKeyDown = ({ key }) => {
     $stopCursorBlink();
     if (!$editable || $text.length === 0) return;
 
+    let character: Texture;
+    let characterWidth: number;
+
     if (key === "Backspace" && $cursorPosition > 0) {
-      const letter = $text[$cursorPosition - 1];
-      const character = $textSprite.$getCharacter(letter);
-      if (!character) return;
+      character = $textSprite.$getCharacter($text[$cursorPosition - 1]);
+      characterWidth = $passwordChar?.width || character?.width;
+      if (!characterWidth) return;
 
       $text =
         $text.slice(0, $cursorPosition - 1) + $text.slice($cursorPosition);
-      $textSprite.setText($text);
+      $textSprite.setText($getCurrentText());
       $cursorPosition--;
-      $cursor.setPositionX((x) => x - character.width - 1);
+      $cursor.setPositionX((x) => x - characterWidth - 1);
       return;
     }
 
     if (key === "Delete" && $cursorPosition < $text.length) {
       $text =
         $text.slice(0, $cursorPosition) + $text.slice($cursorPosition + 1);
-      $textSprite.setText($text);
+      $textSprite.setText($getCurrentText());
       return;
     }
 
     if (key === "ArrowLeft" && $cursorPosition > 0) {
-      const letter = $text[$cursorPosition - 1];
-      const character = $textSprite.$getCharacter(letter);
-      if (!character) return;
+      character = $textSprite.$getCharacter($text[$cursorPosition - 1]);
+      characterWidth = $passwordChar?.width || character?.width;
+      if (!characterWidth) return;
 
       $cursorPosition--;
-      $cursor.setPositionX((x) => x - character.width - 1);
+      $cursor.setPositionX((x) => x - characterWidth - 1);
       return;
     }
 
     if (key === "ArrowRight" && $cursorPosition < $text.length) {
-      const letter = $text[$cursorPosition];
-      const character = $textSprite.$getCharacter(letter);
-      if (!character) return;
+      character = $textSprite.$getCharacter($text[$cursorPosition]);
+      characterWidth = $passwordChar?.width || character?.width;
+      if (!characterWidth) return;
 
       $cursorPosition++;
-      $cursor.setPositionX((x) => x + character.width + 1);
+      $cursor.setPositionX((x) => x + characterWidth + 1);
       return;
     }
   };
@@ -107,15 +128,16 @@ export const inputTextSprite: ContainerComponent<
     if (!$editable || !ALPHABET.includes(key.toLowerCase())) {
       return;
     }
+    const character = $textSprite.$getCharacter(key);
+    const characterWidth = $passwordChar?.width || character?.width;
+    if (!character) return;
 
     $text =
       $text.slice(0, $cursorPosition) + key + $text.slice($cursorPosition);
 
     $cursorPosition++;
-    $textSprite.setText($text);
-    const character = $textSprite.$getCharacter(key);
-    if (!character) return;
-    $cursor.setPositionX((x) => x + character.width + 1);
+    $textSprite.setText($getCurrentText());
+    $cursor.setPositionX((x) => x + characterWidth + 1);
   };
 
   const onKeyUp = () => {

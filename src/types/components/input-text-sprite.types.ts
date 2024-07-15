@@ -4,6 +4,7 @@ export type PartialInputTextSpriteProps = {
   spriteSheet: string;
   color?: number;
   editable?: boolean;
+  passwordChar?: string;
 };
 
 export type InputTextSpriteProps<Data = {}> = PartialInputTextSpriteProps &
