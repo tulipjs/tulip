@@ -35,7 +35,10 @@ export const textSprite: ContainerComponent<
 
     let nextPositionX = 0;
     for (const character of $currentText.split("")) {
-      const characterSprite = new PIXI.Sprite(textures[character]);
+      const $charTexture = textures[character];
+      if (!$charTexture) continue;
+
+      const characterSprite = new PIXI.Sprite($charTexture);
 
       characterSprite.position.x = nextPositionX;
       $container.addChild(characterSprite);
