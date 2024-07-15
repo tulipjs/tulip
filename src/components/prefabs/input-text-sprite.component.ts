@@ -34,7 +34,7 @@ export const inputTextSprite: ContainerComponent<
     color: props.color,
     text: "",
   });
-  const { height } = $textSprite.$getSize("A");
+  const { height } = $textSprite.$getCharacter("a");
 
   const $cursor = await graphics({
     type: GraphicType.RECTANGLE,
@@ -64,13 +64,14 @@ export const inputTextSprite: ContainerComponent<
 
     if (key === "Backspace" && $cursorPosition > 0) {
       const letter = $text[$cursorPosition - 1];
-      const { width } = $textSprite.$getSize(letter);
+      const character = $textSprite.$getCharacter(letter);
+      if (!character) return;
 
       $text =
         $text.slice(0, $cursorPosition - 1) + $text.slice($cursorPosition);
       $textSprite.setText($text);
       $cursorPosition--;
-      $cursor.setPositionX((x) => x - width - 1);
+      $cursor.setPositionX((x) => x - character.width - 1);
       return;
     }
 
@@ -83,19 +84,21 @@ export const inputTextSprite: ContainerComponent<
 
     if (key === "ArrowLeft" && $cursorPosition > 0) {
       const letter = $text[$cursorPosition - 1];
-      const { width } = $textSprite.$getSize(letter);
+      const character = $textSprite.$getCharacter(letter);
+      if (!character) return;
 
       $cursorPosition--;
-      $cursor.setPositionX((x) => x - width - 1);
+      $cursor.setPositionX((x) => x - character.width - 1);
       return;
     }
 
     if (key === "ArrowRight" && $cursorPosition < $text.length) {
       const letter = $text[$cursorPosition];
-      const { width } = $textSprite.$getSize(letter);
+      const character = $textSprite.$getCharacter(letter);
+      if (!character) return;
 
       $cursorPosition++;
-      $cursor.setPositionX((x) => x + width + 1);
+      $cursor.setPositionX((x) => x + character.width + 1);
       return;
     }
   };
@@ -110,8 +113,9 @@ export const inputTextSprite: ContainerComponent<
 
     $cursorPosition++;
     $textSprite.setText($text);
-    const { width } = $textSprite.$getSize(key);
-    $cursor.setPositionX((x) => x + width + 1);
+    const character = $textSprite.$getCharacter(key);
+    if (!character) return;
+    $cursor.setPositionX((x) => x + character.width + 1);
   };
 
   const onKeyUp = () => {

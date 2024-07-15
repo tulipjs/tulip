@@ -3,14 +3,13 @@ import {
   ContainerMutable,
   ContainerProps,
 } from "./container.types";
-import { Size } from "../size.types";
+import { Texture } from "pixi.js";
 
 export type PartialTextSpriteProps<Props = {}> = {
   spriteSheet: string;
 
   text: string;
   color?: number;
-  passwordCharacter?: string;
 } & Props;
 
 export type PartialTextSpriteMutable<Mutable = {}> = {
@@ -20,8 +19,7 @@ export type PartialTextSpriteMutable<Mutable = {}> = {
   setColor: (color: number) => void;
   getColor: () => number;
 
-  $getSize: (letter: string) => Size;
-  $getFullSize: () => Size;
+  $getCharacter: (character: string) => Texture;
 } & Mutable;
 
 ////////////////////////////

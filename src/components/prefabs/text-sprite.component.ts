@@ -23,13 +23,8 @@ export const textSprite: ContainerComponent<
   let $currentText = "";
   let $currentColor = 0xffffff;
 
-  const { spriteSheet, text, color, passwordCharacter } =
-    $containerComponent.getProps();
+  const { spriteSheet, text, color } = $containerComponent.getProps();
   const { textures } = await PIXI.Assets.load(spriteSheet);
-
-  const $passwordCharacter = passwordCharacter?.length
-    ? passwordCharacter.split("")[0]
-    : undefined;
 
   const renderText = ({ text, color }: { text?: string; color?: number }) => {
     if (isNotNullish(text)) $currentText = text;
@@ -40,7 +35,7 @@ export const textSprite: ContainerComponent<
 
     let nextPositionX = 0;
     for (const character of $currentText.split("")) {
-      const $charTexture = textures[$passwordCharacter || character];
+      const $charTexture = textures[character];
       if (!$charTexture) continue;
 
       const characterSprite = new PIXI.Sprite($charTexture);
@@ -60,6 +55,9 @@ export const textSprite: ContainerComponent<
   const getColor = () => $currentColor;
   //------------------------------------------------------------------
 
+  const $getCharacter = (character: string): PIXI.Texture | undefined =>
+    textures[character.split("")[0]];
+
   return $containerComponent.getComponent(textSprite, {
     setText,
     getText,
@@ -67,20 +65,22 @@ export const textSprite: ContainerComponent<
     setColor,
     getColor,
 
-    $getSize: (letter: string) =>
-      textures[letter]
-        ? {
-            width: textures[letter].width,
-            height: textures[letter].height,
-          }
-        : { width: 0, height: 0 },
-    $getFullSize: () =>
-      text.split("").reduce(
-        (acc, curr) => ({
-          width: acc.width + textures[curr].width + 1,
-          height: Math.max(acc.height, textures[curr].height),
-        }),
-        { width: 0, height: 0 },
-      ),
+    $getCharacter,
+
+    // $getSize: (letter: string) =>
+    //   textures[letter]
+    //     ? {
+    //         width: textures[letter].width,
+    //         height: textures[letter].height,
+    //       }
+    //     : { width: 0, height: 0 },
+    // $getFullSize: () =>
+    //   text.split("").reduce(
+    //     (acc, curr) => ({
+    //       width: acc.width + textures[curr].width + 1,
+    //       height: Math.max(acc.height, textures[curr].height),
+    //     }),
+    //     { width: 0, height: 0 },
+    //   ),
   });
 };
