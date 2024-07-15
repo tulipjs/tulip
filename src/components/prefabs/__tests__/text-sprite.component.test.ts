@@ -29,6 +29,8 @@ describe("components", () => {
       });
 
       let $textSprite: TextSpriteMutable;
+      let $textSprite2: TextSpriteMutable;
+
       beforeAll(async () => {
         $textSprite = await textSprite({
           text: "abc",
@@ -36,6 +38,14 @@ describe("components", () => {
           spriteSheet: "font.json",
           alpha: 0.3,
           label: "something",
+        });
+        $textSprite2 = await textSprite({
+          text: "asdasdads",
+          color: 0xff00ff,
+          spriteSheet: "font.json",
+          alpha: 0.3,
+          label: "something",
+          passwordCharacter: "a",
         });
       });
 
@@ -68,11 +78,30 @@ describe("components", () => {
             .length,
         ).toEqual(3);
 
-        $textSprite.setText("123 fgbh");
+        $textSprite.setText("123 aabcfgbh");
         expect(
           $textSprite.getDisplayObject({ __preventWarning: true }).children
             .length,
-        ).toEqual(8);
+        ).toEqual(5);
+
+        $textSprite.setText("abcabc");
+        expect(
+          $textSprite.getDisplayObject({ __preventWarning: true }).children
+            .length,
+        ).toEqual(6);
+      });
+
+      test("password character to contain same children length on text", async () => {
+        expect(
+          $textSprite2.getDisplayObject({ __preventWarning: true }).children
+            .length,
+        ).toEqual(9);
+
+        $textSprite2.setText("123 aabcfgbh");
+        expect(
+          $textSprite2.getDisplayObject({ __preventWarning: true }).children
+            .length,
+        ).toEqual(12);
       });
     });
   });

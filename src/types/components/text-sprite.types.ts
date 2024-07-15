@@ -10,6 +10,7 @@ export type PartialTextSpriteProps<Props = {}> = {
 
   text: string;
   color?: number;
+  passwordCharacter?: string;
 } & Props;
 
 export type PartialTextSpriteMutable<Mutable = {}> = {
