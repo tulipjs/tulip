@@ -3,6 +3,7 @@ import {
   DisplayObjectMutable,
   DisplayObjectProps,
   Point,
+  Size,
 } from "../../types";
 import { component } from "./component.component";
 import { getValueMutableFunction, isNotNullish } from "../../utils";
@@ -251,6 +252,13 @@ export const displayObject = async <
   const isSortableChildren = () => $displayObject.sortableChildren;
   const sortChildren = () => $displayObject.sortChildren();
 
+  const getWidth = () => $displayObject.width;
+  const getHeight = () => $displayObject.height;
+  const getSize = (): Size => ({
+    width: $displayObject.width,
+    height: $displayObject.height,
+  });
+
   // Set initials
   {
     const {
@@ -345,6 +353,10 @@ export const displayObject = async <
     setSortableChildren,
     isSortableChildren,
     sortChildren,
+    //size
+    getWidth,
+    getHeight,
+    getSize,
 
     //events
     on,

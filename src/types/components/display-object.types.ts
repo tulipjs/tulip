@@ -77,6 +77,10 @@ export type PartialDisplayObjectMutable<DisplayObject, Mutable = {}> = {
   ) => Promise<void>;
   isSortableChildren: () => boolean;
   sortChildren: () => void;
+  //size
+  getWidth: () => number;
+  getHeight: () => number;
+  getSize: () => Size;
 
   //context
   focus: () => void;
