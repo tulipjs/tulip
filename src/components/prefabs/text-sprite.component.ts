@@ -1,11 +1,14 @@
 import {
   ContainerComponent,
+  IndividualSides,
   PartialTextSpriteMutable,
   PartialTextSpriteProps,
 } from "../../types";
-import { container } from "../core";
+import { container, graphics } from "../core";
 import * as PIXI from "pixi.js";
 import { isNotNullish } from "../../utils";
+import { EventMode, GraphicType } from "../../enums";
+import { Size, Texture } from "pixi.js";
 
 export const textSprite: ContainerComponent<
   PartialTextSpriteProps,
@@ -16,22 +19,81 @@ export const textSprite: ContainerComponent<
     PartialTextSpriteMutable
   >(props);
 
-  const $container = $containerComponent.getDisplayObject({
-    __preventWarning: true,
-  });
-  //------------------------------------------------------------------
-  let $currentText = "";
-  let $currentColor = 0xffffff;
+  const {
+    spriteSheet,
+    text,
+    color,
+    size,
+    backgroundAlpha,
+    backgroundColor,
+    backgroundPadding,
+    cursor,
+  } = $containerComponent.getProps();
 
-  const { spriteSheet, text, color } = $containerComponent.getProps();
+  let $currentText = text;
+  let $currentColor = color;
+  let $size = {
+    width: size?.width,
+    height: size?.height,
+  };
+  let $backgroundAlpha = backgroundAlpha || 0;
+  let $backgroundColor = backgroundColor || 0xffffff;
+  let $backgroundPadding = backgroundPadding || [0, 0, 0, 0];
+
   const { textures } = await PIXI.Assets.load(spriteSheet);
 
-  const renderText = ({ text, color }: { text?: string; color?: number }) => {
-    if (isNotNullish(text)) $currentText = text;
-    if (isNotNullish(color)) $currentColor = color;
+  if (!isNotNullish($size.height))
+    $size.height = (Object.values(textures)[0] as Texture)?.height || 0;
 
-    $container.removeChildren();
-    $container.tint = $currentColor;
+  const $background = await graphics({
+    type: GraphicType.RECTANGLE,
+    width: $size?.width + $backgroundPadding[3] + $backgroundPadding[1],
+    height: $size?.height + $backgroundPadding[0] + $backgroundPadding[2],
+    color: $backgroundColor,
+    alpha: $backgroundAlpha,
+    pivot: {
+      x: $backgroundPadding[3],
+      y: $backgroundPadding[0],
+    },
+    eventMode: EventMode.STATIC,
+    cursor,
+  });
+
+  const $textContainerComponent = await container({
+    eventMode: EventMode.NONE,
+  });
+  $containerComponent.add($background, $textContainerComponent);
+
+  const $textContainer = $textContainerComponent.getDisplayObject({
+    __preventWarning: true,
+  });
+
+  const renderBackground = async () => {
+    let targetSize = {
+      width: $size?.width || 0,
+      height: $size?.height || 0,
+    };
+
+    if (!isNotNullish($size.width)) {
+      // Somehow when no children, still retrieves the last size
+      targetSize.width = $currentText ? $textContainer.width : 0;
+    }
+
+    $background.setRectangle(
+      targetSize?.width + $backgroundPadding[3] + $backgroundPadding[1],
+      targetSize?.height + $backgroundPadding[0] + $backgroundPadding[2],
+    );
+    await $background.setPivot({
+      x: $backgroundPadding[3],
+      y: $backgroundPadding[0],
+    });
+    $background.setColor($backgroundColor);
+    await $background.setAlpha($backgroundAlpha);
+  };
+
+  const renderText = async () => {
+    $textContainer.removeChildren();
+    $textContainer.tint = $currentColor;
 
     let nextPositionX = 0;
     for (const character of $currentText.split("")) {
@@ -41,22 +103,58 @@ export const textSprite: ContainerComponent<
       const characterSprite = new PIXI.Sprite($charTexture);
 
       characterSprite.position.x = nextPositionX;
-      $container.addChild(characterSprite);
+      $textContainer.addChild(characterSprite);
 
-      nextPositionX = $container.width + 1;
+      nextPositionX = $textContainer.width + 1;
     }
-  };
-  renderText({ text, color });
 
-  const setText = (text) => renderText({ text });
+    await renderBackground();
+  };
+
+  const setText = async (text: string) => {
+    if (isNotNullish(text)) $currentText = text;
+    await renderText();
+  };
   const getText = () => $currentText;
 
-  const setColor = (color: number) => renderText({ color });
+  const setColor = async (color: number) => {
+    if (isNotNullish(color)) $currentColor = color;
+    await renderText();
+  };
   const getColor = () => $currentColor;
-  //------------------------------------------------------------------
 
+  const getSize = () => $size;
+  const setSize = async (size: Size) => {
+    $size = size;
+    await renderBackground();
+  };
+
+  const getBackgroundColor = () => $backgroundColor;
+  const setBackgroundColor = async (color: number) => {
+    $backgroundColor = color;
+    await renderBackground();
+  };
+
+  const getBackgroundAlpha = () => $backgroundAlpha;
+  const setBackgroundAlpha = async (alpha: number) => {
+    $backgroundAlpha = alpha;
+    await renderBackground();
+  };
+
+  const getBackgroundPadding = () => $backgroundPadding;
+  const setBackgroundPadding = async (padding: IndividualSides) => {
+    $backgroundPadding = padding;
+    await renderBackground();
+  };
+
+  const $getTextBounds = (): Size => $textContainer.getBounds();
   const $getCharacter = (character: string): PIXI.Texture | undefined =>
     textures[character.split("")[0]];
+
+  {
+    await setText(text);
+    await setColor(color);
+  }
 
   return $containerComponent.getComponent(textSprite, {
     setText,
@@ -65,22 +163,19 @@ export const textSprite: ContainerComponent<
     setColor,
     getColor,
 
-    $getCharacter,
+    getSize,
+    setSize,
 
-    // $getSize: (letter: string) =>
-    //   textures[letter]
-    //     ? {
-    //         width: textures[letter].width,
-    //         height: textures[letter].height,
-    //       }
-    //     : { width: 0, height: 0 },
-    // $getFullSize: () =>
-    //   text.split("").reduce(
-    //     (acc, curr) => ({
-    //       width: acc.width + textures[curr].width + 1,
-    //       height: Math.max(acc.height, textures[curr].height),
-    //     }),
-    //     { width: 0, height: 0 },
-    //   ),
+    getBackgroundColor,
+    setBackgroundColor,
+
+    getBackgroundAlpha,
+    setBackgroundAlpha,
+
+    getBackgroundPadding,
+    setBackgroundPadding,
+
+    $getTextBounds,
+    $getCharacter,
   });
 };

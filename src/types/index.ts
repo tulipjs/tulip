@@ -9,6 +9,7 @@ export * from "./material.types";
 export * from "./size.types";
 export * from "./window.types";
 export * from "./sound.types";
+export * from "./sides.types";
 
 export * from "./components";
 export * from "./shapes";

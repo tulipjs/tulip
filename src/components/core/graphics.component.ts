@@ -166,6 +166,7 @@ export const graphics = async <Props = {}, Mutable = {}, Data = {}>(
     setCircle,
     setCapsule,
     setTriangle,
+    setRectangle,
 
     getPolygon,
     getRadius,

@@ -112,43 +112,46 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
   }, 1_000);
   $container.add($pixelPerfectText);
 
-  const $inputContainer = await container({
-    position: {
-      x: 10,
-      y: 80,
-    },
-  });
-  $container.add($inputContainer);
-
-  const $inputBackground = await graphics({
-    type: GraphicType.RECTANGLE,
-    width: 60,
-    height: 10,
-    color: 0x333333,
-    eventMode: EventMode.STATIC,
-    cursor: Cursor.TEXT,
-  });
+  // const $inputBackground = await graphics({
+  //   type: GraphicType.RECTANGLE,
+  //   width: 60,
+  //   height: 10,
+  //   color: 0x333333,
+  //   eventMode: EventMode.STATIC,
+  //   cursor: Cursor.TEXT,
+  // });
 
   const $input = await inputTextSprite({
     spriteSheet: "fonts/default-font.json",
     color: 0xffffff,
     editable: true,
     withContext: true,
-    pivot: {
-      x: -2,
-      y: -2,
+    position: {
+      x: 10,
+      y: 40,
     },
-    eventMode: EventMode.NONE,
-    passwordChar: ".",
+    eventMode: EventMode.STATIC,
+    // passwordChar: ".",
+    cursor: Cursor.TEXT,
+    backgroundAlpha: 1,
+    backgroundColor: 0xff00ff,
+    backgroundPadding: [3, 4, 2, 4],
+    // defaultValue: "defaultValue",
+    placeholder: "placeholder",
+    size: {
+      width: 90,
+      height: 7,
+    },
+    maxLength: 3,
   });
 
-  $inputBackground.on(DisplayObjectEvent.POINTER_TAP, () => {
+  $input.on(DisplayObjectEvent.POINTER_TAP, () => {
     $input.focus();
   });
   global.context.onNoContext(() => {
     $player.focus();
   });
-  $inputContainer.add($inputBackground, $input);
+  $container.add($input);
 
   const $spriteFromSpriteSheet = await sprite({
     spriteSheet: "fighter/fighter.json",
