@@ -7,7 +7,7 @@ import {
 import { container, graphics } from "../core";
 import { textSprite } from "./text-sprite.component";
 import { global } from "../../global";
-import { DisplayObjectEvent, Event, GraphicType } from "../../enums";
+import { DisplayObjectEvent, Event, EventMode, GraphicType } from "../../enums";
 import { closeKeyboard, openKeyboard } from "../../utils";
 import { Texture } from "pixi.js";
 
@@ -20,22 +20,38 @@ export const inputTextSprite: ContainerComponent<
     InputTextSpriteMutable
   >(props);
 
-  const ALPHABET =
-    "abcdefghijklmnñopqrstuvwxyz1234567890!#€%&()*+-./:;<=>?¿@[]^_{}| ".split(
-      "",
-    );
+  const {
+    passwordChar,
+    defaultValue,
+    position,
+    placeholder,
+    placeHolderAlpha,
+    maxLength,
+    ...textSpriteProps
+  } = $container.getProps();
 
-  const { passwordChar, spriteSheet, color } = $container.getProps();
-
-  let $text = "";
+  let $text = defaultValue || "";
   let $editable = false;
   let $cursorPosition = 0;
   let $cursorInterval: number;
 
+  let $placeholder = placeholder || "";
+  let $placeHolderAlpha = placeHolderAlpha || 0.5;
+
+  let $maxLength = maxLength;
+
   const $textSprite = await textSprite({
-    spriteSheet,
-    color,
-    text: "",
+    ...textSpriteProps,
+    text: $text,
+  });
+
+  const $placeHolderTextSprite = await textSprite({
+    spriteSheet: textSpriteProps.spriteSheet,
+    text: $placeholder,
+    color: textSpriteProps.color,
+    pivot: textSpriteProps.pivot,
+    alpha: $placeHolderAlpha,
+    visible: $text.length === 0,
   });
 
   const $passwordCharText = passwordChar?.length
@@ -52,7 +68,8 @@ export const inputTextSprite: ContainerComponent<
     height: height + 3,
     color: props.color,
     visible: false,
-    pivot: { x: 0, y: 2 },
+    pivot: { x: 1, y: 2 },
+    eventMode: EventMode.NONE,
   });
 
   const $startCursorBlink = () => {
@@ -76,6 +93,10 @@ export const inputTextSprite: ContainerComponent<
           .join("")
       : $text;
 
+  const renderPlaceHolder = () => {
+    $placeHolderTextSprite.setVisible($text.length === 0);
+  };
+
   const onKeyDown = ({ key }) => {
     $stopCursorBlink();
     if (!$editable || $text.length === 0) return;
@@ -93,6 +114,7 @@ export const inputTextSprite: ContainerComponent<
       $textSprite.setText($getCurrentText());
       $cursorPosition--;
       $cursor.setPositionX((x) => x - characterWidth - 1);
+      renderPlaceHolder();
       return;
     }
 
@@ -100,6 +122,7 @@ export const inputTextSprite: ContainerComponent<
       $text =
         $text.slice(0, $cursorPosition) + $text.slice($cursorPosition + 1);
       $textSprite.setText($getCurrentText());
+      renderPlaceHolder();
       return;
     }
 
@@ -110,6 +133,7 @@ export const inputTextSprite: ContainerComponent<
 
       $cursorPosition--;
       $cursor.setPositionX((x) => x - characterWidth - 1);
+      renderPlaceHolder();
       return;
     }
 
@@ -120,17 +144,20 @@ export const inputTextSprite: ContainerComponent<
 
       $cursorPosition++;
       $cursor.setPositionX((x) => x + characterWidth + 1);
+      renderPlaceHolder();
       return;
     }
   };
 
   const onKeyPress = ({ key }) => {
-    if (!$editable || !ALPHABET.includes(key.toLowerCase())) {
+    if (!$editable) {
       return;
     }
     const character = $textSprite.$getCharacter(key);
     const characterWidth = $passwordChar?.width || character?.width;
     if (!character) return;
+
+    if ($maxLength && $text.length + 1 > $maxLength) return;
 
     $text =
       $text.slice(0, $cursorPosition) + key + $text.slice($cursorPosition);
@@ -138,10 +165,12 @@ export const inputTextSprite: ContainerComponent<
     $cursorPosition++;
     $textSprite.setText($getCurrentText());
     $cursor.setPositionX((x) => x + characterWidth + 1);
+    renderPlaceHolder();
   };
 
   const onKeyUp = () => {
     $startCursorBlink();
+    renderPlaceHolder();
   };
 
   let removeOnKeyDown;
@@ -156,6 +185,10 @@ export const inputTextSprite: ContainerComponent<
       $textSprite,
     );
     removeOnKeyUp = global.events.on(Event.KEY_UP, onKeyUp, $textSprite);
+
+    //Move cursor to end
+    $cursorPosition = $text.length;
+    $cursor.setPositionX($textSprite.$getTextBounds().width + 1);
 
     setEditable(props.editable ?? true);
     $startCursorBlink();
@@ -172,7 +205,7 @@ export const inputTextSprite: ContainerComponent<
     closeKeyboard();
   });
 
-  $container.add($cursor, $textSprite);
+  $container.add($textSprite, $placeHolderTextSprite, $cursor);
 
   const setEditable = (editable: boolean) => {
     $editable = editable;
@@ -194,5 +227,20 @@ export const inputTextSprite: ContainerComponent<
     setEditable,
     getText,
     reset,
+
+    setColor: $textSprite.setColor,
+    getColor: $textSprite.getColor,
+
+    getSize: $textSprite.getSize,
+    setSize: $textSprite.setSize,
+
+    getBackgroundColor: $textSprite.getBackgroundColor,
+    setBackgroundColor: $textSprite.setBackgroundColor,
+
+    getBackgroundAlpha: $textSprite.getBackgroundAlpha,
+    setBackgroundAlpha: $textSprite.setBackgroundAlpha,
+
+    getBackgroundPadding: $textSprite.getBackgroundPadding,
+    setBackgroundPadding: $textSprite.setBackgroundPadding,
   });
 };

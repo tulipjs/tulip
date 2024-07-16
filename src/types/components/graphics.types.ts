@@ -21,6 +21,7 @@ export type PartialGraphicsMutable<Mutable = {}> = {
   setCircle: (radius: number) => void;
   setCapsule: (length: number, radius: number) => void;
   setTriangle: (width: number, height: number) => void;
+  setRectangle: (width: number, height: number) => void;
 
   getPolygon: () => number[] | undefined;
   getRadius: () => number | undefined;
