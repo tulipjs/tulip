@@ -9,6 +9,7 @@ import {
   GraphicType,
   inputTextSprite,
   plane,
+  sliceSprite,
   sprite,
   text,
   textSprite,
@@ -159,6 +160,23 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
   setTimeout(() => {
     $spriteFromSpriteSheet.setTexture("rollSequence0018.png");
   }, 2_000);
+
+  const $sprite = await sliceSprite({
+    texture: "chat.png",
+    eventMode: EventMode.STATIC,
+    cursor: Cursor.TEXT,
+    position: {
+      x: 200,
+      y: 20,
+    },
+    leftWidth: 3,
+    topHeight: 3,
+    rightWidth: 3,
+    bottomHeight: 3,
+    width: 100,
+    height: 9,
+  });
+  $container.add($sprite);
 
   return $container.getComponent(appComponent);
 };

@@ -9,3 +9,4 @@ export * from "./sprite.types";
 export * from "./text.types";
 export * from "./text-sprite.types";
 export * from "./input-text-sprite.types";
+export * from "./slice-sprite.types";

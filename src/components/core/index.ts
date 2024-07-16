@@ -7,3 +7,4 @@ export * from "./graphics.component";
 export * from "./world.component";
 export * from "./animated-sprite.component";
 export * from "./text.component";
+export * from "./slice-sprite.component";
