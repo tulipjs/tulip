@@ -20,6 +20,22 @@ jest.mock("pixi.js", () => {
   };
 });
 
+jest.mock("../../../global/global.ts", () => {
+  const { global: originalGlobal } = jest.requireActual(
+    "../../../global/global.ts",
+  );
+
+  return {
+    global: {
+      ...originalGlobal,
+      getApplication: jest.fn(() => ({
+        ...originalGlobal.getApplication(),
+        getScaleMode: jest.fn().mockReturnValue("nearest"),
+      })),
+    },
+  };
+});
+
 const mockSpriteAssetsLoad = jest.fn(async (args) => new PIXI.Texture());
 const mockSpriteSheetAssetsLoad = jest.fn(async (args) => ({
   id: args,
@@ -28,7 +44,6 @@ const mockSpriteSheetAssetsLoad = jest.fn(async (args) => ({
     "texture-name-2": PIXI.Texture.EMPTY,
   },
   textureSource: jest.fn(() => ({
-    //TODO Test this with #151
     scaleMode: jest.fn(),
   })),
 }));

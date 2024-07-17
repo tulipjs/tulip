@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js";
-import { DisplayObjectMutable } from "../types/components";
+import { DisplayObjectMutable } from "./components";
 import { WindowMutable } from "./window.types";
+import { ScaleMode } from "../enums";
 
 export type ApplicationProps = {
   // Development
@@ -12,6 +13,7 @@ export type ApplicationProps = {
   showFPS?: boolean;
   pointerLock?: boolean;
   pixelPerfect?: boolean;
+  scaleMode?: ScaleMode;
 };
 
 export type ApplicationMutable = {
@@ -25,6 +27,7 @@ export type ApplicationMutable = {
 
   isPixelPerfect: () => boolean;
   getScale: () => number;
+  getScaleMode: () => ScaleMode;
 
   $getApplication: () => PIXI.Application;
 
