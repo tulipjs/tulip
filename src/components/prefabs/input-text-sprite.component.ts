@@ -7,9 +7,14 @@ import {
 import { container, graphics } from "../core";
 import { textSprite } from "./text-sprite.component";
 import { global } from "../../global";
-import { DisplayObjectEvent, Event, EventMode, GraphicType } from "../../enums";
+import {
+  DisplayObjectEvent,
+  Event,
+  EventMode,
+  GraphicType,
+  HorizontalAlign,
+} from "../../enums";
 import { closeKeyboard, openKeyboard } from "../../utils";
-import { Texture } from "pixi.js";
 
 export const inputTextSprite: ContainerComponent<
   InputTextSpriteProps,
@@ -27,12 +32,13 @@ export const inputTextSprite: ContainerComponent<
     placeholder,
     placeHolderAlpha,
     maxLength,
+    zIndex,
     ...textSpriteProps
   } = $container.getProps();
 
   let $text = defaultValue || "";
   let $editable = false;
-  let $cursorPosition = 0;
+  let $cursorIndex = 0;
   let $cursorInterval: number;
 
   let $placeholder = placeholder || "";
@@ -52,6 +58,10 @@ export const inputTextSprite: ContainerComponent<
     pivot: textSpriteProps.pivot,
     alpha: $placeHolderAlpha,
     visible: $text.length === 0,
+    eventMode: EventMode.NONE,
+    size: textSpriteProps.size,
+    verticalAlign: textSpriteProps.verticalAlign,
+    horizontalAlign: textSpriteProps.horizontalAlign,
   });
 
   const $passwordCharText = passwordChar?.length
@@ -61,6 +71,13 @@ export const inputTextSprite: ContainerComponent<
     ? $textSprite.$getCharacter($passwordCharText)
     : undefined;
   const { height } = $textSprite.$getCharacter("a");
+
+  const $cursorTextSprite = await textSprite({
+    spriteSheet: textSpriteProps.spriteSheet,
+    text: $text,
+    alpha: 0,
+    eventMode: EventMode.NONE,
+  });
 
   const $cursor = await graphics({
     type: GraphicType.RECTANGLE,
@@ -97,74 +114,96 @@ export const inputTextSprite: ContainerComponent<
     $placeHolderTextSprite.setVisible($text.length === 0);
   };
 
-  const onKeyDown = ({ key }) => {
+  const getTextSize = () => {
+    const $size = $textSprite.getSize();
+
+    return $size.width ? $size : $textSprite.$getTextBounds();
+  };
+
+  const calcCursorPosition = async () => {
+    await $cursorTextSprite.setText($text.slice(0, $cursorIndex));
+    await $cursor.setPositionX($cursorTextSprite.getBounds().width);
+
+    const $size = getTextSize();
+    //Fix when you navigate cursor to the 0
+    const index0Fix = $cursorTextSprite.getBounds().width > 0 ? 0 : 1;
+    switch ($textSprite.getHorizontalAlign()) {
+      case HorizontalAlign.CENTER:
+        await $cursor.setPivotX(
+          (-$size.width + $textSprite.$getTextBounds().width - 1) / 2 +
+            index0Fix,
+        );
+        break;
+      case HorizontalAlign.LEFT:
+        await $cursor.setPivotX(index0Fix);
+        break;
+      case HorizontalAlign.RIGHT:
+        await $cursor.setPivotX(
+          -($size.width || 0) + $textSprite.$getTextBounds().width,
+        );
+        break;
+    }
+  };
+
+  const onKeyDown = async ({ key }: KeyboardEvent) => {
     $stopCursorBlink();
     if (!$editable || $text.length === 0) return;
 
-    let character: Texture;
-    let characterWidth: number;
+    if (key === "Backspace" && $cursorIndex > 0) {
+      $text = $text.slice(0, $cursorIndex - 1) + $text.slice($cursorIndex);
+      await $textSprite.setText($getCurrentText());
 
-    if (key === "Backspace" && $cursorPosition > 0) {
-      character = $textSprite.$getCharacter($text[$cursorPosition - 1]);
-      characterWidth = $passwordChar?.width || character?.width;
-      if (!characterWidth) return;
+      $cursorIndex--;
+      await calcCursorPosition();
 
-      $text =
-        $text.slice(0, $cursorPosition - 1) + $text.slice($cursorPosition);
-      $textSprite.setText($getCurrentText());
-      $cursorPosition--;
-      $cursor.setPositionX((x) => x - characterWidth - 1);
       renderPlaceHolder();
       return;
     }
 
-    if (key === "Delete" && $cursorPosition < $text.length) {
-      $text =
-        $text.slice(0, $cursorPosition) + $text.slice($cursorPosition + 1);
-      $textSprite.setText($getCurrentText());
+    if (key === "Delete" && $cursorIndex < $text.length) {
+      $text = $text.slice(0, $cursorIndex) + $text.slice($cursorIndex + 1);
+      await $textSprite.setText($getCurrentText());
+
+      await calcCursorPosition();
+
       renderPlaceHolder();
       return;
     }
 
-    if (key === "ArrowLeft" && $cursorPosition > 0) {
-      character = $textSprite.$getCharacter($text[$cursorPosition - 1]);
-      characterWidth = $passwordChar?.width || character?.width;
-      if (!characterWidth) return;
+    if (key === "ArrowLeft" && $cursorIndex > 0) {
+      $cursorIndex--;
+      await calcCursorPosition();
 
-      $cursorPosition--;
-      $cursor.setPositionX((x) => x - characterWidth - 1);
       renderPlaceHolder();
       return;
     }
 
-    if (key === "ArrowRight" && $cursorPosition < $text.length) {
-      character = $textSprite.$getCharacter($text[$cursorPosition]);
-      characterWidth = $passwordChar?.width || character?.width;
-      if (!characterWidth) return;
+    if (key === "ArrowRight" && $cursorIndex < $text.length) {
+      $cursorIndex++;
+      await calcCursorPosition();
 
-      $cursorPosition++;
-      $cursor.setPositionX((x) => x + characterWidth + 1);
       renderPlaceHolder();
       return;
     }
   };
 
-  const onKeyPress = ({ key }) => {
+  const onKeyPress = async ({ key }: KeyboardEvent) => {
+    if (key.length !== 1) return;
     if (!$editable) {
       return;
     }
     const character = $textSprite.$getCharacter(key);
-    const characterWidth = $passwordChar?.width || character?.width;
     if (!character) return;
 
     if ($maxLength && $text.length + 1 > $maxLength) return;
 
-    $text =
-      $text.slice(0, $cursorPosition) + key + $text.slice($cursorPosition);
+    $text = $text.slice(0, $cursorIndex) + key + $text.slice($cursorIndex);
 
-    $cursorPosition++;
-    $textSprite.setText($getCurrentText());
-    $cursor.setPositionX((x) => x + characterWidth + 1);
+    $cursorIndex++;
+    await $textSprite.setText($getCurrentText());
+
+    await calcCursorPosition();
+
     renderPlaceHolder();
   };
 
@@ -177,7 +216,7 @@ export const inputTextSprite: ContainerComponent<
   let removeOnKeyPress;
   let removeOnKeyUp;
 
-  $container.on(DisplayObjectEvent.CONTEXT_ENTER, () => {
+  $container.on(DisplayObjectEvent.CONTEXT_ENTER, async () => {
     removeOnKeyDown = global.events.on(Event.KEY_DOWN, onKeyDown, $textSprite);
     removeOnKeyPress = global.events.on(
       Event.KEY_PRESS,
@@ -187,8 +226,22 @@ export const inputTextSprite: ContainerComponent<
     removeOnKeyUp = global.events.on(Event.KEY_UP, onKeyUp, $textSprite);
 
     //Move cursor to end
-    $cursorPosition = $text.length;
-    $cursor.setPositionX($textSprite.$getTextBounds().width + 1);
+    $cursorIndex = $text.length;
+    await $cursor.setPositionX($textSprite.$getTextBounds().width + 1);
+
+    // Set initial cursor position
+    const $size = getTextSize();
+    switch ($textSprite.getHorizontalAlign()) {
+      case HorizontalAlign.LEFT:
+        await $cursor.setPivotX(1);
+        break;
+      case HorizontalAlign.CENTER:
+        await $cursor.setPivotX(-($size.width ? $size.width / 2 : 0));
+        break;
+      case HorizontalAlign.RIGHT:
+        await $cursor.setPivotX(-($size.width || 0) + 1);
+        break;
+    }
 
     setEditable(props.editable ?? true);
     $startCursorBlink();
@@ -205,7 +258,12 @@ export const inputTextSprite: ContainerComponent<
     closeKeyboard();
   });
 
-  $container.add($textSprite, $placeHolderTextSprite, $cursor);
+  $container.add(
+    $textSprite,
+    $placeHolderTextSprite,
+    $cursor,
+    $cursorTextSprite,
+  );
 
   const setEditable = (editable: boolean) => {
     $editable = editable;
@@ -215,7 +273,7 @@ export const inputTextSprite: ContainerComponent<
   const getText = () => $textSprite.getText();
   const reset = () => {
     $text = "";
-    $cursorPosition = 0;
+    $cursorIndex = 0;
     $cursor.setPosition({ x: 0, y: 0 });
 
     setEditable($editable);

@@ -38,7 +38,8 @@
     "test:coverage": "jest --coverage",
     "prettier:check": "prettier . --check",
     "prettier": "prettier . --write",
-    "link": "yarn link"
+    "link": "yarn link",
+    "start:example": "cd examples/example && yarn start"
   },
   "exclude": [
     "**/*.test-d.ts"
