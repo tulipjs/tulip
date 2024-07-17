@@ -3,6 +3,7 @@ import { Sprite, SpriteProps, SpriteMutable } from "../../types";
 import { displayObject } from "./display-object.component";
 import { isNotNullish } from "../../utils";
 import { Spritesheet } from "pixi.js";
+import { global } from "../../global";
 
 export const sprite = async <Props = {}, Mutable = {}, Data = {}>(
   originalProps: SpriteProps<Props, Data> = {} as SpriteProps<Props, Data>,
@@ -23,7 +24,9 @@ export const sprite = async <Props = {}, Mutable = {}, Data = {}>(
   const setSpriteSheet = async (spriteSheet: string) => {
     $spriteSheet = spriteSheet + "";
     $spriteSheetTexture = await PIXI.Assets.load(spriteSheet);
-    $spriteSheetTexture.textureSource.scaleMode = "nearest";
+    $spriteSheetTexture.textureSource.scaleMode = global
+      .getApplication()
+      .getScaleMode();
 
     $sprite.texture = await $getTexture($texture);
   };
@@ -43,7 +46,7 @@ export const sprite = async <Props = {}, Mutable = {}, Data = {}>(
     const targetTexture = texture
       ? await PIXI.Assets.load(texture)
       : PIXI.Texture.EMPTY;
-    targetTexture.source.scaleMode = "nearest";
+    targetTexture.source.scaleMode = global.getApplication().getScaleMode();
 
     return targetTexture;
   };

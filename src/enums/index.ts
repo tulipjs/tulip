@@ -6,3 +6,4 @@ export * from "./graphics.enum";
 export * from "./sound.enum";
 export * from "./direction.enum";
 export * from "./cursor.enum";
+export * from "./app.enum";

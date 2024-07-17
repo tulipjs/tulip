@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js";
 import { SliceSprite, SliceSpriteMutable, SliceSpriteProps } from "../../types";
 import { displayObject } from "./display-object.component";
+import { global } from "../../global";
 
 export const sliceSprite = async <Props = {}, Mutable = {}, Data = {}>(
   originalProps: SliceSpriteProps<Props, Data> = {} as SliceSpriteProps<
@@ -38,7 +39,7 @@ export const sliceSprite = async <Props = {}, Mutable = {}, Data = {}>(
     const targetTexture = texture
       ? await PIXI.Assets.load(texture)
       : PIXI.Texture.EMPTY;
-    targetTexture.source.scaleMode = "nearest";
+    targetTexture.source.scaleMode = global.getApplication().getScaleMode();
 
     return targetTexture;
   };

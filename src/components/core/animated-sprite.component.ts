@@ -8,6 +8,7 @@ import { PlayStatus } from "../../enums";
 import { displayObject } from "./display-object.component";
 import { isNotNullish } from "../../utils";
 import { Spritesheet } from "pixi.js";
+import { global } from "../../global";
 
 export const animatedSprite = async <Props = {}, Mutable = {}, Data = {}>(
   originalProps: AnimatedSpriteProps<Props, Data> = {} as AnimatedSpriteProps<
@@ -40,7 +41,9 @@ export const animatedSprite = async <Props = {}, Mutable = {}, Data = {}>(
   const setSpriteSheet = async (spriteSheet: string) => {
     $spriteSheet = spriteSheet + "";
     $spriteSheetTexture = await PIXI.Assets.load(spriteSheet);
-    $spriteSheetTexture.textureSource.scaleMode = "nearest";
+    $spriteSheetTexture.textureSource.scaleMode = global
+      .getApplication()
+      .getScaleMode();
     if ($currentAnimation)
       $animatedSprite.textures =
         $spriteSheetTexture.animations[$currentAnimation];

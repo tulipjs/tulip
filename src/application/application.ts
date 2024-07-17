@@ -21,6 +21,7 @@ export const application = ({
   showFPS = APPLICATION_DEFAULT_PROPS.showFPS,
   pointerLock = APPLICATION_DEFAULT_PROPS.pointerLock,
   pixelPerfect = APPLICATION_DEFAULT_PROPS.pixelPerfect,
+  scaleMode = APPLICATION_DEFAULT_PROPS.scaleMode,
 }: ApplicationProps = APPLICATION_DEFAULT_PROPS): ApplicationMutable => {
   const application = new PIXI.Application();
   const $window = window();
@@ -43,7 +44,7 @@ export const application = ({
     application.ticker.stop();
 
     // Renders crisp pixel sprites
-    PIXI.TextureSource.defaultOptions.scaleMode = "nearest";
+    PIXI.TextureSource.defaultOptions.scaleMode = scaleMode;
     // PIXI.settings.FAIL_IF_MAJOR_PERFORMANCE_CAVEAT = true;
     PIXI.AbstractRenderer.defaultOptions.failIfMajorPerformanceCaveat = true;
 
@@ -199,6 +200,7 @@ export const application = ({
 
   const isPixelPerfect = () => pixelPerfect;
   const getScale = () => scale;
+  const getScaleMode = () => scaleMode;
 
   //### MUTABLES #####################################################################################################//
   const mutable: ApplicationMutable = {
@@ -212,6 +214,7 @@ export const application = ({
 
     isPixelPerfect,
     getScale,
+    getScaleMode,
 
     $getApplication: () => application,
 

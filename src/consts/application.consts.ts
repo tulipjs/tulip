@@ -1,4 +1,5 @@
 import { ApplicationProps } from "../types";
+import { ScaleMode } from "../enums";
 
 export const APPLICATION_DEFAULT_PROPS: ApplicationProps = {
   backgroundColor: 0xff00ff,
@@ -6,4 +7,5 @@ export const APPLICATION_DEFAULT_PROPS: ApplicationProps = {
   showFPS: false,
   pointerLock: false,
   pixelPerfect: false,
+  scaleMode: ScaleMode.NEAREST,
 };
