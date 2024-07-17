@@ -19,7 +19,7 @@ import { closeKeyboard, openKeyboard } from "../../utils";
 export const inputTextSprite: ContainerComponent<
   InputTextSpriteProps,
   InputTextSpriteMutable
-> = async (props) => {
+> = async ({ onTextChange, ...props }) => {
   const $container = await container<
     PartialInputTextSpriteProps,
     InputTextSpriteMutable
@@ -197,7 +197,11 @@ export const inputTextSprite: ContainerComponent<
 
     if ($maxLength && $text.length + 1 > $maxLength) return;
 
-    $text = $text.slice(0, $cursorIndex) + key + $text.slice($cursorIndex);
+    const targetText =
+      $text.slice(0, $cursorIndex) + key + $text.slice($cursorIndex);
+    if (onTextChange && !onTextChange?.($text, targetText)) return;
+
+    $text = targetText;
 
     $cursorIndex++;
     await $textSprite.setText($getCurrentText());

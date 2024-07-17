@@ -83,6 +83,9 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
     // maxLength: 3,
     zIndex: 1000,
     horizontalAlign: HorizontalAlign.CENTER,
+    onTextChange: (preText, postText) => {
+      return !preText.includes("abc");
+    },
   });
 
   $input.on(DisplayObjectEvent.POINTER_TAP, () => {

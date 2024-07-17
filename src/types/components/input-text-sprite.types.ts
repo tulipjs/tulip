@@ -13,6 +13,11 @@ export type PartialInputTextSpriteProps = {
   placeHolderAlpha?: number;
 
   maxLength?: number;
+
+  onTextChange?: (
+    preText: string,
+    postText: string,
+  ) => boolean | Promise<boolean>;
 } & Omit<PartialTextSpriteProps, "text">;
 
 export type InputTextSpriteProps<Data = {}> = PartialInputTextSpriteProps &
