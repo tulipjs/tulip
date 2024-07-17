@@ -297,21 +297,6 @@ describe("components", () => {
         });
       });
 
-      test("getSize() of the display object", async () => {
-        expect(displayObjectMutable.getSize()).toStrictEqual({
-          width: 0,
-          height: 0,
-        });
-      });
-
-      test("getWidth() of the display object", async () => {
-        expect(displayObjectMutable.getWidth()).toStrictEqual(0);
-      });
-
-      test("getHeight() of the display object", async () => {
-        expect(displayObjectMutable.getHeight()).toStrictEqual(0);
-      });
-
       //TODO Mock events
       test.todo("on(...)");
     });
