@@ -6,12 +6,15 @@ import {
 import { Texture } from "pixi.js";
 import { Size } from "../size.types";
 import { IndividualSides } from "../sides.types";
+import { HorizontalAlign, VerticalAlign } from "../../enums";
 
 export type PartialTextSpriteProps<Props = {}> = {
   spriteSheet: string;
 
   text: string;
   color?: number;
+  verticalAlign?: VerticalAlign;
+  horizontalAlign?: HorizontalAlign;
 
   size?: Size;
   backgroundColor?: number;
@@ -26,17 +29,23 @@ export type PartialTextSpriteMutable<Mutable = {}> = {
   setColor: (color: number) => Promise<void>;
   getColor: () => number;
 
-  getSize: () => Size;
   setSize: (size: Size) => Promise<void>;
+  getSize: () => Size;
 
-  getBackgroundColor: () => number;
   setBackgroundColor: (color: number) => Promise<void>;
+  getBackgroundColor: () => number;
 
-  getBackgroundAlpha: () => number;
   setBackgroundAlpha: (alpha: number) => Promise<void>;
+  getBackgroundAlpha: () => number;
 
-  getBackgroundPadding: () => IndividualSides;
   setBackgroundPadding: (padding: IndividualSides) => Promise<void>;
+  getBackgroundPadding: () => IndividualSides;
+
+  setVerticalAlign: (verticalAlign: VerticalAlign) => Promise<void>;
+  getVerticalAlign: () => VerticalAlign;
+
+  setHorizontalAlign: (horizontalAlign: HorizontalAlign) => Promise<void>;
+  getHorizontalAlign: () => HorizontalAlign;
 
   $getTextBounds: () => Size;
   $getCharacter: (character: string) => Texture;

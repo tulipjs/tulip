@@ -7,6 +7,7 @@ import {
   global,
   graphics,
   GraphicType,
+  HorizontalAlign,
   inputTextSprite,
   plane,
   sliceSprite,
@@ -142,7 +143,9 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
       width: 90,
       height: 7,
     },
-    maxLength: 3,
+    // maxLength: 3,
+    zIndex: 1000,
+    horizontalAlign: HorizontalAlign.CENTER,
   });
 
   $input.on(DisplayObjectEvent.POINTER_TAP, () => {
