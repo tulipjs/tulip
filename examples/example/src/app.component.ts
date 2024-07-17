@@ -4,11 +4,13 @@ import {
   Cursor,
   DisplayObjectEvent,
   EventMode,
+  getOS,
   global,
   graphics,
   GraphicType,
   HorizontalAlign,
   inputTextSprite,
+  OS,
   text,
   world,
 } from "@tulib/tulip";
@@ -75,7 +77,7 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
     backgroundColor: 0xff00ff,
     backgroundPadding: [3, 4, 2, 4],
     // defaultValue: "defaultValue",
-    placeholder: "placeholder",
+    placeholder: `placeholder ${OS[getOS()]}`,
     size: {
       width: 90,
       height: 7,

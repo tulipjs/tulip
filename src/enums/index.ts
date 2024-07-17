@@ -8,3 +8,4 @@ export * from "./direction.enum";
 export * from "./cursor.enum";
 export * from "./align.enum";
 export * from "./app.enum";
+export * from "./os.enum";
