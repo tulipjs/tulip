@@ -23,6 +23,22 @@ jest.mock("pixi.js", () => {
   };
 });
 
+jest.mock("../../../global/global.ts", () => {
+  const { global: originalGlobal } = jest.requireActual(
+    "../../../global/global.ts",
+  );
+
+  return {
+    global: {
+      ...originalGlobal,
+      getApplication: jest.fn(() => ({
+        ...originalGlobal.getApplication(),
+        getScaleMode: jest.fn().mockReturnValue("nearest"),
+      })),
+    },
+  };
+});
+
 const mockGotoAndStop = jest.fn();
 const mockGotoAndPlay = jest.fn();
 const mockStop = jest.fn();
@@ -34,7 +50,6 @@ const mockAssetsLoad = jest.fn(async (args) => ({
     "animation-name-2": ["texture2"],
   },
   textureSource: jest.fn(() => ({
-    //TODO Test this with #151
     scaleMode: jest.fn(),
   })),
 }));
