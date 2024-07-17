@@ -5,9 +5,13 @@ import {
   ContainerComponent,
   Direction,
   EventMode,
+  graphics,
+  GraphicType,
   player2D,
   PlayStatus,
   Shape,
+  text,
+  textSprite,
 } from "@tulib/tulip";
 
 type Props = {};
@@ -72,6 +76,56 @@ export const playerComponent: ContainerComponent<Props, Mutable> = async (
   });
 
   await $player.setBody($body);
+
+  const $name = await textSprite({
+    text: "pagoru",
+    color: 0xffffff,
+    spriteSheet: "fonts/default-font.json",
+    position: {
+      x: -16,
+      y: 0,
+    },
+    zIndex: 2,
+  });
+
+  const $name2 = await textSprite({
+    text: "alqubo",
+    color: 0xffffff,
+    spriteSheet: "fonts/default-font.json",
+    position: {
+      x: -14,
+      y: 10,
+    },
+    zIndex: 2,
+  });
+
+  const $tulip = await text({
+    text: "🌷",
+    color: 0xffffff,
+    font: "pixel",
+    size: 20,
+    position: {
+      x: -45,
+      y: 45,
+    },
+    pivot: {
+      x: 10,
+      y: 10,
+    },
+    zIndex: 2,
+  });
+
+  const $box = await graphics({
+    type: GraphicType.CIRCLE,
+    radius: 15,
+    color: 0xffffff,
+    position: {
+      x: -45,
+      y: 45,
+    },
+  });
+
+  $player.add($name, $name2, $tulip, $box);
 
   return $player.getComponent(playerComponent);
 };

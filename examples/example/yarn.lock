@@ -215,7 +215,7 @@
     "@tulib/vite-tulip-plugin" "1.0.7"
     howler "2.2.4"
     p2 "0.7.1"
-    pixi.js "8.1.6"
+    pixi.js "8.2.5"
 
 "@tulib/vite-tulip-plugin@1.0.7":
   version "1.0.7"
@@ -342,10 +342,10 @@ picocolors@1.0.1, picocolors@^1.0.0:
   resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.1.tgz#a8ad579b571952f0e5d25892de5445bcfe25aaa1"
   integrity sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==
 
-pixi.js@8.1.6:
-  version "8.1.6"
-  resolved "https://registry.yarnpkg.com/pixi.js/-/pixi.js-8.1.6.tgz#5aaa9f480fea2a029974d8fd4074ba39e03058fc"
-  integrity sha512-FZT/dLZ9Tdw8eN6odgunSQHORsgHcvLlfOWm7cpR4ZxVGPRqFgDQ4hXpwVxeY9UK4PZtlJ4U910H1QZ4XNLJxg==
+pixi.js@8.2.5:
+  version "8.2.5"
+  resolved "https://registry.yarnpkg.com/pixi.js/-/pixi.js-8.2.5.tgz#858f7d7752cad2b10d9d5a2e1605daed4cd3a0c5"
+  integrity sha512-cpN4f4Duj2mDPQeDQJQ33LXA8wIGMpWbhld1SklEwESRULYPUsY84zXC8B+Cyl+zojcXH7eY1OMEdbbIPMb+rA==
   dependencies:
     "@pixi/colord" "^2.9.6"
     "@types/css-font-loading-module" "^0.0.12"
