@@ -4,7 +4,7 @@ import { GlobalData } from "types";
 
 const app = application({
   backgroundColor: 0x030303,
-  scale: 3,
+  scale: 2,
   pixelPerfect: true,
   showFPS: true,
   //@ts-ignore
@@ -15,6 +15,7 @@ const app = application({
 });
 
 app.load(async () => {
+  global.$setVisualHitBoxes(false);
   global.setData<GlobalData>({ ballColor: 0x333333 });
 
   await global.setFonts([
