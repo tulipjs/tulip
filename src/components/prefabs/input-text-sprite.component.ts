@@ -274,7 +274,7 @@ export const inputTextSprite: ContainerComponent<
     $editable ? $startCursorBlink() : $stopCursorBlink(false);
   };
 
-  const getText = () => $textSprite.getText();
+  const getText = () => $text;
   const reset = () => {
     $text = "";
     $cursorIndex = 0;
