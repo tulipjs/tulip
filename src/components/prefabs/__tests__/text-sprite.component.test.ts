@@ -96,10 +96,25 @@ describe("components", () => {
       });
 
       test("setBackgroundPadding() sets padding", async () => {
-        expect($textSprite.getBackgroundPadding()).toEqual([0, 0, 0, 0]);
+        expect($textSprite.getBackgroundPadding()).toEqual({
+          bottom: 0,
+          left: 0,
+          right: 0,
+          top: 0,
+        });
 
-        await $textSprite.setBackgroundPadding([0, 1, 2, 3]);
-        expect($textSprite.getBackgroundPadding()).toEqual([0, 1, 2, 3]);
+        await $textSprite.setBackgroundPadding({
+          bottom: 1,
+          left: 2,
+          right: 3,
+          top: 4,
+        });
+        expect($textSprite.getBackgroundPadding()).toEqual({
+          bottom: 1,
+          left: 2,
+          right: 3,
+          top: 4,
+        });
       });
 
       test("to contain same children length on text", async () => {

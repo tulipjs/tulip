@@ -14,7 +14,7 @@ import {
   GraphicType,
   HorizontalAlign,
 } from "../../enums";
-import { closeKeyboard, openKeyboard } from "../../utils";
+import { closeKeyboard, isNotNullish, openKeyboard } from "../../utils";
 
 export const inputTextSprite: ContainerComponent<
   InputTextSpriteProps,
@@ -33,6 +33,10 @@ export const inputTextSprite: ContainerComponent<
     placeHolderAlpha,
     maxLength,
     zIndex,
+    selectionVisible,
+    selectionColor,
+    selectionGap,
+    selectionPadding,
     ...textSpriteProps
   } = $container.getProps();
 
@@ -46,10 +50,73 @@ export const inputTextSprite: ContainerComponent<
 
   let $maxLength = maxLength;
 
+  let $selectionVisible = isNotNullish(selectionVisible)
+    ? selectionVisible
+    : true;
+  let $selectionColor = isNotNullish(selectionColor)
+    ? selectionColor
+    : 0x00ff00;
+  let $selectionGap = isNotNullish(selectionGap) ? selectionGap : 1;
+  let $selectionPadding = isNotNullish(selectionPadding) ? selectionPadding : 1;
+
   const $textSprite = await textSprite({
     ...textSpriteProps,
     text: $text,
   });
+
+  const $selectionComponent = await graphics({
+    type: GraphicType.POLYGON,
+    visible: false,
+    polygon: [],
+    color: $selectionColor,
+  });
+
+  const $renderSelection = () => {
+    const focusWidth = $selectionGap;
+    const focusOutPadding = focusWidth + $selectionPadding;
+    const focusSize = textSpriteProps.size;
+    $selectionComponent.setColor($selectionColor);
+    $selectionComponent.setPolygon([
+      -focusOutPadding - textSpriteProps.backgroundPadding.left,
+      -focusOutPadding - textSpriteProps.backgroundPadding.top,
+      //
+      focusSize.width +
+        focusOutPadding +
+        textSpriteProps.backgroundPadding.right,
+      -focusOutPadding - textSpriteProps.backgroundPadding.top,
+      //
+      focusSize.width +
+        focusOutPadding +
+        textSpriteProps.backgroundPadding.right,
+      focusSize.height +
+        focusOutPadding +
+        textSpriteProps.backgroundPadding.bottom,
+      //
+      -focusOutPadding - textSpriteProps.backgroundPadding.left,
+      focusSize.height +
+        focusOutPadding +
+        textSpriteProps.backgroundPadding.bottom,
+      //
+      -focusOutPadding - textSpriteProps.backgroundPadding.left,
+      -focusOutPadding - textSpriteProps.backgroundPadding.top,
+      //----
+      -focusWidth - textSpriteProps.backgroundPadding.left,
+      -focusOutPadding - textSpriteProps.backgroundPadding.top,
+      //
+      -focusWidth - textSpriteProps.backgroundPadding.left,
+      focusSize.height + focusWidth + textSpriteProps.backgroundPadding.bottom,
+      //
+      focusSize.width + focusWidth + textSpriteProps.backgroundPadding.right,
+      focusSize.height + focusWidth + textSpriteProps.backgroundPadding.bottom,
+      //
+      focusSize.width + focusWidth + textSpriteProps.backgroundPadding.right,
+      -focusWidth - textSpriteProps.backgroundPadding.top,
+      //
+      -focusWidth - textSpriteProps.backgroundPadding.right,
+      -focusWidth - textSpriteProps.backgroundPadding.top,
+    ]);
+  };
+  $renderSelection();
 
   const $placeHolderTextSprite = await textSprite({
     spriteSheet: textSpriteProps.spriteSheet,
@@ -239,14 +306,18 @@ export const inputTextSprite: ContainerComponent<
     setEditable(props.editable ?? true);
     $startCursorBlink();
 
+    if ($selectionVisible) await $selectionComponent.setVisible(true);
+
     openKeyboard();
   });
-  $container.on(DisplayObjectEvent.CONTEXT_LEAVE, () => {
+  $container.on(DisplayObjectEvent.CONTEXT_LEAVE, async () => {
     setEditable(false);
 
     removeOnKeyDown();
     removeOnKeyPress();
     removeOnKeyUp();
+
+    await $selectionComponent.setVisible(false);
 
     closeKeyboard();
   });
@@ -256,6 +327,7 @@ export const inputTextSprite: ContainerComponent<
     $placeHolderTextSprite,
     $cursor,
     $cursorTextSprite,
+    $selectionComponent,
   );
 
   const setEditable = (editable: boolean) => {
@@ -282,16 +354,46 @@ export const inputTextSprite: ContainerComponent<
     setColor: $textSprite.setColor,
     getColor: $textSprite.getColor,
 
+    setSize: async (size) => {
+      await $textSprite.setSize(size);
+      $renderSelection();
+    },
     getSize: $textSprite.getSize,
-    setSize: $textSprite.setSize,
 
-    getBackgroundColor: $textSprite.getBackgroundColor,
     setBackgroundColor: $textSprite.setBackgroundColor,
+    getBackgroundColor: $textSprite.getBackgroundColor,
 
-    getBackgroundAlpha: $textSprite.getBackgroundAlpha,
     setBackgroundAlpha: $textSprite.setBackgroundAlpha,
+    getBackgroundAlpha: $textSprite.getBackgroundAlpha,
 
+    setBackgroundPadding: async (padding) => {
+      await $textSprite.setBackgroundPadding(padding);
+      $renderSelection();
+    },
     getBackgroundPadding: $textSprite.getBackgroundPadding,
-    setBackgroundPadding: $textSprite.setBackgroundPadding,
+
+    setSelectionVisible: (visible: boolean) => {
+      $selectionVisible = visible;
+      $renderSelection();
+    },
+    getSelectionVisible: () => $selectionVisible,
+
+    setSelectionColor: (color: number) => {
+      $selectionColor = color;
+      $renderSelection();
+    },
+    getSelectionColor: () => $selectionColor,
+
+    setSelectionGap: (gap: number) => {
+      $selectionGap = gap;
+      $renderSelection();
+    },
+    getSelectionGap: () => $selectionGap,
+
+    setSelectionPadding: (padding: number) => {
+      $selectionPadding = padding;
+      $renderSelection();
+    },
+    getSelectionPadding: () => $selectionPadding,
   });
 };
