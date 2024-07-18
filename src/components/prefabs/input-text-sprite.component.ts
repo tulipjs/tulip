@@ -121,7 +121,8 @@ export const inputTextSprite: ContainerComponent<
   };
 
   const calcCursorPosition = async () => {
-    await $cursorTextSprite.setText($text.slice(0, $cursorIndex));
+    const text = $getCurrentText();
+    await $cursorTextSprite.setText(text.slice(0, $cursorIndex));
     await $cursor.setPositionX($cursorTextSprite.getBounds().width);
 
     const $size = getTextSize();
