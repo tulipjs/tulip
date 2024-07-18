@@ -233,19 +233,7 @@ export const inputTextSprite: ContainerComponent<
     $cursorIndex = $text.length;
     await $cursor.setPositionX($textSprite.$getTextBounds().width + 1);
 
-    // Set initial cursor position
-    const $size = getTextSize();
-    switch ($textSprite.getHorizontalAlign()) {
-      case HorizontalAlign.LEFT:
-        await $cursor.setPivotX(1);
-        break;
-      case HorizontalAlign.CENTER:
-        await $cursor.setPivotX(-($size.width ? $size.width / 2 : 0));
-        break;
-      case HorizontalAlign.RIGHT:
-        await $cursor.setPivotX(-($size.width || 0) + 1);
-        break;
-    }
+    await calcCursorPosition();
 
     setEditable(props.editable ?? true);
     $startCursorBlink();
