@@ -75,7 +75,7 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
     cursor: Cursor.TEXT,
     backgroundAlpha: 1,
     backgroundColor: 0xff00ff,
-    backgroundPadding: [3, 4, 2, 4],
+    backgroundPadding: { top: 3, right: 4, bottom: 2, left: 4 },
     // defaultValue: "defaultValue",
     placeholder: `placeholder ${OS[getOS()]}`,
     size: {
@@ -88,6 +88,9 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
     onTextChange: (preText, postText) => {
       return !preText.includes("abc");
     },
+    selectionColor: 0xffffff,
+    selectionGap: 0,
+    selectionPadding: 2,
   });
 
   $input.on(DisplayObjectEvent.POINTER_TAP, () => {

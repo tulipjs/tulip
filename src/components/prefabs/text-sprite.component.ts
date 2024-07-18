@@ -45,7 +45,12 @@ export const textSprite: ContainerComponent<
   };
   let $backgroundAlpha = backgroundAlpha || 0;
   let $backgroundColor = backgroundColor || 0xffffff;
-  let $backgroundPadding = backgroundPadding || [0, 0, 0, 0];
+  let $backgroundPadding = backgroundPadding || {
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+  };
   let $verticalAlign = verticalAlign || VerticalAlign.TOP;
   let $horizontalAlign = horizontalAlign || HorizontalAlign.LEFT;
 
@@ -56,13 +61,13 @@ export const textSprite: ContainerComponent<
 
   const $background = await graphics({
     type: GraphicType.RECTANGLE,
-    width: $size?.width + $backgroundPadding[3] + $backgroundPadding[1],
-    height: $size?.height + $backgroundPadding[0] + $backgroundPadding[2],
+    width: $size?.width + $backgroundPadding.left + $backgroundPadding.right,
+    height: $size?.height + $backgroundPadding.top + $backgroundPadding.bottom,
     color: $backgroundColor,
     alpha: $backgroundAlpha,
     pivot: {
-      x: $backgroundPadding[3],
-      y: $backgroundPadding[0],
+      x: $backgroundPadding.left,
+      y: $backgroundPadding.top,
     },
     eventMode: EventMode.STATIC,
     cursor,
@@ -89,12 +94,12 @@ export const textSprite: ContainerComponent<
     }
 
     $background.setRectangle(
-      targetSize?.width + $backgroundPadding[3] + $backgroundPadding[1],
-      targetSize?.height + $backgroundPadding[0] + $backgroundPadding[2],
+      targetSize?.width + $backgroundPadding.left + $backgroundPadding.right,
+      targetSize?.height + $backgroundPadding.top + $backgroundPadding.bottom,
     );
     await $background.setPivot({
-      x: $backgroundPadding[3],
-      y: $backgroundPadding[0],
+      x: $backgroundPadding.left,
+      y: $backgroundPadding.top,
     });
     $background.setColor($backgroundColor);
     await $background.setAlpha($backgroundAlpha);

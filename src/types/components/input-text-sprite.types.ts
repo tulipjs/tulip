@@ -18,6 +18,11 @@ export type PartialInputTextSpriteProps = {
     preText: string,
     postText: string,
   ) => boolean | Promise<boolean>;
+
+  selectionVisible?: boolean;
+  selectionColor?: number;
+  selectionGap?: number;
+  selectionPadding?: number;
 } & Omit<PartialTextSpriteProps, "text">;
 
 export type InputTextSpriteProps<Data = {}> = PartialInputTextSpriteProps &
@@ -27,6 +32,18 @@ export type PartialInputTextSpriteMutable = {
   setEditable: (editable: boolean) => void;
   getText: () => string;
   reset: () => void;
+
+  setSelectionVisible: (visible: boolean) => void;
+  getSelectionVisible: () => boolean;
+
+  setSelectionColor: (color: number) => void;
+  getSelectionColor: () => number;
+
+  setSelectionGap: (gap: number) => void;
+  getSelectionGap: () => number;
+
+  setSelectionPadding: (padding: number) => void;
+  getSelectionPadding: () => number;
 } & Omit<
   PartialTextSpriteMutable,
   "setText" | "getText" | "$getTextBounds" | "$getCharacter"
