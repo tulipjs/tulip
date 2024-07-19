@@ -196,7 +196,13 @@ export const displayObject = async <
 
   const on = (event: DisplayObjectEvent, callback: (data?: any) => void) => {
     const $callback = (data: any) => {
-      if ($isRemoved) return;
+      if (
+        $isRemoved &&
+        ![DisplayObjectEvent.REMOVED, DisplayObjectEvent.DESTROYED].includes(
+          event,
+        )
+      )
+        return;
       callback(data);
     };
 

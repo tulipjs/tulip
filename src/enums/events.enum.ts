@@ -74,6 +74,7 @@ export enum DisplayObjectEvent {
   // WHEEL_CAPTURE = "wheelcapture",
   ADDED = "added",
   REMOVED = "removed",
+  DESTROYED = "destroyed",
 
   //### CUSTOM ########################################################################################################//
   TICK = "@custom/tick",
