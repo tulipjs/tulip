@@ -74,46 +74,45 @@ export const inputTextSprite: ContainerComponent<
   const $renderSelection = () => {
     const focusWidth = $selectionGap;
     const focusOutPadding = focusWidth + $selectionPadding;
-    const focusSize = textSpriteProps.size;
+    const focusSize = textSpriteProps?.size || { width: 0, height: 0 };
+    const backgroundPadding = textSpriteProps?.backgroundPadding || {
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+    };
+
     $selectionComponent.setColor($selectionColor);
     $selectionComponent.setPolygon([
-      -focusOutPadding - textSpriteProps.backgroundPadding.left,
-      -focusOutPadding - textSpriteProps.backgroundPadding.top,
+      -focusOutPadding - backgroundPadding.left,
+      -focusOutPadding - backgroundPadding.top,
       //
-      focusSize.width +
-        focusOutPadding +
-        textSpriteProps.backgroundPadding.right,
-      -focusOutPadding - textSpriteProps.backgroundPadding.top,
+      focusSize.width + focusOutPadding + backgroundPadding.right,
+      -focusOutPadding - backgroundPadding.top,
       //
-      focusSize.width +
-        focusOutPadding +
-        textSpriteProps.backgroundPadding.right,
-      focusSize.height +
-        focusOutPadding +
-        textSpriteProps.backgroundPadding.bottom,
+      focusSize.width + focusOutPadding + backgroundPadding.right,
+      focusSize.height + focusOutPadding + backgroundPadding.bottom,
       //
-      -focusOutPadding - textSpriteProps.backgroundPadding.left,
-      focusSize.height +
-        focusOutPadding +
-        textSpriteProps.backgroundPadding.bottom,
+      -focusOutPadding - backgroundPadding.left,
+      focusSize.height + focusOutPadding + backgroundPadding.bottom,
       //
-      -focusOutPadding - textSpriteProps.backgroundPadding.left,
-      -focusOutPadding - textSpriteProps.backgroundPadding.top,
+      -focusOutPadding - backgroundPadding.left,
+      -focusOutPadding - backgroundPadding.top,
       //----
-      -focusWidth - textSpriteProps.backgroundPadding.left,
-      -focusOutPadding - textSpriteProps.backgroundPadding.top,
+      -focusWidth - backgroundPadding.left,
+      -focusOutPadding - backgroundPadding.top,
       //
-      -focusWidth - textSpriteProps.backgroundPadding.left,
-      focusSize.height + focusWidth + textSpriteProps.backgroundPadding.bottom,
+      -focusWidth - backgroundPadding.left,
+      focusSize.height + focusWidth + backgroundPadding.bottom,
       //
-      focusSize.width + focusWidth + textSpriteProps.backgroundPadding.right,
-      focusSize.height + focusWidth + textSpriteProps.backgroundPadding.bottom,
+      focusSize.width + focusWidth + backgroundPadding.right,
+      focusSize.height + focusWidth + backgroundPadding.bottom,
       //
-      focusSize.width + focusWidth + textSpriteProps.backgroundPadding.right,
-      -focusWidth - textSpriteProps.backgroundPadding.top,
+      focusSize.width + focusWidth + backgroundPadding.right,
+      -focusWidth - backgroundPadding.top,
       //
-      -focusWidth - textSpriteProps.backgroundPadding.right,
-      -focusWidth - textSpriteProps.backgroundPadding.top,
+      -focusWidth - backgroundPadding.right,
+      -focusWidth - backgroundPadding.top,
     ]);
   };
   $renderSelection();
