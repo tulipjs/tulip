@@ -59,15 +59,16 @@ export const application = ({
 
     //TODO #104
     document.body.appendChild(application.canvas);
-    document.addEventListener("keydown", (event: KeyboardEvent) =>
-      global.events.$emit(Event.KEY_DOWN, event),
-    );
-    document.addEventListener("keyup", (event: KeyboardEvent) =>
-      global.events.$emit(Event.KEY_UP, event),
-    );
-    document.addEventListener("keypress", (event: KeyboardEvent) =>
-      global.events.$emit(Event.KEY_PRESS, event),
-    );
+    document.addEventListener("keydown", (event: KeyboardEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
+      global.events.$emit(Event.KEY_DOWN, event);
+    });
+    document.addEventListener("keyup", (event: KeyboardEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
+      global.events.$emit(Event.KEY_UP, event);
+    });
 
     //### WINDOW #####################################################################################################//
 

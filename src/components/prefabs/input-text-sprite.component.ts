@@ -245,6 +245,11 @@ export const inputTextSprite: ContainerComponent<
 
   const onKeyDown = async ({ key }: KeyboardEvent) => {
     $stopCursorBlink();
+    await writeText(key);
+    await makeActions(key);
+  };
+
+  const makeActions = async (key: string) => {
     if (!$editable || $text.length === 0) return;
 
     if (key === "Backspace" && $cursorIndex > 0) {
@@ -285,7 +290,7 @@ export const inputTextSprite: ContainerComponent<
     }
   };
 
-  const onKeyPress = async ({ key }: KeyboardEvent) => {
+  const writeText = async (key: string) => {
     if (key.length !== 1) return;
     if (!$editable) {
       return;
@@ -315,16 +320,10 @@ export const inputTextSprite: ContainerComponent<
   };
 
   let removeOnKeyDown;
-  let removeOnKeyPress;
   let removeOnKeyUp;
 
   $container.on(DisplayObjectEvent.CONTEXT_ENTER, async () => {
     removeOnKeyDown = global.events.on(Event.KEY_DOWN, onKeyDown, $textSprite);
-    removeOnKeyPress = global.events.on(
-      Event.KEY_PRESS,
-      onKeyPress,
-      $textSprite,
-    );
     removeOnKeyUp = global.events.on(Event.KEY_UP, onKeyUp, $textSprite);
 
     //Move cursor to end
@@ -344,7 +343,6 @@ export const inputTextSprite: ContainerComponent<
     setEditable(false);
 
     removeOnKeyDown();
-    removeOnKeyPress();
     removeOnKeyUp();
 
     await $selectionComponent.setVisible(false);
