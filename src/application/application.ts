@@ -69,6 +69,11 @@ export const application = ({
       event.stopPropagation();
       global.events.$emit(Event.KEY_UP, event);
     });
+    document.addEventListener("contextmenu", (event: KeyboardEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
+      global.events.$emit(Event.RIGHT_CLICK, event);
+    });
 
     //### WINDOW #####################################################################################################//
 
