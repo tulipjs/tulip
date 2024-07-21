@@ -2,7 +2,6 @@ export enum Event {
   TICK,
   KEY_DOWN,
   KEY_UP,
-  KEY_PRESS,
   RESIZE,
 }
 
