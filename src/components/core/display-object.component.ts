@@ -275,6 +275,14 @@ export const displayObject = async <
     $displayObject.removeChild($displayObject.mask as Container);
     $displayObject.mask = null;
   };
+  //global position
+  const getGlobalPosition = (): Point => {
+    const position = $displayObject.getGlobalPosition();
+    return {
+      x: position.x,
+      y: position.y,
+    };
+  };
 
   // Set initials
   {
@@ -373,6 +381,8 @@ export const displayObject = async <
     //mask
     setMask,
     removeMask,
+    //global position
+    getGlobalPosition,
 
     //events
     on,

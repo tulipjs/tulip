@@ -82,6 +82,8 @@ export type PartialDisplayObjectMutable<DisplayObject, Mutable = {}> = {
     displayObject: DisplayObjectMutable<DO, unknown, unknown, unknown>,
   ) => void;
   removeMask: () => void;
+  //global position
+  getGlobalPosition: () => Point;
 
   //context
   focus: () => void;
