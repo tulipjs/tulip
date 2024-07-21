@@ -35,6 +35,7 @@ export const textSprite: ContainerComponent<
     cursor,
     verticalAlign,
     horizontalAlign,
+    withMask = false,
   } = $containerComponent.getProps();
 
   let $currentText = text;
@@ -59,10 +60,15 @@ export const textSprite: ContainerComponent<
   if (!isNotNullish($size.height))
     $size.height = (Object.values(textures)[0] as Texture)?.height || 0;
 
-  const $background = await graphics({
-    type: GraphicType.RECTANGLE,
+  const $boxSize = {
     width: $size?.width + $backgroundPadding.left + $backgroundPadding.right,
     height: $size?.height + $backgroundPadding.top + $backgroundPadding.bottom,
+  };
+
+  const $background = await graphics({
+    type: GraphicType.RECTANGLE,
+    width: $boxSize.width,
+    height: $boxSize.height,
     color: $backgroundColor,
     alpha: $backgroundAlpha,
     pivot: {
@@ -73,10 +79,22 @@ export const textSprite: ContainerComponent<
     cursor,
   });
 
+  const $mask = await graphics({
+    type: GraphicType.RECTANGLE,
+    width: $boxSize.width,
+    height: $boxSize.height,
+    color: 0,
+    pivot: {
+      x: $backgroundPadding.left,
+      y: $backgroundPadding.top,
+    },
+  });
+
   const $textContainerComponent = await container({
     eventMode: EventMode.NONE,
   });
   $containerComponent.add($background, $textContainerComponent);
+  withMask && $containerComponent.setMask($mask);
 
   const $textContainer = $textContainerComponent.getDisplayObject({
     __preventWarning: true,
@@ -194,6 +212,7 @@ export const textSprite: ContainerComponent<
   const $getTextBounds = (): Size => $textContainer.getBounds();
   const $getCharacter = (character: string): PIXI.Texture | undefined =>
     textures[character.split("")[0]];
+  const $getTextContainer = () => $textContainer;
 
   {
     await setText(text);
@@ -225,6 +244,7 @@ export const textSprite: ContainerComponent<
     setHorizontalAlign,
     getHorizontalAlign,
 
+    $getTextContainer,
     $getTextBounds,
     $getCharacter,
   });

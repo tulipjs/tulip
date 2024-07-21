@@ -24,6 +24,7 @@ export const inputTextSprite: ContainerComponent<
     PartialInputTextSpriteProps,
     InputTextSpriteMutable
   >(props);
+  const $contentContainer = await container();
 
   const {
     passwordChar,
@@ -37,6 +38,7 @@ export const inputTextSprite: ContainerComponent<
     selectionColor,
     selectionGap,
     selectionPadding,
+    withMask = false,
     ...textSpriteProps
   } = $container.getProps();
 
@@ -62,6 +64,7 @@ export const inputTextSprite: ContainerComponent<
   const $textSprite = await textSprite({
     ...textSpriteProps,
     text: $text,
+    withMask: false,
   });
 
   const $selectionComponent = await graphics({
@@ -71,7 +74,7 @@ export const inputTextSprite: ContainerComponent<
     color: $selectionColor,
   });
 
-  const $renderSelection = () => {
+  const $renderSelection = async () => {
     const focusWidth = $selectionGap;
     const focusOutPadding = focusWidth + $selectionPadding;
     const focusSize = textSpriteProps?.size || { width: 0, height: 0 };
@@ -81,6 +84,19 @@ export const inputTextSprite: ContainerComponent<
       bottom: 0,
       left: 0,
     };
+
+    const $mask = await graphics({
+      type: GraphicType.RECTANGLE,
+      width: focusSize.width + backgroundPadding.left + backgroundPadding.right,
+      height:
+        focusSize.height + backgroundPadding.bottom + backgroundPadding.top,
+      color: 0,
+      pivot: {
+        x: backgroundPadding.left,
+        y: backgroundPadding.top,
+      },
+    });
+    withMask && $contentContainer.setMask($mask);
 
     $selectionComponent.setColor($selectionColor);
     $selectionComponent.setPolygon([
@@ -115,7 +131,7 @@ export const inputTextSprite: ContainerComponent<
       -focusWidth - backgroundPadding.top,
     ]);
   };
-  $renderSelection();
+  await $renderSelection();
 
   const $placeHolderTextSprite = await textSprite({
     spriteSheet: textSpriteProps.spriteSheet,
@@ -189,9 +205,13 @@ export const inputTextSprite: ContainerComponent<
   const calcCursorPosition = async () => {
     const text = $getCurrentText();
     await $cursorTextSprite.setText(text.slice(0, $cursorIndex));
-    await $cursor.setPositionX($cursorTextSprite.getBounds().width);
+
+    const $cursorPositionX = $cursorTextSprite.$getTextBounds().width;
+    await $cursor.setPositionX($cursorPositionX);
 
     const $size = getTextSize();
+    const $maxWidth = $textSprite.getSize().width;
+
     //Fix when you navigate cursor to the 0
     const index0Fix = $cursorTextSprite.getBounds().width > 0 ? 0 : 1;
     switch ($textSprite.getHorizontalAlign()) {
@@ -202,12 +222,23 @@ export const inputTextSprite: ContainerComponent<
         );
         break;
       case HorizontalAlign.LEFT:
-        await $cursor.setPivotX(index0Fix);
+        const $extraCursorXRightPivot = $cursorPositionX - $maxWidth;
+        const $correctionXRight =
+          $extraCursorXRightPivot > 0 ? $extraCursorXRightPivot : 0;
+
+        await $cursor.setPivotX(index0Fix + $correctionXRight);
+        $textSprite.$getTextContainer().position.x = -$correctionXRight;
         break;
       case HorizontalAlign.RIGHT:
-        await $cursor.setPivotX(
-          -($size.width || 0) + $textSprite.$getTextBounds().width,
-        );
+        const $cursorPivotX =
+          -($size.width || 0) + $textSprite.$getTextBounds().width;
+
+        const $extraCursorXPivot = $cursorPositionX - $cursorPivotX;
+        const $correctionXLeft =
+          0 > $extraCursorXPivot ? $extraCursorXPivot : 0;
+
+        await $cursor.setPivotX($cursorPivotX + $correctionXLeft);
+        $textSprite.$getTextContainer().pivot.x = $correctionXLeft;
         break;
     }
   };
@@ -321,13 +352,14 @@ export const inputTextSprite: ContainerComponent<
     closeKeyboard();
   });
 
-  $container.add(
+  $contentContainer.add(
     $textSprite,
     $placeHolderTextSprite,
     $cursor,
     $cursorTextSprite,
-    $selectionComponent,
   );
+
+  $container.add($contentContainer, $selectionComponent);
 
   const setEditable = (editable: boolean) => {
     $editable = editable;
@@ -355,7 +387,7 @@ export const inputTextSprite: ContainerComponent<
 
     setSize: async (size) => {
       await $textSprite.setSize(size);
-      $renderSelection();
+      await $renderSelection();
     },
     getSize: $textSprite.getSize,
 
@@ -367,7 +399,7 @@ export const inputTextSprite: ContainerComponent<
 
     setBackgroundPadding: async (padding) => {
       await $textSprite.setBackgroundPadding(padding);
-      $renderSelection();
+      await $renderSelection();
     },
     getBackgroundPadding: $textSprite.getBackgroundPadding,
 
