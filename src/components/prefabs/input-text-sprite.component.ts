@@ -320,7 +320,6 @@ export const inputTextSprite: ContainerComponent<
   };
 
   let removeOnKeyDown;
-  let removeOnKeyPress;
   let removeOnKeyUp;
 
   $container.on(DisplayObjectEvent.CONTEXT_ENTER, async () => {
@@ -344,7 +343,6 @@ export const inputTextSprite: ContainerComponent<
     setEditable(false);
 
     removeOnKeyDown();
-    removeOnKeyPress();
     removeOnKeyUp();
 
     await $selectionComponent.setVisible(false);
