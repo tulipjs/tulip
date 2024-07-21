@@ -7,6 +7,7 @@ import { Texture } from "pixi.js";
 import { Size } from "../size.types";
 import { IndividualSides } from "../sides.types";
 import { HorizontalAlign, VerticalAlign } from "../../enums";
+import { Container } from "../pixi.types";
 
 export type PartialTextSpriteProps<Props = {}> = {
   spriteSheet: string;
@@ -51,6 +52,7 @@ export type PartialTextSpriteMutable<Mutable = {}> = {
 
   $getTextBounds: () => Size;
   $getCharacter: (character: string) => Texture;
+  $getTextContainer: () => Container;
 } & Mutable;
 
 ////////////////////////////

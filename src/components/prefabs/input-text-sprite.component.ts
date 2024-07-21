@@ -64,7 +64,7 @@ export const inputTextSprite: ContainerComponent<
   const $textSprite = await textSprite({
     ...textSpriteProps,
     text: $text,
-    withMask: withMask,
+    withMask: false,
   });
 
   const $selectionComponent = await graphics({
@@ -205,9 +205,13 @@ export const inputTextSprite: ContainerComponent<
   const calcCursorPosition = async () => {
     const text = $getCurrentText();
     await $cursorTextSprite.setText(text.slice(0, $cursorIndex));
-    await $cursor.setPositionX($cursorTextSprite.getBounds().width);
+
+    const $cursorPositionX = $cursorTextSprite.$getTextBounds().width;
+    await $cursor.setPositionX($cursorPositionX);
 
     const $size = getTextSize();
+    const $maxWidth = $textSprite.getSize().width;
+
     //Fix when you navigate cursor to the 0
     const index0Fix = $cursorTextSprite.getBounds().width > 0 ? 0 : 1;
     switch ($textSprite.getHorizontalAlign()) {
@@ -218,12 +222,24 @@ export const inputTextSprite: ContainerComponent<
         );
         break;
       case HorizontalAlign.LEFT:
-        await $cursor.setPivotX(index0Fix);
+        const $extraCursorXRightPivot = $cursorPositionX - $maxWidth;
+        const $correctionXRight =
+          $extraCursorXRightPivot > 0 ? $extraCursorXRightPivot : 0;
+
+        await $cursor.setPivotX(index0Fix + $correctionXRight);
+        $textSprite.$getTextContainer().position.x = -$correctionXRight;
         break;
       case HorizontalAlign.RIGHT:
-        await $cursor.setPivotX(
-          -($size.width || 0) + $textSprite.$getTextBounds().width,
-        );
+        const $cursorPivotX =
+          -($size.width || 0) + $textSprite.$getTextBounds().width;
+
+        const $extraCursorXPivot = $cursorPositionX - $cursorPivotX;
+        const $correctionXLeft =
+          0 > $extraCursorXPivot ? $extraCursorXPivot : 0;
+        console.log($correctionXLeft);
+
+        await $cursor.setPivotX($cursorPivotX + $correctionXLeft);
+        $textSprite.$getTextContainer().pivot.x = $correctionXLeft;
         break;
     }
   };

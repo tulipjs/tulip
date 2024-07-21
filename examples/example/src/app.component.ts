@@ -97,10 +97,48 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
   $input.on(DisplayObjectEvent.POINTER_TAP, () => {
     $input.focus();
   });
+
+  const $input2 = await inputTextSprite({
+    spriteSheet: "fonts/default-font.json",
+    color: 0xffffff,
+    editable: true,
+    withContext: true,
+    position: {
+      x: 110,
+      y: 60,
+    },
+    eventMode: EventMode.STATIC,
+    // passwordChar: ".",
+    cursor: Cursor.TEXT,
+    backgroundAlpha: 1,
+    backgroundColor: 0xff00ff,
+    backgroundPadding: { top: 3, right: 4, bottom: 2, left: 4 },
+    // defaultValue: "defaultValue",
+    placeholder: `placeholder ${OS[getOS()]}`,
+    size: {
+      width: 90,
+      height: 7,
+    },
+    // maxLength: 3,
+    zIndex: 1000,
+    horizontalAlign: HorizontalAlign.RIGHT,
+    onTextChange: (preText, postText) => {
+      return !preText.includes("abc");
+    },
+    selectionColor: 0xffffff,
+    selectionGap: 4,
+    selectionPadding: 2,
+    withMask: true,
+  });
+
+  $input2.on(DisplayObjectEvent.POINTER_TAP, () => {
+    $input2.focus();
+  });
+
   global.context.onNoContext(() => {
     $player.focus();
   });
-  $container.add($input);
+  $container.add($input, $input2);
 
   return $container.getComponent(appComponent);
 };

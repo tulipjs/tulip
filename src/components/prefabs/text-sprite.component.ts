@@ -212,6 +212,7 @@ export const textSprite: ContainerComponent<
   const $getTextBounds = (): Size => $textContainer.getBounds();
   const $getCharacter = (character: string): PIXI.Texture | undefined =>
     textures[character.split("")[0]];
+  const $getTextContainer = () => $textContainer;
 
   {
     await setText(text);
@@ -243,6 +244,7 @@ export const textSprite: ContainerComponent<
     setHorizontalAlign,
     getHorizontalAlign,
 
+    $getTextContainer,
     $getTextBounds,
     $getCharacter,
   });
