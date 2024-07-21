@@ -236,7 +236,6 @@ export const inputTextSprite: ContainerComponent<
         const $extraCursorXPivot = $cursorPositionX - $cursorPivotX;
         const $correctionXLeft =
           0 > $extraCursorXPivot ? $extraCursorXPivot : 0;
-        console.log($correctionXLeft);
 
         await $cursor.setPivotX($cursorPivotX + $correctionXLeft);
         $textSprite.$getTextContainer().pivot.x = $correctionXLeft;
