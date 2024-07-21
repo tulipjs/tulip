@@ -7,6 +7,7 @@ export const events = () => {
     [Event.KEY_DOWN]: [],
     [Event.KEY_UP]: [],
     [Event.RESIZE]: [],
+    [Event.RIGHT_CLICK]: [],
   };
 
   /**

@@ -3,6 +3,7 @@ export enum Event {
   KEY_DOWN,
   KEY_UP,
   RESIZE,
+  RIGHT_CLICK,
 }
 
 export enum DisplayObjectEvent {
