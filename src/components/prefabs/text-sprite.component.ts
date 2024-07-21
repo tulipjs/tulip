@@ -59,10 +59,15 @@ export const textSprite: ContainerComponent<
   if (!isNotNullish($size.height))
     $size.height = (Object.values(textures)[0] as Texture)?.height || 0;
 
-  const $background = await graphics({
-    type: GraphicType.RECTANGLE,
+  const $boxSize = {
     width: $size?.width + $backgroundPadding.left + $backgroundPadding.right,
     height: $size?.height + $backgroundPadding.top + $backgroundPadding.bottom,
+  };
+
+  const $background = await graphics({
+    type: GraphicType.RECTANGLE,
+    width: $boxSize.width,
+    height: $boxSize.height,
     color: $backgroundColor,
     alpha: $backgroundAlpha,
     pivot: {
@@ -73,10 +78,22 @@ export const textSprite: ContainerComponent<
     cursor,
   });
 
+  const $mask = await graphics({
+    type: GraphicType.RECTANGLE,
+    width: $boxSize.width,
+    height: $boxSize.height,
+    color: 0,
+    pivot: {
+      x: $backgroundPadding.left,
+      y: $backgroundPadding.top,
+    },
+  });
+
   const $textContainerComponent = await container({
     eventMode: EventMode.NONE,
   });
   $containerComponent.add($background, $textContainerComponent);
+  $containerComponent.setMask($mask);
 
   const $textContainer = $textContainerComponent.getDisplayObject({
     __preventWarning: true,

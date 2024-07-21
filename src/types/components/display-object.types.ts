@@ -77,6 +77,11 @@ export type PartialDisplayObjectMutable<DisplayObject, Mutable = {}> = {
   ) => Promise<void>;
   isSortableChildren: () => boolean;
   sortChildren: () => void;
+  //mask
+  setMask: (
+    displayObject: DisplayObjectMutable<DO, unknown, unknown, unknown>,
+  ) => void;
+  removeMask: () => void;
 
   //context
   focus: () => void;

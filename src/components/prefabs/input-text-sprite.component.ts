@@ -71,7 +71,7 @@ export const inputTextSprite: ContainerComponent<
     color: $selectionColor,
   });
 
-  const $renderSelection = () => {
+  const $renderSelection = async () => {
     const focusWidth = $selectionGap;
     const focusOutPadding = focusWidth + $selectionPadding;
     const focusSize = textSpriteProps?.size || { width: 0, height: 0 };
@@ -81,6 +81,18 @@ export const inputTextSprite: ContainerComponent<
       bottom: 0,
       left: 0,
     };
+
+    const $mask = await graphics({
+      type: GraphicType.RECTANGLE,
+      width: focusSize.width + focusOutPadding + backgroundPadding.right,
+      height: focusSize.height + focusOutPadding + backgroundPadding.top,
+      color: 0,
+      pivot: {
+        x: backgroundPadding.left,
+        y: backgroundPadding.top,
+      },
+    });
+    $container.setMask($mask);
 
     $selectionComponent.setColor($selectionColor);
     $selectionComponent.setPolygon([
@@ -115,7 +127,7 @@ export const inputTextSprite: ContainerComponent<
       -focusWidth - backgroundPadding.top,
     ]);
   };
-  $renderSelection();
+  await $renderSelection();
 
   const $placeHolderTextSprite = await textSprite({
     spriteSheet: textSpriteProps.spriteSheet,
@@ -355,7 +367,7 @@ export const inputTextSprite: ContainerComponent<
 
     setSize: async (size) => {
       await $textSprite.setSize(size);
-      $renderSelection();
+      await $renderSelection();
     },
     getSize: $textSprite.getSize,
 
@@ -367,7 +379,7 @@ export const inputTextSprite: ContainerComponent<
 
     setBackgroundPadding: async (padding) => {
       await $textSprite.setBackgroundPadding(padding);
-      $renderSelection();
+      await $renderSelection();
     },
     getBackgroundPadding: $textSprite.getBackgroundPadding,
 

@@ -1,4 +1,5 @@
 import {
+  Container,
   DisplayObject as DO,
   DisplayObjectMutable,
   DisplayObjectProps,
@@ -257,6 +258,24 @@ export const displayObject = async <
   const isSortableChildren = () => $displayObject.sortableChildren;
   const sortChildren = () => $displayObject.sortChildren();
 
+  //mask
+  const setMask = (
+    displayObject: DisplayObjectMutable<DO, unknown, unknown, unknown>,
+  ) => {
+    removeMask();
+    const $currentDisplayObject = displayObject.getDisplayObject({
+      __preventWarning: true,
+    });
+    $displayObject.addChild($currentDisplayObject);
+    $displayObject.mask = $currentDisplayObject;
+  };
+  const removeMask = () => {
+    if (!$displayObject.mask) return;
+
+    $displayObject.removeChild($displayObject.mask as Container);
+    $displayObject.mask = null;
+  };
+
   // Set initials
   {
     const {
@@ -351,6 +370,9 @@ export const displayObject = async <
     setSortableChildren,
     isSortableChildren,
     sortChildren,
+    //mask
+    setMask,
+    removeMask,
 
     //events
     on,
