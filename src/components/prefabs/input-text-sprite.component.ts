@@ -24,6 +24,7 @@ export const inputTextSprite: ContainerComponent<
     PartialInputTextSpriteProps,
     InputTextSpriteMutable
   >(props);
+  const $contentContainer = await container();
 
   const {
     passwordChar,
@@ -37,6 +38,7 @@ export const inputTextSprite: ContainerComponent<
     selectionColor,
     selectionGap,
     selectionPadding,
+    withMask = false,
     ...textSpriteProps
   } = $container.getProps();
 
@@ -62,6 +64,7 @@ export const inputTextSprite: ContainerComponent<
   const $textSprite = await textSprite({
     ...textSpriteProps,
     text: $text,
+    withMask: withMask,
   });
 
   const $selectionComponent = await graphics({
@@ -84,15 +87,16 @@ export const inputTextSprite: ContainerComponent<
 
     const $mask = await graphics({
       type: GraphicType.RECTANGLE,
-      width: focusSize.width + focusOutPadding + backgroundPadding.right,
-      height: focusSize.height + focusOutPadding + backgroundPadding.top,
+      width: focusSize.width + backgroundPadding.left + backgroundPadding.right,
+      height:
+        focusSize.height + backgroundPadding.bottom + backgroundPadding.top,
       color: 0,
       pivot: {
         x: backgroundPadding.left,
         y: backgroundPadding.top,
       },
     });
-    $container.setMask($mask);
+    withMask && $contentContainer.setMask($mask);
 
     $selectionComponent.setColor($selectionColor);
     $selectionComponent.setPolygon([
@@ -333,13 +337,14 @@ export const inputTextSprite: ContainerComponent<
     closeKeyboard();
   });
 
-  $container.add(
+  $contentContainer.add(
     $textSprite,
     $placeHolderTextSprite,
     $cursor,
     $cursorTextSprite,
-    $selectionComponent,
   );
+
+  $container.add($contentContainer, $selectionComponent);
 
   const setEditable = (editable: boolean) => {
     $editable = editable;

@@ -35,6 +35,7 @@ export const textSprite: ContainerComponent<
     cursor,
     verticalAlign,
     horizontalAlign,
+    withMask = false,
   } = $containerComponent.getProps();
 
   let $currentText = text;
@@ -93,7 +94,7 @@ export const textSprite: ContainerComponent<
     eventMode: EventMode.NONE,
   });
   $containerComponent.add($background, $textContainerComponent);
-  $containerComponent.setMask($mask);
+  withMask && $containerComponent.setMask($mask);
 
   const $textContainer = $textContainerComponent.getDisplayObject({
     __preventWarning: true,

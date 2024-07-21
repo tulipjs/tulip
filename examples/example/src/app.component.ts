@@ -89,8 +89,9 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
       return !preText.includes("abc");
     },
     selectionColor: 0xffffff,
-    selectionGap: 0,
+    selectionGap: 4,
     selectionPadding: 2,
+    withMask: true,
   });
 
   $input.on(DisplayObjectEvent.POINTER_TAP, () => {

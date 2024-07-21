@@ -20,6 +20,8 @@ export type PartialTextSpriteProps<Props = {}> = {
   backgroundColor?: number;
   backgroundAlpha?: number;
   backgroundPadding?: IndividualSides;
+
+  withMask?: boolean;
 } & Props;
 
 export type PartialTextSpriteMutable<Mutable = {}> = {
