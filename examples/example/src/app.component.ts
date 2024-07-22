@@ -2,7 +2,6 @@ import {
   container,
   ContainerComponent,
   Cursor,
-  DisplayObjectEvent,
   EventMode,
   getOS,
   global,
@@ -12,6 +11,7 @@ import {
   inputTextSprite,
   OS,
   text,
+  VerticalAlign,
   world,
 } from "@tulib/tulip";
 import { playerComponent } from "player.component";
@@ -68,7 +68,7 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
     withContext: true,
     position: {
       x: 110,
-      y: 22,
+      y: 10,
     },
     eventMode: EventMode.STATIC,
     // passwordChar: ".",
@@ -80,11 +80,12 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
     placeholder: `placeholder ${OS[getOS()]}`,
     size: {
       width: 90,
-      height: 7,
+      height: 30,
     },
     // maxLength: 3,
     zIndex: 1000,
-    horizontalAlign: HorizontalAlign.CENTER,
+    horizontalAlign: HorizontalAlign.LEFT,
+    verticalAlign: VerticalAlign.TOP,
     onTextChange: (preText, postText) => {
       return !preText.includes("abc");
     },
@@ -92,10 +93,6 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
     selectionGap: 4,
     selectionPadding: 2,
     withMask: true,
-  });
-
-  $input.on(DisplayObjectEvent.POINTER_TAP, () => {
-    $input.focus();
   });
 
   const $input2 = await inputTextSprite({
@@ -105,7 +102,7 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
     withContext: true,
     position: {
       x: 110,
-      y: 60,
+      y: 55,
     },
     eventMode: EventMode.STATIC,
     // passwordChar: ".",
@@ -117,11 +114,12 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
     placeholder: `placeholder ${OS[getOS()]}`,
     size: {
       width: 90,
-      height: 7,
+      height: 30,
     },
     // maxLength: 3,
     zIndex: 1000,
-    horizontalAlign: HorizontalAlign.RIGHT,
+    horizontalAlign: HorizontalAlign.CENTER,
+    verticalAlign: VerticalAlign.MIDDLE,
     onTextChange: (preText, postText) => {
       return !preText.includes("abc");
     },
@@ -131,9 +129,6 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
     withMask: true,
   });
 
-  $input2.on(DisplayObjectEvent.POINTER_TAP, () => {
-    $input2.focus();
-  });
   const $input3 = await inputTextSprite({
     spriteSheet: "fonts/default-font.json",
     color: 0xffffff,
@@ -141,7 +136,7 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
     withContext: true,
     position: {
       x: 110,
-      y: 80,
+      y: 100,
     },
     eventMode: EventMode.STATIC,
     // passwordChar: ".",
@@ -153,11 +148,12 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
     placeholder: `placeholder ${OS[getOS()]}`,
     size: {
       width: 90,
-      height: 7,
+      height: 30,
     },
     // maxLength: 3,
     zIndex: 1000,
-    horizontalAlign: HorizontalAlign.LEFT,
+    horizontalAlign: HorizontalAlign.RIGHT,
+    verticalAlign: VerticalAlign.BOTTOM,
     onTextChange: (preText, postText) => {
       return !preText.includes("abc");
     },
@@ -165,10 +161,6 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
     selectionGap: 4,
     selectionPadding: 2,
     withMask: true,
-  });
-
-  $input3.on(DisplayObjectEvent.POINTER_TAP, () => {
-    $input3.focus();
   });
 
   global.context.onNoContext(() => {

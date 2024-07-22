@@ -23,6 +23,8 @@ export type PartialInputTextSpriteProps = {
   selectionColor?: number;
   selectionGap?: number;
   selectionPadding?: number;
+
+  autoFocus?: boolean;
 } & Omit<PartialTextSpriteProps, "text">;
 
 export type InputTextSpriteProps<Data = {}> = PartialInputTextSpriteProps &

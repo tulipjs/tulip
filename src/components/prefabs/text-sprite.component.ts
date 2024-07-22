@@ -144,18 +144,26 @@ export const textSprite: ContainerComponent<
       let targetXPosition = 0;
       switch ($horizontalAlign) {
         case HorizontalAlign.CENTER:
-          const midWidthSize = $size.width / 2;
-          const midTextWidthSize = $textContainer.width / 2;
-          targetXPosition = midWidthSize - midTextWidthSize;
-
+          targetXPosition = ($size.width - $textContainer.width) / 2;
           break;
         case HorizontalAlign.RIGHT:
-          const farWidthSize = $size.width;
-          const farTextWidthSize = $textContainer.width;
-          targetXPosition = farWidthSize - farTextWidthSize;
+          targetXPosition = $size.width - $textContainer.width;
           break;
       }
       await $textContainerComponent.setPositionX(targetXPosition);
+    }
+
+    if (isNotNullish($size.height)) {
+      let targetYPosition = 0;
+      switch ($verticalAlign) {
+        case VerticalAlign.MIDDLE:
+          targetYPosition = ($size.height - $textContainer.height) / 2;
+          break;
+        case VerticalAlign.BOTTOM:
+          targetYPosition = $size.height - $textContainer.height;
+          break;
+      }
+      await $textContainerComponent.setPositionY(targetYPosition);
     }
 
     await renderBackground();
