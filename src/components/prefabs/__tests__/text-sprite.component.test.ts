@@ -135,6 +135,29 @@ describe("components", () => {
             .children.length,
         ).toEqual(6);
       });
+
+      test("default white background color and black case", async () => {
+        $textSprite = await textSprite({
+          text: "abc",
+          color: 0xff00ff,
+          spriteSheet: "font.json",
+          alpha: 0.3,
+          label: "something",
+        });
+
+        expect($textSprite.getBackgroundColor()).toEqual(0xffffff);
+
+        $textSprite = await textSprite({
+          text: "abc",
+          color: 0xff00ff,
+          spriteSheet: "font.json",
+          alpha: 0.3,
+          label: "something",
+          backgroundColor: 0x000000,
+        });
+
+        expect($textSprite.getBackgroundColor()).toEqual(0x000000);
+      });
     });
   });
 });

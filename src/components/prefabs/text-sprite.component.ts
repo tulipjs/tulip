@@ -45,7 +45,7 @@ export const textSprite: ContainerComponent<
     height: size?.height,
   };
   let $backgroundAlpha = backgroundAlpha || 0;
-  let $backgroundColor = backgroundColor || 0xffffff;
+  let $backgroundColor = backgroundColor ?? 0xffffff;
   let $backgroundPadding = backgroundPadding || {
     top: 0,
     right: 0,
