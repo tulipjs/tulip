@@ -14,6 +14,8 @@ export type ApplicationProps = {
   pointerLock?: boolean;
   pixelPerfect?: boolean;
   scaleMode?: ScaleMode;
+
+  enableWebGPU?: boolean;
 };
 
 export type ApplicationMutable = {
