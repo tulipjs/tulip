@@ -22,6 +22,7 @@ export const application = ({
   pointerLock = APPLICATION_DEFAULT_PROPS.pointerLock,
   pixelPerfect = APPLICATION_DEFAULT_PROPS.pixelPerfect,
   scaleMode = APPLICATION_DEFAULT_PROPS.scaleMode,
+  enableWebGPU = APPLICATION_DEFAULT_PROPS.enableWebGPU,
 }: ApplicationProps = APPLICATION_DEFAULT_PROPS): ApplicationMutable => {
   const application = new PIXI.Application();
   const $window = window();
@@ -31,7 +32,7 @@ export const application = ({
       backgroundColor,
       antialias: true,
       sharedTicker: false,
-      preference: "webgpu",
+      preference: enableWebGPU ? "webgpu" : "webgl",
     });
 
     //### APPLICATION ##################################################################################################//
