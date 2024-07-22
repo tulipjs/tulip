@@ -13,6 +13,7 @@ import {
   EventMode,
   GraphicType,
   HorizontalAlign,
+  VerticalAlign,
 } from "../../enums";
 import { closeKeyboard, isNotNullish, openKeyboard } from "../../utils";
 
@@ -39,6 +40,7 @@ export const inputTextSprite: ContainerComponent<
     selectionGap,
     selectionPadding,
     withMask = false,
+    autoFocus = true,
     ...textSpriteProps
   } = $container.getProps();
 
@@ -241,6 +243,23 @@ export const inputTextSprite: ContainerComponent<
         $textSprite.$getTextContainer().pivot.x = $correctionXLeft;
         break;
     }
+
+    const index0VerticalFix =
+      $textSprite.$getTextBounds().height > 0 ? 0 : height;
+    const $cursorPivotY =
+      -($size.height || 0) +
+      $textSprite.$getTextBounds().height +
+      2 +
+      index0VerticalFix;
+
+    switch ($textSprite.getVerticalAlign()) {
+      case VerticalAlign.MIDDLE:
+        await $cursor.setPivotY($cursorPivotY / 2);
+        break;
+      case VerticalAlign.BOTTOM:
+        await $cursor.setPivotY($cursorPivotY);
+        break;
+    }
   };
 
   const onKeyDown = async ({ key }: KeyboardEvent) => {
@@ -319,8 +338,8 @@ export const inputTextSprite: ContainerComponent<
     renderPlaceHolder();
   };
 
-  let removeOnKeyDown;
-  let removeOnKeyUp;
+  let removeOnKeyDown: () => void;
+  let removeOnKeyUp: () => void;
 
   $container.on(DisplayObjectEvent.CONTEXT_ENTER, async () => {
     removeOnKeyDown = global.events.on(Event.KEY_DOWN, onKeyDown, $textSprite);
@@ -349,6 +368,9 @@ export const inputTextSprite: ContainerComponent<
 
     closeKeyboard();
   });
+
+  autoFocus &&
+    $container.on(DisplayObjectEvent.POINTER_TAP, () => $container.focus());
 
   $contentContainer.add(
     $textSprite,
