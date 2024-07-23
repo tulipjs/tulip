@@ -10,7 +10,7 @@ describe("components", () => {
 
       beforeAll(async () => {
         $circle = await circle({
-          color: 0xff00ff,
+          tint: 0xff00ff,
           mass: 99,
           size: 5,
           material: {},
@@ -22,7 +22,6 @@ describe("components", () => {
         expect(child.$getRaw()).toStrictEqual({
           alpha: 1,
           angle: 0,
-          color: 0xff00ff,
           eventMode: EventMode.PASSIVE,
           height: undefined,
           id: child.getId(),

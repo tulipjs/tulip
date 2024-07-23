@@ -10,7 +10,7 @@ describe("components", () => {
 
       beforeAll(async () => {
         $capsule = await capsule({
-          color: 0xff00ff,
+          tint: 0xff00ff,
           mass: 99,
           length: 54,
           radius: 23,
@@ -23,7 +23,6 @@ describe("components", () => {
         expect(child.$getRaw()).toStrictEqual({
           alpha: 1,
           angle: 0,
-          color: 0xff00ff,
           eventMode: EventMode.PASSIVE,
           height: undefined,
           id: child.getId(),

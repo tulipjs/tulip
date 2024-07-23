@@ -20,7 +20,7 @@ export const graphics = async <Props = {}, Mutable = {}, Data = {}>(
     displayObject: new PIXI.Graphics(),
   });
 
-  const { type, color } = $displayObject.getProps();
+  const { type } = $displayObject.getProps();
 
   const $graphics = $displayObject.getDisplayObject({ __preventWarning: true });
 
@@ -42,9 +42,6 @@ export const graphics = async <Props = {}, Mutable = {}, Data = {}>(
   };
 
   const getColor = () => $graphics.tint;
-  const setColor = (color: number) => {
-    $graphics.tint = color;
-  };
 
   const setPolygon = (polygon: number[]) => {
     $clear();
@@ -114,7 +111,7 @@ export const graphics = async <Props = {}, Mutable = {}, Data = {}>(
 
   const $getRaw = (): GraphicsProps => ({
     ...$$getRaw(),
-    color: getColor(),
+    tint: getColor(),
     type: $type,
 
     polygon: $polygon,
@@ -133,7 +130,6 @@ export const graphics = async <Props = {}, Mutable = {}, Data = {}>(
     $displayObject.getFather = () => null;
   };
   {
-    color !== undefined && setColor(color);
     switch (type) {
       case GraphicType.POLYGON:
         setPolygon((originalProps as GraphicsPolygonProps).polygon);
@@ -158,9 +154,6 @@ export const graphics = async <Props = {}, Mutable = {}, Data = {}>(
 
   const $mutable = {
     getType,
-
-    setColor,
-    getColor,
 
     setPolygon,
     setCircle,

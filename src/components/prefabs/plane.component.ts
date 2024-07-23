@@ -3,11 +3,7 @@ import { container, graphics } from "../core";
 import { GraphicType, Shape } from "../../enums";
 import { body } from "../sub";
 
-type PlaneProps = {
-  props?: {
-    color?: number;
-  };
-};
+type PlaneProps = {};
 
 export const plane: ContainerComponent<
   PlaneProps,
@@ -24,11 +20,9 @@ export const plane: ContainerComponent<
 
   await $container.setBody($body);
 
-  const { props } = $container.getProps();
-
   const $graphics = await graphics({
     angle: $props.angle,
-    color: props?.color === undefined ? 0xff00ff : props.color,
+    tint: $props?.tint === undefined ? 0xff00ff : $props.tint,
     polygon: [0, 0, 10000, 0, 10000, 5, 0, 5],
     type: GraphicType.POLYGON,
   });

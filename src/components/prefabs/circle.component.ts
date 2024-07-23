@@ -14,10 +14,10 @@ export const circle: ContainerComponent<
     props,
   );
 
-  const { color, size, mass, material } = $container.getProps();
+  const { tint, size, mass, material } = $container.getProps();
 
   const $circle = await graphics({
-    color,
+    tint,
     type: GraphicType.CIRCLE,
     radius: size,
   });

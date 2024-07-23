@@ -19,33 +19,33 @@ describe("components", () => {
         $container = await container();
         $polygon = await graphics({
           label: "polygon",
-          color: 0xff00ff,
+          tint: 0xff00ff,
           type: GraphicType.POLYGON,
           polygon: [0, 0, 10, 0, 10, 10, 10, 0],
         });
         $circle = await graphics({
           label: "circle",
-          color: 0xff00ff,
+          tint: 0xff00ff,
           type: GraphicType.CIRCLE,
           radius: 3,
         });
         $capsule = await graphics({
           label: "capsule",
-          color: 0xff00ff,
+          tint: 0xff00ff,
           type: GraphicType.CAPSULE,
           radius: 5,
           length: 12,
         });
         $triangle = await graphics({
           label: "triangle",
-          color: 0xff00ff,
+          tint: 0xff00ff,
           type: GraphicType.TRIANGLE,
           width: 23,
           height: 45,
         });
         $rectangle = await graphics({
           label: "rectangle",
-          color: 0xff00ff,
+          tint: 0xff00ff,
           type: GraphicType.RECTANGLE,
           width: 56,
           height: 5,
@@ -133,13 +133,13 @@ describe("components", () => {
         expect($polygon.getLabel()).toBe("This is being called!");
       });
       test("setColor(...) check if 'tint' is set", async () => {
-        expect($polygon.getColor()).toStrictEqual(0xff00ff);
+        expect($polygon.getTint()).toStrictEqual(0xff00ff);
         expect(
           $polygon.getDisplayObject({ __preventWarning: true }).tint,
         ).toStrictEqual(0xff00ff);
 
-        $polygon.setColor(0xff0000);
-        expect($polygon.getColor()).toStrictEqual(0xff0000);
+        await $polygon.setTint(0xff0000);
+        expect($polygon.getTint()).toStrictEqual(0xff0000);
         expect(
           $polygon.getDisplayObject({ __preventWarning: true }).tint,
         ).toStrictEqual(0xff0000);

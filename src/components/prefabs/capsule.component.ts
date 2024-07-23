@@ -14,10 +14,10 @@ export const capsule: ContainerComponent<
     props,
   );
 
-  const { color, length, radius, mass, material } = $container.getProps();
+  const { tint, length, radius, mass, material } = $container.getProps();
 
   const $capsule = await graphics({
-    color,
+    tint,
     type: GraphicType.CAPSULE,
     radius,
     length,

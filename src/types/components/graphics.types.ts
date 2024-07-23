@@ -6,16 +6,10 @@ import {
   DisplayObjectProps,
 } from "./display-object.types";
 
-export type PartialGraphicsProps<Props = {}> = {
-  color: number;
-} & GraphicsTypesProps &
-  Props;
+export type PartialGraphicsProps<Props = {}> = {} & GraphicsTypesProps & Props;
 
 export type PartialGraphicsMutable<Mutable = {}> = {
   getType: () => GraphicType;
-
-  setColor: (color: number) => void;
-  getColor: () => number;
 
   setPolygon: (polygon: number[]) => void;
   setCircle: (radius: number) => void;

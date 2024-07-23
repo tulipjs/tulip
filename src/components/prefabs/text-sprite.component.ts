@@ -119,7 +119,7 @@ export const textSprite: ContainerComponent<
       x: $backgroundPadding.left,
       y: $backgroundPadding.top,
     });
-    $background.setColor($backgroundColor);
+    await $background.setTint($backgroundColor);
     await $background.setAlpha($backgroundAlpha);
   };
 
