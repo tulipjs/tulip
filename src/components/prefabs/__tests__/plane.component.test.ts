@@ -10,9 +10,7 @@ describe("components", () => {
 
       beforeAll(async () => {
         $plane = await plane({
-          props: {
-            color: 0xff00ff,
-          },
+          tint: 0xff00ff,
         });
       });
 
@@ -21,7 +19,6 @@ describe("components", () => {
         expect(child.$getRaw()).toStrictEqual({
           alpha: 1,
           angle: 0,
-          color: 0xff00ff,
           eventMode: EventMode.PASSIVE,
           height: undefined,
           id: child.getId(),

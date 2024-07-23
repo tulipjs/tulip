@@ -100,7 +100,7 @@ export const inputTextSprite: ContainerComponent<
     });
     withMask && $contentContainer.setMask($mask);
 
-    $selectionComponent.setColor($selectionColor);
+    await $selectionComponent.setTint($selectionColor);
     $selectionComponent.setPolygon([
       -focusOutPadding - backgroundPadding.left,
       -focusOutPadding - backgroundPadding.top,
@@ -402,7 +402,7 @@ export const inputTextSprite: ContainerComponent<
     getText,
     reset,
 
-    setColor: $textSprite.setColor,
+    setColor: $textSprite.setTint,
     getColor: $textSprite.getColor,
 
     setSize: async (size) => {
