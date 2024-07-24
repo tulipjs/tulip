@@ -25,7 +25,7 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
   const pixel = await graphics({
     type: GraphicType.POLYGON,
     polygon: [0, 0, 1, 0, 1, 1, 0, 1],
-    color: 0xff00ff,
+    tint: 0xff00ff,
   });
   await pixel.setPosition({ x: 10, y: 10 });
   $container.add(pixel);
