@@ -369,9 +369,6 @@ export const inputTextSprite: ContainerComponent<
     closeKeyboard();
   });
 
-  autoFocus &&
-    $container.on(DisplayObjectEvent.POINTER_TAP, () => $container.focus());
-
   $contentContainer.add(
     $textSprite,
     $placeHolderTextSprite,
@@ -396,6 +393,9 @@ export const inputTextSprite: ContainerComponent<
 
     $textSprite.setText("");
   };
+
+  autoFocus &&
+    $container.on(DisplayObjectEvent.POINTER_TAP, () => $container.focus());
 
   return $container.getComponent(inputTextSprite, {
     setEditable,
