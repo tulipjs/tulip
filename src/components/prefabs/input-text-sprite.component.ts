@@ -167,7 +167,7 @@ export const inputTextSprite: ContainerComponent<
     type: GraphicType.RECTANGLE,
     width: 1,
     height: height + 3,
-    color: props.color,
+    tint: props.color,
     visible: false,
     pivot: { x: 1, y: 2 },
     eventMode: EventMode.NONE,
