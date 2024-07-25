@@ -163,6 +163,10 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
     withMask: true,
   });
 
+  setTimeout(() => {
+    $input3.setSize({ width: 200, height: 20 });
+  }, 1_000);
+
   global.context.onNoContext(() => {
     $player.focus();
   });

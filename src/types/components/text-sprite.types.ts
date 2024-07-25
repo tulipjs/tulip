@@ -50,6 +50,7 @@ export type PartialTextSpriteMutable<Mutable = {}> = {
   setHorizontalAlign: (horizontalAlign: HorizontalAlign) => Promise<void>;
   getHorizontalAlign: () => HorizontalAlign;
 
+  $render: () => Promise<void>;
   $getTextBounds: () => Size;
   $getCharacter: (character: string) => Texture;
   $getTextContainer: () => Container;
