@@ -35,7 +35,7 @@ jobs:
       - name: Add version to package.json
         uses: jaywcjlove/github-action-package@main
         with:
-          path: "./deno.json"
+          path: "./package.json"
           data: |
             {
               "version": "${{ steps.set_version.outputs.tag }}"
