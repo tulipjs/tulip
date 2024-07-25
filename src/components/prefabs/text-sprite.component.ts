@@ -222,6 +222,11 @@ export const textSprite: ContainerComponent<
     textures[character.split("")[0]];
   const $getTextContainer = () => $textContainer;
 
+  const $render = async () => {
+    await renderText();
+    await renderBackground();
+  };
+
   {
     await setText(text);
     await setColor(color);
@@ -252,6 +257,7 @@ export const textSprite: ContainerComponent<
     setHorizontalAlign,
     getHorizontalAlign,
 
+    $render,
     $getTextContainer,
     $getTextBounds,
     $getCharacter,

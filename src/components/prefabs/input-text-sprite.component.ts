@@ -76,76 +76,18 @@ export const inputTextSprite: ContainerComponent<
     color: $selectionColor,
   });
 
-  const $renderSelection = async () => {
-    const focusWidth = $selectionGap;
-    const focusOutPadding = focusWidth + $selectionPadding;
-    const focusSize = textSpriteProps?.size || { width: 0, height: 0 };
-    const backgroundPadding = textSpriteProps?.backgroundPadding || {
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
-    };
-
-    const $mask = await graphics({
-      type: GraphicType.RECTANGLE,
-      width: focusSize.width + backgroundPadding.left + backgroundPadding.right,
-      height:
-        focusSize.height + backgroundPadding.bottom + backgroundPadding.top,
-      color: 0,
-      pivot: {
-        x: backgroundPadding.left,
-        y: backgroundPadding.top,
-      },
-    });
-    withMask && $contentContainer.setMask($mask);
-
-    await $selectionComponent.setTint($selectionColor);
-    $selectionComponent.setPolygon([
-      -focusOutPadding - backgroundPadding.left,
-      -focusOutPadding - backgroundPadding.top,
-      //
-      focusSize.width + focusOutPadding + backgroundPadding.right,
-      -focusOutPadding - backgroundPadding.top,
-      //
-      focusSize.width + focusOutPadding + backgroundPadding.right,
-      focusSize.height + focusOutPadding + backgroundPadding.bottom,
-      //
-      -focusOutPadding - backgroundPadding.left,
-      focusSize.height + focusOutPadding + backgroundPadding.bottom,
-      //
-      -focusOutPadding - backgroundPadding.left,
-      -focusOutPadding - backgroundPadding.top,
-      //----
-      -focusWidth - backgroundPadding.left,
-      -focusOutPadding - backgroundPadding.top,
-      //
-      -focusWidth - backgroundPadding.left,
-      focusSize.height + focusWidth + backgroundPadding.bottom,
-      //
-      focusSize.width + focusWidth + backgroundPadding.right,
-      focusSize.height + focusWidth + backgroundPadding.bottom,
-      //
-      focusSize.width + focusWidth + backgroundPadding.right,
-      -focusWidth - backgroundPadding.top,
-      //
-      -focusWidth - backgroundPadding.right,
-      -focusWidth - backgroundPadding.top,
-    ]);
-  };
-  await $renderSelection();
-
   const $placeHolderTextSprite = await textSprite({
     spriteSheet: textSpriteProps.spriteSheet,
+    color: $textSprite.getColor(),
+    pivot: $textSprite.getPivot(),
+    size: $textSprite.getSize(),
+    verticalAlign: $textSprite.getVerticalAlign(),
+    horizontalAlign: $textSprite.getHorizontalAlign(),
+    //
     text: $placeholder,
-    color: textSpriteProps.color,
-    pivot: textSpriteProps.pivot,
     alpha: $placeHolderAlpha,
     visible: $text.length === 0,
     eventMode: EventMode.NONE,
-    size: textSpriteProps.size,
-    verticalAlign: textSpriteProps.verticalAlign,
-    horizontalAlign: textSpriteProps.horizontalAlign,
   });
 
   const $passwordCharText = passwordChar?.length
@@ -193,10 +135,6 @@ export const inputTextSprite: ContainerComponent<
           .map(() => $passwordCharText)
           .join("")
       : $text;
-
-  const renderPlaceHolder = () => {
-    $placeHolderTextSprite.setVisible($text.length === 0);
-  };
 
   const getTextSize = () => {
     const $size = $textSprite.getSize();
@@ -260,7 +198,83 @@ export const inputTextSprite: ContainerComponent<
         await $cursor.setPivotY($cursorPivotY);
         break;
     }
+
+    await $placeHolderTextSprite.setVisible($text.length === 0);
   };
+
+  const $renderSelection = async () => {
+    const focusWidth = $selectionGap;
+    const focusOutPadding = focusWidth + $selectionPadding;
+    const focusSize = $textSprite?.getSize() || { width: 0, height: 0 };
+    const backgroundPadding = $textSprite?.getBackgroundPadding() || {
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+    };
+
+    const $mask = await graphics({
+      type: GraphicType.RECTANGLE,
+      width: focusSize.width + backgroundPadding.left + backgroundPadding.right,
+      height:
+        focusSize.height + backgroundPadding.bottom + backgroundPadding.top,
+      color: 0,
+      pivot: {
+        x: backgroundPadding.left,
+        y: backgroundPadding.top,
+      },
+    });
+    withMask && $contentContainer.setMask($mask);
+
+    await $selectionComponent.setTint($selectionColor);
+    $selectionComponent.setPolygon([
+      -focusOutPadding - backgroundPadding.left,
+      -focusOutPadding - backgroundPadding.top,
+      //
+      focusSize.width + focusOutPadding + backgroundPadding.right,
+      -focusOutPadding - backgroundPadding.top,
+      //
+      focusSize.width + focusOutPadding + backgroundPadding.right,
+      focusSize.height + focusOutPadding + backgroundPadding.bottom,
+      //
+      -focusOutPadding - backgroundPadding.left,
+      focusSize.height + focusOutPadding + backgroundPadding.bottom,
+      //
+      -focusOutPadding - backgroundPadding.left,
+      -focusOutPadding - backgroundPadding.top,
+      //----
+      -focusWidth - backgroundPadding.left,
+      -focusOutPadding - backgroundPadding.top,
+      //
+      -focusWidth - backgroundPadding.left,
+      focusSize.height + focusWidth + backgroundPadding.bottom,
+      //
+      focusSize.width + focusWidth + backgroundPadding.right,
+      focusSize.height + focusWidth + backgroundPadding.bottom,
+      //
+      focusSize.width + focusWidth + backgroundPadding.right,
+      -focusWidth - backgroundPadding.top,
+      //
+      -focusWidth - backgroundPadding.right,
+      -focusWidth - backgroundPadding.top,
+    ]);
+
+    //placeholder
+    await $placeHolderTextSprite.setColor($textSprite.getColor());
+    await $placeHolderTextSprite.setPivot($textSprite.getPivot());
+    await $placeHolderTextSprite.setSize($textSprite.getSize());
+    await $placeHolderTextSprite.setVerticalAlign(
+      $textSprite.getVerticalAlign(),
+    );
+    await $placeHolderTextSprite.setHorizontalAlign(
+      $textSprite.getHorizontalAlign(),
+    );
+    //cursor
+    await calcCursorPosition();
+    //text
+    await $textSprite.$render();
+  };
+  await $renderSelection();
 
   const onKeyDown = async ({ key }: KeyboardEvent) => {
     $stopCursorBlink();
@@ -277,8 +291,6 @@ export const inputTextSprite: ContainerComponent<
 
       $cursorIndex--;
       await calcCursorPosition();
-
-      renderPlaceHolder();
       return;
     }
 
@@ -287,24 +299,18 @@ export const inputTextSprite: ContainerComponent<
       await $textSprite.setText($getCurrentText());
 
       await calcCursorPosition();
-
-      renderPlaceHolder();
       return;
     }
 
     if (key === "ArrowLeft" && $cursorIndex > 0) {
       $cursorIndex--;
       await calcCursorPosition();
-
-      renderPlaceHolder();
       return;
     }
 
     if (key === "ArrowRight" && $cursorIndex < $text.length) {
       $cursorIndex++;
       await calcCursorPosition();
-
-      renderPlaceHolder();
       return;
     }
   };
@@ -329,13 +335,10 @@ export const inputTextSprite: ContainerComponent<
     await $textSprite.setText($getCurrentText());
 
     await calcCursorPosition();
-
-    renderPlaceHolder();
   };
 
   const onKeyUp = () => {
     $startCursorBlink();
-    renderPlaceHolder();
   };
 
   let removeOnKeyDown: () => void;
