@@ -2,6 +2,7 @@ import {
   container,
   ContainerComponent,
   Cursor,
+  Event,
   EventMode,
   getOS,
   global,
@@ -93,6 +94,11 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
     selectionGap: 4,
     selectionPadding: 2,
     withMask: true,
+  });
+  global.events.on(Event.KEY_DOWN, ({ key }) => {
+    if (key === "Enter" && $input.isFocused()) {
+      $input.clear();
+    }
   });
 
   const $input2 = await inputTextSprite({

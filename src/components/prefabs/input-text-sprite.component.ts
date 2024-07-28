@@ -367,6 +367,8 @@ export const inputTextSprite: ContainerComponent<
     removeOnKeyDown();
     removeOnKeyUp();
 
+    await $placeHolderTextSprite.setVisible($text.length === 0);
+
     await $selectionComponent.setVisible(false);
 
     closeKeyboard();
@@ -387,14 +389,17 @@ export const inputTextSprite: ContainerComponent<
   };
 
   const getText = () => $text;
-  const reset = () => {
+  const clear = () => {
     $text = "";
     $cursorIndex = 0;
     $cursor.setPosition({ x: 0, y: 0 });
 
     setEditable($editable);
 
+    $cursorTextSprite.setText("");
     $textSprite.setText("");
+
+    $placeHolderTextSprite.setVisible($text.length === 0);
   };
 
   autoFocus &&
@@ -403,7 +408,7 @@ export const inputTextSprite: ContainerComponent<
   return $container.getComponent(inputTextSprite, {
     setEditable,
     getText,
-    reset,
+    clear,
 
     setColor: $textSprite.setTint,
     getColor: $textSprite.getColor,
