@@ -14,10 +14,7 @@ export type PartialInputTextSpriteProps = {
 
   maxLength?: number;
 
-  onTextChange?: (
-    preText: string,
-    postText: string,
-  ) => boolean | Promise<boolean>;
+  onTextChange?: (preText: string, postText: string) => boolean;
 
   selectionVisible?: boolean;
   selectionColor?: number;
@@ -33,7 +30,7 @@ export type InputTextSpriteProps<Data = {}> = PartialInputTextSpriteProps &
 export type PartialInputTextSpriteMutable = {
   setEditable: (editable: boolean) => void;
   getText: () => string;
-  setText: (text: string) => Promise<void>;
+  setText: (text: string) => void;
   clear: () => void;
 
   setSelectionVisible: (visible: boolean) => void;

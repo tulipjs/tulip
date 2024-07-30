@@ -39,10 +39,10 @@ test("expect mutable from empty", async () => {
   expectAssignable<Function>($empty.getProps);
 });
 
-test("expect custom mutable from empty", async () => {
+test("expect custom mutable from empty", () => {
   expectAssignable<() => boolean>($empty.shazam);
 });
 
-test("expect custom props from empty", async () => {
+test("expect custom props from empty", () => {
   expectAssignable<Partial<{ abc: boolean }>>($empty.getProps());
 });

@@ -1,14 +1,15 @@
 import * as PIXI from "pixi.js";
-import { Sprite, SpriteProps, SpriteMutable } from "../../types";
+import { Spritesheet } from "pixi.js";
+import { Sprite, SpriteMutable, SpriteProps } from "../../types";
 import { displayObject } from "./display-object.component";
 import { isNotNullish } from "../../utils";
-import { Spritesheet } from "pixi.js";
 import { global } from "../../global";
+import { DisplayObjectEvent } from "../../enums";
 
-export const sprite = async <Props = {}, Mutable = {}, Data = {}>(
+export const sprite = <Props = {}, Mutable = {}, Data = {}>(
   originalProps: SpriteProps<Props, Data> = {} as SpriteProps<Props, Data>,
-): Promise<SpriteMutable<Props, Mutable, Data>> => {
-  const $displayObject = await displayObject<Sprite, SpriteProps<Props>>({
+): SpriteMutable<Props, Mutable, Data> => {
+  const $displayObject = displayObject<Sprite, SpriteProps<Props>>({
     ...originalProps,
     displayObject: new PIXI.Sprite(),
   });
@@ -54,6 +55,7 @@ export const sprite = async <Props = {}, Mutable = {}, Data = {}>(
   const setTexture = async (texture?: string) => {
     $texture = texture;
     $sprite.texture = await $getTexture(texture);
+    $displayObject.$emit(DisplayObjectEvent.LOADED, {});
   };
 
   const $$getRaw = $displayObject.$getRaw;
@@ -74,8 +76,11 @@ export const sprite = async <Props = {}, Mutable = {}, Data = {}>(
   };
 
   {
-    if (isNotNullish(spriteSheet)) await setSpriteSheet($spriteSheet);
-    await setTexture(texture);
+    if (isNotNullish(spriteSheet))
+      setSpriteSheet($spriteSheet).then(() => {
+        setTexture(texture);
+      });
+    else setTexture(texture);
   }
 
   const $mutable = {

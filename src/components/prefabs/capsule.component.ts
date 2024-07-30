@@ -9,14 +9,12 @@ import {
 export const capsule: ContainerComponent<
   CapsuleProps,
   PartialContainerMutable
-> = async (props) => {
-  const $container = await container<CapsuleProps, PartialContainerMutable>(
-    props,
-  );
+> = (props) => {
+  const $container = container<CapsuleProps, PartialContainerMutable>(props);
 
   const { tint, length, radius, mass, material } = $container.getProps();
 
-  const $capsule = await graphics({
+  const $capsule = graphics({
     tint,
     type: GraphicType.CAPSULE,
     radius,
@@ -34,7 +32,7 @@ export const capsule: ContainerComponent<
     length,
   });
 
-  await $container.setBody(spriteBody);
+  $container.setBody(spriteBody);
 
   return $container.getComponent(capsule);
 };

@@ -11,13 +11,13 @@ import { getVisualShape } from "../../utils";
 import { global } from "../../global";
 import { displayObject } from "./display-object.component";
 
-export const container = async <Props = {}, Mutable = {}, Data = {}>(
+export const container = <Props = {}, Mutable = {}, Data = {}>(
   originalProps: ContainerProps<Props, Data> = {} as ContainerProps<
     Props,
     Data
   >,
-): Promise<ContainerMutable<Props, Mutable, Data>> => {
-  const $displayObject = await displayObject<Container, ContainerProps<Props>>({
+): ContainerMutable<Props, Mutable, Data> => {
+  const $displayObject = displayObject<Container, ContainerProps<Props>>({
     ...originalProps,
     displayObject: new PIXI.Container(),
   });
@@ -74,16 +74,12 @@ export const container = async <Props = {}, Mutable = {}, Data = {}>(
 
   const getChildren = () => childList;
 
-  const setBody = async (body: BodyMutable) => {
-    await $$setBody(body);
+  const setBody = (body: BodyMutable) => {
+    $$setBody(body);
 
     if (global.$isVisualHitBoxes()) {
       const shapes = body.$getShapes();
-      add(
-        ...(await Promise.all(
-          shapes.map(async ({ props }) => await getVisualShape(props)),
-        )),
-      );
+      add(...shapes.map(({ props }) => getVisualShape(props)));
     }
   };
 

@@ -9,8 +9,8 @@ describe("components", () => {
     describe("container", () => {
       let $container: ContainerMutable;
 
-      test("getId() return the original id to check that empty is being called", async () => {
-        $container = await container({
+      test("getId() return the original id to check that empty is being called", () => {
+        $container = container({
           label: "container",
           eventMode: EventMode.PASSIVE,
           angle: 45,
@@ -29,12 +29,12 @@ describe("components", () => {
       });
 
       let $childContainer: ContainerMutable;
-      test("getFather() check father to be null", async () => {
-        $childContainer = await container();
+      test("getFather() check father to be null", () => {
+        $childContainer = container();
 
         expect($childContainer.getFather).toBe(null);
       });
-      test("add(...) add a display object to the container as a child", async () => {
+      test("add(...) add a display object to the container as a child", () => {
         $container.add($childContainer);
 
         expect($container.getChildren()).toContain($childContainer);
@@ -44,7 +44,7 @@ describe("components", () => {
           $childContainer.getDisplayObject({ __preventWarning: true }),
         );
       });
-      test("getFather() check that father is the current container", async () => {
+      test("getFather() check that father is the current container", () => {
         expect($childContainer.getFather()).toBe($container);
         expect(
           $childContainer.getDisplayObject({ __preventWarning: true }).parent,

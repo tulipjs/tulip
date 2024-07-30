@@ -8,8 +8,8 @@ describe("components", () => {
     describe("player-2d", () => {
       let $player2d: ContainerMutable;
 
-      beforeAll(async () => {
-        $player2d = await player2D({
+      beforeAll(() => {
+        $player2d = player2D({
           onTick: mockOnTick,
         });
       });

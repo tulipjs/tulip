@@ -9,14 +9,12 @@ import {
 export const circle: ContainerComponent<
   CircleProps,
   PartialContainerMutable
-> = async (props) => {
-  const $container = await container<CircleProps, PartialContainerMutable>(
-    props,
-  );
+> = (props) => {
+  const $container = container<CircleProps, PartialContainerMutable>(props);
 
   const { tint, size, mass, material } = $container.getProps();
 
-  const $circle = await graphics({
+  const $circle = graphics({
     tint,
     type: GraphicType.CIRCLE,
     radius: size,
@@ -32,7 +30,7 @@ export const circle: ContainerComponent<
     radius: size,
   });
 
-  await $container.setBody(spriteBody);
+  $container.setBody(spriteBody);
 
   return $container.getComponent(circle);
 };

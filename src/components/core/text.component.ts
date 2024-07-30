@@ -9,10 +9,10 @@ import {
 import { displayObject } from "./display-object.component";
 import { isNotNullish } from "../../utils";
 
-export const text = async <Props = {}, Mutable = {}, Data = {}>(
+export const text = <Props = {}, Mutable = {}, Data = {}>(
   originalProps: TextProps<Props, Data> = {} as TextProps<Props, Data>,
-): Promise<TextMutable<Props, Mutable, Data>> => {
-  const $displayObject = await displayObject<Text, TextProps<Props>>({
+): TextMutable<Props, Mutable, Data> => {
+  const $displayObject = displayObject<Text, TextProps<Props>>({
     ...originalProps,
     displayObject: new PIXI.Text({ text: "" }),
   });

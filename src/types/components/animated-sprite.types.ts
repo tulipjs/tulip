@@ -1,6 +1,6 @@
 import { PlayStatus } from "../../enums";
 import {
-  AsyncDisplayObjectComponent,
+  DisplayObjectComponent,
   DisplayObjectMutable,
   DisplayObjectProps,
 } from "./display-object.types";
@@ -49,7 +49,7 @@ export type AnimatedSpriteComponent<
   Props = {},
   Mutable = {},
   Data = {},
-> = AsyncDisplayObjectComponent<
+> = DisplayObjectComponent<
   AnimatedSprite,
   AnimatedSpriteProps<Props, Data>,
   AnimatedSpriteMutable<Props, Mutable, Data>,

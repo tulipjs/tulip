@@ -26,31 +26,31 @@ export type PartialTextSpriteProps<Props = {}> = {
 } & Props;
 
 export type PartialTextSpriteMutable<Mutable = {}> = {
-  setText: (text: string) => Promise<void>;
+  setText: (text: string) => void;
   getText: () => string;
 
-  setColor: (color: number) => Promise<void>;
+  setColor: (color: number) => void;
   getColor: () => number;
 
-  setSize: (size: Size) => Promise<void>;
+  setSize: (size: Size) => void;
   getSize: () => Size;
 
-  setBackgroundColor: (color: number) => Promise<void>;
+  setBackgroundColor: (color: number) => void;
   getBackgroundColor: () => number;
 
-  setBackgroundAlpha: (alpha: number) => Promise<void>;
+  setBackgroundAlpha: (alpha: number) => void;
   getBackgroundAlpha: () => number;
 
-  setBackgroundPadding: (padding: IndividualSides) => Promise<void>;
+  setBackgroundPadding: (padding: IndividualSides) => void;
   getBackgroundPadding: () => IndividualSides;
 
-  setVerticalAlign: (verticalAlign: VerticalAlign) => Promise<void>;
+  setVerticalAlign: (verticalAlign: VerticalAlign) => void;
   getVerticalAlign: () => VerticalAlign;
 
-  setHorizontalAlign: (horizontalAlign: HorizontalAlign) => Promise<void>;
+  setHorizontalAlign: (horizontalAlign: HorizontalAlign) => void;
   getHorizontalAlign: () => HorizontalAlign;
 
-  $render: () => Promise<void>;
+  $render: () => void;
   $getTextBounds: () => Size;
   $getCharacter: (character: string) => Texture;
   $getTextContainer: () => Container;

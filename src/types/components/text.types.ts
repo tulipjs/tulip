@@ -1,7 +1,7 @@
 import { Text } from "../pixi.types";
 import { Point } from "../point.types";
 import {
-  AsyncDisplayObjectComponent,
+  DisplayObjectComponent,
   DisplayObjectMutable,
   DisplayObjectProps,
 } from "./display-object.types";
@@ -49,7 +49,7 @@ export type TextComponent<
   Props = {},
   Mutable = {},
   Data = {},
-> = AsyncDisplayObjectComponent<
+> = DisplayObjectComponent<
   Text,
   TextProps<Props, Data>,
   TextMutable<Props, Mutable, Data>,

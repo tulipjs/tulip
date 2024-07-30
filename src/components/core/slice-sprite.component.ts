@@ -2,17 +2,15 @@ import * as PIXI from "pixi.js";
 import { SliceSprite, SliceSpriteMutable, SliceSpriteProps } from "../../types";
 import { displayObject } from "./display-object.component";
 import { global } from "../../global";
+import { DisplayObjectEvent } from "../../enums";
 
-export const sliceSprite = async <Props = {}, Mutable = {}, Data = {}>(
+export const sliceSprite = <Props = {}, Mutable = {}, Data = {}>(
   originalProps: SliceSpriteProps<Props, Data> = {} as SliceSpriteProps<
     Props,
     Data
   >,
-): Promise<SliceSpriteMutable<Props, Mutable, Data>> => {
-  const $displayObject = await displayObject<
-    SliceSprite,
-    SliceSpriteProps<Props>
-  >({
+): SliceSpriteMutable<Props, Mutable, Data> => {
+  const $displayObject = displayObject<SliceSprite, SliceSpriteProps<Props>>({
     ...originalProps,
     displayObject: new PIXI.NineSliceSprite({
       texture: PIXI.Texture.EMPTY,
@@ -81,7 +79,9 @@ export const sliceSprite = async <Props = {}, Mutable = {}, Data = {}>(
   };
 
   {
-    await setTexture(texture);
+    setTexture(texture).then(() => {
+      $displayObject.$emit(DisplayObjectEvent.LOADED, {});
+    });
   }
 
   const $mutable = {

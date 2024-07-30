@@ -11,7 +11,7 @@ import { Cursor, DisplayObjectEvent, Event, EventMode } from "../../enums";
 import { global } from "../../global";
 import * as PIXI from "pixi.js";
 
-export const displayObject = async <
+export const displayObject = <
   DisplayObject extends DO,
   Props = {},
   Mutable = {},
@@ -21,7 +21,7 @@ export const displayObject = async <
     displayObject: $displayObject,
     ...originalProps
   }: DisplayObjectProps<Props, Data> = {} as DisplayObjectProps<Props, Data>,
-): Promise<DisplayObjectMutable<DisplayObject, Props, Mutable, Data>> => {
+): DisplayObjectMutable<DisplayObject, Props, Mutable, Data> => {
   const $component = component<DisplayObjectProps<Props, Data>>(
     originalProps as DisplayObjectProps<Props, Data>,
   );
@@ -49,33 +49,33 @@ export const displayObject = async <
   };
 
   //position
-  const setPosition = async (data) => {
-    await $$setPosition(data);
+  const setPosition = (data) => {
+    $$setPosition(data);
     $displayObject.position = $$getPosition();
   };
-  const setPositionX = async (data) => {
-    await $$setPositionX(data);
+  const setPositionX = (data) => {
+    $$setPositionX(data);
     $displayObject.position.x = $$getPosition().x;
   };
-  const setPositionY = async (data) => {
-    await $$setPositionY(data);
+  const setPositionY = (data) => {
+    $$setPositionY(data);
     $displayObject.position.y = $$getPosition().y;
   };
 
   //pivot
-  const setPivot = async (data) => {
+  const setPivot = (data) => {
     $displayObject.pivot = global.normalizePoint(
-      await getValueMutableFunction<Point>(data, $displayObject.pivot),
+      getValueMutableFunction<Point>(data, $displayObject.pivot),
     );
   };
-  const setPivotX = async (data) => {
+  const setPivotX = (data) => {
     $displayObject.pivot.x = global.normalizeValue(
-      await getValueMutableFunction<number>(data, $displayObject.pivot.x),
+      getValueMutableFunction<number>(data, $displayObject.pivot.x),
     );
   };
-  const setPivotY = async (data) => {
+  const setPivotY = (data) => {
     $displayObject.pivot.y = global.normalizeValue(
-      await getValueMutableFunction<number>(data, $displayObject.pivot.y),
+      getValueMutableFunction<number>(data, $displayObject.pivot.y),
     );
   };
   const getPivot = () =>
@@ -84,52 +84,52 @@ export const displayObject = async <
       y: $displayObject?.pivot?.y || 0,
     }) as Point;
 
-  const setVisible = async (data) =>
-    ($displayObject.visible = await getValueMutableFunction<boolean>(
+  const setVisible = (data) =>
+    ($displayObject.visible = getValueMutableFunction<boolean>(
       data,
       $displayObject.visible,
     ));
   const getVisible = () => $displayObject.visible;
 
   //zIndex
-  const setZIndex = async (data) =>
-    ($displayObject.zIndex = await getValueMutableFunction<number>(
+  const setZIndex = (data) =>
+    ($displayObject.zIndex = getValueMutableFunction<number>(
       data,
       $displayObject.zIndex,
     ));
   const getZIndex = () => $displayObject.zIndex;
 
   //alpha
-  const setAlpha = async (data) =>
-    ($displayObject.alpha = await getValueMutableFunction<number>(
+  const setAlpha = (data) =>
+    ($displayObject.alpha = getValueMutableFunction<number>(
       data,
       $displayObject.alpha,
     ));
   const getAlpha = () => $displayObject.alpha;
 
   //angle
-  const setAngle = async (data) => {
-    $displayObject.angle = await getValueMutableFunction<number>(
+  const setAngle = (data) => {
+    $displayObject.angle = getValueMutableFunction<number>(
       data,
       $displayObject.angle,
     );
-    await $$setAngle($displayObject.angle);
+    $$setAngle($displayObject.angle);
   };
   const getAngle = () => $$getAngle() || $displayObject.angle;
 
   //eventMode
-  const setEventMode = async (data) => {
-    $displayObject.eventMode = await getValueMutableFunction<EventMode>(
+  const setEventMode = (data) => {
+    $displayObject.eventMode = getValueMutableFunction<EventMode>(
       data,
       $displayObject.eventMode as EventMode,
     );
-    await $$setAngle($displayObject.angle);
+    $$setAngle($displayObject.angle);
   };
   const getEventMode = () => $displayObject.eventMode as EventMode;
 
   //tint
-  const setTint = async (data) => {
-    $displayObject.tint = await getValueMutableFunction<number>(
+  const setTint = (data) => {
+    $displayObject.tint = getValueMutableFunction<number>(
       data,
       $displayObject.tint,
     );
@@ -143,8 +143,8 @@ export const displayObject = async <
   };
 
   //cursor
-  const setCursor = async (data, ignoreWarn: boolean = false) => {
-    $displayObject.cursor = await getValueMutableFunction<Cursor>(
+  const setCursor = (data, ignoreWarn: boolean = false) => {
+    $displayObject.cursor = getValueMutableFunction<Cursor>(
       data,
       $displayObject.cursor as Cursor,
     );
@@ -163,8 +163,8 @@ export const displayObject = async <
     ($displayObject.cursor as Cursor) || Cursor.AUTO;
 
   //hitArea
-  const setHitArea = async (data) => {
-    const hitArea = await getValueMutableFunction<number[]>(data, getHitArea());
+  const setHitArea = (data) => {
+    const hitArea = getValueMutableFunction<number[]>(data, getHitArea());
     $displayObject.hitArea = new PIXI.Polygon(hitArea);
   };
   const getHitArea = () => ($displayObject.hitArea as any)?.points || [];
@@ -239,17 +239,14 @@ export const displayObject = async <
 
   const isFocused = () => global.context.has($getContextBaseMutable());
 
-  const setWithContext = async (data) => {
-    $withContext = await getValueMutableFunction<boolean>(
-      data,
-      getWithContext(),
-    );
+  const setWithContext = (data) => {
+    $withContext = getValueMutableFunction<boolean>(data, getWithContext());
   };
 
   const getWithContext = () => $withContext;
 
-  const setSortableChildren = async (data) => {
-    $displayObject.sortableChildren = await getValueMutableFunction<boolean>(
+  const setSortableChildren = (data) => {
+    $displayObject.sortableChildren = getValueMutableFunction<boolean>(
       data,
       isSortableChildren(),
     );
@@ -303,21 +300,21 @@ export const displayObject = async <
     } = $component.getProps();
 
     if (isNotNullish(label)) setLabel(label);
-    if (isNotNullish(position)) await setPosition(position);
-    if (isNotNullish(pivot)) await setPivot(pivot);
-    if (isNotNullish(alpha)) await setAlpha(alpha);
-    if (isNotNullish(tint)) await setTint(tint);
-    if (isNotNullish(hitArea)) await setHitArea(hitArea);
-    if (isNotNullish(visible)) await setVisible(visible);
-    if (isNotNullish(zIndex)) await setZIndex(zIndex);
+    if (isNotNullish(position)) setPosition(position);
+    if (isNotNullish(pivot)) setPivot(pivot);
+    if (isNotNullish(alpha)) setAlpha(alpha);
+    if (isNotNullish(tint)) setTint(tint);
+    if (isNotNullish(hitArea)) setHitArea(hitArea);
+    if (isNotNullish(visible)) setVisible(visible);
+    if (isNotNullish(zIndex)) setZIndex(zIndex);
 
-    await setAngle(angle || 0);
-    await setEventMode(eventMode || EventMode.PASSIVE);
-    await setWithContext(isNotNullish(withContext) ? withContext : false);
+    setAngle(angle || 0);
+    setEventMode(eventMode || EventMode.PASSIVE);
+    setWithContext(isNotNullish(withContext) ? withContext : false);
     // This is not an error
     if ($withContext && focused) global.context.add($getContextBaseMutable());
-    await setCursor(cursor || Cursor.AUTO);
-    await setSortableChildren(Boolean(sortableChildren));
+    setCursor(cursor || Cursor.AUTO);
+    setSortableChildren(Boolean(sortableChildren));
 
     on(DisplayObjectEvent.TICK, () => {
       // If not body present, it doesn't make sense to iterate

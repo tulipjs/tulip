@@ -1,5 +1,5 @@
 import {
-  AsyncDisplayObjectComponent,
+  DisplayObjectComponent,
   DisplayObjectMutable,
   DisplayObjectProps,
 } from "./display-object.types";
@@ -40,7 +40,7 @@ export type SliceSpriteComponent<
   Props = {},
   Mutable = {},
   Data = {},
-> = AsyncDisplayObjectComponent<
+> = DisplayObjectComponent<
   SliceSprite,
   SliceSpriteProps<Props, Data>,
   SliceSpriteMutable<Props, Mutable, Data>,

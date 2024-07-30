@@ -11,10 +11,8 @@ import { container } from "./container.component";
 import { WORLD_DEFAULT_PROPS } from "../../consts";
 import { DisplayObjectEvent } from "../../enums";
 
-export const world: WorldComponent = async (
-  originalProps = WORLD_DEFAULT_PROPS,
-) => {
-  const $container = await container<WorldProps, WorldMutable>(originalProps);
+export const world: WorldComponent = (originalProps = WORLD_DEFAULT_PROPS) => {
+  const $container = container<WorldProps, WorldMutable>(originalProps);
 
   const { physics } = $container.getProps();
 

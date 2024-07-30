@@ -61,9 +61,9 @@ describe("components", () => {
           mockSpriteAssetsLoad.mockClear();
         });
 
-        test("Check if texture is being load", async () => {
-          $container = await container();
-          $sprite = await sliceSprite({
+        test("Check if texture is being load", () => {
+          $container = container();
+          $sprite = sliceSprite({
             label: "slice-sprite-label",
             texture: "picture.png",
             leftWidth: 4,

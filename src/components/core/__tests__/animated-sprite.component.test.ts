@@ -67,8 +67,8 @@ describe("components", () => {
 
         mockAssetsLoad.mockClear();
       });
-      beforeAll(async () => {
-        $animatedSprite = await animatedSprite({
+      beforeAll(() => {
+        $animatedSprite = animatedSprite({
           label: "animated-sprite-label",
           spriteSheet: "something.json",
           animation: "animation-name",
