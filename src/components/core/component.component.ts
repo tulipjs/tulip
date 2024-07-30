@@ -44,32 +44,32 @@ export const component = <Props = {}, Mutable = {}, Data = {}>(
     $body.setAngle($angle);
   };
 
-  const setPosition = async (data) => {
+  const setPosition = (data) => {
     $position = global.normalizePoint(
-      await getValueMutableFunction<Point>(data, $position),
+      getValueMutableFunction<Point>(data, $position),
     );
     $body?.setPosition($position);
     $soundList.forEach(($sound) => $sound.setPosition($position));
   };
   const getPosition = () => $body?.getPosition() || $position;
-  const setPositionX = async (data) => {
+  const setPositionX = (data) => {
     $position.x = global.normalizeValue(
-      await getValueMutableFunction<number>(data, $position.x),
+      getValueMutableFunction<number>(data, $position.x),
     );
     $body?.setPosition($position);
     $soundList.forEach(($sound) => $sound.setPosition($position));
   };
-  const setPositionY = async (data) => {
+  const setPositionY = (data) => {
     $position.y = global.normalizeValue(
-      await getValueMutableFunction<number>(data, $position.y),
+      getValueMutableFunction<number>(data, $position.y),
     );
     $body?.setPosition($position);
     $soundList.forEach(($sound) => $sound.setPosition($position));
   };
 
   const getAngle = () => $body?.getAngle() || $angle;
-  const setAngle = async (data) => {
-    $angle = await getValueMutableFunction<number>(data, getAngle());
+  const setAngle = (data) => {
+    $angle = getValueMutableFunction<number>(data, getAngle());
     $body?.setAngle($angle);
   };
 
@@ -84,8 +84,8 @@ export const component = <Props = {}, Mutable = {}, Data = {}>(
     }
   };
 
-  const addSound = async (soundData: SoundProps) => {
-    const $sound = await sound(soundData);
+  const addSound = (soundData: SoundProps) => {
+    const $sound = sound(soundData);
     $sound.setPosition(getPosition());
     $soundList.push($sound);
     return $sound;

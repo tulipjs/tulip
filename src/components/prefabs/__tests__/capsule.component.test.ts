@@ -8,8 +8,8 @@ describe("components", () => {
     describe("capsule", () => {
       let $capsule: ContainerMutable;
 
-      beforeAll(async () => {
-        $capsule = await capsule({
+      beforeAll(() => {
+        $capsule = capsule({
           tint: 0xff00ff,
           mass: 99,
           length: 54,

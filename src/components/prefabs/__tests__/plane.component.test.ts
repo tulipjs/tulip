@@ -8,8 +8,8 @@ describe("components", () => {
     describe("plane", () => {
       let $plane: ContainerMutable;
 
-      beforeAll(async () => {
-        $plane = await plane({
+      beforeAll(() => {
+        $plane = plane({
           tint: 0xff00ff,
         });
       });

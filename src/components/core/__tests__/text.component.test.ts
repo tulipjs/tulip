@@ -7,8 +7,8 @@ describe("components", () => {
     describe("text", () => {
       let $text: TextMutable;
 
-      test("getProps() returns all the original properties", async () => {
-        $text = await text({
+      test("getProps() returns all the original properties", () => {
+        $text = text({
           text: "test",
           color: 0xffffff,
           size: 25,
@@ -21,8 +21,8 @@ describe("components", () => {
         });
       });
 
-      test("setText(...) change text", async () => {
-        $text = await text({
+      test("setText(...) change text", () => {
+        $text = text({
           text: "test",
           color: 0xffffff,
           size: 25,
@@ -32,8 +32,8 @@ describe("components", () => {
         expect($text.$getText().text).toEqual("test 2");
       });
 
-      test("setSkew(...) change text skew", async () => {
-        $text = await text({
+      test("setSkew(...) change text skew", () => {
+        $text = text({
           text: "test",
           color: 0xffffff,
           size: 25,

@@ -14,16 +14,14 @@ type PlayerProps = {
 export const player2D: ContainerComponent<
   PlayerProps,
   PartialContainerMutable
-> = async ({
+> = ({
   onTick = () => {},
   maxSpeed = 8,
   acceleration = 0.3,
   deceleration = 0.1,
   ...props
 }) => {
-  const $container = await container<PlayerProps, PartialContainerMutable>(
-    props,
-  );
+  const $container = container<PlayerProps, PartialContainerMutable>(props);
 
   let currentKeyList = [];
   let velocityX = 0;

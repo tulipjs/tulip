@@ -33,8 +33,8 @@ describe("components", () => {
           y: 0,
         });
       });
-      test("setPosition(...) changes position", async () => {
-        await emptyPropsMutable.setPosition({
+      test("setPosition(...) changes position", () => {
+        emptyPropsMutable.setPosition({
           x: 123,
           y: 321,
         });
@@ -43,16 +43,16 @@ describe("components", () => {
           y: 321,
         });
       });
-      test("setPositionX(...) changes x position", async () => {
-        await emptyPropsMutable.setPositionX((x) => x + 5);
+      test("setPositionX(...) changes x position", () => {
+        emptyPropsMutable.setPositionX((x) => x + 5);
         expect(emptyPropsMutable.getPosition()).toStrictEqual(
           expect.objectContaining({
             x: 123 + 5,
           }),
         );
       });
-      test("setPositionY(...) changes y position", async () => {
-        await emptyPropsMutable.setPositionY((y) => y + 9);
+      test("setPositionY(...) changes y position", () => {
+        emptyPropsMutable.setPositionY((y) => y + 9);
         expect(emptyPropsMutable.getPosition()).toStrictEqual(
           expect.objectContaining({
             y: 321 + 9,
@@ -61,16 +61,16 @@ describe("components", () => {
       });
 
       //angle
-      test("getAngle(...) returns empty", async () => {
+      test("getAngle(...) returns empty", () => {
         expect(emptyPropsMutable.getAngle()).toEqual(0);
       });
-      test("setAngle(...) changes the default value", async () => {
-        await emptyPropsMutable.setAngle(23);
+      test("setAngle(...) changes the default value", () => {
+        emptyPropsMutable.setAngle(23);
         expect(emptyPropsMutable.getAngle()).toEqual(23);
       });
 
       //data
-      test("getData(...) returns empty", async () => {
+      test("getData(...) returns empty", () => {
         expect(emptyPropsMutable.getData()).toStrictEqual({});
       });
       test("setData(...) changes data", () => {
@@ -87,7 +87,7 @@ describe("components", () => {
       });
 
       //getRaw
-      test("$getRaw() to be contain everything", async () => {
+      test("$getRaw() to be contain everything", () => {
         expect(emptyPropsMutable.$getRaw()).toStrictEqual(
           expect.objectContaining({
             angle: 23,
@@ -99,11 +99,11 @@ describe("components", () => {
       });
 
       //body
-      test("setBody(...) to add a body with the current position and angle", async () => {
+      test("setBody(...) to add a body with the current position and angle", () => {
         expect(emptyPropsMutable.getBody()).toBe(undefined);
 
         const $body = body({});
-        await emptyPropsMutable.setBody($body);
+        emptyPropsMutable.setBody($body);
         expect(emptyPropsMutable.getBody()).toStrictEqual($body);
         expect($body.getPosition()).toStrictEqual({ x: 128, y: 330 });
         expect($body.getAngle()).toStrictEqual(23);
@@ -115,17 +115,17 @@ describe("components", () => {
       test.todo("$destroy(...) to stop sounds");
 
       //componentName
-      test("$getComponentName() to be null", async () => {
+      test("$getComponentName() to be null", () => {
         expect(emptyPropsMutable.$getComponentName()).toStrictEqual(null);
       });
 
       //getFather
-      test("getFather() to be null", async () => {
+      test("getFather() to be null", () => {
         expect(emptyPropsMutable.getFather).toStrictEqual(null);
       });
 
       //mutable
-      test("$mutable to be false", async () => {
+      test("$mutable to be false", () => {
         //@ts-ignore
         expect(emptyPropsMutable.$expose).toStrictEqual(false);
       });

@@ -1,7 +1,7 @@
 import { Graphics } from "../pixi.types";
 import { GraphicType } from "../../enums";
 import {
-  AsyncDisplayObjectComponent,
+  DisplayObjectComponent,
   DisplayObjectMutable,
   DisplayObjectProps,
 } from "./display-object.types";
@@ -77,7 +77,7 @@ export type GraphicsComponent<
   Props = {},
   Mutable = {},
   Data = {},
-> = AsyncDisplayObjectComponent<
+> = DisplayObjectComponent<
   Graphics,
   GraphicsProps<Props, Data>,
   GraphicsMutable<Props, Mutable, Data>,

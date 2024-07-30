@@ -15,35 +15,35 @@ describe("components", () => {
       let $triangle: GraphicsMutable;
       let $rectangle: GraphicsMutable;
 
-      beforeAll(async () => {
-        $container = await container();
-        $polygon = await graphics({
+      beforeAll(() => {
+        $container = container();
+        $polygon = graphics({
           label: "polygon",
           tint: 0xff00ff,
           type: GraphicType.POLYGON,
           polygon: [0, 0, 10, 0, 10, 10, 10, 0],
         });
-        $circle = await graphics({
+        $circle = graphics({
           label: "circle",
           tint: 0xff00ff,
           type: GraphicType.CIRCLE,
           radius: 3,
         });
-        $capsule = await graphics({
+        $capsule = graphics({
           label: "capsule",
           tint: 0xff00ff,
           type: GraphicType.CAPSULE,
           radius: 5,
           length: 12,
         });
-        $triangle = await graphics({
+        $triangle = graphics({
           label: "triangle",
           tint: 0xff00ff,
           type: GraphicType.TRIANGLE,
           width: 23,
           height: 45,
         });
-        $rectangle = await graphics({
+        $rectangle = graphics({
           label: "rectangle",
           tint: 0xff00ff,
           type: GraphicType.RECTANGLE,
@@ -53,7 +53,7 @@ describe("components", () => {
         $container.add($polygon, $circle, $capsule, $triangle, $rectangle);
       });
       describe("polygon", () => {
-        test("getType() check if is a polygon", async () => {
+        test("getType() check if is a polygon", () => {
           expect($polygon.getType()).toBe(GraphicType.POLYGON);
           expect($polygon.getPolygon()).toEqual([0, 0, 10, 0, 10, 10, 10, 0]);
 
@@ -63,12 +63,12 @@ describe("components", () => {
           expect($polygon.getHeight()).toEqual(undefined);
         });
 
-        test("getId() return the original id to check that empty is being called", async () => {
+        test("getId() return the original id to check that empty is being called", () => {
           expect($polygon.getId()).toMatch(/polygon_([0-9]{0,5})/);
         });
       });
       describe("circle", () => {
-        test("getType() check if is a circle", async () => {
+        test("getType() check if is a circle", () => {
           expect($circle.getType()).toBe(GraphicType.CIRCLE);
           expect($circle.getRadius()).toBe(3);
 
@@ -78,12 +78,12 @@ describe("components", () => {
           expect($circle.getHeight()).toEqual(undefined);
         });
 
-        test("getId() return the original id to check that empty is being called", async () => {
+        test("getId() return the original id to check that empty is being called", () => {
           expect($circle.getId()).toMatch(/circle_([0-9]{0,5})/);
         });
       });
       describe("capsule", () => {
-        test("getType() check if is a capsule", async () => {
+        test("getType() check if is a capsule", () => {
           expect($capsule.getType()).toBe(GraphicType.CAPSULE);
           expect($capsule.getRadius()).toBe(5);
           expect($capsule.getLength()).toBe(12);
@@ -93,12 +93,12 @@ describe("components", () => {
           expect($capsule.getHeight()).toEqual(undefined);
         });
 
-        test("getId() return the original id to check that empty is being called", async () => {
+        test("getId() return the original id to check that empty is being called", () => {
           expect($capsule.getId()).toMatch(/capsule_([0-9]{0,5})/);
         });
       });
       describe("triangle", () => {
-        test("getType() check if is a triangle", async () => {
+        test("getType() check if is a triangle", () => {
           expect($triangle.getType()).toBe(GraphicType.TRIANGLE);
           expect($triangle.getWidth()).toBe(23);
           expect($triangle.getHeight()).toBe(45);
@@ -108,12 +108,12 @@ describe("components", () => {
           expect($triangle.getRadius()).toEqual(undefined);
         });
 
-        test("getId() return the original id to check that empty is being called", async () => {
+        test("getId() return the original id to check that empty is being called", () => {
           expect($triangle.getId()).toMatch(/triangle_([0-9]{0,5})/);
         });
       });
       describe("rectangle", () => {
-        test("getType() check if is a rectangle", async () => {
+        test("getType() check if is a rectangle", () => {
           expect($rectangle.getType()).toBe(GraphicType.RECTANGLE);
           expect($rectangle.getWidth()).toBe(56);
           expect($rectangle.getHeight()).toBe(5);
@@ -123,22 +123,22 @@ describe("components", () => {
           expect($rectangle.getRadius()).toEqual(undefined);
         });
 
-        test("getId() return the original id to check that empty is being called", async () => {
+        test("getId() return the original id to check that empty is being called", () => {
           expect($rectangle.getId()).toMatch(/rectangle_([0-9]{0,5})/);
         });
       });
 
-      test("getLabel() return the label to check that initDisplayObject is being called", async () => {
+      test("getLabel() return the label to check that initDisplayObject is being called", () => {
         $polygon.setLabel("This is being called!");
         expect($polygon.getLabel()).toBe("This is being called!");
       });
-      test("setColor(...) check if 'tint' is set", async () => {
+      test("setColor(...) check if 'tint' is set", () => {
         expect($polygon.getTint()).toStrictEqual(0xff00ff);
         expect(
           $polygon.getDisplayObject({ __preventWarning: true }).tint,
         ).toStrictEqual(0xff00ff);
 
-        await $polygon.setTint(0xff0000);
+        $polygon.setTint(0xff0000);
         expect($polygon.getTint()).toStrictEqual(0xff0000);
         expect(
           $polygon.getDisplayObject({ __preventWarning: true }).tint,

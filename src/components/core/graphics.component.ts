@@ -12,10 +12,10 @@ import {
 import { GraphicType } from "../../enums";
 import { displayObject } from "./display-object.component";
 
-export const graphics = async <Props = {}, Mutable = {}, Data = {}>(
+export const graphics = <Props = {}, Mutable = {}, Data = {}>(
   originalProps: GraphicsProps<Props, Data> = {} as GraphicsProps<Props, Data>,
-): Promise<GraphicsMutable<Props, Mutable, Data>> => {
-  const $displayObject = await displayObject<Graphics, GraphicsProps<Props>>({
+): GraphicsMutable<Props, Mutable, Data> => {
+  const $displayObject = displayObject<Graphics, GraphicsProps<Props>>({
     ...originalProps,
     displayObject: new PIXI.Graphics(),
   });

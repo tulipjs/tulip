@@ -4,19 +4,19 @@ import {
   AnimatedSpriteMutable,
   AnimatedSpriteProps,
 } from "../../types";
-import { PlayStatus } from "../../enums";
+import { DisplayObjectEvent, PlayStatus } from "../../enums";
 import { displayObject } from "./display-object.component";
 import { isNotNullish } from "../../utils";
 import { Spritesheet } from "pixi.js";
 import { global } from "../../global";
 
-export const animatedSprite = async <Props = {}, Mutable = {}, Data = {}>(
+export const animatedSprite = <Props = {}, Mutable = {}, Data = {}>(
   originalProps: AnimatedSpriteProps<Props, Data> = {} as AnimatedSpriteProps<
     Props,
     Data
   >,
-): Promise<AnimatedSpriteMutable<Props, Mutable, Data>> => {
-  const $displayObject = await displayObject<
+): AnimatedSpriteMutable<Props, Mutable, Data> => {
+  const $displayObject = displayObject<
     AnimatedSprite,
     AnimatedSpriteProps<Props>
   >({
@@ -103,10 +103,12 @@ export const animatedSprite = async <Props = {}, Mutable = {}, Data = {}>(
     $displayObject.getFather = () => null;
   };
   {
-    await setSpriteSheet($spriteSheet);
-    if (isNotNullish(animation)) setAnimation(animation);
-    if (isNotNullish($frame)) setFrame($frame);
-    if (isNotNullish($playStatus)) setPlayStatus($playStatus);
+    setSpriteSheet($spriteSheet).then(() => {
+      if (isNotNullish(animation)) setAnimation(animation);
+      if (isNotNullish($frame)) setFrame($frame);
+      if (isNotNullish($playStatus)) setPlayStatus($playStatus);
+      $displayObject.$emit(DisplayObjectEvent.LOADED, {});
+    });
   }
 
   const $mutable = {

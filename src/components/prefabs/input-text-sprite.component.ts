@@ -20,12 +20,12 @@ import { closeKeyboard, isNotNullish, openKeyboard } from "../../utils";
 export const inputTextSprite: ContainerComponent<
   InputTextSpriteProps,
   InputTextSpriteMutable
-> = async ({ onTextChange, ...props }) => {
-  const $container = await container<
+> = ({ onTextChange, ...props }) => {
+  const $container = container<
     PartialInputTextSpriteProps,
     InputTextSpriteMutable
   >(props);
-  const $contentContainer = await container();
+  const $contentContainer = container();
 
   const {
     passwordChar,
@@ -63,20 +63,34 @@ export const inputTextSprite: ContainerComponent<
   let $selectionGap = isNotNullish(selectionGap) ? selectionGap : 1;
   let $selectionPadding = isNotNullish(selectionPadding) ? selectionPadding : 1;
 
-  const $textSprite = await textSprite({
+  const $textSprite = textSprite({
     ...textSpriteProps,
     text: $text,
     withMask: false,
   });
 
-  const $selectionComponent = await graphics({
+  const $passwordCharText = passwordChar?.length
+    ? passwordChar?.split("")[0]
+    : undefined;
+
+  $textSprite.on(DisplayObjectEvent.LOADED, () => {
+    console.log("LOADED!");
+
+    const { height } = $textSprite.$getCharacter("a");
+    $cursor.setRectangle(1, height + 3);
+
+    $renderSelection();
+    $container.$emit(DisplayObjectEvent.LOADED, {});
+  });
+
+  const $selectionComponent = graphics({
     type: GraphicType.POLYGON,
     visible: false,
     polygon: [],
     color: $selectionColor,
   });
 
-  const $placeHolderTextSprite = await textSprite({
+  const $placeHolderTextSprite = textSprite({
     spriteSheet: textSpriteProps.spriteSheet,
     color: $textSprite.getColor(),
     pivot: $textSprite.getPivot(),
@@ -90,25 +104,17 @@ export const inputTextSprite: ContainerComponent<
     eventMode: EventMode.NONE,
   });
 
-  const $passwordCharText = passwordChar?.length
-    ? passwordChar?.split("")[0]
-    : undefined;
-  const $passwordChar = $passwordCharText
-    ? $textSprite.$getCharacter($passwordCharText)
-    : undefined;
-  const { height } = $textSprite.$getCharacter("a");
-
-  const $cursorTextSprite = await textSprite({
+  const $cursorTextSprite = textSprite({
     spriteSheet: textSpriteProps.spriteSheet,
     text: $text,
     alpha: 0,
     eventMode: EventMode.NONE,
   });
 
-  const $cursor = await graphics({
+  const $cursor = graphics({
     type: GraphicType.RECTANGLE,
     width: 1,
-    height: height + 3,
+    height: 3,
     tint: props.color,
     visible: false,
     pivot: { x: 1, y: 2 },
@@ -129,7 +135,7 @@ export const inputTextSprite: ContainerComponent<
   };
 
   const $getCurrentText = () =>
-    $passwordChar
+    $textSprite.$getCharacter($passwordCharText)
       ? $text
           .split("")
           .map(() => $passwordCharText)
@@ -142,12 +148,12 @@ export const inputTextSprite: ContainerComponent<
     return $size.width ? $size : $textSprite.$getTextBounds();
   };
 
-  const calcCursorPosition = async () => {
+  const calcCursorPosition = () => {
     const text = $getCurrentText();
-    await $cursorTextSprite.setText(text.slice(0, $cursorIndex));
+    $cursorTextSprite.setText(text.slice(0, $cursorIndex));
 
     const $cursorPositionX = $cursorTextSprite.$getTextBounds().width;
-    await $cursor.setPositionX($cursorPositionX);
+    $cursor.setPositionX($cursorPositionX);
 
     const $size = getTextSize();
     const $maxWidth = $textSprite.getSize().width;
@@ -156,7 +162,7 @@ export const inputTextSprite: ContainerComponent<
     const index0Fix = $cursorTextSprite.getBounds().width > 0 ? 0 : 1;
     switch ($textSprite.getHorizontalAlign()) {
       case HorizontalAlign.CENTER:
-        await $cursor.setPivotX(
+        $cursor.setPivotX(
           (-$size.width + $textSprite.$getTextBounds().width - 1) / 2 +
             index0Fix,
         );
@@ -166,7 +172,7 @@ export const inputTextSprite: ContainerComponent<
         const $correctionXRight =
           $extraCursorXRightPivot > 0 ? $extraCursorXRightPivot : 0;
 
-        await $cursor.setPivotX(index0Fix + $correctionXRight);
+        $cursor.setPivotX(index0Fix + $correctionXRight);
         $textSprite.$getTextContainer().position.x = -$correctionXRight;
         break;
       case HorizontalAlign.RIGHT:
@@ -177,10 +183,11 @@ export const inputTextSprite: ContainerComponent<
         const $correctionXLeft =
           0 > $extraCursorXPivot ? $extraCursorXPivot : 0;
 
-        await $cursor.setPivotX($cursorPivotX + $correctionXLeft);
+        $cursor.setPivotX($cursorPivotX + $correctionXLeft);
         $textSprite.$getTextContainer().pivot.x = $correctionXLeft;
         break;
     }
+    const { height } = $textSprite.$getCharacter("a");
 
     const index0VerticalFix =
       $textSprite.$getTextBounds().height > 0 ? 0 : height;
@@ -192,17 +199,17 @@ export const inputTextSprite: ContainerComponent<
 
     switch ($textSprite.getVerticalAlign()) {
       case VerticalAlign.MIDDLE:
-        await $cursor.setPivotY($cursorPivotY / 2);
+        $cursor.setPivotY($cursorPivotY / 2);
         break;
       case VerticalAlign.BOTTOM:
-        await $cursor.setPivotY($cursorPivotY);
+        $cursor.setPivotY($cursorPivotY);
         break;
     }
 
-    await $placeHolderTextSprite.setVisible($text.length === 0);
+    $placeHolderTextSprite.setVisible($text.length === 0);
   };
 
-  const $renderSelection = async () => {
+  const $renderSelection = () => {
     const focusWidth = $selectionGap;
     const focusOutPadding = focusWidth + $selectionPadding;
     const focusSize = $textSprite?.getSize() || { width: 0, height: 0 };
@@ -213,7 +220,7 @@ export const inputTextSprite: ContainerComponent<
       left: 0,
     };
 
-    const $mask = await graphics({
+    const $mask = graphics({
       type: GraphicType.RECTANGLE,
       width: focusSize.width + backgroundPadding.left + backgroundPadding.right,
       height:
@@ -226,7 +233,7 @@ export const inputTextSprite: ContainerComponent<
     });
     withMask && $contentContainer.setMask($mask);
 
-    await $selectionComponent.setTint($selectionColor);
+    $selectionComponent.setTint($selectionColor);
     $selectionComponent.setPolygon([
       -focusOutPadding - backgroundPadding.left,
       -focusOutPadding - backgroundPadding.top,
@@ -260,62 +267,57 @@ export const inputTextSprite: ContainerComponent<
     ]);
 
     //placeholder
-    await $placeHolderTextSprite.setColor($textSprite.getColor());
-    await $placeHolderTextSprite.setPivot($textSprite.getPivot());
-    await $placeHolderTextSprite.setSize($textSprite.getSize());
-    await $placeHolderTextSprite.setVerticalAlign(
-      $textSprite.getVerticalAlign(),
-    );
-    await $placeHolderTextSprite.setHorizontalAlign(
-      $textSprite.getHorizontalAlign(),
-    );
+    $placeHolderTextSprite.setColor($textSprite.getColor());
+    $placeHolderTextSprite.setPivot($textSprite.getPivot());
+    $placeHolderTextSprite.setSize($textSprite.getSize());
+    $placeHolderTextSprite.setVerticalAlign($textSprite.getVerticalAlign());
+    $placeHolderTextSprite.setHorizontalAlign($textSprite.getHorizontalAlign());
     //cursor
-    await calcCursorPosition();
+    calcCursorPosition();
     //text
-    await $textSprite.$render();
+    $textSprite.$render();
   };
-  await $renderSelection();
 
-  const onKeyDown = async ({ key }: KeyboardEvent) => {
+  const onKeyDown = ({ key }: KeyboardEvent) => {
     $stopCursorBlink();
-    await writeText(key);
-    await makeActions(key);
+    writeText(key);
+    makeActions(key);
   };
 
-  const makeActions = async (key: string) => {
+  const makeActions = (key: string) => {
     if (!$editable || $text.length === 0) return;
 
     if (key === "Backspace" && $cursorIndex > 0) {
       $text = $text.slice(0, $cursorIndex - 1) + $text.slice($cursorIndex);
-      await $textSprite.setText($getCurrentText());
+      $textSprite.setText($getCurrentText());
 
       $cursorIndex--;
-      await calcCursorPosition();
+      calcCursorPosition();
       return;
     }
 
     if (key === "Delete" && $cursorIndex < $text.length) {
       $text = $text.slice(0, $cursorIndex) + $text.slice($cursorIndex + 1);
-      await $textSprite.setText($getCurrentText());
+      $textSprite.setText($getCurrentText());
 
-      await calcCursorPosition();
+      calcCursorPosition();
       return;
     }
 
     if (key === "ArrowLeft" && $cursorIndex > 0) {
       $cursorIndex--;
-      await calcCursorPosition();
+      calcCursorPosition();
       return;
     }
 
     if (key === "ArrowRight" && $cursorIndex < $text.length) {
       $cursorIndex++;
-      await calcCursorPosition();
+      calcCursorPosition();
       return;
     }
   };
 
-  const writeText = async (key: string) => {
+  const writeText = (key: string) => {
     if (key.length !== 1) return;
     if (!$editable) {
       return;
@@ -332,9 +334,9 @@ export const inputTextSprite: ContainerComponent<
     $text = targetText;
 
     $cursorIndex++;
-    await $textSprite.setText($getCurrentText());
+    $textSprite.setText($getCurrentText());
 
-    await calcCursorPosition();
+    calcCursorPosition();
   };
 
   const onKeyUp = () => {
@@ -344,20 +346,20 @@ export const inputTextSprite: ContainerComponent<
   let removeOnKeyDown: () => void;
   let removeOnKeyUp: () => void;
 
-  $container.on(DisplayObjectEvent.CONTEXT_ENTER, async () => {
+  $container.on(DisplayObjectEvent.CONTEXT_ENTER, () => {
     removeOnKeyDown = global.events.on(Event.KEY_DOWN, onKeyDown, $textSprite);
     removeOnKeyUp = global.events.on(Event.KEY_UP, onKeyUp, $textSprite);
 
     //Move cursor to end
     $cursorIndex = $text.length;
-    await $cursor.setPositionX($textSprite.$getTextBounds().width + 1);
+    $cursor.setPositionX($textSprite.$getTextBounds().width + 1);
 
-    await calcCursorPosition();
+    calcCursorPosition();
 
     setEditable(props.editable ?? true);
     $startCursorBlink();
 
-    if ($selectionVisible) await $selectionComponent.setVisible(true);
+    if ($selectionVisible) $selectionComponent.setVisible(true);
 
     openKeyboard();
   });
@@ -367,9 +369,9 @@ export const inputTextSprite: ContainerComponent<
     removeOnKeyDown();
     removeOnKeyUp();
 
-    await $placeHolderTextSprite.setVisible($text.length === 0);
+    $placeHolderTextSprite.setVisible($text.length === 0);
 
-    await $selectionComponent.setVisible(false);
+    $selectionComponent.setVisible(false);
 
     closeKeyboard();
   });
@@ -391,12 +393,12 @@ export const inputTextSprite: ContainerComponent<
   const getText = () => $text;
   const setText = async (text: string) => {
     $text = text;
-    await $textSprite.setText($text);
-    await $textSprite.$render();
+    $textSprite.setText($text);
+    $textSprite.$render();
 
     $cursorIndex = $text.length;
-    await calcCursorPosition();
-    await $renderSelection();
+    calcCursorPosition();
+    $renderSelection();
   };
   const clear = () => {
     $text = "";
@@ -424,8 +426,8 @@ export const inputTextSprite: ContainerComponent<
     getColor: $textSprite.getColor,
 
     setSize: async (size) => {
-      await $textSprite.setSize(size);
-      await $renderSelection();
+      $textSprite.setSize(size);
+      $renderSelection();
     },
     getSize: $textSprite.getSize,
 
@@ -436,8 +438,8 @@ export const inputTextSprite: ContainerComponent<
     getBackgroundAlpha: $textSprite.getBackgroundAlpha,
 
     setBackgroundPadding: async (padding) => {
-      await $textSprite.setBackgroundPadding(padding);
-      await $renderSelection();
+      $textSprite.setBackgroundPadding(padding);
+      $renderSelection();
     },
     getBackgroundPadding: $textSprite.getBackgroundPadding,
 

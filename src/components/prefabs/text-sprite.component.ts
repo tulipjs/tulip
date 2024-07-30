@@ -9,6 +9,7 @@ import * as PIXI from "pixi.js";
 import { Size, Texture } from "pixi.js";
 import { isNotNullish } from "../../utils";
 import {
+  DisplayObjectEvent,
   EventMode,
   GraphicType,
   HorizontalAlign,
@@ -18,8 +19,8 @@ import {
 export const textSprite: ContainerComponent<
   PartialTextSpriteProps,
   PartialTextSpriteMutable
-> = async (props) => {
-  const $containerComponent = await container<
+> = (props) => {
+  const $containerComponent = container<
     PartialTextSpriteProps,
     PartialTextSpriteMutable
   >(props);
@@ -55,17 +56,26 @@ export const textSprite: ContainerComponent<
   let $verticalAlign = verticalAlign || VerticalAlign.TOP;
   let $horizontalAlign = horizontalAlign || HorizontalAlign.LEFT;
 
-  const { textures } = await PIXI.Assets.load(spriteSheet);
+  let $textures = [];
 
-  if (!isNotNullish($size.height))
-    $size.height = (Object.values(textures)[0] as Texture)?.height || 0;
+  PIXI.Assets.load(spriteSheet).then(({ textures }) => {
+    $textures = textures;
+
+    if (!isNotNullish($size.height))
+      $size.height = (Object.values(textures)[0] as Texture)?.height || 0;
+
+    setText(text);
+    setColor(color);
+    renderBackground();
+    $containerComponent.$emit(DisplayObjectEvent.LOADED, {});
+  });
 
   const $boxSize = {
     width: $size?.width + $backgroundPadding.left + $backgroundPadding.right,
     height: $size?.height + $backgroundPadding.top + $backgroundPadding.bottom,
   };
 
-  const $background = await graphics({
+  const $background = graphics({
     type: GraphicType.RECTANGLE,
     width: $boxSize.width,
     height: $boxSize.height,
@@ -79,7 +89,7 @@ export const textSprite: ContainerComponent<
     cursor,
   });
 
-  const $mask = await graphics({
+  const $mask = graphics({
     type: GraphicType.RECTANGLE,
     width: $boxSize.width,
     height: $boxSize.height,
@@ -90,7 +100,7 @@ export const textSprite: ContainerComponent<
     },
   });
 
-  const $textContainerComponent = await container({
+  const $textContainerComponent = container({
     eventMode: EventMode.NONE,
   });
   $containerComponent.add($background, $textContainerComponent);
@@ -100,7 +110,7 @@ export const textSprite: ContainerComponent<
     __preventWarning: true,
   });
 
-  const renderBackground = async () => {
+  const renderBackground = () => {
     let targetSize = {
       width: $size?.width || 0,
       height: $size?.height || 0,
@@ -115,21 +125,21 @@ export const textSprite: ContainerComponent<
       targetSize?.width + $backgroundPadding.left + $backgroundPadding.right,
       targetSize?.height + $backgroundPadding.top + $backgroundPadding.bottom,
     );
-    await $background.setPivot({
+    $background.setPivot({
       x: $backgroundPadding.left,
       y: $backgroundPadding.top,
     });
-    await $background.setTint($backgroundColor);
-    await $background.setAlpha($backgroundAlpha);
+    $background.setTint($backgroundColor);
+    $background.setAlpha($backgroundAlpha);
   };
 
-  const renderText = async () => {
+  const renderText = () => {
     $textContainer.removeChildren();
     $textContainer.tint = $currentColor;
 
     let nextPositionX = 0;
     for (const character of $currentText.split("")) {
-      const $charTexture = textures[character];
+      const $charTexture = $textures[character];
       if (!$charTexture) continue;
 
       const characterSprite = new PIXI.Sprite($charTexture);
@@ -150,7 +160,7 @@ export const textSprite: ContainerComponent<
           targetXPosition = $size.width - $textContainer.width;
           break;
       }
-      await $textContainerComponent.setPositionX(targetXPosition);
+      $textContainerComponent.setPositionX(targetXPosition);
     }
 
     if (isNotNullish($size.height)) {
@@ -163,74 +173,69 @@ export const textSprite: ContainerComponent<
           targetYPosition = $size.height - $textContainer.height;
           break;
       }
-      await $textContainerComponent.setPositionY(targetYPosition);
+      $textContainerComponent.setPositionY(targetYPosition);
     }
 
-    await renderBackground();
+    renderBackground();
   };
 
-  const setText = async (text: string) => {
+  const setText = (text: string) => {
     if (isNotNullish(text)) $currentText = text;
-    await renderText();
+    renderText();
   };
   const getText = () => $currentText;
 
-  const setColor = async (color: number) => {
+  const setColor = (color: number) => {
     if (isNotNullish(color)) $currentColor = color;
-    await renderText();
+    renderText();
   };
   const getColor = () => $currentColor;
 
-  const setSize = async (size: Size) => {
+  const setSize = (size: Size) => {
     $size = size;
-    await renderBackground();
+    renderBackground();
   };
   const getSize = () => $size;
 
-  const setBackgroundColor = async (color: number) => {
+  const setBackgroundColor = (color: number) => {
     $backgroundColor = color;
-    await renderBackground();
+    renderBackground();
   };
   const getBackgroundColor = () => $backgroundColor;
 
-  const setBackgroundAlpha = async (alpha: number) => {
+  const setBackgroundAlpha = (alpha: number) => {
     $backgroundAlpha = alpha;
-    await renderBackground();
+    renderBackground();
   };
   const getBackgroundAlpha = () => $backgroundAlpha;
 
-  const setBackgroundPadding = async (padding: IndividualSides) => {
+  const setBackgroundPadding = (padding: IndividualSides) => {
     $backgroundPadding = padding;
-    await renderBackground();
+    renderBackground();
   };
   const getBackgroundPadding = () => $backgroundPadding;
 
-  const setVerticalAlign = async (verticalAlign: VerticalAlign) => {
+  const setVerticalAlign = (verticalAlign: VerticalAlign) => {
     $verticalAlign = verticalAlign;
-    await renderText();
+    renderText();
   };
   const getVerticalAlign = () => $verticalAlign;
 
-  const setHorizontalAlign = async (horizontalAlign: HorizontalAlign) => {
+  const setHorizontalAlign = (horizontalAlign: HorizontalAlign) => {
     $horizontalAlign = horizontalAlign;
-    await renderText();
+    renderText();
   };
   const getHorizontalAlign = () => $horizontalAlign;
 
   const $getTextBounds = (): Size => $textContainer.getBounds();
   const $getCharacter = (character: string): PIXI.Texture | undefined =>
-    textures[character.split("")[0]];
+    character ? $textures[character.split("")[0]] : undefined;
   const $getTextContainer = () => $textContainer;
 
-  const $render = async () => {
-    await renderText();
-    await renderBackground();
+  const $render = () => {
+    renderText();
+    renderBackground();
   };
-
-  {
-    await setText(text);
-    await setColor(color);
-  }
 
   return $containerComponent.getComponent(textSprite, {
     setText,

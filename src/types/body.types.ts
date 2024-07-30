@@ -10,7 +10,7 @@ export type BodyProps = {
 
   material?: BodyMaterialProps;
 };
-export type BodyMutable<Raw extends any = {}> = {
+export type BodyMutable = {
   addShape: <Shape extends Shapes>(shapeProps: Shape) => number;
   removeShape: (shapeId: number) => void;
 

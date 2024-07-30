@@ -51,7 +51,7 @@ describe("components", () => {
         displayObjectMutable.getDisplayObject({ __preventWarning: true });
         expect(warnMock).not.toBeCalled();
       });
-      test("setLabel(...) of the display object", async () => {
+      test("setLabel(...) of the display object", () => {
         expect(container.label).toBe("Old label");
         expect(displayObjectMutable.getLabel()).toEqual("Old label");
 
@@ -59,7 +59,7 @@ describe("components", () => {
         expect(container.label).toBe("Hello there!");
         expect(displayObjectMutable.getLabel()).toEqual("Hello there!");
       });
-      test("setPosition(...) of the display object", async () => {
+      test("setPosition(...) of the display object", () => {
         expect(container.position.x).toBe(111);
         expect(container.position.y).toBe(333);
         expect(displayObjectMutable.getPosition()).toMatchObject({
@@ -67,7 +67,7 @@ describe("components", () => {
           y: 333,
         });
 
-        await displayObjectMutable.setPosition({ x: 23, y: 32 });
+        displayObjectMutable.setPosition({ x: 23, y: 32 });
         expect(container.position.x).toBe(23);
         expect(container.position.y).toBe(32);
         expect(displayObjectMutable.getPosition()).toMatchObject({
@@ -75,8 +75,8 @@ describe("components", () => {
           y: 32,
         });
       });
-      test("setPositionX(...) of the display object", async () => {
-        await displayObjectMutable.setPositionX(323);
+      test("setPositionX(...) of the display object", () => {
+        displayObjectMutable.setPositionX(323);
         expect(container.position.x).toBe(323);
         expect(displayObjectMutable.getPosition()).toStrictEqual(
           expect.objectContaining({
@@ -84,8 +84,8 @@ describe("components", () => {
           }),
         );
       });
-      test("setPositionY(...) of the display object", async () => {
-        await displayObjectMutable.setPositionY(747);
+      test("setPositionY(...) of the display object", () => {
+        displayObjectMutable.setPositionY(747);
         expect(container.position.y).toBe(747);
         expect(displayObjectMutable.getPosition()).toStrictEqual(
           expect.objectContaining({
@@ -93,14 +93,14 @@ describe("components", () => {
           }),
         );
       });
-      test("setPivot(...) of the display object", async () => {
-        await displayObjectMutable.setPivot({ x: 23, y: 32 });
+      test("setPivot(...) of the display object", () => {
+        displayObjectMutable.setPivot({ x: 23, y: 32 });
         expect(container.pivot.x).toBe(23);
         expect(container.pivot.y).toBe(32);
         expect(displayObjectMutable.getPivot()).toStrictEqual({ x: 23, y: 32 });
       });
-      test("setPivotX(...) of the display object", async () => {
-        await displayObjectMutable.setPivotX(555);
+      test("setPivotX(...) of the display object", () => {
+        displayObjectMutable.setPivotX(555);
         expect(container.pivot.x).toBe(555);
         expect(displayObjectMutable.getPivot()).toStrictEqual(
           expect.objectContaining({
@@ -108,8 +108,8 @@ describe("components", () => {
           }),
         );
       });
-      test("setPivotY(...) of the display object", async () => {
-        await displayObjectMutable.setPivotY(363);
+      test("setPivotY(...) of the display object", () => {
+        displayObjectMutable.setPivotY(363);
         expect(container.pivot.y).toBe(363);
         expect(displayObjectMutable.getPivot()).toStrictEqual(
           expect.objectContaining({
@@ -117,59 +117,59 @@ describe("components", () => {
           }),
         );
       });
-      test("setVisible(...) of the display object", async () => {
+      test("setVisible(...) of the display object", () => {
         expect(container.visible).toBe(false);
         expect(displayObjectMutable.getVisible()).toStrictEqual(false);
 
-        await displayObjectMutable.setVisible(true);
+        displayObjectMutable.setVisible(true);
         expect(container.visible).toBe(true);
         expect(displayObjectMutable.getVisible()).toStrictEqual(true);
       });
-      test("setZIndex(...) of the display object", async () => {
+      test("setZIndex(...) of the display object", () => {
         expect(container.zIndex).toBe(99);
         expect(displayObjectMutable.getZIndex()).toStrictEqual(99);
 
-        await displayObjectMutable.setZIndex(-95);
+        displayObjectMutable.setZIndex(-95);
         expect(container.zIndex).toBe(-95);
         expect(displayObjectMutable.getZIndex()).toStrictEqual(-95);
       });
-      test("setAlpha(...) of the display object", async () => {
+      test("setAlpha(...) of the display object", () => {
         expect(container.alpha).toBe(0.4);
         expect(displayObjectMutable.getAlpha()).toStrictEqual(0.4);
 
-        await displayObjectMutable.setAlpha(0.65);
+        displayObjectMutable.setAlpha(0.65);
         expect(container.alpha).toBe(0.65);
         expect(displayObjectMutable.getAlpha()).toStrictEqual(0.65);
       });
-      test("setAngle(...) of the display object", async () => {
+      test("setAngle(...) of the display object", () => {
         expect(container.angle).toBe(34);
         expect(displayObjectMutable.getAngle()).toStrictEqual(34);
 
-        await displayObjectMutable.setAngle(180);
+        displayObjectMutable.setAngle(180);
         expect(container.angle).toBe(180);
         expect(displayObjectMutable.getAngle()).toStrictEqual(180);
       });
-      test("setEventMode(...) of the display object", async () => {
+      test("setEventMode(...) of the display object", () => {
         expect(container.eventMode).toBe(EventMode.DYNAMIC);
         expect(displayObjectMutable.getEventMode()).toStrictEqual(
           EventMode.DYNAMIC,
         );
 
-        await displayObjectMutable.setEventMode(EventMode.NONE);
+        displayObjectMutable.setEventMode(EventMode.NONE);
         expect(container.eventMode).toBe(EventMode.NONE);
         expect(displayObjectMutable.getEventMode()).toStrictEqual(
           EventMode.NONE,
         );
       });
-      test("setTint(...) of the display object", async () => {
+      test("setTint(...) of the display object", () => {
         expect(container.tint).toBe(0xffffff);
         expect(displayObjectMutable.getTint()).toStrictEqual(0xffffff);
 
-        await displayObjectMutable.setTint(0xff00ff);
+        displayObjectMutable.setTint(0xff00ff);
         expect(container.tint).toBe(0xff00ff);
         expect(displayObjectMutable.getTint()).toStrictEqual(0xff00ff);
       });
-      test("getBounds() of the display object", async () => {
+      test("getBounds() of the display object", () => {
         expect(container.getBounds()).toStrictEqual(
           expect.objectContaining({
             maxX: 0,
@@ -183,11 +183,11 @@ describe("components", () => {
           width: 0,
         });
       });
-      test("setCursor(...) of the display object", async () => {
+      test("setCursor(...) of the display object", () => {
         expect(container.cursor).toBe(Cursor.AUTO);
         expect(displayObjectMutable.getCursor()).toStrictEqual(Cursor.AUTO);
 
-        await displayObjectMutable.setCursor(Cursor.CROSSHAIR);
+        displayObjectMutable.setCursor(Cursor.CROSSHAIR);
         expect(warnMock).toBeCalled();
 
         expect(container.cursor).toBe(Cursor.CROSSHAIR);
@@ -196,24 +196,24 @@ describe("components", () => {
         );
 
         warnMock.mockClear();
-        await displayObjectMutable.setEventMode(EventMode.STATIC);
-        await displayObjectMutable.setCursor(Cursor.ALIAS);
+        displayObjectMutable.setEventMode(EventMode.STATIC);
+        displayObjectMutable.setCursor(Cursor.ALIAS);
         expect(displayObjectMutable.getCursor()).toStrictEqual(Cursor.ALIAS);
         expect(warnMock).not.toBeCalled();
 
         warnMock.mockClear();
-        await displayObjectMutable.setEventMode(EventMode.NONE);
-        await displayObjectMutable.setCursor(Cursor.COL_RESIZE, true);
+        displayObjectMutable.setEventMode(EventMode.NONE);
+        displayObjectMutable.setCursor(Cursor.COL_RESIZE, true);
         expect(displayObjectMutable.getCursor()).toStrictEqual(
           Cursor.COL_RESIZE,
         );
         expect(warnMock).not.toBeCalled();
       });
-      test("setHitArea(...) of the display object", async () => {
+      test("setHitArea(...) of the display object", () => {
         expect(displayObjectMutable.getHitArea()).toStrictEqual([]);
         expect(container.hitArea).toStrictEqual(undefined);
 
-        await displayObjectMutable.setHitArea([0, 10, 10, 10, 10, 0, 0, 0]);
+        displayObjectMutable.setHitArea([0, 10, 10, 10, 10, 0, 0, 0]);
         expect(displayObjectMutable.getHitArea()).toStrictEqual([
           0, 10, 10, 10, 10, 0, 0, 0,
         ]);
@@ -221,62 +221,62 @@ describe("components", () => {
           new PIXI.Polygon([0, 10, 10, 10, 10, 0, 0, 0]),
         );
       });
-      test("blur() to be called", async () => {
+      test("blur() to be called", () => {
         expect(displayObjectMutable.getWithContext()).toStrictEqual(true);
         displayObjectMutable.blur();
         expect(displayObjectMutable.isFocused()).toStrictEqual(false);
         expect(global.context.has(displayObjectMutable)).toStrictEqual(false);
       });
-      test("focus() to be called", async () => {
+      test("focus() to be called", () => {
         expect(displayObjectMutable.getWithContext()).toStrictEqual(true);
         displayObjectMutable.focus();
         expect(displayObjectMutable.isFocused()).toStrictEqual(true);
         expect(global.context.has(displayObjectMutable)).toStrictEqual(true);
       });
-      test("setWithContext() to be called", async () => {
+      test("setWithContext() to be called", () => {
         expect(displayObjectMutable.getWithContext()).toStrictEqual(true);
         expect(displayObjectMutable.isFocused()).toStrictEqual(true);
         expect(global.context.has(displayObjectMutable)).toStrictEqual(true);
 
-        await displayObjectMutable.setWithContext(false);
+        displayObjectMutable.setWithContext(false);
         expect(displayObjectMutable.getWithContext()).toStrictEqual(false);
         displayObjectMutable.blur();
         expect(displayObjectMutable.isFocused()).toStrictEqual(true);
         expect(global.context.has(displayObjectMutable)).toStrictEqual(true);
 
-        await displayObjectMutable.setWithContext(true);
+        displayObjectMutable.setWithContext(true);
         expect(displayObjectMutable.getWithContext()).toStrictEqual(true);
         displayObjectMutable.blur();
         expect(displayObjectMutable.isFocused()).toStrictEqual(false);
         expect(global.context.has(displayObjectMutable)).toStrictEqual(false);
 
-        await displayObjectMutable.setWithContext(false);
+        displayObjectMutable.setWithContext(false);
         expect(displayObjectMutable.getWithContext()).toStrictEqual(false);
         displayObjectMutable.focus();
         expect(displayObjectMutable.isFocused()).toStrictEqual(true);
         expect(global.context.has(displayObjectMutable)).toStrictEqual(true);
 
-        await displayObjectMutable.setWithContext(true);
+        displayObjectMutable.setWithContext(true);
         expect(displayObjectMutable.getWithContext()).toStrictEqual(true);
         displayObjectMutable.focus();
         expect(displayObjectMutable.isFocused()).toStrictEqual(true);
         expect(global.context.has(displayObjectMutable)).toStrictEqual(true);
       });
-      test("setSortableChildren() to be called", async () => {
+      test("setSortableChildren() to be called", () => {
         expect(
           displayObjectMutable.getDisplayObject({ __preventWarning: true })
             .sortableChildren,
         ).toStrictEqual(true);
         expect(displayObjectMutable.isSortableChildren()).toStrictEqual(true);
 
-        await displayObjectMutable.setSortableChildren(false);
+        displayObjectMutable.setSortableChildren(false);
         expect(displayObjectMutable.isSortableChildren()).toStrictEqual(false);
         expect(
           displayObjectMutable.getDisplayObject({ __preventWarning: true })
             .sortableChildren,
         ).toStrictEqual(false);
       });
-      test("$getRaw() to contain all the elements", async () => {
+      test("$getRaw() to contain all the elements", () => {
         expect(displayObjectMutable.$getRaw()).toStrictEqual({
           id: displayObjectMutable.getId(),
           alpha: 0.65,

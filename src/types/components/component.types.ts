@@ -18,22 +18,22 @@ export type ComponentMutable<Props = {}, Mutable = {}, Data = {}> = {
   getLabel: () => string;
   setLabel: (label: string) => void;
 
-  setBody: (body: BodyMutable) => Promise<void>;
+  setBody: (body: BodyMutable) => void;
   getBody: () => BodyMutable;
 
   //position
-  setPosition: (position: MutableFunction<Point>) => Promise<void>;
-  setPositionX: (x: MutableFunction<number>) => Promise<void>;
-  setPositionY: (y: MutableFunction<number>) => Promise<void>;
+  setPosition: (position: MutableFunction<Point>) => void;
+  setPositionX: (x: MutableFunction<number>) => void;
+  setPositionY: (y: MutableFunction<number>) => void;
   getPosition: () => Point;
 
   getAngle: () => number;
-  setAngle: (angle: MutableFunction<number>) => Promise<void>;
+  setAngle: (angle: MutableFunction<number>) => void;
 
   getData: <R = Data>(selector?: (data: Data) => R) => R;
   setData: (data: Data | ((data: Data) => Data)) => void;
 
-  addSound: (soundData: SoundProps) => Promise<SoundMutable>;
+  addSound: (soundData: SoundProps) => SoundMutable;
   getSound: (soundId: string) => SoundMutable[];
 
   getComponent?: (
@@ -69,7 +69,3 @@ export type ComponentMutable<Props = {}, Mutable = {}, Data = {}> = {
 export type Component<Props = {}, Mutable = {}, Data = {}> = (
   props?: ComponentProps<Props, Data>,
 ) => ComponentMutable<Props, Mutable & { $expose: true }, Data>;
-
-export type AsyncComponent<Props = {}, Mutable = {}, Data = {}> = (
-  props?: ComponentProps & Props,
-) => Promise<ComponentMutable<Props, Mutable & { $expose: true }, Data>>;

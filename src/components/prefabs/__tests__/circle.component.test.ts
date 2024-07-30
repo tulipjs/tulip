@@ -8,8 +8,8 @@ describe("components", () => {
     describe("circle", () => {
       let $circle: ContainerMutable;
 
-      beforeAll(async () => {
-        $circle = await circle({
+      beforeAll(() => {
+        $circle = circle({
           tint: 0xff00ff,
           mass: 99,
           size: 5,
