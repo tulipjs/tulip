@@ -33,6 +33,7 @@ export type InputTextSpriteProps<Data = {}> = PartialInputTextSpriteProps &
 export type PartialInputTextSpriteMutable = {
   setEditable: (editable: boolean) => void;
   getText: () => string;
+  setText: (text: string) => Promise<void>;
   clear: () => void;
 
   setSelectionVisible: (visible: boolean) => void;

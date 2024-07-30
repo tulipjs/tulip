@@ -389,6 +389,15 @@ export const inputTextSprite: ContainerComponent<
   };
 
   const getText = () => $text;
+  const setText = async (text: string) => {
+    $text = text;
+    await $textSprite.setText($text);
+    await $textSprite.$render();
+
+    $cursorIndex = $text.length;
+    await calcCursorPosition();
+    await $renderSelection();
+  };
   const clear = () => {
     $text = "";
     $cursorIndex = 0;
@@ -408,6 +417,7 @@ export const inputTextSprite: ContainerComponent<
   return $container.getComponent(inputTextSprite, {
     setEditable,
     getText,
+    setText,
     clear,
 
     setColor: $textSprite.setTint,
