@@ -20,9 +20,7 @@ type Mutable = {
   doSomething: () => void;
 };
 
-export const playerComponent: ContainerComponent<Props, Mutable> = async (
-  props,
-) => {
+export const playerComponent: ContainerComponent<Props, Mutable> = (props) => {
   let $sprite: AnimatedSpriteMutable;
 
   const onTick = (direction: Direction) => {
@@ -40,7 +38,7 @@ export const playerComponent: ContainerComponent<Props, Mutable> = async (
     $sprite.setFrame(0);
   };
 
-  const $player = await player2D({
+  const $player = player2D({
     ...props,
     onTick,
     maxSpeed: 10,
@@ -53,11 +51,11 @@ export const playerComponent: ContainerComponent<Props, Mutable> = async (
   const width = 175;
   const height = 226;
 
-  $sprite = await animatedSprite({
+  $sprite = animatedSprite({
     spriteSheet: "fighter/fighter.json",
     animation: "turnRight",
   });
-  await $sprite.setPivot({ x: width / 2, y: height / 2 });
+  $sprite.setPivot({ x: width / 2, y: height / 2 });
   $player.add($sprite);
 
   const $body = body({
@@ -75,9 +73,9 @@ export const playerComponent: ContainerComponent<Props, Mutable> = async (
     ],
   });
 
-  await $player.setBody($body);
+  $player.setBody($body);
 
-  const $name = await textSprite({
+  const $name = textSprite({
     text: "pagoru",
     color: 0xffffff,
     spriteSheet: "fonts/default-font.json",
@@ -88,7 +86,7 @@ export const playerComponent: ContainerComponent<Props, Mutable> = async (
     zIndex: 2,
   });
 
-  const $name2 = await textSprite({
+  const $name2 = textSprite({
     text: "alqubo",
     color: 0xffffff,
     spriteSheet: "fonts/default-font.json",
@@ -99,7 +97,7 @@ export const playerComponent: ContainerComponent<Props, Mutable> = async (
     zIndex: 2,
   });
 
-  const $tulip = await text({
+  const $tulip = text({
     text: "🌷",
     color: 0xffffff,
     font: "pixel",
@@ -115,7 +113,7 @@ export const playerComponent: ContainerComponent<Props, Mutable> = async (
     zIndex: 2,
   });
 
-  const $box = await graphics({
+  const $box = graphics({
     type: GraphicType.CIRCLE,
     radius: 15,
     color: 0xffffff,

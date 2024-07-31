@@ -11,7 +11,6 @@ import { Container } from "../pixi.types";
 
 export type PartialTextSpriteProps<Props = {}> = {
   spriteSheet: string;
-  spriteSheets?: Record<string, string>;
 
   text: string;
   color?: number;
@@ -35,8 +34,6 @@ export type PartialTextSpriteMutable<Mutable = {}> = {
 
   setSize: (size: Size) => void;
   getSize: () => Size;
-
-  changeSpriteSheet: (spriteSheet: string) => void;
 
   setBackgroundColor: (color: number) => void;
   getBackgroundColor: () => number;
