@@ -1,52 +1,12 @@
-import {
-  container,
-  ContainerComponent,
-  Cursor,
-  Event,
-  EventMode,
-  getOS,
-  global,
-  graphics,
-  GraphicType,
-  HorizontalAlign,
-  inputTextSprite,
-  OS,
-  text,
-  VerticalAlign,
-  world,
-} from "@tulib/tulip";
-import { playerComponent } from "player.component";
+import { container, ContainerComponent, text, textSprite } from "@tulib/tulip";
 
 type Props = {};
 type Mutable = {};
 
-export const appComponent: ContainerComponent<Props, Mutable> = async () => {
-  const $container = await container({ label: "app" });
+export const appComponent: ContainerComponent<Props, Mutable> = () => {
+  const $container = container({ label: "app" });
 
-  const pixel = await graphics({
-    type: GraphicType.POLYGON,
-    polygon: [0, 0, 1, 0, 1, 1, 0, 1],
-    tint: 0xff00ff,
-  });
-  await pixel.setPosition({ x: 10, y: 10 });
-  $container.add(pixel);
-
-  const $world = await world({
-    position: { x: 0, y: 0 },
-    label: "world2",
-    physics: {
-      enabled: true,
-      gravity: { x: 0, y: -0.0 },
-    },
-  });
-
-  const $player = await playerComponent();
-  await $player.setPosition({ x: 200, y: 200 });
-
-  $world.add($player);
-  $container.add($world);
-
-  const $text2 = await text({
+  const $tulip = text({
     text: `🌷 tulip 🌷`,
     font: "Pixel",
     color: 0xeb34a8,
@@ -55,128 +15,75 @@ export const appComponent: ContainerComponent<Props, Mutable> = async () => {
       x: 15,
       y: 90,
     },
+    pivot: {
+      x: 0,
+      y: 50,
+    },
   });
 
-  await $text2.setPivot({ x: 0, y: 50 });
-  $text2.setSkew({ x: 0.2, y: 0 });
+  $tulip.setSkew({ x: 0.2, y: 0 });
 
-  $container.add($text2);
+  $container.add($tulip);
 
-  const $input = await inputTextSprite({
-    spriteSheet: "fonts/default-font.json",
-    color: 0xffffff,
-    editable: true,
-    withContext: true,
+  const abc = "a b c d e f g h i j k l m n ñ o p q r s t u v w x y z";
+  const ABC = abc
+    .split(" ")
+    .map((c) => c.toUpperCase())
+    .join(" ");
+
+  const $defaultMinus = textSprite({
+    spriteSheets: {
+      default: "fonts/default-font.json",
+      bold: "fonts/bold-font.json",
+    },
+    spriteSheet: "default",
+    text: abc,
     position: {
-      x: 110,
-      y: 10,
-    },
-    eventMode: EventMode.STATIC,
-    // passwordChar: ".",
-    cursor: Cursor.TEXT,
-    backgroundAlpha: 1,
-    backgroundColor: 0xff00ff,
-    backgroundPadding: { top: 3, right: 4, bottom: 2, left: 4 },
-    // defaultValue: "defaultValue",
-    placeholder: `placeholder ${OS[getOS()]}`,
-    size: {
-      width: 90,
-      height: 30,
-    },
-    // maxLength: 3,
-    zIndex: 1000,
-    horizontalAlign: HorizontalAlign.LEFT,
-    verticalAlign: VerticalAlign.TOP,
-    onTextChange: (preText, postText) => {
-      return !preText.includes("abc");
-    },
-    selectionColor: 0xffffff,
-    selectionGap: 4,
-    selectionPadding: 2,
-    withMask: true,
-  });
-  global.events.on(Event.KEY_DOWN, ({ key }) => {
-    if (key === "Enter" && $input.isFocused()) {
-      $input.clear();
-    }
-  });
-
-  const $input2 = await inputTextSprite({
-    spriteSheet: "fonts/default-font.json",
-    color: 0xffffff,
-    editable: true,
-    withContext: true,
-    position: {
-      x: 110,
-      y: 55,
-    },
-    eventMode: EventMode.STATIC,
-    // passwordChar: ".",
-    cursor: Cursor.TEXT,
-    backgroundAlpha: 1,
-    backgroundColor: 0xff00ff,
-    backgroundPadding: { top: 3, right: 4, bottom: 2, left: 4 },
-    // defaultValue: "defaultValue",
-    placeholder: `placeholder ${OS[getOS()]}`,
-    size: {
-      width: 90,
-      height: 30,
-    },
-    // maxLength: 3,
-    zIndex: 1000,
-    horizontalAlign: HorizontalAlign.CENTER,
-    verticalAlign: VerticalAlign.MIDDLE,
-    onTextChange: (preText, postText) => {
-      return !preText.includes("abc");
-    },
-    selectionColor: 0xffffff,
-    selectionGap: 4,
-    selectionPadding: 2,
-    withMask: true,
-  });
-
-  const $input3 = await inputTextSprite({
-    spriteSheet: "fonts/default-font.json",
-    color: 0xffffff,
-    editable: true,
-    withContext: true,
-    position: {
-      x: 110,
+      x: 100,
       y: 100,
     },
-    eventMode: EventMode.STATIC,
-    // passwordChar: ".",
-    cursor: Cursor.TEXT,
-    backgroundAlpha: 1,
-    backgroundColor: 0xff00ff,
-    backgroundPadding: { top: 3, right: 4, bottom: 2, left: 4 },
-    // defaultValue: "defaultValue",
-    placeholder: `placeholder ${OS[getOS()]}`,
-    size: {
-      width: 90,
-      height: 30,
-    },
-    // maxLength: 3,
-    zIndex: 1000,
-    horizontalAlign: HorizontalAlign.RIGHT,
-    verticalAlign: VerticalAlign.BOTTOM,
-    onTextChange: (preText, postText) => {
-      return !preText.includes("abc");
-    },
-    selectionColor: 0xffffff,
-    selectionGap: 4,
-    selectionPadding: 2,
-    withMask: true,
   });
 
-  setTimeout(() => {
-    $input3.setSize({ width: 200, height: 20 });
-  }, 1_000);
-
-  global.context.onNoContext(() => {
-    $player.focus();
+  const $defaultMayus = textSprite({
+    spriteSheets: {
+      default: "fonts/default-font.json",
+      bold: "fonts/bold-font.json",
+    },
+    spriteSheet: "default",
+    text: ABC,
+    position: {
+      x: 100,
+      y: 120,
+    },
   });
-  $container.add($input, $input2, $input3);
+
+  const $boldMinus = textSprite({
+    spriteSheets: {
+      default: "fonts/default-font.json",
+      bold: "fonts/bold-font.json",
+    },
+    spriteSheet: "bold",
+    text: abc,
+    position: {
+      x: 100,
+      y: 140,
+    },
+  });
+
+  const $boldMayus = textSprite({
+    spriteSheets: {
+      default: "fonts/default-font.json",
+      bold: "fonts/bold-font.json",
+    },
+    spriteSheet: "bold",
+    text: ABC,
+    position: {
+      x: 100,
+      y: 160,
+    },
+  });
+
+  $container.add($defaultMinus, $defaultMayus, $boldMinus, $boldMayus);
 
   return $container.getComponent(appComponent);
 };

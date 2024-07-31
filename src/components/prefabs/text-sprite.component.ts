@@ -26,7 +26,8 @@ export const textSprite: ContainerComponent<
   >(props);
 
   const {
-    spriteSheet,
+    spriteSheet = "",
+    spriteSheets = {},
     text,
     color,
     size,
@@ -39,6 +40,8 @@ export const textSprite: ContainerComponent<
     withMask = false,
   } = $containerComponent.getProps();
 
+  let $mode = spriteSheets[spriteSheet] ? spriteSheet : "";
+  let $spriteSheet = spriteSheets[spriteSheet] ?? spriteSheet;
   let $currentText = text;
   let $currentColor = color;
   let $size = {
@@ -58,17 +61,21 @@ export const textSprite: ContainerComponent<
 
   let $textures = [];
 
-  PIXI.Assets.load(spriteSheet).then(({ textures }) => {
-    $textures = textures;
+  const $loadSpriteSheet = () => {
+    PIXI.Assets.load($spriteSheet).then(({ textures }) => {
+      $textures = textures;
 
-    if (!isNotNullish($size.height))
-      $size.height = (Object.values(textures)[0] as Texture)?.height || 0;
+      if (!isNotNullish($size.height))
+        $size.height = (Object.values(textures)[0] as Texture)?.height || 0;
 
-    setText(text);
-    setColor(color);
-    renderBackground();
-    $containerComponent.$emit(DisplayObjectEvent.LOADED, {});
-  });
+      setText(text);
+      setColor(color);
+      renderBackground();
+      $containerComponent.$emit(DisplayObjectEvent.LOADED, {});
+    });
+  };
+
+  $loadSpriteSheet();
 
   const $boxSize = {
     width: $size?.width + $backgroundPadding.left + $backgroundPadding.right,
@@ -139,7 +146,7 @@ export const textSprite: ContainerComponent<
 
     let nextPositionX = 0;
     for (const character of $currentText.split("")) {
-      const $charTexture = $textures[character];
+      const $charTexture = $textures[`${$mode ? `${$mode}-` : ""}${character}`];
       if (!$charTexture) continue;
 
       const characterSprite = new PIXI.Sprite($charTexture);
@@ -229,12 +236,22 @@ export const textSprite: ContainerComponent<
 
   const $getTextBounds = (): Size => $textContainer.getBounds();
   const $getCharacter = (character: string): PIXI.Texture | undefined =>
-    character ? $textures[character.split("")[0]] : undefined;
+    character
+      ? $textures[`${$mode ? `${$mode}-` : ""}${character.split("")[0]}`]
+      : undefined;
   const $getTextContainer = () => $textContainer;
 
   const $render = () => {
     renderText();
     renderBackground();
+  };
+
+  const changeSpriteSheet = (mode: string) => {
+    $mode = spriteSheets[mode] ? mode : "";
+    if ($mode) {
+      $spriteSheet = spriteSheets[$mode];
+    }
+    $loadSpriteSheet();
   };
 
   return $containerComponent.getComponent(textSprite, {
@@ -246,6 +263,8 @@ export const textSprite: ContainerComponent<
 
     setSize,
     getSize,
+
+    changeSpriteSheet,
 
     setBackgroundColor,
     getBackgroundColor,
