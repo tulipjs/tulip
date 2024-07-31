@@ -74,8 +74,6 @@ export const inputTextSprite: ContainerComponent<
     : undefined;
 
   $textSprite.on(DisplayObjectEvent.LOADED, () => {
-    console.log("LOADED!");
-
     const { height } = $textSprite.$getCharacter("a");
     $cursor.setRectangle(1, height + 3);
 

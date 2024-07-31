@@ -17,11 +17,9 @@ type Props = {
 
 type Mutable = {};
 
-export const flyComponent: ContainerComponent<Props, Mutable> = async (
-  props,
-) => {
+export const flyComponent: ContainerComponent<Props, Mutable> = (props) => {
   const polygon = [0, 0, 20, 0, 20, 20];
-  const $container = await circle({
+  const $container = circle({
     ...props,
     eventMode: EventMode.STATIC,
     material: {
@@ -39,15 +37,15 @@ export const flyComponent: ContainerComponent<Props, Mutable> = async (
   const size = 15;
   const position = size - 2;
 
-  const pol = await graphics({
+  const pol = graphics({
     polygon,
     color: 0xff00ff,
     type: GraphicType.POLYGON,
   });
 
-  const circle2 = await circle({
+  const circle2 = circle({
     size,
-    color: global.getData<GlobalData>().ballColor,
+    tint: global.getData<GlobalData>().ballColor,
     mass: 0,
     alpha,
     position: {
@@ -56,9 +54,9 @@ export const flyComponent: ContainerComponent<Props, Mutable> = async (
     },
   });
 
-  const circle3 = await circle({
+  const circle3 = circle({
     size,
-    color: global.getData<GlobalData>().ballColor,
+    tint: global.getData<GlobalData>().ballColor,
     mass: 0,
     alpha,
     position: {
