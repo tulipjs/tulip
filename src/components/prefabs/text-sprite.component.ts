@@ -9,12 +9,12 @@ import * as PIXI from "pixi.js";
 import { Size, Texture } from "pixi.js";
 import { isNotNullish } from "../../utils";
 import {
-  DisplayObjectEvent,
   EventMode,
   GraphicType,
   HorizontalAlign,
   VerticalAlign,
 } from "../../enums";
+import { global } from "../../global";
 
 export const textSprite: ContainerComponent<
   PartialTextSpriteProps,
@@ -56,19 +56,7 @@ export const textSprite: ContainerComponent<
   let $verticalAlign = verticalAlign || VerticalAlign.TOP;
   let $horizontalAlign = horizontalAlign || HorizontalAlign.LEFT;
 
-  let $textures = [];
-
-  PIXI.Assets.load(spriteSheet).then(({ textures }) => {
-    $textures = textures;
-
-    if (!isNotNullish($size.height))
-      $size.height = (Object.values(textures)[0] as Texture)?.height || 0;
-
-    setText(text);
-    setColor(color);
-    renderBackground();
-    $containerComponent.$emit(DisplayObjectEvent.LOADED, {});
-  });
+  let $textures: Record<string, PIXI.Texture> = {};
 
   const $boxSize = {
     width: $size?.width + $backgroundPadding.left + $backgroundPadding.right,
@@ -236,6 +224,17 @@ export const textSprite: ContainerComponent<
     renderText();
     renderBackground();
   };
+
+  {
+    $textures = global.spritesheet.get(spriteSheet).textures;
+
+    if (!isNotNullish($size.height))
+      $size.height = (Object.values($textures)[0] as Texture)?.height || 0;
+
+    setText(text);
+    setColor(color);
+    renderBackground();
+  }
 
   return $containerComponent.getComponent(textSprite, {
     setText,

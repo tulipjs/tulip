@@ -10,6 +10,7 @@ import { events } from "./events";
 import { sounds } from "./sounds";
 import { Assets } from "pixi.js";
 import { context } from "./context";
+import { spritesheet } from "./spritesheet";
 
 export const global = (() => {
   let $application: ApplicationMutable;
@@ -19,6 +20,7 @@ export const global = (() => {
 
   const $context = context();
   const $sounds = sounds();
+  const $spritesheet = spritesheet();
 
   const $load = () => {
     $sounds.$load();
@@ -106,5 +108,6 @@ export const global = (() => {
     events: events(),
     sounds: $sounds,
     context: $context,
+    spritesheet: $spritesheet,
   };
 })();

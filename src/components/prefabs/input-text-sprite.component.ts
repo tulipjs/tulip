@@ -73,14 +73,6 @@ export const inputTextSprite: ContainerComponent<
     ? passwordChar?.split("")[0]
     : undefined;
 
-  $textSprite.on(DisplayObjectEvent.LOADED, () => {
-    const { height } = $textSprite.$getCharacter("a");
-    $cursor.setRectangle(1, height + 3);
-
-    $renderSelection();
-    $container.$emit(DisplayObjectEvent.LOADED, {});
-  });
-
   const $selectionComponent = graphics({
     type: GraphicType.POLYGON,
     visible: false,
@@ -414,6 +406,13 @@ export const inputTextSprite: ContainerComponent<
   autoFocus &&
     $container.on(DisplayObjectEvent.POINTER_TAP, () => $container.focus());
 
+  {
+    const { height } = $textSprite.$getCharacter("a");
+    $cursor.setRectangle(1, height + 3);
+
+    $renderSelection();
+    $container.$emit(DisplayObjectEvent.LOADED, {});
+  }
   return $container.getComponent(inputTextSprite, {
     setEditable,
     getText,

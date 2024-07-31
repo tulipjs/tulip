@@ -24,6 +24,10 @@ app.load(async () => {
       alias: "Pixel",
     },
   ]);
+  await global.spritesheet.load(
+    "fonts/default-font.json",
+    "fonts/default-font-bold.json",
+  );
 
   app.add(await appComponent());
 });
