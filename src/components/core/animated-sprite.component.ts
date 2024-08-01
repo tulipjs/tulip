@@ -24,8 +24,13 @@ export const animatedSprite = <Props = {}, Mutable = {}, Data = {}>(
     displayObject: new PIXI.AnimatedSprite([PIXI.Texture.EMPTY]),
   });
 
-  const { spriteSheet, animation, frame, playStatus, speed } =
-    $displayObject.getProps();
+  const {
+    spriteSheet,
+    animation,
+    frame,
+    playStatus,
+    speed = 1,
+  } = $displayObject.getProps();
 
   let $spriteSheet = spriteSheet;
   let $currentAnimation = "";
@@ -87,6 +92,7 @@ export const animatedSprite = <Props = {}, Mutable = {}, Data = {}>(
     $speed = speed;
     $animatedSprite.animationSpeed = speed;
   };
+  const getSpeed = () => $speed;
 
   const $$getRaw = $displayObject.$getRaw;
   const $$destroy = $displayObject.$destroy;
@@ -129,6 +135,9 @@ export const animatedSprite = <Props = {}, Mutable = {}, Data = {}>(
 
     setPlayStatus,
     getPlayStatus,
+
+    setSpeed,
+    getSpeed,
 
     $getRaw,
     $destroy,

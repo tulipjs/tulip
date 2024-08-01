@@ -76,6 +76,7 @@ describe("components", () => {
           animation: "animation-name",
           frame: 1,
           playStatus: PlayStatus.STOP,
+          speed: 0.5,
         });
       });
 
@@ -141,6 +142,18 @@ describe("components", () => {
           $animatedSprite.getDisplayObject({ __preventWarning: true }).loop,
         ).toStrictEqual(false);
       });
+      test("setSpeed(...) sets the animation speed", () => {
+        expect($animatedSprite.getSpeed()).toStrictEqual(0.5);
+        $animatedSprite.setSpeed(2);
+        expect($animatedSprite.getSpeed()).toStrictEqual(2);
+
+        expect(
+          $animatedSprite.getDisplayObject({ __preventWarning: true })
+            .animationSpeed,
+        ).toStrictEqual(2);
+
+        $animatedSprite.setSpeed(0.5);
+      });
       test("getProps() returns all the original properties", () => {
         expect($animatedSprite.getProps()).toEqual({
           animation: "animation-name",
@@ -148,6 +161,7 @@ describe("components", () => {
           label: "animated-sprite-label",
           playStatus: 1,
           spriteSheet: "something.json",
+          speed: 0.5,
         });
       });
       test("$getRaw() returns everything needed to hot reload", () => {
@@ -171,6 +185,7 @@ describe("components", () => {
           withContext: false,
           sortableChildren: false,
           tint: undefined,
+          speed: 0.5,
           cursor: Cursor.AUTO,
         });
       });

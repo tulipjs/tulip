@@ -26,6 +26,9 @@ export type PartialAnimatedSpriteMutable<Mutable = {}> = {
 
   setPlayStatus: (playStatus: PlayStatus) => void;
   getPlayStatus: () => PlayStatus;
+
+  setSpeed: (speed: number) => void;
+  getSpeed: () => number;
 } & Mutable;
 
 ////////////////////////////
