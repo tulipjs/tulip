@@ -15,7 +15,7 @@ export type PartialAnimatedSpriteProps<Props = {}> = {
 
 export type PartialAnimatedSpriteMutable<Mutable = {}> = {
   getSpriteSheet: () => string;
-  setSpriteSheet: (spriteSheet?: string) => Promise<void>;
+  setSpriteSheet: (spriteSheet?: string) => void;
 
   setAnimation: (animation: string) => void;
   getAnimation: () => string;

@@ -2,7 +2,6 @@ import * as PIXI from "pixi.js";
 import { SliceSprite, SliceSpriteMutable, SliceSpriteProps } from "../../types";
 import { displayObject } from "./display-object.component";
 import { global } from "../../global";
-import { DisplayObjectEvent } from "../../enums";
 
 export const sliceSprite = <Props = {}, Mutable = {}, Data = {}>(
   originalProps: SliceSpriteProps<Props, Data> = {} as SliceSpriteProps<
@@ -31,21 +30,19 @@ export const sliceSprite = <Props = {}, Mutable = {}, Data = {}>(
 
   let $texture = texture;
 
-  const $getTexture = async (
-    texture?: string,
-  ): Promise<PIXI.NineSliceSprite> => {
+  const $getTexture = (texture?: string): PIXI.Texture => {
     const targetTexture = texture
-      ? await PIXI.Assets.load(texture)
+      ? global.textures.get(texture)
       : PIXI.Texture.EMPTY;
     targetTexture.source.scaleMode = global.getApplication().getScaleMode();
 
     return targetTexture;
   };
 
-  const setTexture = async (texture?: string) => {
+  const setTexture = (texture?: string) => {
     $texture = texture;
     // @ts-ignore
-    $sprite.texture = await $getTexture(texture);
+    $sprite.texture = $getTexture(texture);
 
     $sprite.bottomHeight = bottomHeight;
     $sprite.leftWidth = leftWidth;
@@ -79,9 +76,7 @@ export const sliceSprite = <Props = {}, Mutable = {}, Data = {}>(
   };
 
   {
-    setTexture(texture).then(() => {
-      $displayObject.$emit(DisplayObjectEvent.LOADED, {});
-    });
+    setTexture(texture);
   }
 
   const $mutable = {

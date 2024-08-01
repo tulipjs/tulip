@@ -226,7 +226,7 @@ export const textSprite: ContainerComponent<
   };
 
   {
-    $textures = global.spritesheet.get(spriteSheet).textures;
+    $textures = global.spriteSheets.get(spriteSheet).textures;
 
     if (!isNotNullish($size.height))
       $size.height = (Object.values($textures)[0] as Texture)?.height || 0;

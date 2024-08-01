@@ -2,6 +2,7 @@ import { AnimatedSpriteMutable } from "../../../types";
 import { animatedSprite } from "../animated-sprite.component";
 import { Cursor, EventMode, PlayStatus } from "../../../enums";
 import { expect } from "@jest/globals";
+import * as PIXI from "pixi.js";
 
 jest.mock("pixi.js", () => {
   const originalModule = jest.requireActual("pixi.js");
@@ -17,11 +18,10 @@ jest.mock("pixi.js", () => {
       on: jest.fn(),
       loop: jest.fn(),
     })),
-    Assets: {
-      load: (args) => mockAssetsLoad(args),
-    },
   };
 });
+
+const mockEmptyTexture = PIXI.Texture.EMPTY;
 
 jest.mock("../../../global/global.ts", () => {
   const { global: originalGlobal } = jest.requireActual(
@@ -35,6 +35,20 @@ jest.mock("../../../global/global.ts", () => {
         ...originalGlobal.getApplication(),
         getScaleMode: jest.fn().mockReturnValue("nearest"),
       })),
+      textures: {
+        get: (args) => mockEmptyTexture,
+      },
+      spriteSheets: {
+        get: () => ({
+          textureSource: mockEmptyTexture,
+          textures: {
+            "texture-name": mockEmptyTexture,
+          },
+          animations: {
+            "animation-name": [mockEmptyTexture],
+          },
+        }),
+      },
     },
   };
 });
@@ -43,16 +57,6 @@ const mockGotoAndStop = jest.fn();
 const mockGotoAndPlay = jest.fn();
 const mockStop = jest.fn();
 const mockPlay = jest.fn();
-const mockAssetsLoad = jest.fn(async (args) => ({
-  id: args,
-  animations: {
-    "animation-name": ["texture1"],
-    "animation-name-2": ["texture2"],
-  },
-  textureSource: jest.fn(() => ({
-    scaleMode: jest.fn(),
-  })),
-}));
 
 describe("components", () => {
   describe("core", () => {
@@ -64,8 +68,6 @@ describe("components", () => {
         mockGotoAndPlay.mockClear();
         mockStop.mockClear();
         mockPlay.mockClear();
-
-        mockAssetsLoad.mockClear();
       });
       beforeAll(() => {
         $animatedSprite = animatedSprite({
@@ -93,7 +95,6 @@ describe("components", () => {
       test("setSpriteSheet(...) loads the spritesheet and changes textures with animation", () => {
         $animatedSprite.setSpriteSheet("testing.json");
         expect($animatedSprite.getSpriteSheet()).toStrictEqual("testing.json");
-        expect(mockAssetsLoad).toHaveBeenCalledWith("testing.json");
       });
       test("setAnimation(...) changes the animation", () => {
         expect($animatedSprite.getAnimation()).toStrictEqual("animation-name");

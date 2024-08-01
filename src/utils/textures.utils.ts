@@ -1,20 +1,8 @@
 import * as PIXI from "pixi.js";
 
-export const loadSpriteSheet = (
-  spriteSheet: string,
-): Promise<PIXI.Spritesheet> =>
-  new Promise<PIXI.Spritesheet>((resolve) => {
-    fetch(spriteSheet)
-      .then((data) => data.json())
-      .then(async (data) => {
-        const imagePath = `${spriteSheet.split("/").reverse().slice(1).reverse()}/${data.meta.image}`;
-
-        const $spriteSheet = new PIXI.Spritesheet(
-          await PIXI.Assets.load(imagePath),
-          data,
-        );
-        await $spriteSheet.parse();
-
-        resolve($spriteSheet);
-      });
-  });
+export const loadTexture = async (texture: string): Promise<PIXI.Texture> => {
+  const data = await fetch(texture);
+  const blob = await data.blob();
+  const imageBitmap = await createImageBitmap(blob);
+  return PIXI.Texture.from(imageBitmap);
+};
