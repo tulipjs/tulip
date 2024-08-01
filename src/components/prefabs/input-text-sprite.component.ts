@@ -268,7 +268,15 @@ export const inputTextSprite: ContainerComponent<
     $textSprite.$render();
   };
 
-  const onKeyDown = ({ key }: KeyboardEvent) => {
+  const onKeyDown = async ({ key, metaKey, ctrlKey }: KeyboardEvent) => {
+    if ((metaKey || ctrlKey) && key.toLowerCase() === "v") {
+      // @ts-ignore
+      await navigator.permissions.query({ name: "clipboard-read" });
+      const text = await navigator.clipboard.readText();
+      setText(text);
+      return;
+    }
+
     $stopCursorBlink();
     writeText(key);
     makeActions(key);
@@ -412,6 +420,7 @@ export const inputTextSprite: ContainerComponent<
 
     $renderSelection();
   }
+
   return $container.getComponent(inputTextSprite, {
     setEditable,
     getText,
