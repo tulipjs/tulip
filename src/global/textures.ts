@@ -14,6 +14,10 @@ export const textures = () => {
     }
   };
 
+  const loadRaw = async (key: string, texture: string) => {
+    texturesMap[key] = await loadTexture(texture);
+  };
+
   const get = (texture: string): PIXI.Texture => {
     if (!texturesMap[texture]) throw `Texture (${texture}) not loaded!`;
     return texturesMap[texture];
@@ -21,6 +25,7 @@ export const textures = () => {
 
   return {
     load,
+    loadRaw,
     get,
   };
 };

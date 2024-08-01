@@ -8,8 +8,6 @@ import { Sprite } from "../pixi.types";
 export type PartialSpriteProps<Props = {}> = {
   spriteSheet?: string;
   texture: string;
-  //When texture is base64 or it's ready to be consumed by PIXI.Texture
-  raw?: boolean;
 } & Props;
 export type PartialSpriteMutable<Mutable = {}> = {
   setTexture: (texture?: string) => void;

@@ -13,7 +13,7 @@ export const sprite = <Props = {}, Mutable = {}, Data = {}>(
     displayObject: new PIXI.Sprite(),
   });
 
-  const { texture, spriteSheet, raw } = $displayObject.getProps();
+  const { texture, spriteSheet } = $displayObject.getProps();
 
   const $sprite = $displayObject.getDisplayObject({ __preventWarning: true });
 
@@ -43,11 +43,9 @@ export const sprite = <Props = {}, Mutable = {}, Data = {}>(
 
       return $targetTexture;
     }
-    const targetTexture = raw
-      ? PIXI.Texture.from(texture)
-      : texture
-        ? global.textures.get(texture)
-        : PIXI.Texture.EMPTY;
+    const targetTexture = texture
+      ? global.textures.get(texture)
+      : PIXI.Texture.EMPTY;
     targetTexture.source.scaleMode = global.getApplication().getScaleMode();
 
     return targetTexture;
