@@ -1,29 +1,41 @@
-jest.mock("pixi.js", () => {
-  const originalModule = jest.requireActual("pixi.js");
+import * as PIXI from "pixi.js";
+
+const mockEmptyTexture = PIXI.Texture.EMPTY;
+
+jest.mock("../../../global/global.ts", () => {
+  const { global: originalGlobal } = jest.requireActual(
+    "../../../global/global.ts",
+  );
 
   return {
-    ...originalModule,
-    Assets: {
-      load: (args) => mockAssetsLoad(args),
+    global: {
+      ...originalGlobal,
+      getApplication: jest.fn(() => ({
+        ...originalGlobal.getApplication(),
+        getScaleMode: jest.fn().mockReturnValue("nearest"),
+      })),
+      textures: {
+        get: (args) => mockEmptyTexture,
+      },
+      spriteSheets: {
+        get: () => ({
+          textureSource: mockEmptyTexture,
+          textures: {
+            "texture-name": mockEmptyTexture,
+          },
+          animations: {
+            "animation-name": [mockEmptyTexture],
+          },
+        }),
+      },
     },
   };
 });
 
-const mockAssetsLoad = jest.fn(async (args) => ({
-  id: args,
-  textures: {
-    a: {},
-    b: {},
-    c: {},
-  },
-}));
-
 describe("components", () => {
   describe("core", () => {
     describe("input-text-sprite", () => {
-      beforeEach(() => {
-        mockAssetsLoad.mockClear();
-      });
+      beforeEach(() => {});
 
       // let $input: InputTextSpriteMutable;
       beforeAll(async () => {

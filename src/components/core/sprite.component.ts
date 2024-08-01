@@ -4,7 +4,6 @@ import { Sprite, SpriteMutable, SpriteProps } from "../../types";
 import { displayObject } from "./display-object.component";
 import { isNotNullish } from "../../utils";
 import { global } from "../../global";
-import { DisplayObjectEvent } from "../../enums";
 
 export const sprite = <Props = {}, Mutable = {}, Data = {}>(
   originalProps: SpriteProps<Props, Data> = {} as SpriteProps<Props, Data>,
@@ -22,18 +21,18 @@ export const sprite = <Props = {}, Mutable = {}, Data = {}>(
   let $spriteSheet = spriteSheet;
   let $spriteSheetTexture: Spritesheet;
 
-  const setSpriteSheet = async (spriteSheet: string) => {
+  const setSpriteSheet = (spriteSheet: string) => {
     $spriteSheet = spriteSheet + "";
-    $spriteSheetTexture = await PIXI.Assets.load(spriteSheet);
+    $spriteSheetTexture = global.spriteSheets.get(spriteSheet);
     $spriteSheetTexture.textureSource.scaleMode = global
       .getApplication()
       .getScaleMode();
 
-    $sprite.texture = await $getTexture($texture);
+    $sprite.texture = $getTexture($texture);
   };
   const getSpriteSheet = () => $spriteSheet;
 
-  const $getTexture = async (texture?: string): Promise<PIXI.Texture> => {
+  const $getTexture = (texture?: string): PIXI.Texture => {
     if (isNotNullish($spriteSheet)) {
       const $targetTexture = $spriteSheetTexture.textures[$texture];
 
@@ -45,17 +44,16 @@ export const sprite = <Props = {}, Mutable = {}, Data = {}>(
       return $targetTexture;
     }
     const targetTexture = texture
-      ? await PIXI.Assets.load(texture)
+      ? global.textures.get(texture)
       : PIXI.Texture.EMPTY;
     targetTexture.source.scaleMode = global.getApplication().getScaleMode();
 
     return targetTexture;
   };
 
-  const setTexture = async (texture?: string) => {
+  const setTexture = (texture?: string) => {
     $texture = texture;
-    $sprite.texture = await $getTexture(texture);
-    $displayObject.$emit(DisplayObjectEvent.LOADED, {});
+    $sprite.texture = $getTexture(texture);
   };
 
   const $$getRaw = $displayObject.$getRaw;
@@ -76,11 +74,8 @@ export const sprite = <Props = {}, Mutable = {}, Data = {}>(
   };
 
   {
-    if (isNotNullish(spriteSheet))
-      setSpriteSheet($spriteSheet).then(() => {
-        setTexture(texture);
-      });
-    else setTexture(texture);
+    if (isNotNullish(spriteSheet)) setSpriteSheet($spriteSheet);
+    setTexture(texture);
   }
 
   const $mutable = {

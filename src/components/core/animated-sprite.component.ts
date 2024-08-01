@@ -4,7 +4,7 @@ import {
   AnimatedSpriteMutable,
   AnimatedSpriteProps,
 } from "../../types";
-import { DisplayObjectEvent, PlayStatus } from "../../enums";
+import { PlayStatus } from "../../enums";
 import { displayObject } from "./display-object.component";
 import { isNotNullish } from "../../utils";
 import { Spritesheet } from "pixi.js";
@@ -38,9 +38,9 @@ export const animatedSprite = <Props = {}, Mutable = {}, Data = {}>(
     __preventWarning: true,
   });
 
-  const setSpriteSheet = async (spriteSheet: string) => {
+  const setSpriteSheet = (spriteSheet: string) => {
     $spriteSheet = spriteSheet + "";
-    $spriteSheetTexture = await PIXI.Assets.load(spriteSheet);
+    $spriteSheetTexture = global.spriteSheets.get(spriteSheet);
     $spriteSheetTexture.textureSource.scaleMode = global
       .getApplication()
       .getScaleMode();
@@ -103,12 +103,10 @@ export const animatedSprite = <Props = {}, Mutable = {}, Data = {}>(
     $displayObject.getFather = () => null;
   };
   {
-    setSpriteSheet($spriteSheet).then(() => {
-      if (isNotNullish(animation)) setAnimation(animation);
-      if (isNotNullish($frame)) setFrame($frame);
-      if (isNotNullish($playStatus)) setPlayStatus($playStatus);
-      $displayObject.$emit(DisplayObjectEvent.LOADED, {});
-    });
+    setSpriteSheet($spriteSheet);
+    if (isNotNullish(animation)) setAnimation(animation);
+    if (isNotNullish($frame)) setFrame($frame);
+    if (isNotNullish($playStatus)) setPlayStatus($playStatus);
   }
 
   const $mutable = {

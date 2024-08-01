@@ -92,7 +92,7 @@ export const inputsComponent: ContainerComponent<Props, Mutable> = () => {
   });
 
   const $input3 = inputTextSprite({
-    spriteSheet: "fonts/default-font.json",
+    spriteSheet: "fonts/default-font-bold.json",
     color: 0xffffff,
     editable: true,
     withContext: true,

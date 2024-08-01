@@ -77,7 +77,6 @@ export enum DisplayObjectEvent {
   DESTROYED = "destroyed",
 
   //### CUSTOM ########################################################################################################//
-  LOADED = "@custom/loaded",
   TICK = "@custom/tick",
   CONTEXT_ENTER = "@custom/context_enter",
   CONTEXT_LEAVE = "@custom/context_leave",

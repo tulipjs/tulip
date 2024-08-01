@@ -73,14 +73,6 @@ export const inputTextSprite: ContainerComponent<
     ? passwordChar?.split("")[0]
     : undefined;
 
-  $textSprite.on(DisplayObjectEvent.LOADED, () => {
-    const { height } = $textSprite.$getCharacter("a");
-    $cursor.setRectangle(1, height + 3);
-
-    $renderSelection();
-    $container.$emit(DisplayObjectEvent.LOADED, {});
-  });
-
   const $selectionComponent = graphics({
     type: GraphicType.POLYGON,
     visible: false,
@@ -361,7 +353,7 @@ export const inputTextSprite: ContainerComponent<
 
     openKeyboard();
   });
-  $container.on(DisplayObjectEvent.CONTEXT_LEAVE, async () => {
+  $container.on(DisplayObjectEvent.CONTEXT_LEAVE, () => {
     setEditable(false);
 
     removeOnKeyDown();
@@ -389,7 +381,7 @@ export const inputTextSprite: ContainerComponent<
   };
 
   const getText = () => $text;
-  const setText = async (text: string) => {
+  const setText = (text: string) => {
     $text = text;
     $textSprite.setText($text);
     $textSprite.$render();
@@ -414,6 +406,12 @@ export const inputTextSprite: ContainerComponent<
   autoFocus &&
     $container.on(DisplayObjectEvent.POINTER_TAP, () => $container.focus());
 
+  {
+    const { height } = $textSprite.$getCharacter("a");
+    $cursor.setRectangle(1, height + 3);
+
+    $renderSelection();
+  }
   return $container.getComponent(inputTextSprite, {
     setEditable,
     getText,
@@ -423,7 +421,7 @@ export const inputTextSprite: ContainerComponent<
     setColor: $textSprite.setTint,
     getColor: $textSprite.getColor,
 
-    setSize: async (size) => {
+    setSize: (size) => {
       $textSprite.setSize(size);
       $renderSelection();
     },
@@ -435,7 +433,7 @@ export const inputTextSprite: ContainerComponent<
     setBackgroundAlpha: $textSprite.setBackgroundAlpha,
     getBackgroundAlpha: $textSprite.getBackgroundAlpha,
 
-    setBackgroundPadding: async (padding) => {
+    setBackgroundPadding: (padding) => {
       $textSprite.setBackgroundPadding(padding);
       $renderSelection();
     },

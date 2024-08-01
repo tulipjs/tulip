@@ -24,6 +24,12 @@ app.load(async () => {
       alias: "Pixel",
     },
   ]);
+  await global.spriteSheets.load(
+    "fonts/default-font.json",
+    "fonts/default-font-bold.json",
+    "fighter/fighter.json",
+  );
+  // await global.textures.load("duck.png");
 
-  app.add(await appComponent());
+  app.add(appComponent());
 });

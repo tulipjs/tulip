@@ -15,7 +15,7 @@ export type PartialSliceSpriteProps<Props = {}> = {
   height: number;
 } & Props;
 export type PartialSliceSpriteMutable<Mutable = {}> = {
-  setTexture: (texture?: string) => Promise<void>;
+  setTexture: (texture?: string) => void;
 } & Mutable;
 
 ////////////////////////////
