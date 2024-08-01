@@ -273,7 +273,7 @@ export const inputTextSprite: ContainerComponent<
       // @ts-ignore
       await navigator.permissions.query({ name: "clipboard-read" });
       const text = await navigator.clipboard.readText();
-      setText(text);
+      setText(`${$text}${text}`);
       return;
     }
 
