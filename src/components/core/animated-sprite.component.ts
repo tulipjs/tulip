@@ -24,8 +24,13 @@ export const animatedSprite = <Props = {}, Mutable = {}, Data = {}>(
     displayObject: new PIXI.AnimatedSprite([PIXI.Texture.EMPTY]),
   });
 
-  const { spriteSheet, animation, frame, playStatus } =
-    $displayObject.getProps();
+  const {
+    spriteSheet,
+    animation,
+    frame,
+    playStatus,
+    speed = 1,
+  } = $displayObject.getProps();
 
   let $spriteSheet = spriteSheet;
   let $currentAnimation = "";
@@ -33,6 +38,7 @@ export const animatedSprite = <Props = {}, Mutable = {}, Data = {}>(
   let $playStatus: PlayStatus =
     playStatus === undefined ? playStatus : PlayStatus.STOP;
   let $spriteSheetTexture: Spritesheet;
+  let $speed = speed;
 
   const $animatedSprite = $displayObject.getDisplayObject({
     __preventWarning: true,
@@ -82,6 +88,12 @@ export const animatedSprite = <Props = {}, Mutable = {}, Data = {}>(
   };
   const getPlayStatus = () => $playStatus;
 
+  const setSpeed = (speed: number) => {
+    $speed = speed;
+    $animatedSprite.animationSpeed = speed;
+  };
+  const getSpeed = () => $speed;
+
   const $$getRaw = $displayObject.$getRaw;
   const $$destroy = $displayObject.$destroy;
 
@@ -91,6 +103,7 @@ export const animatedSprite = <Props = {}, Mutable = {}, Data = {}>(
     animation: $currentAnimation,
     frame: $frame,
     playStatus: $playStatus,
+    speed: $speed,
   });
 
   const $destroy = () => {
@@ -107,6 +120,7 @@ export const animatedSprite = <Props = {}, Mutable = {}, Data = {}>(
     if (isNotNullish(animation)) setAnimation(animation);
     if (isNotNullish($frame)) setFrame($frame);
     if (isNotNullish($playStatus)) setPlayStatus($playStatus);
+    if (isNotNullish($speed)) setSpeed($speed);
   }
 
   const $mutable = {
@@ -121,6 +135,9 @@ export const animatedSprite = <Props = {}, Mutable = {}, Data = {}>(
 
     setPlayStatus,
     getPlayStatus,
+
+    setSpeed,
+    getSpeed,
 
     $getRaw,
     $destroy,

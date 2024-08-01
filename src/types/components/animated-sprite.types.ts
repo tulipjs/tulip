@@ -11,6 +11,7 @@ export type PartialAnimatedSpriteProps<Props = {}> = {
   animation: string;
   frame?: number;
   playStatus?: PlayStatus;
+  speed?: number;
 } & Props;
 
 export type PartialAnimatedSpriteMutable<Mutable = {}> = {
@@ -25,6 +26,9 @@ export type PartialAnimatedSpriteMutable<Mutable = {}> = {
 
   setPlayStatus: (playStatus: PlayStatus) => void;
   getPlayStatus: () => PlayStatus;
+
+  setSpeed: (speed: number) => void;
+  getSpeed: () => number;
 } & Mutable;
 
 ////////////////////////////
