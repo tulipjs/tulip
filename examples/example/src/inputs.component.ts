@@ -19,6 +19,7 @@ export const inputsComponent: ContainerComponent<Props, Mutable> = () => {
   const $container = container();
 
   const $input = inputTextSprite({
+    label: "input-1",
     spriteSheet: "fonts/default-font.json",
     color: 0xffffff,
     editable: true,
@@ -58,6 +59,7 @@ export const inputsComponent: ContainerComponent<Props, Mutable> = () => {
   });
 
   const $input2 = inputTextSprite({
+    label: "input-2",
     spriteSheet: "fonts/default-font.json",
     color: 0xffffff,
     editable: true,
@@ -92,6 +94,7 @@ export const inputsComponent: ContainerComponent<Props, Mutable> = () => {
   });
 
   const $input3 = inputTextSprite({
+    label: "input-3",
     spriteSheet: "fonts/default-font-bold.json",
     color: 0xffffff,
     editable: true,

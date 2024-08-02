@@ -313,8 +313,14 @@ export const displayObject = <
     setWithContext(isNotNullish(withContext) ? withContext : false);
     // This is not an error
     if ($withContext && focused) global.context.add($getContextBaseMutable());
+    if ($withContext) global.context.$add($getContextBaseMutable());
+
     setCursor(cursor || Cursor.AUTO);
     setSortableChildren(Boolean(sortableChildren));
+
+    on(DisplayObjectEvent.REMOVED, () => {
+      global.context.$remove($getContextBaseMutable());
+    });
 
     on(DisplayObjectEvent.TICK, () => {
       // If not body present, it doesn't make sense to iterate

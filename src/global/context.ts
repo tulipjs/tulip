@@ -8,12 +8,34 @@ export const context = () => {
 
   let $currentContext: DisplayObjectMutable<any>[] = [];
   let $onNoContextCallbackList: Function[] = [];
+  let $focusedId: string;
+  let $focusableComponents: Record<string, DisplayObjectMutable<any>> = {};
 
   const $resizeBelowContainer = ({ width, height }: Size) => {
     $contextualBackgroundGraphics
       .clear()
       .poly([0, 0, 0, height, width, height, width, 0])
       .fill({ alpha: 0 });
+  };
+
+  const $focusTabHandler = (event: KeyboardEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (event.key !== "Tab") return;
+
+    const $focusableIds = Object.keys($focusableComponents);
+    if ($focusableIds.length === 0) return;
+
+    if (!$focusedId) {
+      $focusedId = $focusableIds[0];
+      set($focusableComponents[$focusedId]);
+      return;
+    }
+
+    const currentIndex = $focusableIds.indexOf($focusedId);
+    $focusedId = $focusableIds[currentIndex + 1] ?? $focusableIds[0];
+
+    set($focusableComponents[$focusedId]);
   };
 
   const $load = () => {
@@ -30,8 +52,33 @@ export const context = () => {
       clear();
     });
 
+    global.events.on(Event.KEY_DOWN, $focusTabHandler);
+
     global.events.on(Event.RESIZE, $resizeBelowContainer);
     $resizeBelowContainer(global.getApplication().window.getBounds());
+  };
+
+  const $add = (...componentMutable: DisplayObjectMutable<any>[]) => {
+    const $targetComponentMutable = $getFilteredComponentMutable(
+      ...componentMutable,
+    );
+
+    $targetComponentMutable.forEach((component) => {
+      const componentId = component.getId();
+      $focusableComponents[componentId] = component;
+    });
+  };
+
+  const $remove = (...componentMutable: DisplayObjectMutable<any>[]) => {
+    const $targetComponentMutable = $getFilteredComponentMutable(
+      ...componentMutable,
+    );
+
+    $targetComponentMutable.forEach((component) => {
+      const componentId = component.getId();
+      if ($focusableComponents[componentId])
+        delete $focusableComponents[componentId];
+    });
   };
 
   const $getCurrentContextIdList = () =>
@@ -66,6 +113,7 @@ export const context = () => {
       )
     )
       return;
+
     for (const $currentContextElement of $currentContext)
       $currentContextElement.$emit(DisplayObjectEvent.CONTEXT_LEAVE, {});
 
@@ -73,7 +121,10 @@ export const context = () => {
 
     for (const $currentContextElement of $currentContext)
       $currentContextElement.$emit(DisplayObjectEvent.CONTEXT_ENTER, {});
+
+    $focusedId = $currentContext[0].getId();
   };
+
   const remove = (...componentMutable: DisplayObjectMutable<any>[]) => {
     const $targetComponentMutable = $getFilteredComponentMutable(
       ...componentMutable,
@@ -111,6 +162,8 @@ export const context = () => {
       $currentContextElement.$emit(DisplayObjectEvent.CONTEXT_LEAVE, {});
 
     $currentContext = [];
+    $focusedId = undefined;
+
     for (const onNoContextFunc of $onNoContextCallbackList) onNoContextFunc();
   };
 
@@ -125,6 +178,8 @@ export const context = () => {
 
   return {
     $load,
+    $add,
+    $remove,
 
     add,
     set,
