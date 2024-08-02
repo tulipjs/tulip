@@ -22,7 +22,7 @@ export const sprite = <Props = {}, Mutable = {}, Data = {}>(
   let $spriteSheetTexture: Spritesheet;
 
   const setSpriteSheet = (spriteSheet: string | null) => {
-    if (spriteSheet === null) {
+    if (!isNotNullish(spriteSheet)) {
       $spriteSheet = undefined;
       $spriteSheetTexture = undefined;
       return;
