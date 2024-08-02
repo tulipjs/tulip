@@ -13,7 +13,7 @@ export type PartialSpriteMutable<Mutable = {}> = {
   setTexture: (texture?: string) => void;
 
   getSpriteSheet: () => string;
-  setSpriteSheet: (spriteSheet?: string) => void;
+  setSpriteSheet: (spriteSheet: string | null) => void;
 } & Mutable;
 
 ////////////////////////////

@@ -21,7 +21,12 @@ export const sprite = <Props = {}, Mutable = {}, Data = {}>(
   let $spriteSheet = spriteSheet;
   let $spriteSheetTexture: Spritesheet;
 
-  const setSpriteSheet = (spriteSheet: string) => {
+  const setSpriteSheet = (spriteSheet: string | null) => {
+    if (spriteSheet === null) {
+      $spriteSheet = undefined;
+      $spriteSheetTexture = undefined;
+      return;
+    }
     $spriteSheet = spriteSheet + "";
     $spriteSheetTexture = global.spriteSheets.get(spriteSheet);
     $spriteSheetTexture.textureSource.scaleMode = global
