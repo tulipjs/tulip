@@ -15,7 +15,13 @@ import {
   HorizontalAlign,
   VerticalAlign,
 } from "../../enums";
-import { closeKeyboard, isNotNullish, openKeyboard } from "../../utils";
+import {
+  closeKeyboard,
+  combineAccentAndChar,
+  getAccentCode,
+  isNotNullish,
+  openKeyboard,
+} from "../../utils";
 
 export const inputTextSprite: ContainerComponent<
   InputTextSpriteProps,
@@ -269,7 +275,14 @@ export const inputTextSprite: ContainerComponent<
     $textSprite.$render();
   };
 
-  const onKeyDown = async ({ key, metaKey, ctrlKey }: KeyboardEvent) => {
+  let currentAccentCode;
+  const onKeyDown = async ({
+    key,
+    metaKey,
+    ctrlKey,
+    code,
+    shiftKey,
+  }: KeyboardEvent) => {
     if (key === "Tab") return;
     if ((metaKey || ctrlKey) && key.toLowerCase() === "v") {
       // @ts-ignore
@@ -277,6 +290,17 @@ export const inputTextSprite: ContainerComponent<
       const text = await navigator.clipboard.readText();
       setText(`${$text}${text}`);
       return;
+    }
+
+    const accentCode = getAccentCode(code, shiftKey);
+    if (accentCode) {
+      currentAccentCode = accentCode;
+      return;
+    }
+    if (currentAccentCode) {
+      const combinedChar = combineAccentAndChar(currentAccentCode, key);
+      if (combinedChar) key = combinedChar;
+      currentAccentCode = "";
     }
 
     $stopCursorBlink();

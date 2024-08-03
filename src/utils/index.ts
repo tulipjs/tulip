@@ -6,3 +6,4 @@ export * from "./nullish.utils";
 export * from "./keyboard.utils";
 export * from "./os.utils";
 export * from "./textures.utils";
+export * from "./accents.utils";
