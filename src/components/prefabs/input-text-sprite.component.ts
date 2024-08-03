@@ -41,6 +41,7 @@ export const inputTextSprite: ContainerComponent<
     selectionPadding,
     withMask = false,
     autoFocus = true,
+    withContext = false,
     ...textSpriteProps
   } = $container.getProps();
 
@@ -269,6 +270,7 @@ export const inputTextSprite: ContainerComponent<
   };
 
   const onKeyDown = async ({ key, metaKey, ctrlKey }: KeyboardEvent) => {
+    if (key === "Tab") return;
     if ((metaKey || ctrlKey) && key.toLowerCase() === "v") {
       // @ts-ignore
       await navigator.permissions.query({ name: "clipboard-read" });
