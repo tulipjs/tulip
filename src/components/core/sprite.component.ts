@@ -56,7 +56,6 @@ export const sprite = <Props = {}, Mutable = {}, Data = {}>(
     targetTexture.source.scaleMode = global.getApplication().getScaleMode();
 
     $sprite.texture = targetTexture;
-    return;
   };
 
   const $$getRaw = $displayObject.$getRaw;
