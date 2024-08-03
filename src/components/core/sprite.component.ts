@@ -47,14 +47,15 @@ export const sprite = <Props = {}, Mutable = {}, Data = {}>(
           `SpriteSheet ${$spriteSheet} doesn't contain ${$texture} texture!`,
         );
 
-      return $targetTexture;
+      $sprite.texture = $targetTexture;
+      return;
     }
     const targetTexture = texture
       ? global.textures.get(texture)
       : PIXI.Texture.EMPTY;
     targetTexture.source.scaleMode = global.getApplication().getScaleMode();
 
-    return targetTexture;
+    $sprite.texture = targetTexture;
   };
 
   const $$getRaw = $displayObject.$getRaw;
@@ -75,7 +76,7 @@ export const sprite = <Props = {}, Mutable = {}, Data = {}>(
   };
 
   {
-    setTexture(texture, $spriteSheet);
+    setTexture(texture, spriteSheet);
   }
 
   const $mutable = {
