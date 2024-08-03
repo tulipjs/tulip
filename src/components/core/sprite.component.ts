@@ -21,7 +21,7 @@ export const sprite = <Props = {}, Mutable = {}, Data = {}>(
   let $spriteSheet = spriteSheet;
   let $spriteSheetTexture: Spritesheet;
 
-  const setSpriteSheet = (spriteSheet: string | null) => {
+  const $setSpriteSheet = (spriteSheet: string | null) => {
     if (!isNotNullish(spriteSheet)) {
       $spriteSheet = undefined;
       $spriteSheetTexture = undefined;
@@ -32,13 +32,14 @@ export const sprite = <Props = {}, Mutable = {}, Data = {}>(
     $spriteSheetTexture.textureSource.scaleMode = global
       .getApplication()
       .getScaleMode();
-
-    $sprite.texture = $getTexture($texture);
   };
   const getSpriteSheet = () => $spriteSheet;
 
-  const $getTexture = (texture?: string): PIXI.Texture => {
-    if (isNotNullish($spriteSheet)) {
+  const setTexture = (texture?: string, spriteSheet?: string): PIXI.Texture => {
+    $texture = texture;
+
+    $setSpriteSheet(spriteSheet);
+    if (isNotNullish(spriteSheet)) {
       const $targetTexture = $spriteSheetTexture.textures[$texture];
 
       if (!isNotNullish($targetTexture))
@@ -54,11 +55,6 @@ export const sprite = <Props = {}, Mutable = {}, Data = {}>(
     targetTexture.source.scaleMode = global.getApplication().getScaleMode();
 
     return targetTexture;
-  };
-
-  const setTexture = (texture?: string) => {
-    $texture = texture;
-    $sprite.texture = $getTexture(texture);
   };
 
   const $$getRaw = $displayObject.$getRaw;
@@ -79,14 +75,12 @@ export const sprite = <Props = {}, Mutable = {}, Data = {}>(
   };
 
   {
-    if (isNotNullish(spriteSheet)) setSpriteSheet($spriteSheet);
-    setTexture(texture);
+    setTexture(texture, $spriteSheet);
   }
 
   const $mutable = {
     setTexture,
 
-    setSpriteSheet,
     getSpriteSheet,
 
     $destroy,

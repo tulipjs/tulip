@@ -10,10 +10,9 @@ export type PartialSpriteProps<Props = {}> = {
   texture: string;
 } & Props;
 export type PartialSpriteMutable<Mutable = {}> = {
-  setTexture: (texture?: string) => void;
+  setTexture: (texture?: string, spriteSheet?: string) => void;
 
   getSpriteSheet: () => string;
-  setSpriteSheet: (spriteSheet: string | null) => void;
 } & Mutable;
 
 ////////////////////////////
