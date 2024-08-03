@@ -7,7 +7,7 @@ import {
 import { container, graphics } from "../core";
 import * as PIXI from "pixi.js";
 import { Size, Texture } from "pixi.js";
-import { isNotNullish } from "../../utils";
+import { isNotNullish, normalizeAccents, processAccents } from "../../utils";
 import {
   EventMode,
   GraphicType,
@@ -125,15 +125,25 @@ export const textSprite: ContainerComponent<
     $textContainer.removeChildren();
     $textContainer.tint = $currentColor;
 
+    const processedText = processAccents($currentText);
+
     let nextPositionX = 0;
-    for (const character of $currentText.split("")) {
+    for (const { character, accent } of processedText) {
       const $charTexture = $textures[character];
+      const $accentTexture = $textures[accent];
       if (!$charTexture) continue;
 
       const characterSprite = new PIXI.Sprite($charTexture);
-
       characterSprite.position.x = nextPositionX;
       $textContainer.addChild(characterSprite);
+
+      if ($accentTexture) {
+        const accentSprite = new PIXI.Sprite($accentTexture);
+        accentSprite.position.x =
+          nextPositionX + $charTexture.width / 2 - $accentTexture.width / 2;
+        accentSprite.position.y = -2;
+        $textContainer.addChild(accentSprite);
+      }
 
       nextPositionX = $textContainer.width + 1;
     }
@@ -216,8 +226,10 @@ export const textSprite: ContainerComponent<
   const getHorizontalAlign = () => $horizontalAlign;
 
   const $getTextBounds = (): Size => $textContainer.getBounds();
-  const $getCharacter = (character: string): PIXI.Texture | undefined =>
-    character ? $textures[character.split("")[0]] : undefined;
+  const $getCharacter = (character: string): PIXI.Texture | undefined => {
+    const { character: char } = normalizeAccents(character);
+    return char ? $textures[char.split("")[0]] : undefined;
+  };
   const $getTextContainer = () => $textContainer;
 
   const $render = () => {
