@@ -22,6 +22,8 @@ export type PartialTextSpriteProps<Props = {}> = {
   backgroundAlpha?: number;
   backgroundPadding?: IndividualSides;
 
+  accentYCorrection?: number;
+
   withMask?: boolean;
 } & Props;
 

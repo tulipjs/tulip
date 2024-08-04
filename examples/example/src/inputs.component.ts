@@ -51,6 +51,7 @@ export const inputsComponent: ContainerComponent<Props, Mutable> = () => {
     selectionGap: 4,
     selectionPadding: 2,
     withMask: true,
+    accentYCorrection: -2,
   });
   global.events.on(Event.KEY_DOWN, ({ key }) => {
     if (key === "Enter" && $input.isFocused()) {
@@ -91,6 +92,7 @@ export const inputsComponent: ContainerComponent<Props, Mutable> = () => {
     selectionGap: 4,
     selectionPadding: 2,
     withMask: true,
+    accentYCorrection: -2,
   });
 
   const $input3 = inputTextSprite({
@@ -126,6 +128,7 @@ export const inputsComponent: ContainerComponent<Props, Mutable> = () => {
     selectionGap: 4,
     selectionPadding: 2,
     withMask: true,
+    accentYCorrection: -2,
   });
 
   setTimeout(() => {

@@ -37,6 +37,7 @@ export const textSprite: ContainerComponent<
     verticalAlign,
     horizontalAlign,
     withMask = false,
+    accentYCorrection = 0,
   } = $containerComponent.getProps();
 
   let $currentText = text;
@@ -57,6 +58,7 @@ export const textSprite: ContainerComponent<
   let $horizontalAlign = horizontalAlign || HorizontalAlign.LEFT;
 
   let $textures: Record<string, PIXI.Texture> = {};
+  let initialCharHeight = 0;
 
   const $boxSize = {
     width: $size?.width + $backgroundPadding.left + $backgroundPadding.right,
@@ -141,7 +143,7 @@ export const textSprite: ContainerComponent<
         const accentSprite = new PIXI.Sprite($accentTexture);
         accentSprite.position.x =
           nextPositionX + $charTexture.width / 2 - $accentTexture.width / 2;
-        accentSprite.position.y = -2;
+        accentSprite.position.y = accentYCorrection;
         $textContainer.addChild(accentSprite);
       }
 
@@ -165,10 +167,10 @@ export const textSprite: ContainerComponent<
       let targetYPosition = 0;
       switch ($verticalAlign) {
         case VerticalAlign.MIDDLE:
-          targetYPosition = ($size.height - $textContainer.height) / 2;
+          targetYPosition = ($size.height - initialCharHeight) / 2;
           break;
         case VerticalAlign.BOTTOM:
-          targetYPosition = $size.height - $textContainer.height;
+          targetYPosition = $size.height - initialCharHeight;
           break;
       }
       $textContainerComponent.setPositionY(targetYPosition);
@@ -240,8 +242,8 @@ export const textSprite: ContainerComponent<
   {
     $textures = global.spriteSheets.get(spriteSheet).textures;
 
-    if (!isNotNullish($size.height))
-      $size.height = (Object.values($textures)[0] as Texture)?.height || 0;
+    initialCharHeight = (Object.values($textures)[0] as Texture)?.height || 0;
+    if (!isNotNullish($size.height)) $size.height = initialCharHeight;
 
     setText(text);
     setColor(color);
