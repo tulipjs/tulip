@@ -9,7 +9,7 @@ export const spriteSheets = () => {
       fetch(spriteSheet)
         .then((data) => data.json())
         .then(async (data) => {
-          const imagePath = `${spriteSheet.split("/").reverse().slice(1).reverse()}/${data.meta.image}`;
+          const imagePath = `${spriteSheet.split("/").reverse().slice(1).reverse().join("/")}/${data.meta.image}`;
 
           await global.textures.load(imagePath);
           const $spriteSheet = new PIXI.Spritesheet(
