@@ -20,8 +20,8 @@
     "pixi.js": "8.2.6"
   },
   "devDependencies": {
-    "@babel/core": "7.25.2",
-    "@babel/preset-env": "7.25.2",
+    "@babel/core": "7.24.9",
+    "@babel/preset-env": "7.25.3",
     "@babel/preset-typescript": "7.24.7",
     "@tsd/typescript": "5.5.4",
     "@types/howler": "2.2.11",
