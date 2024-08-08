@@ -37,6 +37,10 @@ describe("components", () => {
           focused: true,
           withContext: true,
           sortableChildren: true,
+          scale: {
+            x: 1,
+            y: 1,
+          },
         });
       });
 
@@ -276,6 +280,30 @@ describe("components", () => {
             .sortableChildren,
         ).toStrictEqual(false);
       });
+      test("setScale(...) of the display object", () => {
+        displayObjectMutable.setScale({ x: 1, y: -1 });
+        expect(container.scale.x).toBe(1);
+        expect(container.scale.y).toBe(-1);
+        expect(displayObjectMutable.getScale()).toStrictEqual({ x: 1, y: -1 });
+      });
+      test("setScaleX(...) of the display object", () => {
+        displayObjectMutable.setScaleX(-1);
+        expect(container.scale.x).toBe(-1);
+        expect(displayObjectMutable.getScale()).toStrictEqual(
+          expect.objectContaining({
+            x: -1,
+          }),
+        );
+      });
+      test("setScaleY(...) of the display object", () => {
+        displayObjectMutable.setScaleY(2);
+        expect(container.scale.y).toBe(2);
+        expect(displayObjectMutable.getScale()).toStrictEqual(
+          expect.objectContaining({
+            y: 2,
+          }),
+        );
+      });
       test("$getRaw() to contain all the elements", () => {
         expect(displayObjectMutable.$getRaw()).toStrictEqual({
           id: displayObjectMutable.getId(),
@@ -294,6 +322,10 @@ describe("components", () => {
           sortableChildren: false,
           tint: 0xff00ff,
           cursor: Cursor.COL_RESIZE,
+          scale: {
+            x: -1,
+            y: 2,
+          },
         });
       });
 

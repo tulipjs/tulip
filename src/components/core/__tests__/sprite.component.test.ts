@@ -84,6 +84,8 @@ describe("components", () => {
             cursor: Cursor.AUTO,
             sortableChildren: false,
             tint: 0xffffff,
+
+            scale: { x: 1, y: 1 },
           });
         });
         test("getProps(...) To return the original properties", () => {
