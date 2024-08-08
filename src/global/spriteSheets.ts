@@ -1,6 +1,11 @@
 import * as PIXI from "pixi.js";
 import { global } from "./global";
 
+type LoadProps = {
+  spriteSheet: string[];
+  onLoad?: (name: string) => void;
+};
+
 export const spriteSheets = () => {
   let spriteSheetMap: Record<string, PIXI.Spritesheet> = {};
 
@@ -11,7 +16,7 @@ export const spriteSheets = () => {
         .then(async (data) => {
           const imagePath = `${spriteSheet.split("/").reverse().slice(1).reverse().join("/")}/${data.meta.image}`;
 
-          await global.textures.load(imagePath);
+          await global.textures.load({ textures: [imagePath] });
           const $spriteSheet = new PIXI.Spritesheet(
             global.textures.get(imagePath),
             data,
@@ -22,13 +27,14 @@ export const spriteSheets = () => {
         });
     });
 
-  const load = async (...spriteSheet: string[]) => {
+  const load = async ({ spriteSheet, onLoad }: LoadProps) => {
     for (const $spriteSheet of spriteSheet) {
       if (spriteSheetMap[$spriteSheet]) {
         console.warn(`SpriteSheet (${spriteSheet}) already loaded!`);
         continue;
       }
       spriteSheetMap[$spriteSheet] = await $loadSpriteSheet($spriteSheet);
+      onLoad?.($spriteSheet);
     }
   };
 
