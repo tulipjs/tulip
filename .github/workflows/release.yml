@@ -39,19 +39,18 @@ jobs:
           data: |
             {
               "version": "${{ steps.set_version.outputs.tag }}"
+
+      - name: Add version to jsr.json
+        uses: jaywcjlove/github-action-package@main
+        with:
+          path: "./jsr.json"
+          data: |
+            {
+              "version": "${{ steps.set_version.outputs.tag }}"
             }
 
       - name: Publish package
         run: npx jsr publish --allow-dirty
-
-      - name: Modify name on package.json
-        uses: jaywcjlove/github-action-package@main
-        with:
-          path: "./package.json"
-          data: |
-            {
-              "name": "@tulib/tulip"
-            }
 
       - run: npm publish --access public
         env:
