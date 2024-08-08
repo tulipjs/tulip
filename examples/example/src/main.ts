@@ -24,11 +24,16 @@ app.load(async () => {
       alias: "Pixel",
     },
   ]);
-  await global.spriteSheets.load(
-    "fonts/default-font.json",
-    "fonts/default-font-bold.json",
-    "fighter/fighter.json",
-  );
+  await global.spriteSheets.load({
+    spriteSheet: [
+      "fonts/default-font.json",
+      "fonts/default-font-bold.json",
+      "fighter/fighter.json",
+    ],
+    onLoad: (spriteSheet) => {
+      console.log(`${performance.now()} Loading... ${spriteSheet}`);
+    },
+  });
   // await global.textures.load("duck.png");
 
   app.add(appComponent());
