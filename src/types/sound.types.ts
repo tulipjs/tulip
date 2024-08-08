@@ -40,3 +40,5 @@ export type SoundMutable = {
 
   $getSound: () => Howl;
 };
+
+export type Volume = { left: number; right: number };

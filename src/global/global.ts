@@ -4,6 +4,7 @@ import {
   Font,
   ApplicationMutable,
   Point,
+  GlobalType,
 } from "../types";
 import * as PIXI from "pixi.js";
 import { events } from "./events";
@@ -13,7 +14,7 @@ import { context } from "./context";
 import { spriteSheets } from "./spriteSheets";
 import { textures } from "./textures";
 
-export const global = (() => {
+export const global: GlobalType = (() => {
   let $application: ApplicationMutable;
   let $data = {};
   let $componentList: ComponentMutable[] = [];
@@ -42,8 +43,8 @@ export const global = (() => {
     }
   };
 
-  const $setApplication = (application) => ($application = application);
-
+  const $setApplication = (application: ApplicationMutable) =>
+    ($application = application);
   const getApplication = () => $application;
 
   const $addComponent = (component: ComponentMutable) => {

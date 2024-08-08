@@ -1,3 +1,1 @@
-export type MutableFunction<Type> =
-  | Type
-  | ((data: Type) => Type | Promise<Type>);
+export type MutableFunction<Type> = Type | ((data: Type) => Type);

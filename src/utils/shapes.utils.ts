@@ -4,6 +4,7 @@ import {
   CapsuleShapeProps,
   CircleShapeProps,
   ConvexShapeProps,
+  GraphicsMutable,
   PlaneShapeProps,
   ShapeProps,
   Shapes,
@@ -21,7 +22,10 @@ const getBaseProps = <Props extends ShapeProps>({
     : undefined,
 });
 
-export const getShape = ({ type, ...props }: Shapes) => {
+export const getShape = ({
+  type,
+  ...props
+}: Shapes): p2.Shape | p2.Plane | p2.Box | p2.Capsule | p2.Convex => {
   if (type === Shape.CIRCLE) return getCircleShape(props as CircleShapeProps);
   if (type === Shape.PLANE) return getPlaneShape(props as PlaneShapeProps);
   if (type === Shape.BOX) return getBoxShape(props as BoxShapeProps);
@@ -45,7 +49,7 @@ const getCapsuleShape = (props: CapsuleShapeProps): p2.Capsule =>
 const getConvexShape = (props: ConvexShapeProps): p2.Convex =>
   new p2.Convex(getBaseProps(props));
 
-export const getVisualShape = ({ type, ...props }: Shapes) => {
+export const getVisualShape = ({ type, ...props }: Shapes): GraphicsMutable => {
   if (type === Shape.CIRCLE) return getVisualCircle(props as CircleShapeProps);
   if (type === Shape.PLANE) return getVisualPlane(props as PlaneShapeProps);
   if (type === Shape.BOX) return getVisualBox(props as BoxShapeProps);
@@ -54,7 +58,7 @@ export const getVisualShape = ({ type, ...props }: Shapes) => {
   if (type === Shape.CONVEX) return getVisualConvex(props as ConvexShapeProps);
 };
 
-const getVisualCircle = (props: CircleShapeProps) =>
+const getVisualCircle = (props: CircleShapeProps): GraphicsMutable =>
   graphics({
     color: 0xff00ff,
     alpha: 0.2,
@@ -62,7 +66,7 @@ const getVisualCircle = (props: CircleShapeProps) =>
     radius: props.radius,
   });
 
-const getVisualPlane = (props: PlaneShapeProps) => {
+const getVisualPlane = (props: PlaneShapeProps): GraphicsMutable => {
   const plane = graphics({
     color: 0xff00ff,
     alpha: 0.2,
@@ -75,7 +79,7 @@ const getVisualPlane = (props: PlaneShapeProps) => {
   return plane;
 };
 
-const getVisualBox = (props: BoxShapeProps) => {
+const getVisualBox = (props: BoxShapeProps): GraphicsMutable => {
   const { width, height } = props;
   const box = graphics({
     color: 0xff00ff,
@@ -88,7 +92,7 @@ const getVisualBox = (props: BoxShapeProps) => {
   return box;
 };
 
-const getVisualCapsule = (props: CapsuleShapeProps) =>
+const getVisualCapsule = (props: CapsuleShapeProps): GraphicsMutable =>
   graphics({
     color: 0xff00ff,
     alpha: 0.2,
@@ -97,7 +101,7 @@ const getVisualCapsule = (props: CapsuleShapeProps) =>
     radius: props.radius,
   });
 
-const getVisualConvex = (props: ConvexShapeProps) =>
+const getVisualConvex = (props: ConvexShapeProps): GraphicsMutable =>
   graphics({
     color: 0xff00ff,
     alpha: 0.2,

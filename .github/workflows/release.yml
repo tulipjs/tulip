@@ -8,6 +8,11 @@ jobs:
   publish:
     name: "publish"
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
     steps:
       - uses: actions/checkout@v3
 
@@ -40,6 +45,18 @@ jobs:
             {
               "version": "${{ steps.set_version.outputs.tag }}"
             }
+
+      - name: Add version to jsr.json
+        uses: jaywcjlove/github-action-package@main
+        with:
+          path: "./jsr.json"
+          data: |
+            {
+              "version": "${{ steps.set_version.outputs.tag }}"
+            }
+
+      - name: Publish package
+        run: npx jsr publish --allow-dirty
 
       - run: npm publish --access public
         env:

@@ -1,9 +1,9 @@
 import { global } from "../global";
 import { DisplayObjectEvent, Event, EventMode } from "../enums";
-import { DisplayObjectMutable, Size } from "../types";
+import { DisplayObjectMutable, GlobalContextType, Size } from "../types";
 import { Graphics } from "pixi.js";
 
-export const context = () => {
+export const context = (): GlobalContextType => {
   const $contextualBackgroundGraphics = new Graphics();
 
   let $currentContext: DisplayObjectMutable<any>[] = [];
@@ -167,7 +167,7 @@ export const context = () => {
     for (const onNoContextFunc of $onNoContextCallbackList) onNoContextFunc();
   };
 
-  const onNoContext = (callback: () => void | Promise<void>) => {
+  const onNoContext = (callback: () => void | Promise<void>): (() => void) => {
     const index = $onNoContextCallbackList.push(callback);
 
     return () =>
