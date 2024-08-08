@@ -41,6 +41,18 @@ jobs:
               "version": "${{ steps.set_version.outputs.tag }}"
             }
 
+      - name: Publish package
+        run: npx jsr publish --allow-dirty
+
+      - name: Modify name on package.json
+        uses: jaywcjlove/github-action-package@main
+        with:
+          path: "./package.json"
+          data: |
+            {
+              "name": "@tulib/tulip"
+            }
+
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

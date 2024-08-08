@@ -1,5 +1,5 @@
 {
-  "name": "@tulib/tulip",
+  "name": "@tu/tulip",
   "version": "0.0.0",
   "main": "./src/mod.ts",
   "homepage": "https://github.com/tulips/tulip",
