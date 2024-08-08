@@ -75,7 +75,7 @@ export const global = (() => {
   const normalizeValue = (value: number): number =>
     getApplication()?.isPixelPerfect() ? Math.round(value) : value;
   const normalizePoint = (point: Point): Point => {
-    return getApplication()?.isPixelPerfect()
+    return getApplication()?.isPixelPerfect?.()
       ? {
           x: Math.round(point.x),
           y: Math.round(point.y),

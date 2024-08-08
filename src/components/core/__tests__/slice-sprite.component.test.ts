@@ -85,6 +85,8 @@ describe("components", () => {
             bottomHeight: 4,
             width: 20,
             height: 10,
+
+            scale: { x: 1, y: 1 },
           });
         });
         test("getProps(...) To return the original properties", () => {

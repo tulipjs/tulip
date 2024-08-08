@@ -169,6 +169,28 @@ export const displayObject = <
   };
   const getHitArea = () => ($displayObject.hitArea as any)?.points || [];
 
+  //scale
+  const setScale = (data) => {
+    $displayObject.scale = global.normalizePoint(
+      getValueMutableFunction<Point>(data, $displayObject.scale),
+    );
+  };
+  const setScaleX = (data) => {
+    $displayObject.scale.x = global.normalizeValue(
+      getValueMutableFunction<number>(data, $displayObject.scale.x),
+    );
+  };
+  const setScaleY = (data) => {
+    $displayObject.scale.y = global.normalizeValue(
+      getValueMutableFunction<number>(data, $displayObject.scale.y),
+    );
+  };
+  const getScale = () =>
+    ({
+      x: $displayObject?.scale?.x || 0,
+      y: $displayObject?.scale?.y || 0,
+    }) as Point;
+
   const $destroy = () => {
     $component.getFather = () => null;
 
@@ -187,6 +209,7 @@ export const displayObject = <
     withContext: getWithContext(),
     sortableChildren: isSortableChildren(),
     tint: getTint(),
+    scale: getScale(),
   });
   let $removeOnTickEvent: () => void;
 
@@ -297,6 +320,7 @@ export const displayObject = <
       zIndex,
       focused,
       sortableChildren,
+      scale,
     } = $component.getProps();
 
     if (isNotNullish(label)) setLabel(label);
@@ -317,6 +341,7 @@ export const displayObject = <
 
     setCursor(cursor || Cursor.AUTO);
     setSortableChildren(Boolean(sortableChildren));
+    setScale(scale ?? { x: 1, y: 1 });
 
     on(DisplayObjectEvent.REMOVED, () => {
       global.context.$remove($getContextBaseMutable());
@@ -384,6 +409,11 @@ export const displayObject = <
     //mask
     setMask,
     removeMask,
+    //scale
+    setScale,
+    setScaleX,
+    setScaleY,
+    getScale,
     //global position
     getGlobalPosition,
 

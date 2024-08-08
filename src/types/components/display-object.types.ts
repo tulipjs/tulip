@@ -16,6 +16,7 @@ export type PartialDisplayObjectProps = {
   cursor?: Cursor;
   hitArea?: number[];
   sortableChildren?: boolean;
+  scale?: Point;
 
   focused?: boolean;
   withContext?: boolean;
@@ -69,6 +70,11 @@ export type PartialDisplayObjectMutable<DisplayObject, Mutable = {}> = {
     displayObject: DisplayObjectMutable<DO, unknown, unknown, unknown>,
   ) => void;
   removeMask: () => void;
+  //scale
+  setScale: (pivot: MutableFunction<Point>) => void;
+  setScaleX: (x: MutableFunction<number>) => void;
+  setScaleY: (y: MutableFunction<number>) => void;
+  getScale: () => Point;
   //global position
   getGlobalPosition: () => Point;
 

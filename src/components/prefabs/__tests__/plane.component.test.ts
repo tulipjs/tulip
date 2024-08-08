@@ -39,6 +39,7 @@ describe("components", () => {
           tint: 0xff00ff,
           sortableChildren: false,
           cursor: Cursor.AUTO,
+          scale: { x: 1, y: 1 },
         });
       });
 
