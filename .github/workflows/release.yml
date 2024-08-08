@@ -39,6 +39,7 @@ jobs:
           data: |
             {
               "version": "${{ steps.set_version.outputs.tag }}"
+            }
 
       - name: Add version to jsr.json
         uses: jaywcjlove/github-action-package@main
