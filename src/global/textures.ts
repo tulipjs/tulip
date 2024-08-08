@@ -1,15 +1,11 @@
 import * as PIXI from "pixi.js";
 import { loadTexture } from "../utils";
+import { GlobalTexturesType, TexturesLoadProps } from "../types";
 
-type LoadProps = {
-  textures: string[];
-  onLoad?: (name: string) => void;
-};
-
-export const textures = () => {
+export const textures = (): GlobalTexturesType => {
   let texturesMap: Record<string, PIXI.Texture> = {};
 
-  const load = async ({ textures, onLoad }: LoadProps) => {
+  const load = async ({ textures, onLoad }: TexturesLoadProps) => {
     for (const $texture of textures) {
       if (texturesMap[$texture]) {
         console.warn(`Texture (${$texture}) already loaded!`);

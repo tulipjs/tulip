@@ -10,6 +10,8 @@ export * from "./size.types";
 export * from "./window.types";
 export * from "./sound.types";
 export * from "./sides.types";
+export * from "./sprite-sheets.types";
+export * from "./textures.types";
 
 export * from "./components";
 export * from "./shapes";

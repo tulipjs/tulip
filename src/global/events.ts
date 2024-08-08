@@ -1,7 +1,11 @@
 import { DisplayObjectEvent, Event } from "../enums";
-import { DisplayObject, PartialDisplayObjectMutable } from "../types";
+import {
+  DisplayObject,
+  GlobalEventsType,
+  PartialDisplayObjectMutable,
+} from "../types";
 
-export const events = () => {
+export const events = (): GlobalEventsType => {
   let $eventMap: Record<Event, ((data?: any) => void)[]> = {
     [Event.TICK]: [],
     [Event.KEY_DOWN]: [],

@@ -1,7 +1,7 @@
 import { OS } from "../enums";
 import { DESKTOP_OS_LIST, MOBILE_OS_LIST } from "../consts";
 
-export const getOS = () => {
+export const getOS = (): OS => {
   const { userAgent, platform } = navigator;
 
   // Check for iOS
@@ -26,5 +26,5 @@ export const getOS = () => {
   return OS.UNKNOWN;
 };
 
-export const isDesktop = () => DESKTOP_OS_LIST.includes(getOS());
-export const isMobile = () => MOBILE_OS_LIST.includes(getOS());
+export const isDesktop = (): boolean => DESKTOP_OS_LIST.includes(getOS());
+export const isMobile = (): boolean => MOBILE_OS_LIST.includes(getOS());

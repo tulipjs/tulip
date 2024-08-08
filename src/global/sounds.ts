@@ -1,8 +1,8 @@
 import { Howler } from "howler";
-import { Point3d, SoundProps } from "../types";
+import { GlobalSoundsType, Point3d, SoundProps, Volume } from "../types";
 import { DEFAULT_PANNER_CONFIG } from "../consts";
 
-export const sounds = () => {
+export const sounds = (): GlobalSoundsType => {
   let lastPosition = { x: 0, y: 0, z: 2 };
   let lastOrientation = { x: 0, y: 0, z: -1 };
   let globalSoundList = [];
@@ -58,7 +58,7 @@ export const sounds = () => {
     return 20 * Math.log10(rms);
   };
 
-  const getVolume = (): { left: number; right: number } => {
+  const getVolume = (): Volume => {
     return globalSoundList.reduce(
       (totalVolume, { analyserLeft, analyserRight }) => {
         let arrayLeft = new Uint8Array(analyserLeft.frequencyBinCount);
