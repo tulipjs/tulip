@@ -80,4 +80,8 @@ export enum DisplayObjectEvent {
   TICK = "@custom/tick",
   CONTEXT_ENTER = "@custom/context_enter",
   CONTEXT_LEAVE = "@custom/context_leave",
+  CONTEXT_FORWARD = "@custom/context_forward",
+  CONTEXT_BACKWARD = "@custom/context_backward",
+  CONTEXT_DOWN = "@custom/context_down",
+  CONTEXT_UP = "@custom/context_up",
 }

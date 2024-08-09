@@ -2,6 +2,7 @@ import {
   container,
   ContainerComponent,
   Cursor,
+  DisplayObjectEvent,
   Event,
   EventMode,
   getOS,
@@ -58,6 +59,11 @@ export const inputsComponent: ContainerComponent<Props, Mutable> = () => {
       $input.clear();
     }
   });
+  $input.on(DisplayObjectEvent.CONTEXT_FORWARD, () => {
+    global.context.focus($input2);
+  });
+
+  global.context.focus($input);
 
   const $input2 = inputTextSprite({
     label: "input-2",
@@ -94,6 +100,12 @@ export const inputsComponent: ContainerComponent<Props, Mutable> = () => {
     withMask: true,
     accentYCorrection: -2,
   });
+  $input2.on(DisplayObjectEvent.CONTEXT_BACKWARD, () => {
+    global.context.focus($input);
+  });
+  $input2.on(DisplayObjectEvent.CONTEXT_FORWARD, () => {
+    global.context.focus($input3);
+  });
 
   const $input3 = inputTextSprite({
     label: "input-3",
@@ -129,6 +141,9 @@ export const inputsComponent: ContainerComponent<Props, Mutable> = () => {
     selectionPadding: 2,
     withMask: true,
     accentYCorrection: -2,
+  });
+  $input3.on(DisplayObjectEvent.CONTEXT_BACKWARD, () => {
+    global.context.focus($input2);
   });
 
   setTimeout(() => {

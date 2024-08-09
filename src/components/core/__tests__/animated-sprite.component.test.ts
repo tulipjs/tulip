@@ -82,7 +82,7 @@ describe("components", () => {
 
       test("getId() check that empty is being called", () => {
         expect($animatedSprite.getId()).toMatch(
-          /animated-sprite-label_([0-9]{0,5})/,
+          /animated-sprite-label@@([0-9]{0,5})/,
         );
       });
       test("getLabel() check that initDisplayObjectMutable(...) is being called", () => {
@@ -180,7 +180,6 @@ describe("components", () => {
           spriteSheet: "testing.json",
           visible: undefined,
           zIndex: undefined,
-          focused: true,
           hitArea: [],
           withContext: false,
           sortableChildren: false,

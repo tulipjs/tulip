@@ -39,7 +39,6 @@ describe("components", () => {
           zIndex: 0,
           hitArea: [],
           withContext: false,
-          focused: true,
           tint: 0xff00ff,
           sortableChildren: false,
           cursor: Cursor.AUTO,

@@ -39,15 +39,13 @@ export type GlobalSoundsType = {
 
 export type GlobalContextType = {
   $load: () => void;
-  $add: (...componentMutable: DisplayObjectMutable<any>[]) => void;
-  $remove: (...componentMutable: DisplayObjectMutable<any>[]) => void;
 
-  add: (...componentMutable: DisplayObjectMutable<any>[]) => void;
-  set: (...componentMutable: DisplayObjectMutable<any>[]) => void;
-  remove: (...componentMutable: DisplayObjectMutable<any>[]) => void;
-  get: () => DisplayObjectMutable<any>[];
-  has: (...componentMutable: DisplayObjectMutable<any>[]) => boolean;
-  clear: () => void;
+  $addComponent: (componentMutable: DisplayObjectMutable<any>) => void;
+  $removeComponent: (componentMutable: DisplayObjectMutable<any>) => void;
+
+  focus: (componentMutable: DisplayObjectMutable<any>) => void;
+  blur: () => void;
+  getFocus: () => string | null;
 
   onNoContext: (callback: () => void | Promise<void>) => () => void;
 };

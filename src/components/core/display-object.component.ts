@@ -29,7 +29,6 @@ export const displayObject = <
   const { withContext } = $component.getProps();
 
   let $isRemoved = false;
-  let $withContext = withContext;
 
   const $$setLabel = $component.setLabel;
   const $$setPosition = $component.setPosition;
@@ -204,7 +203,6 @@ export const displayObject = <
     alpha: getAlpha(),
     eventMode: getEventMode(),
     hitArea: getHitArea(),
-    focused: isFocused(),
     cursor: getCursor(),
     withContext: getWithContext(),
     sortableChildren: isSortableChildren(),
@@ -216,6 +214,7 @@ export const displayObject = <
   $displayObject.on(DisplayObjectEvent.REMOVED, () => {
     $isRemoved = true;
     $removeOnTickEvent !== undefined && $removeOnTickEvent();
+    global.context.$removeComponent($getContextBaseMutable());
   });
 
   const on = (event: DisplayObjectEvent, callback: (data?: any) => void) => {
@@ -251,22 +250,17 @@ export const displayObject = <
   const focus = () => {
     if (!getWithContext()) return;
     // Implements only the necessary functions
-    global.context.set($getContextBaseMutable());
+    global.context.focus($getContextBaseMutable());
   };
 
   const blur = () => {
-    if (!getWithContext()) return;
-    // Implements only the necessary functions
-    global.context.remove($getContextBaseMutable());
+    if (!getWithContext() || !isFocused()) return;
+    global.context.blur();
   };
 
-  const isFocused = () => global.context.has($getContextBaseMutable());
+  const isFocused = () => global.context.getFocus() === $component.getId();
 
-  const setWithContext = (data) => {
-    $withContext = getValueMutableFunction<boolean>(data, getWithContext());
-  };
-
-  const getWithContext = () => $withContext;
+  const getWithContext = () => Boolean(withContext);
 
   const setSortableChildren = (data) => {
     $displayObject.sortableChildren = getValueMutableFunction<boolean>(
@@ -318,7 +312,6 @@ export const displayObject = <
       hitArea,
       visible,
       zIndex,
-      focused,
       sortableChildren,
       scale,
     } = $component.getProps();
@@ -334,18 +327,12 @@ export const displayObject = <
 
     setAngle(angle || 0);
     setEventMode(eventMode || EventMode.PASSIVE);
-    setWithContext(isNotNullish(withContext) ? withContext : false);
-    // This is not an error
-    if ($withContext && focused) global.context.add($getContextBaseMutable());
-    if ($withContext) global.context.$add($getContextBaseMutable());
+
+    if (withContext) global.context.$addComponent($getContextBaseMutable());
 
     setCursor(cursor || Cursor.AUTO);
     setSortableChildren(Boolean(sortableChildren));
     setScale(scale ?? { x: 1, y: 1 });
-
-    on(DisplayObjectEvent.REMOVED, () => {
-      global.context.$remove($getContextBaseMutable());
-    });
 
     on(DisplayObjectEvent.TICK, () => {
       // If not body present, it doesn't make sense to iterate
@@ -425,7 +412,6 @@ export const displayObject = <
     focus,
     blur,
     isFocused,
-    setWithContext,
     getWithContext,
 
     $destroy,

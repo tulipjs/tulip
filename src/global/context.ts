@@ -6,36 +6,15 @@ import { Graphics } from "pixi.js";
 export const context = (): GlobalContextType => {
   const $contextualBackgroundGraphics = new Graphics();
 
-  let $currentContext: DisplayObjectMutable<any>[] = [];
+  let $currentComponentContextId: string = null;
+  let $contextDisplayObjectList: DisplayObjectMutable<any>[] = [];
   let $onNoContextCallbackList: Function[] = [];
-  let $focusedId: string;
-  let $focusableComponents: Record<string, DisplayObjectMutable<any>> = {};
 
   const $resizeBelowContainer = ({ width, height }: Size) => {
     $contextualBackgroundGraphics
       .clear()
       .poly([0, 0, 0, height, width, height, width, 0])
       .fill({ alpha: 0 });
-  };
-
-  const $focusTabHandler = (event: KeyboardEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
-    if (event.key !== "Tab") return;
-
-    const $focusableIds = Object.keys($focusableComponents);
-    if ($focusableIds.length === 0) return;
-
-    if (!$focusedId) {
-      $focusedId = $focusableIds[0];
-      set($focusableComponents[$focusedId]);
-      return;
-    }
-
-    const currentIndex = $focusableIds.indexOf($focusedId);
-    $focusedId = $focusableIds[currentIndex + 1] ?? $focusableIds[0];
-
-    set($focusableComponents[$focusedId]);
   };
 
   const $load = () => {
@@ -47,122 +26,86 @@ export const context = (): GlobalContextType => {
       .stage.addChild($contextualBackgroundGraphics);
 
     $contextualBackgroundGraphics.on(DisplayObjectEvent.POINTER_UP, () => {
-      for (const $currentContextElement of $currentContext)
-        $currentContextElement.$emit(DisplayObjectEvent.CONTEXT_LEAVE, {});
-      clear();
+      $getFocusComponent()?.$emit(DisplayObjectEvent.CONTEXT_LEAVE, {});
+      $clear();
     });
 
-    global.events.on(Event.KEY_DOWN, $focusTabHandler);
-
+    //resize background context
     global.events.on(Event.RESIZE, $resizeBelowContainer);
     $resizeBelowContainer(global.getApplication().window.getBounds());
-  };
 
-  const $add = (...componentMutable: DisplayObjectMutable<any>[]) => {
-    const $targetComponentMutable = $getFilteredComponentMutable(
-      ...componentMutable,
-    );
+    //check keyboard for the special chars
+    global.events.on(Event.KEY_DOWN, (event: KeyboardEvent) => {
+      const $focusComponent = $getFocusComponent();
+      if (!$focusComponent) return;
 
-    $targetComponentMutable.forEach((component) => {
-      const componentId = component.getId();
-      $focusableComponents[componentId] = component;
+      const stop = () => {
+        event?.preventDefault?.();
+        event?.stopPropagation();
+      };
+
+      const { key, shiftKey } = event;
+      if (key === "ArrowDown") {
+        $focusComponent.$emit(DisplayObjectEvent.CONTEXT_DOWN, {});
+        stop();
+      }
+      if (key === "ArrowUp") {
+        $focusComponent.$emit(DisplayObjectEvent.CONTEXT_UP, {});
+        stop();
+      }
+      if (key === "Tab") {
+        $focusComponent.$emit(
+          shiftKey
+            ? DisplayObjectEvent.CONTEXT_BACKWARD
+            : DisplayObjectEvent.CONTEXT_FORWARD,
+          {},
+        );
+        stop();
+      }
     });
   };
 
-  const $remove = (...componentMutable: DisplayObjectMutable<any>[]) => {
-    const $targetComponentMutable = $getFilteredComponentMutable(
-      ...componentMutable,
-    );
+  const $addComponent = (componentMutable: DisplayObjectMutable<any>) => {
+    $contextDisplayObjectList.push(componentMutable);
 
-    $targetComponentMutable.forEach((component) => {
-      const componentId = component.getId();
-      if ($focusableComponents[componentId])
-        delete $focusableComponents[componentId];
-    });
+    if (componentMutable.getId() === $currentComponentContextId)
+      componentMutable.$emit(DisplayObjectEvent.CONTEXT_ENTER, {});
   };
 
-  const $getCurrentContextIdList = () =>
-    $currentContext.map((component) => component.getId());
-
-  const $getFilteredComponentMutable = (
-    ...componentMutable: DisplayObjectMutable<any>[]
-  ) => componentMutable.filter(($component) => $component.getWithContext());
-
-  const add = (...componentMutable: DisplayObjectMutable<any>[]) => {
-    const $targetComponentMutable = $getFilteredComponentMutable(
-      ...componentMutable,
+  const $removeComponent = (componentMutable: DisplayObjectMutable<any>) => {
+    $contextDisplayObjectList = $contextDisplayObjectList.filter(
+      ($component) => $component.getId() !== componentMutable.getId(),
     );
 
-    $currentContext.push(...$targetComponentMutable);
-
-    for (const $currentContextElement of $targetComponentMutable)
-      $currentContextElement.$emit(DisplayObjectEvent.CONTEXT_ENTER, {});
+    //if context is current, clear
+    if (componentMutable.getId() === $currentComponentContextId) $clear();
   };
 
-  const set = (...componentMutable: DisplayObjectMutable<any>[]) => {
-    const $targetComponentMutable = $getFilteredComponentMutable(
-      ...componentMutable,
+  const getFocus = (): string | null => $currentComponentContextId;
+  const $getFocusComponent = (): DisplayObjectMutable<any> | null =>
+    $contextDisplayObjectList.find(
+      ($component) => $component.getId() === $currentComponentContextId,
     );
 
-    const currentContextIdList = $getCurrentContextIdList();
+  const focus = (componentMutable: DisplayObjectMutable<any>) => {
+    $getFocusComponent()?.$emit(DisplayObjectEvent.CONTEXT_LEAVE, {});
+    $currentComponentContextId = componentMutable.getId();
 
-    if (
-      $targetComponentMutable.length === currentContextIdList.length &&
-      $targetComponentMutable.every(($component) =>
-        currentContextIdList.includes($component.getId()),
-      )
-    )
-      return;
-
-    for (const $currentContextElement of $currentContext)
-      $currentContextElement.$emit(DisplayObjectEvent.CONTEXT_LEAVE, {});
-
-    $currentContext = $targetComponentMutable;
-
-    for (const $currentContextElement of $currentContext)
-      $currentContextElement.$emit(DisplayObjectEvent.CONTEXT_ENTER, {});
-
-    $focusedId = $currentContext[0].getId();
+    const targetFocusComponent = $getFocusComponent();
+    if (!targetFocusComponent)
+      console.warn(
+        `Component with id (${componentMutable.getId()}) cannot be focused!`,
+      );
+    else targetFocusComponent?.$emit(DisplayObjectEvent.CONTEXT_ENTER, {});
   };
 
-  const remove = (...componentMutable: DisplayObjectMutable<any>[]) => {
-    const $targetComponentMutable = $getFilteredComponentMutable(
-      ...componentMutable,
-    );
-
-    const componentList = $targetComponentMutable.map(($component) =>
-      $component.getId(),
-    );
-    const foundContext = $currentContext.filter(($component) =>
-      componentList.includes($component.getId()),
-    );
-
-    for (const $currentContextElement of foundContext)
-      $currentContextElement.$emit(DisplayObjectEvent.CONTEXT_LEAVE, {});
-
-    $currentContext = $currentContext.filter(
-      ($component) => !componentList.includes($component.getId()),
-    );
-
-    if (!$currentContext.length) clear();
+  const blur = () => {
+    $getFocusComponent()?.$emit(DisplayObjectEvent.CONTEXT_LEAVE, {});
+    $clear();
   };
 
-  const get = () => $currentContext;
-  const has = (...componentMutable: DisplayObjectMutable<any>[]) => {
-    if (componentMutable.every(($component) => !$component.getWithContext()))
-      return true;
-    const currentContextIdList = $getCurrentContextIdList();
-    return componentMutable.every(($component) =>
-      currentContextIdList.includes($component.getId()),
-    );
-  };
-
-  const clear = () => {
-    for (const $currentContextElement of $currentContext)
-      $currentContextElement.$emit(DisplayObjectEvent.CONTEXT_LEAVE, {});
-
-    $currentContext = [];
-    $focusedId = undefined;
+  const $clear = () => {
+    $currentComponentContextId = null;
 
     for (const onNoContextFunc of $onNoContextCallbackList) onNoContextFunc();
   };
@@ -178,15 +121,13 @@ export const context = (): GlobalContextType => {
 
   return {
     $load,
-    $add,
-    $remove,
 
-    add,
-    set,
-    remove,
-    get,
-    has,
-    clear,
+    $addComponent,
+    $removeComponent,
+
+    focus,
+    blur,
+    getFocus,
 
     onNoContext,
   };

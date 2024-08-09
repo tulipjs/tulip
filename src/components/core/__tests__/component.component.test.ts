@@ -14,7 +14,7 @@ describe("components", () => {
 
       //id
       test("getId() return the original id", () => {
-        expect(emptyPropsMutable.getId()).toMatch(/empty_([0-9]{0,5})/);
+        expect(emptyPropsMutable.getId()).toMatch(/empty@@([0-9]{0,5})/);
       });
 
       //label

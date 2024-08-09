@@ -48,7 +48,7 @@ describe("components", () => {
         expect($world.$getWorld().bodies).toEqual([]);
       });
       test("getId() check that container is being called", () => {
-        expect($world.getId()).toMatch(/world_([0-9]{0,5})/);
+        expect($world.getId()).toMatch(/world@@([0-9]{0,5})/);
         expect($world.getLabel()).toMatch("world");
       });
       test("setPhysicsEnabled(...) check that can set the physics", () => {

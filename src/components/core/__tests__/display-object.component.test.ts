@@ -34,7 +34,6 @@ describe("components", () => {
           zIndex: 99,
           visible: false,
           eventMode: EventMode.DYNAMIC,
-          focused: true,
           withContext: true,
           sortableChildren: true,
           scale: {
@@ -229,42 +228,24 @@ describe("components", () => {
         expect(displayObjectMutable.getWithContext()).toStrictEqual(true);
         displayObjectMutable.blur();
         expect(displayObjectMutable.isFocused()).toStrictEqual(false);
-        expect(global.context.has(displayObjectMutable)).toStrictEqual(false);
+        expect(global.context.getFocus()).not.toStrictEqual(
+          displayObjectMutable.getId(),
+        );
       });
       test("focus() to be called", () => {
         expect(displayObjectMutable.getWithContext()).toStrictEqual(true);
         displayObjectMutable.focus();
         expect(displayObjectMutable.isFocused()).toStrictEqual(true);
-        expect(global.context.has(displayObjectMutable)).toStrictEqual(true);
+        expect(global.context.getFocus()).toStrictEqual(
+          displayObjectMutable.getId(),
+        );
       });
-      test("setWithContext() to be called", () => {
+      test("check focus to be called", () => {
         expect(displayObjectMutable.getWithContext()).toStrictEqual(true);
         expect(displayObjectMutable.isFocused()).toStrictEqual(true);
-        expect(global.context.has(displayObjectMutable)).toStrictEqual(true);
-
-        displayObjectMutable.setWithContext(false);
-        expect(displayObjectMutable.getWithContext()).toStrictEqual(false);
-        displayObjectMutable.blur();
-        expect(displayObjectMutable.isFocused()).toStrictEqual(true);
-        expect(global.context.has(displayObjectMutable)).toStrictEqual(true);
-
-        displayObjectMutable.setWithContext(true);
-        expect(displayObjectMutable.getWithContext()).toStrictEqual(true);
-        displayObjectMutable.blur();
-        expect(displayObjectMutable.isFocused()).toStrictEqual(false);
-        expect(global.context.has(displayObjectMutable)).toStrictEqual(false);
-
-        displayObjectMutable.setWithContext(false);
-        expect(displayObjectMutable.getWithContext()).toStrictEqual(false);
-        displayObjectMutable.focus();
-        expect(displayObjectMutable.isFocused()).toStrictEqual(true);
-        expect(global.context.has(displayObjectMutable)).toStrictEqual(true);
-
-        displayObjectMutable.setWithContext(true);
-        expect(displayObjectMutable.getWithContext()).toStrictEqual(true);
-        displayObjectMutable.focus();
-        expect(displayObjectMutable.isFocused()).toStrictEqual(true);
-        expect(global.context.has(displayObjectMutable)).toStrictEqual(true);
+        expect(global.context.getFocus()).toStrictEqual(
+          displayObjectMutable.getId(),
+        );
       });
       test("setSortableChildren() to be called", () => {
         expect(
@@ -316,7 +297,6 @@ describe("components", () => {
           visible: true,
           zIndex: -95,
           eventMode: EventMode.NONE,
-          focused: true,
           hitArea: [0, 10, 10, 10, 10, 0, 0, 0],
           withContext: true,
           sortableChildren: false,

@@ -60,7 +60,7 @@ describe("components", () => {
           $container.add($sprite);
         });
         test("getId() check that empty is being called", () => {
-          expect($sprite.getId()).toMatch(/sprite-label_([0-9]{0,5})/);
+          expect($sprite.getId()).toMatch(/sprite-label@@([0-9]{0,5})/);
         });
         test("getLabel() check that initDisplayObjectMutable is being called", () => {
           expect($sprite.getLabel()).toMatch("sprite-label");
@@ -78,7 +78,6 @@ describe("components", () => {
             texture: "texture.png",
             visible: true,
             zIndex: 0,
-            focused: true,
             hitArea: [],
             withContext: false,
             cursor: Cursor.AUTO,
