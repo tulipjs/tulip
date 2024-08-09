@@ -64,7 +64,7 @@ describe("components", () => {
         });
 
         test("getId() return the original id to check that empty is being called", () => {
-          expect($polygon.getId()).toMatch(/polygon_([0-9]{0,5})/);
+          expect($polygon.getId()).toMatch(/polygon@@([0-9]{0,5})/);
         });
       });
       describe("circle", () => {
@@ -79,7 +79,7 @@ describe("components", () => {
         });
 
         test("getId() return the original id to check that empty is being called", () => {
-          expect($circle.getId()).toMatch(/circle_([0-9]{0,5})/);
+          expect($circle.getId()).toMatch(/circle@@([0-9]{0,5})/);
         });
       });
       describe("capsule", () => {
@@ -94,7 +94,7 @@ describe("components", () => {
         });
 
         test("getId() return the original id to check that empty is being called", () => {
-          expect($capsule.getId()).toMatch(/capsule_([0-9]{0,5})/);
+          expect($capsule.getId()).toMatch(/capsule@@([0-9]{0,5})/);
         });
       });
       describe("triangle", () => {
@@ -109,7 +109,7 @@ describe("components", () => {
         });
 
         test("getId() return the original id to check that empty is being called", () => {
-          expect($triangle.getId()).toMatch(/triangle_([0-9]{0,5})/);
+          expect($triangle.getId()).toMatch(/triangle@@([0-9]{0,5})/);
         });
       });
       describe("rectangle", () => {
@@ -124,7 +124,7 @@ describe("components", () => {
         });
 
         test("getId() return the original id to check that empty is being called", () => {
-          expect($rectangle.getId()).toMatch(/rectangle_([0-9]{0,5})/);
+          expect($rectangle.getId()).toMatch(/rectangle@@([0-9]{0,5})/);
         });
       });
 

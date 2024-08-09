@@ -44,7 +44,6 @@ export const playerComponent: ContainerComponent<Props, Mutable> = (props) => {
     maxSpeed: 10,
     acceleration: 3,
     withContext: true,
-    focused: true,
     eventMode: EventMode.NONE,
   });
 

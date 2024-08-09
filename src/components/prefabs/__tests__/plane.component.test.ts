@@ -33,7 +33,6 @@ describe("components", () => {
           width: undefined,
           polygon: [0, 0, 10000, 0, 10000, 5, 0, 5],
           zIndex: 0,
-          focused: true,
           hitArea: [],
           withContext: false,
           tint: 0xff00ff,

@@ -55,7 +55,7 @@ describe("components", () => {
           $container.add($sprite);
         });
         test("getId() check that empty is being called", () => {
-          expect($sprite.getId()).toMatch(/slice-sprite-label_([0-9]{0,5})/);
+          expect($sprite.getId()).toMatch(/slice-sprite-label@@([0-9]{0,5})/);
         });
         test("getLabel() check that initDisplayObjectMutable is being called", () => {
           expect($sprite.getLabel()).toMatch("slice-sprite-label");
@@ -73,7 +73,6 @@ describe("components", () => {
             texture: "picture.png",
             visible: true,
             zIndex: 0,
-            focused: true,
             hitArea: [],
             withContext: false,
             cursor: Cursor.AUTO,

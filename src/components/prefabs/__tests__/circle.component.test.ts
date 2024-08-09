@@ -36,7 +36,6 @@ describe("components", () => {
           width: undefined,
           polygon: undefined,
           zIndex: 0,
-          focused: true,
           hitArea: [],
           withContext: false,
           tint: 0xff00ff,

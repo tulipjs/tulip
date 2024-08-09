@@ -19,7 +19,7 @@ export const component = <Props = {}, Mutable = {}, Data = {}>(
   const { label = "empty", position, angle, initialData } = originalProps;
   const $props = structuredClone(originalProps);
 
-  let $id = originalProps.id || `${label}_${getRandomNumber(0, 100_000)}`;
+  let $id = originalProps.id || `${label}@@${getRandomNumber(0, 100_000)}`;
   let $position: Point = {
     x: position?.x || 0,
     y: position?.y || 0,

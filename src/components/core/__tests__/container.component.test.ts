@@ -21,7 +21,7 @@ describe("components", () => {
           visible: false,
         });
 
-        expect($container.getId()).toMatch(/container_([0-9]{0,5})/);
+        expect($container.getId()).toMatch(/container@@([0-9]{0,5})/);
       });
       test("getLabel() return the label to check that initDisplayObject is being called", async () => {
         $container.setLabel("This is being called!");

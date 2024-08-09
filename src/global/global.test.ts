@@ -1,5 +1,4 @@
 import { global } from "./global";
-import * as PIXI from "pixi.js";
 import { container } from "../components";
 import { Event } from "../enums";
 
@@ -9,9 +8,9 @@ describe("global", () => {
   let $container;
 
   test("$setApplication(...) to return getApplication", () => {
-    const application = new PIXI.Application();
-    global.$setApplication(application);
-    expect(global.getApplication()).toEqual(application);
+    const $application = { test: "test" } as any;
+    global.$setApplication($application);
+    expect(global.getApplication()).toEqual($application);
   });
   test("$addComponent(...) to return $getComponentList", async () => {
     $container = await container();

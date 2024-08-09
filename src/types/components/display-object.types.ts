@@ -18,7 +18,6 @@ export type PartialDisplayObjectProps = {
   sortableChildren?: boolean;
   scale?: Point;
 
-  focused?: boolean;
   withContext?: boolean;
 };
 
@@ -82,7 +81,6 @@ export type PartialDisplayObjectMutable<DisplayObject, Mutable = {}> = {
   focus: () => void;
   blur: () => void;
   isFocused: () => boolean;
-  setWithContext: (withContext: MutableFunction<boolean>) => Promise<void>;
   getWithContext: () => boolean;
 } & Mutable;
 
