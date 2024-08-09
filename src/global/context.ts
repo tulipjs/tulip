@@ -77,10 +77,8 @@ export const context = (): GlobalContextType => {
       ($component) => $component.getId() !== componentMutable.getId(),
     );
 
-    if (componentMutable.getId() === $currentComponentContextId) {
-      componentMutable.$emit(DisplayObjectEvent.CONTEXT_LEAVE, {});
-      $clear();
-    }
+    //if context is current, clear
+    if (componentMutable.getId() === $currentComponentContextId) $clear();
   };
 
   const getFocus = (): string | null => $currentComponentContextId;

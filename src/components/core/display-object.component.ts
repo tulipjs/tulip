@@ -214,6 +214,7 @@ export const displayObject = <
   $displayObject.on(DisplayObjectEvent.REMOVED, () => {
     $isRemoved = true;
     $removeOnTickEvent !== undefined && $removeOnTickEvent();
+    global.context.$removeComponent($getContextBaseMutable());
   });
 
   const on = (event: DisplayObjectEvent, callback: (data?: any) => void) => {
