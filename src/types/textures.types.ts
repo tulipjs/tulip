@@ -1,4 +1,4 @@
 export type TexturesLoadProps = {
   textures: string[];
-  onLoad?: (name: string) => void;
+  onLoad?: (name: string) => Promise<void>;
 };
