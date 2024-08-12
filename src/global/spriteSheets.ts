@@ -24,14 +24,16 @@ export const spriteSheets = (): GlobalSpriteSheetsType => {
     });
 
   const load = async ({ spriteSheet, onLoad }: SpriteSheetsLoadProps) => {
+    const promiseList = [];
     for (const $spriteSheet of spriteSheet) {
       if (spriteSheetMap[$spriteSheet]) {
         console.warn(`SpriteSheet (${spriteSheet}) already loaded!`);
         continue;
       }
       spriteSheetMap[$spriteSheet] = await $loadSpriteSheet($spriteSheet);
-      onLoad?.($spriteSheet);
+      promiseList.push(onLoad?.($spriteSheet));
     }
+    await Promise.all(promiseList);
   };
 
   const get = (spriteSheet: string): PIXI.Spritesheet => {
