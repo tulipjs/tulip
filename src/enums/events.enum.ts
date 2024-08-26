@@ -84,4 +84,6 @@ export enum DisplayObjectEvent {
   CONTEXT_BACKWARD = "@custom/context_backward",
   CONTEXT_DOWN = "@custom/context_down",
   CONTEXT_UP = "@custom/context_up",
+  ADD_CHILD = "@custom/add_child",
+  REMOVE_CHILD = "@custom/remove_child",
 }

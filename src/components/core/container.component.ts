@@ -10,6 +10,7 @@ import {
 import { getVisualShape } from "../../utils";
 import { global } from "../../global";
 import { displayObject } from "./display-object.component";
+import { DisplayObjectEvent } from "../../enums";
 
 export const container = <Props = {}, Mutable = {}, Data = {}>(
   originalProps: ContainerProps<Props, Data> = {} as ContainerProps<
@@ -55,6 +56,10 @@ export const container = <Props = {}, Mutable = {}, Data = {}>(
       );
       childList.push(currentDisplayObjectMutable);
       global.$addComponent(currentDisplayObjectMutable);
+      $container.emit(
+        DisplayObjectEvent.ADD_CHILD,
+        currentDisplayObjectMutable,
+      );
     }
   };
 
@@ -62,6 +67,8 @@ export const container = <Props = {}, Mutable = {}, Data = {}>(
     ...displayObjectsMutable: DisplayObjectMutable<DisplayObject>[]
   ) => {
     displayObjectsMutable.forEach((displayObjectMutable) => {
+      $container.emit(DisplayObjectEvent.REMOVE_CHILD, displayObjectMutable);
+
       displayObjectMutable.getFather = () => null;
 
       $container.removeChild(
