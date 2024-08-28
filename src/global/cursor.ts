@@ -1,14 +1,17 @@
-import { GlobalCursorType, Point } from "../types";
-import { Event } from "../enums";
+import { ApplicationMutable, GlobalCursorType, Point } from "../types";
+import { Cursor, Event } from "../enums";
 import { CursorLoadProps } from "../types";
 
 export const cursor = (): GlobalCursorType => {
+  let $getApplication: () => ApplicationMutable;
   let position: Point = {
     x: 0,
     y: 0,
   };
 
-  const load = ({ events, window }: CursorLoadProps) => {
+  const load = ({ getApplication, events, window }: CursorLoadProps) => {
+    $getApplication = getApplication;
+
     events.on(Event.MOUSE_MOVE, (event: MouseEvent) => {
       const scale = window.getScale();
       const isPixelPerfect = window.isPixelPerfect();
@@ -34,9 +37,14 @@ export const cursor = (): GlobalCursorType => {
     ...position,
   });
 
+  const setCursor = (cursor: Cursor) => {
+    $getApplication().$getApplication().canvas.style.cursor = cursor;
+  };
+
   return {
     load,
 
     getPosition,
+    setCursor,
   };
 };

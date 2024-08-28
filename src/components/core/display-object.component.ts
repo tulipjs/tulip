@@ -29,6 +29,7 @@ export const displayObject = <
   const { withContext } = $component.getProps();
 
   let $isRemoved = false;
+  let $isPointerInside = false;
 
   const $$setLabel = $component.setLabel;
   const $$setPosition = $component.setPosition;
@@ -147,6 +148,10 @@ export const displayObject = <
       data,
       $displayObject.cursor as Cursor,
     );
+    // if pointer is inside, change global one
+    if ($isPointerInside)
+      global.cursor.setCursor($displayObject.cursor as Cursor);
+    //document.body.querySelector('canvas').style.cursor = 'pointer'
     const eventMode = getEventMode();
     if (
       $displayObject.cursor !== Cursor.AUTO &&
@@ -340,6 +345,12 @@ export const displayObject = <
 
       setPosition(global.normalizePoint($component.getPosition()));
       setAngle($component.getAngle());
+    });
+    on(DisplayObjectEvent.POINTER_ENTER, () => {
+      $isPointerInside = true;
+    });
+    on(DisplayObjectEvent.POINTER_LEAVE, () => {
+      $isPointerInside = false;
     });
   }
 

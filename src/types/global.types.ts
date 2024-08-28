@@ -6,7 +6,7 @@ import {
   PartialDisplayObjectMutable,
 } from "./components";
 import { Point, Point3d } from "./point.types";
-import { Event } from "../enums";
+import { Cursor, Event } from "../enums";
 import { DisplayObject } from "./pixi.types";
 import { SoundProps, Volume } from "./sound.types";
 import { SpriteSheetsLoadProps } from "./sprite-sheets.types";
@@ -76,6 +76,7 @@ export type GlobalCursorType = {
   load: (props: CursorLoadProps) => void;
 
   getPosition: () => Point;
+  setCursor: (cursor: Cursor) => void;
 };
 
 export type GlobalType = {
