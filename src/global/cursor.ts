@@ -25,11 +25,13 @@ export const cursor = () => {
       if (isYDifferent) position.y = targetY;
 
       if (isXDifferent || isYDifferent)
-        events.$emit(Event.CURSOR_MOVE, { position });
+        events.$emit(Event.CURSOR_MOVE, { position: { ...position } });
     });
   };
 
-  const getPosition = (): Point => position;
+  const getPosition = (): Point => ({
+    ...position,
+  });
 
   return {
     load,
