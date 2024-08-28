@@ -1,13 +1,14 @@
-import { GlobalEventsType, Point } from "../types";
+import { GlobalCursorType, Point } from "../types";
 import { Event } from "../enums";
+import { CursorLoadProps } from "../types";
 
-export const cursor = () => {
+export const cursor = (): GlobalCursorType => {
   let position: Point = {
     x: 0,
     y: 0,
   };
 
-  const load = (events: GlobalEventsType, window) => {
+  const load = ({ events, window }: CursorLoadProps) => {
     events.on(Event.MOUSE_MOVE, (event: MouseEvent) => {
       const scale = window.getScale();
       const isPixelPerfect = window.isPixelPerfect();

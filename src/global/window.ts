@@ -1,15 +1,19 @@
-import { ApplicationMutable } from "../types";
+import {
+  ApplicationMutable,
+  GlobalWindowType,
+  WindowLoadProps,
+} from "../types";
 
-export const window = () => {
-  let getApplication: () => ApplicationMutable;
+export const window = (): GlobalWindowType => {
+  let $getApplication: () => ApplicationMutable;
 
-  const load = ($getApplication: () => ApplicationMutable) => {
-    getApplication = $getApplication;
+  const load = ({ getApplication }: WindowLoadProps) => {
+    $getApplication = getApplication;
   };
 
-  const getBounds = () => getApplication().window.getBounds();
-  const getScale = () => getApplication().getScale();
-  const isPixelPerfect = () => getApplication().isPixelPerfect();
+  const getBounds = () => $getApplication().window.getBounds();
+  const getScale = () => $getApplication().getScale();
+  const isPixelPerfect = () => $getApplication().isPixelPerfect();
 
   return {
     load,

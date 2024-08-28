@@ -12,6 +12,9 @@ import { SoundProps, Volume } from "./sound.types";
 import { SpriteSheetsLoadProps } from "./sprite-sheets.types";
 import { TexturesLoadProps } from "./textures.types";
 import * as PIXI from "pixi.js";
+import { WindowLoadProps } from "./window.types";
+import { CursorLoadProps } from "./cursor.types";
+import { Size } from "./size.types";
 
 export type GlobalFilterType = {
   componentName?: string;
@@ -61,6 +64,20 @@ export type GlobalTexturesType = {
   get: (texture: string) => PIXI.Texture;
 };
 
+export type GlobalWindowType = {
+  load: (props: WindowLoadProps) => void;
+
+  getBounds: () => Size;
+  getScale: () => number;
+  isPixelPerfect: () => boolean;
+};
+
+export type GlobalCursorType = {
+  load: (props: CursorLoadProps) => void;
+
+  getPosition: () => Point;
+};
+
 export type GlobalType = {
   $load: () => void;
 
@@ -90,4 +107,6 @@ export type GlobalType = {
   context: GlobalContextType;
   spriteSheets: GlobalSpriteSheetsType;
   textures: GlobalTexturesType;
+  window: GlobalWindowType;
+  cursor: GlobalCursorType;
 };

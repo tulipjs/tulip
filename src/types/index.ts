@@ -12,6 +12,7 @@ export * from "./sound.types";
 export * from "./sides.types";
 export * from "./sprite-sheets.types";
 export * from "./textures.types";
+export * from "./cursor.types";
 
 export * from "./components";
 export * from "./shapes";
