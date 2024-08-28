@@ -32,7 +32,7 @@ export const global: GlobalType = (() => {
 
   const $load = () => {
     $window.load({ getApplication });
-    $cursor.load({ events: $events, window: $window });
+    $cursor.load({ getApplication, events: $events, window: $window });
     $sounds.$load();
     $context.$load();
   };

@@ -146,6 +146,9 @@ export const inputsComponent: ContainerComponent<Props, Mutable> = () => {
   $input3.on(DisplayObjectEvent.CONTEXT_BACKWARD, () => {
     global.context.focus($input2);
   });
+  $input3.on(DisplayObjectEvent.POINTER_TAP, () => {
+    $input3.setCursor(Cursor.GRAB);
+  });
 
   setTimeout(() => {
     $input3.setSize({ width: 200, height: 20 });
