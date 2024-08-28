@@ -30,7 +30,7 @@ app.load(async () => {
       "fonts/default-font-bold.json",
       "fighter/fighter.json",
     ],
-    onLoad: (spriteSheet) => {
+    onLoad: async (spriteSheet) => {
       console.log(`${performance.now()} Loading... ${spriteSheet}`);
     },
   });

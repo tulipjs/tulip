@@ -13,6 +13,8 @@ import { Assets } from "pixi.js";
 import { context } from "./context";
 import { spriteSheets } from "./spriteSheets";
 import { textures } from "./textures";
+import { window } from "./window";
+import { cursor } from "./cursor";
 
 export const global: GlobalType = (() => {
   let $application: ApplicationMutable;
@@ -20,12 +22,17 @@ export const global: GlobalType = (() => {
   let $componentList: ComponentMutable[] = [];
   let $visualHitBoxes = false;
 
+  const $events = events();
   const $context = context();
   const $sounds = sounds();
   const $spriteSheet = spriteSheets();
   const $textures = textures();
+  const $window = window();
+  const $cursor = cursor();
 
   const $load = () => {
+    $window.load(getApplication);
+    $cursor.load($events, $window);
     $sounds.$load();
     $context.$load();
   };
@@ -65,6 +72,7 @@ export const global: GlobalType = (() => {
   const $isVisualHitBoxes = () => $visualHitBoxes;
   const $setVisualHitBoxes = (visual: boolean) => ($visualHitBoxes = visual);
 
+  //TODO move to assets(?)
   const setFonts = async (fonts: Font[]) => {
     PIXI.Assets.reset();
     Assets.addBundle("fonts", fonts);
@@ -73,6 +81,7 @@ export const global: GlobalType = (() => {
     );
   };
 
+  //TODO Move to utils (?)
   const normalizeValue = (value: number): number =>
     getApplication()?.isPixelPerfect() ? Math.round(value) : value;
   const normalizePoint = (point: Point): Point => {
@@ -108,10 +117,12 @@ export const global: GlobalType = (() => {
     $isVisualHitBoxes,
     $setVisualHitBoxes,
 
-    events: events(),
+    events: $events,
     sounds: $sounds,
     context: $context,
     spriteSheets: $spriteSheet,
     textures: $textures,
+    window: $window,
+    cursor: $cursor,
   };
 })();

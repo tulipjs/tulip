@@ -6,7 +6,7 @@ import {
   DisplayObjectMutable,
   TextMutable,
 } from "../types";
-import { APPLICATION_DEFAULT_PROPS } from "../consts";
+import { APPLICATION_DEFAULT_PROPS, EVENT_MAP } from "../consts";
 import { global } from "../global";
 import { initViteTulipPlugin } from "@tulib/vite-tulip-plugin";
 import { Event } from "../enums";
@@ -58,25 +58,14 @@ export const application = ({
 
     //### DOCUMENT #####################################################################################################//
 
-    //TODO #104
     document.body.appendChild(application.canvas);
-    document.addEventListener("keydown", (event: KeyboardEvent) => {
-      event.preventDefault();
-      event.stopPropagation();
-      global.events.$emit(Event.KEY_DOWN, event);
-    });
-    document.addEventListener("keyup", (event: KeyboardEvent) => {
-      event.preventDefault();
-      event.stopPropagation();
-      global.events.$emit(Event.KEY_UP, event);
-    });
-    document.addEventListener("contextmenu", (event: KeyboardEvent) => {
-      event.preventDefault();
-      event.stopPropagation();
-      global.events.$emit(Event.RIGHT_CLICK, event);
-    });
 
-    //### WINDOW #####################################################################################################//
+    for (const [nativeEvent, customEvent] of EVENT_MAP)
+      document.addEventListener(nativeEvent, (event: KeyboardEvent) => {
+        event.preventDefault();
+        event.stopPropagation();
+        global.events.$emit(customEvent, event);
+      });
 
     //### DEVELOPMENT ##################################################################################################//
 
