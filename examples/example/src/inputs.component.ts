@@ -26,8 +26,8 @@ export const inputsComponent: ContainerComponent<Props, Mutable> = () => {
     editable: true,
     withContext: true,
     position: {
-      x: 110,
-      y: 10,
+      x: 0,
+      y: 0,
     },
     eventMode: EventMode.STATIC,
     // passwordChar: ".",
@@ -48,6 +48,7 @@ export const inputsComponent: ContainerComponent<Props, Mutable> = () => {
     onTextChange: (preText, postText) => {
       return !preText.includes("abc");
     },
+    selectionVisible: false,
     selectionColor: 0xffffff,
     selectionGap: 4,
     selectionPadding: 2,

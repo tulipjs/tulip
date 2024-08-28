@@ -445,6 +445,16 @@ export const inputTextSprite: ContainerComponent<
     $cursor.setRectangle(1, height + 3);
 
     $renderSelection();
+
+    const backgroundPadding = $textSprite?.getBackgroundPadding();
+    $container.setPivot({
+      x:
+        -backgroundPadding.left -
+        ($selectionVisible ? $selectionGap - $selectionPadding : 0),
+      y:
+        -backgroundPadding.top -
+        ($selectionVisible ? $selectionGap - $selectionPadding : 0),
+    });
   }
 
   return $container.getComponent(inputTextSprite, {
