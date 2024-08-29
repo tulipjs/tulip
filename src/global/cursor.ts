@@ -4,23 +4,35 @@ import { CursorLoadProps } from "../types";
 
 export const cursor = (): GlobalCursorType => {
   let $getApplication: () => ApplicationMutable;
+  let $normalizeValue: (value: number) => number;
   let position: Point = {
     x: 0,
     y: 0,
   };
 
-  const load = ({ getApplication, events, window }: CursorLoadProps) => {
+  const load = ({
+    normalizeValue,
+    getApplication,
+    events,
+    window,
+  }: CursorLoadProps) => {
+    $normalizeValue = normalizeValue;
     $getApplication = getApplication;
 
-    events.on(Event.MOUSE_MOVE, (event: MouseEvent) => {
+    events.on(Event.POINTER_MOVE, (event: MouseEvent | TouchEvent) => {
       const scale = window.getScale();
-      const isPixelPerfect = window.isPixelPerfect();
 
-      const round = (value: number) =>
-        isPixelPerfect ? Math.round(value) : value;
+      let targetX = 0;
+      let targetY = 0;
 
-      const targetX = round(event.clientX / scale);
-      const targetY = round(event.clientY / scale);
+      if (event instanceof MouseEvent) {
+        targetX = $normalizeValue(event.clientX / scale);
+        targetY = $normalizeValue(event.clientY / scale);
+      } else if (event instanceof TouchEvent) {
+        const touch = event.touches[0];
+        targetX = $normalizeValue(touch.clientX / scale);
+        targetY = $normalizeValue(touch.clientY / scale);
+      }
 
       const isXDifferent = position.x !== targetX;
       const isYDifferent = position.y !== targetY;

@@ -141,23 +141,30 @@ export const draggableContainer: ContainerComponent<
 
           const getIndex = () => draggableChildList.indexOf(displayObject);
           eventList.push([
-            displayObject.on(DisplayObjectEvent.POINTER_DOWN, () => {
-              grabbingList[getIndex()] = true;
-              const $containerPosition = container.getPosition();
-              const $cursorPosition = global.cursor.getPosition();
+            displayObject.on(
+              DisplayObjectEvent.POINTER_DOWN,
+              (event: PointerEvent) => {
+                grabbingList[getIndex()] = true;
+                const $containerPosition = container.getPosition();
+                const scale = global.window.getScale();
+                const $cursorPosition = global.normalizePoint({
+                  x: event.clientX / scale,
+                  y: event.clientY / scale,
+                });
 
-              firstPosition.x = $containerPosition.x;
-              firstPosition.y = $containerPosition.y;
+                firstPosition.x = $containerPosition.x;
+                firstPosition.y = $containerPosition.y;
 
-              firstCursorPosition.x = $cursorPosition.x;
-              firstCursorPosition.y = $cursorPosition.y;
+                firstCursorPosition.x = $cursorPosition.x;
+                firstCursorPosition.y = $cursorPosition.y;
 
-              for (const { container } of $wrapperContainerList)
-                container.setZIndex(0);
-              container.setZIndex(10);
+                for (const { container } of $wrapperContainerList)
+                  container.setZIndex(0);
+                container.setZIndex(10);
 
-              grabbingCursor && displayObject.setCursor(grabbingCursor);
-            }),
+                grabbingCursor && displayObject.setCursor(grabbingCursor);
+              },
+            ),
             displayObject.on(DisplayObjectEvent.POINTER_UP, () => {
               grabbingList[getIndex()] = false;
               grabCursor && displayObject.setCursor(grabCursor);
