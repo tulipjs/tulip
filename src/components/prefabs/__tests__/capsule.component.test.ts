@@ -43,6 +43,7 @@ describe("components", () => {
           sortableChildren: false,
           cursor: Cursor.AUTO,
           scale: { x: 1, y: 1 },
+          metadata: undefined,
         });
       });
 

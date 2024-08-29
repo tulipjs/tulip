@@ -17,6 +17,7 @@ export type PartialDisplayObjectProps = {
   hitArea?: number[];
   sortableChildren?: boolean;
   scale?: Point;
+  metadata?: string;
 
   withContext?: boolean;
 };
@@ -34,7 +35,10 @@ export type PartialDisplayObjectMutable<DisplayObject, Mutable = {}> = {
   setPivotY: (y: MutableFunction<number>) => void;
   getPivot: () => Point;
   //events
-  on: <Data>(event: DisplayObjectEvent, callback: (data: Data) => void) => void;
+  on: <Data>(
+    event: DisplayObjectEvent,
+    callback: (data: Data) => void,
+  ) => () => void;
   $emit: <Data>(event: DisplayObjectEvent, data: Data) => void;
 
   //visible
@@ -76,6 +80,8 @@ export type PartialDisplayObjectMutable<DisplayObject, Mutable = {}> = {
   getScale: () => Point;
   //global position
   getGlobalPosition: () => Point;
+
+  getMetadata: () => string;
 
   //context
   focus: () => void;

@@ -40,6 +40,7 @@ describe("components", () => {
             x: 1,
             y: 1,
           },
+          metadata: "draggable",
         });
       });
 
@@ -285,6 +286,9 @@ describe("components", () => {
           }),
         );
       });
+      test("getMetadata(...)", () => {
+        expect(displayObjectMutable.getMetadata()).toEqual("draggable");
+      });
       test("$getRaw() to contain all the elements", () => {
         expect(displayObjectMutable.$getRaw()).toStrictEqual({
           id: displayObjectMutable.getId(),
@@ -306,6 +310,7 @@ describe("components", () => {
             x: -1,
             y: 2,
           },
+          metadata: "draggable",
         });
       });
 

@@ -187,6 +187,7 @@ describe("components", () => {
           speed: 0.5,
           cursor: Cursor.AUTO,
           scale: { x: 1, y: 1 },
+          metadata: undefined,
         });
       });
       test.todo("$destroy() destroys everything");

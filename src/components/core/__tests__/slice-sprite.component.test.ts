@@ -84,6 +84,7 @@ describe("components", () => {
             bottomHeight: 4,
             width: 20,
             height: 10,
+            metadata: undefined,
 
             scale: { x: 1, y: 1 },
           });
