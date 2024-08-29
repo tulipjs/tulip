@@ -26,7 +26,7 @@ export const displayObject = <
     originalProps as DisplayObjectProps<Props, Data>,
   );
 
-  const { withContext } = $component.getProps();
+  const { withContext, metadata } = $component.getProps();
 
   let $isRemoved = false;
   let $isPointerInside = false;
@@ -194,6 +194,7 @@ export const displayObject = <
       x: $displayObject?.scale?.x || 0,
       y: $displayObject?.scale?.y || 0,
     }) as Point;
+  const getMetadata = () => metadata;
 
   const $destroy = () => {
     $component.getFather = () => null;
@@ -213,6 +214,7 @@ export const displayObject = <
     sortableChildren: isSortableChildren(),
     tint: getTint(),
     scale: getScale(),
+    metadata: getMetadata(),
   });
   let $removeOnTickEvent: () => void;
 
@@ -222,7 +224,10 @@ export const displayObject = <
     global.context.$removeComponent($getContextBaseMutable());
   });
 
-  const on = (event: DisplayObjectEvent, callback: (data?: any) => void) => {
+  const on = (
+    event: DisplayObjectEvent,
+    callback: (data?: any) => void,
+  ): (() => void) => {
     const $callback = (data: any) => {
       if (
         $isRemoved &&
@@ -239,7 +244,10 @@ export const displayObject = <
         $removeOnTickEvent = global.events.on(Event.TICK, $callback);
         return;
     }
-    $displayObject.on(event as any, $callback);
+    $displayObject.on(event, $callback);
+    return () => {
+      $displayObject.off(event, $callback);
+    };
   };
 
   const $emit = (event: DisplayObjectMutable<any>, data: any) =>
@@ -414,6 +422,8 @@ export const displayObject = <
     getScale,
     //global position
     getGlobalPosition,
+
+    getMetadata,
 
     //events
     on,

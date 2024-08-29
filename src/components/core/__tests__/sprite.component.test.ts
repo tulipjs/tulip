@@ -83,6 +83,7 @@ describe("components", () => {
             cursor: Cursor.AUTO,
             sortableChildren: false,
             tint: 0xffffff,
+            metadata: undefined,
 
             scale: { x: 1, y: 1 },
           });
