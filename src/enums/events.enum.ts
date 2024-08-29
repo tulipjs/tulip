@@ -6,9 +6,9 @@ export enum Event {
   LEFT_CLICK,
   RIGHT_CLICK,
   WHEEL,
-  MOUSE_MOVE,
-  MOUSE_DOWN,
-  MOUSE_UP,
+  POINTER_MOVE,
+  POINTER_DOWN,
+  POINTER_UP,
   //
   CURSOR_MOVE,
 }

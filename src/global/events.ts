@@ -14,9 +14,9 @@ export const events = (): GlobalEventsType => {
     [Event.LEFT_CLICK]: [],
     [Event.RIGHT_CLICK]: [],
     [Event.WHEEL]: [],
-    [Event.MOUSE_MOVE]: [],
-    [Event.MOUSE_DOWN]: [],
-    [Event.MOUSE_UP]: [],
+    [Event.POINTER_MOVE]: [],
+    [Event.POINTER_DOWN]: [],
+    [Event.POINTER_UP]: [],
     [Event.CURSOR_MOVE]: [],
   };
 
