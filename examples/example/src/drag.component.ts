@@ -14,9 +14,6 @@ type Mutable = {};
 export const dragComponent: ContainerComponent<Props, Mutable> = () => {
   const $container = container();
 
-  const modalContainer = container({ position: { x: 50, y: 50 } });
-  const modalContainer2 = container();
-
   const dc = draggableContainer({
     grabCursor: Cursor.GRAB,
     grabbingCursor: Cursor.GRABBING,
@@ -25,9 +22,10 @@ export const dragComponent: ContainerComponent<Props, Mutable> = () => {
       height: 300,
     },
   });
-  dc.add(modalContainer2, modalContainer);
   $container.add(dc);
 
+  const modalContainer = container({ position: { x: 50, y: 50 } });
+  const modalContainer2 = container();
   const bg = graphics({
     type: GraphicType.RECTANGLE,
     width: 200,
@@ -69,6 +67,7 @@ export const dragComponent: ContainerComponent<Props, Mutable> = () => {
     },
   });
   modalContainer2.add(drag3);
+  dc.add(modalContainer2, modalContainer);
 
   setTimeout(() => {
     dc.setSize({ width: 250, height: 250 });
