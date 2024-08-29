@@ -129,13 +129,10 @@ export const draggableContainer: ContainerComponent<
         grabbingList,
       });
 
-      const $$add = container.add;
-      container.add = (
+      const loadDraggable = (
         ...displayObjectsMutable: DisplayObjectMutable<DisplayObject>[]
       ) => {
         for (const displayObject of displayObjectsMutable) {
-          $$add(displayObject);
-
           if (displayObject.getMetadata() !== "draggable") continue;
 
           draggableChildList.push(displayObject);
@@ -171,6 +168,16 @@ export const draggableContainer: ContainerComponent<
             }),
           ]);
         }
+      };
+
+      loadDraggable(...container.getChildren());
+
+      const $$add = container.add;
+      container.add = (
+        ...displayObjectsMutable: DisplayObjectMutable<DisplayObject>[]
+      ) => {
+        $$add(...displayObjectsMutable);
+        loadDraggable(...displayObjectsMutable);
       };
 
       const $$remove = container.add;
