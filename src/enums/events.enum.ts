@@ -11,6 +11,7 @@ export enum Event {
   POINTER_UP,
   //
   CURSOR_MOVE,
+  FPS,
 }
 
 export enum DisplayObjectEvent {

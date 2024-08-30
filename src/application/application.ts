@@ -26,6 +26,7 @@ export const application = ({
 }: ApplicationProps = APPLICATION_DEFAULT_PROPS): ApplicationMutable => {
   const application = new PIXI.Application();
   const $window = window();
+  let lastFPS: number;
 
   const load = async (onLoad: () => Promise<void> | void) => {
     await application.init({
@@ -144,9 +145,12 @@ export const application = ({
     application.render();
 
     // FPS
-    if (showFPS) {
-      const fps = $calculateFPS();
-      if (fps) {
+    const fps = $calculateFPS();
+    if (fps !== lastFPS) {
+      global.events.$emit(Event.FPS, { fps });
+      lastFPS = fps;
+
+      if (showFPS) {
         if (!$textFPS) {
           $textFPS = await text({
             text: `${fps} fps`,
@@ -160,7 +164,6 @@ export const application = ({
           });
           mutable.add($textFPS);
         }
-
         $textFPS.setText(`${fps} fps`);
       }
     }

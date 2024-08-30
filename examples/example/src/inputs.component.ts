@@ -156,7 +156,7 @@ export const inputsComponent: ContainerComponent<Props, Mutable> = () => {
 
   $container.add($input, $input2, $input3);
 
-  global.events.on(Event.CURSOR_MOVE, ({ position }) => {
+  global.events.on(Event.CURSOR_MOVE, (position) => {
     console.log(position);
   });
 
