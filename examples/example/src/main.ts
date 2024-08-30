@@ -6,7 +6,7 @@ const app = application({
   backgroundColor: 0x030303,
   scale: 2,
   pixelPerfect: true,
-  showFPS: false,
+  showFPS: true,
   //@ts-ignore
   importMetaEnv: import.meta.env,
   //@ts-ignore
