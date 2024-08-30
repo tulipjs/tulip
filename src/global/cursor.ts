@@ -41,7 +41,7 @@ export const cursor = (): GlobalCursorType => {
       if (isYDifferent) position.y = targetY;
 
       if (isXDifferent || isYDifferent)
-        events.$emit(Event.CURSOR_MOVE, { position: { ...position } });
+        events.$emit(Event.CURSOR_MOVE, { ...position });
     });
   };
 
