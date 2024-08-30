@@ -37,7 +37,7 @@ export const draggableContainer: ContainerComponent<
   $container.on(DisplayObjectEvent.ADDED, () => {
     onRemoveCursorMove = global.events.on(
       Event.CURSOR_MOVE,
-      ({ position: cursorPosition }) => {
+      (cursorPosition) => {
         for (const {
           container,
           grabbingList,
