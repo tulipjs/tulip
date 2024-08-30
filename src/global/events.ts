@@ -18,6 +18,7 @@ export const events = (): GlobalEventsType => {
     [Event.POINTER_DOWN]: [],
     [Event.POINTER_UP]: [],
     [Event.CURSOR_MOVE]: [],
+    [Event.FPS]: [],
   };
 
   /**
