@@ -9,4 +9,5 @@ export const APPLICATION_DEFAULT_PROPS: ApplicationProps = {
   pixelPerfect: false,
   scaleMode: ScaleMode.NEAREST,
   enableWebGPU: false,
+  safeArea: false,
 };

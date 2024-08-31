@@ -23,6 +23,7 @@ export const application = ({
   pixelPerfect = APPLICATION_DEFAULT_PROPS.pixelPerfect,
   scaleMode = APPLICATION_DEFAULT_PROPS.scaleMode,
   enableWebGPU = APPLICATION_DEFAULT_PROPS.enableWebGPU,
+  safeArea = APPLICATION_DEFAULT_PROPS.safeArea,
 }: ApplicationProps = APPLICATION_DEFAULT_PROPS): ApplicationMutable => {
   const application = new PIXI.Application();
   const $window = window();
@@ -112,6 +113,7 @@ export const application = ({
     start();
     $window.$load();
     global.$load();
+
     onLoad();
   };
 
@@ -201,6 +203,7 @@ export const application = ({
   const isPixelPerfect = () => pixelPerfect;
   const getScale = () => scale;
   const getScaleMode = () => scaleMode;
+  const getFPS = () => $lastFPS;
 
   //### MUTABLES #####################################################################################################//
   const mutable: ApplicationMutable = {
@@ -215,6 +218,7 @@ export const application = ({
     isPixelPerfect,
     getScale,
     getScaleMode,
+    getFPS,
 
     $getApplication: () => application,
 

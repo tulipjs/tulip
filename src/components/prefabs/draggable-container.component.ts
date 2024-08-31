@@ -79,10 +79,11 @@ export const draggableContainer: ContainerComponent<
   $container.on(DisplayObjectEvent.REMOVED, () => {
     onRemoveCursorMove?.();
 
-    for (const onRemoveEvent of $wrapperContainerList.flatMap(
-      ({ eventList }) => eventList,
-    ))
+    for (const onRemoveEvent of $wrapperContainerList
+      .flatMap(({ eventList }) => eventList)
+      .flat()) {
       onRemoveEvent();
+    }
   });
 
   const setSize = (size?: Size) => {

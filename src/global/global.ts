@@ -15,6 +15,7 @@ import { spriteSheets } from "./spriteSheets";
 import { textures } from "./textures";
 import { window } from "./window";
 import { cursor } from "./cursor";
+import { envs } from "./envs";
 
 export const global: GlobalType = (() => {
   let $application: ApplicationMutable;
@@ -29,8 +30,11 @@ export const global: GlobalType = (() => {
   const $textures = textures();
   const $window = window();
   const $cursor = cursor();
+  const $envs = envs();
 
   const $load = () => {
+    $events.load();
+    $envs.load({ events: $events });
     $window.load({ getApplication });
     $cursor.load({
       normalizeValue,
@@ -42,7 +46,7 @@ export const global: GlobalType = (() => {
     $context.$load();
   };
 
-  const getFPS = (): number => $application.$getApplication().ticker.FPS;
+  const getFPS = (): number => $application.getFPS();
 
   const getData = <Data extends {}>(selector?: (data: Data) => Data): Data => {
     return selector ? selector($data as Data) : ($data as unknown as Data);
@@ -129,5 +133,6 @@ export const global: GlobalType = (() => {
     textures: $textures,
     window: $window,
     cursor: $cursor,
+    envs: $envs,
   };
 })();
