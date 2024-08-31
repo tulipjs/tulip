@@ -34,8 +34,8 @@ export const global: GlobalType = (() => {
 
   const $load = () => {
     $events.load();
-    $envs.load({ events: $events });
     $window.load({ getApplication });
+    $envs.load({ events: $events, window: $window });
     $cursor.load({
       normalizeValue,
       getApplication,

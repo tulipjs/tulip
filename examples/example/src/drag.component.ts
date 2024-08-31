@@ -84,7 +84,10 @@ export const dragComponent: ContainerComponent<Props, Mutable> = () => {
     size: 20,
     position: {
       x: 50,
-      y: 50,
+      y:
+        global.window.getBounds().height -
+        global.envs.get(Env.SAFE_AREA_INSET_BOTTOM) -
+        20,
     },
   });
   global.events.on(Event.SAFE_AREA_INSET_BOTTOM, ({ value }) => {

@@ -1,13 +1,20 @@
 import { Env, Event } from "../enums";
-import { EnvsLoadProps, GlobalEnvsType, GlobalEventsType } from "../types";
+import {
+  EnvsLoadProps,
+  GlobalEnvsType,
+  GlobalEventsType,
+  GlobalWindowType,
+} from "../types";
 
 export const envs = () => {
   let $events: GlobalEventsType;
+  let $window: GlobalWindowType;
   //@ts-ignore
   const lastEnvsMap: Record<Env, number> = {};
 
-  const load = ({ events }: EnvsLoadProps) => {
+  const load = ({ events, window }: EnvsLoadProps) => {
     $events = events;
+    $window = window;
 
     let envList = Object.values(Env);
     envList = envList.slice(0, envList.length / 2);
@@ -33,11 +40,19 @@ export const envs = () => {
     }, 10);
   };
 
-  const get = (env: Env): number => {
+  const get = (env: Env, scale: boolean = true): number => {
     const computedStyle = getComputedStyle(document.body);
     const envString = Env[env].toLowerCase().replaceAll("_", "-");
-    const value = computedStyle.getPropertyValue(`--${envString}`) || "0";
-    return parseFloat(value);
+    let value = parseFloat(
+      computedStyle.getPropertyValue(`--${envString}`) || "0",
+    );
+
+    if ($window && scale) {
+      value /= $window.getScale();
+      value = $window.isPixelPerfect() ? Math.round(value) : value;
+    }
+
+    return value;
   };
 
   const mutable: GlobalEnvsType = {
