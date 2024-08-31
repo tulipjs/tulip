@@ -218,6 +218,9 @@ export const displayObject = <
   });
   let $removeOnTickEvent: () => void;
 
+  $displayObject.on(DisplayObjectEvent.ADDED, () => {
+    $isRemoved = false;
+  });
   $displayObject.on(DisplayObjectEvent.REMOVED, () => {
     $isRemoved = true;
     $removeOnTickEvent !== undefined && $removeOnTickEvent();
