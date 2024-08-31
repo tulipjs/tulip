@@ -6,7 +6,7 @@ import {
   PartialDisplayObjectMutable,
 } from "./components";
 import { Point, Point3d } from "./point.types";
-import { Cursor, Event } from "../enums";
+import { Cursor, Env, Event } from "../enums";
 import { DisplayObject } from "./pixi.types";
 import { SoundProps, Volume } from "./sound.types";
 import { SpriteSheetsLoadProps } from "./sprite-sheets.types";
@@ -15,12 +15,14 @@ import * as PIXI from "pixi.js";
 import { WindowLoadProps } from "./window.types";
 import { CursorLoadProps } from "./cursor.types";
 import { Size } from "./size.types";
+import { EnvsLoadProps } from "./envs.types";
 
 export type GlobalFilterType = {
   componentName?: string;
 };
 
 export type GlobalEventsType = {
+  load: () => void;
   on: (
     event: Event,
     callback: (data?: any) => void | Promise<void>,
@@ -79,6 +81,11 @@ export type GlobalCursorType = {
   setCursor: (cursor: Cursor) => void;
 };
 
+export type GlobalEnvsType = {
+  load: (props: EnvsLoadProps) => void;
+  get: (env: Env) => number;
+};
+
 export type GlobalType = {
   $load: () => void;
 
@@ -110,4 +117,5 @@ export type GlobalType = {
   textures: GlobalTexturesType;
   window: GlobalWindowType;
   cursor: GlobalCursorType;
+  envs: GlobalEnvsType;
 };

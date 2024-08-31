@@ -6,20 +6,14 @@ import {
 } from "../types";
 
 export const events = (): GlobalEventsType => {
-  let $eventMap: Record<Event, ((data?: any) => void)[]> = {
-    [Event.TICK]: [],
-    [Event.KEY_DOWN]: [],
-    [Event.KEY_UP]: [],
-    [Event.RESIZE]: [],
-    [Event.LEFT_CLICK]: [],
-    [Event.RIGHT_CLICK]: [],
-    [Event.WHEEL]: [],
-    [Event.POINTER_MOVE]: [],
-    [Event.POINTER_DOWN]: [],
-    [Event.POINTER_UP]: [],
-    [Event.CURSOR_MOVE]: [],
-    [Event.FPS]: [],
-  };
+  //@ts-ignore
+  let $eventMap: Record<Event, ((data?: any) => void)[]> = {};
+  let eventList = Object.values(Event);
+  eventList = eventList.slice(0, eventList.length / 2);
+
+  for (const event of eventList) $eventMap[Event[event]] = [];
+
+  const load = () => {};
 
   /**
    * Usage
@@ -58,6 +52,7 @@ export const events = (): GlobalEventsType => {
   };
 
   return {
+    load,
     on,
 
     $remove,

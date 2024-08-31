@@ -10,3 +10,4 @@ export * from "./align.enum";
 export * from "./app.enum";
 export * from "./os.enum";
 export * from "./accents.enum";
+export * from "./envs.enum";

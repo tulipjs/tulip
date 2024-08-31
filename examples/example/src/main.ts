@@ -12,6 +12,7 @@ const app = application({
   //@ts-ignore
   importMetaHot: import.meta.hot,
   // pointerLock: true,
+  safeArea: true,
 });
 
 app.load(async () => {

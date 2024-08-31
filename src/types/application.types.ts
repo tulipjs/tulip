@@ -14,6 +14,7 @@ export type ApplicationProps = {
   pointerLock?: boolean;
   pixelPerfect?: boolean;
   scaleMode?: ScaleMode;
+  safeArea?: boolean;
 
   enableWebGPU?: boolean;
 };
@@ -30,6 +31,7 @@ export type ApplicationMutable = {
   isPixelPerfect: () => boolean;
   getScale: () => number;
   getScaleMode: () => ScaleMode;
+  getFPS: () => number;
 
   $getApplication: () => PIXI.Application;
 

@@ -3,9 +3,13 @@ import {
   ContainerComponent,
   Cursor,
   draggableContainer,
+  Env,
+  Event,
   EventMode,
+  global,
   graphics,
   GraphicType,
+  text,
 } from "@tulib/tulip";
 
 type Props = {};
@@ -17,10 +21,10 @@ export const dragComponent: ContainerComponent<Props, Mutable> = () => {
   const dc = draggableContainer({
     grabCursor: Cursor.GRAB,
     grabbingCursor: Cursor.GRABBING,
-    size: {
-      width: 300,
-      height: 300,
-    },
+    // size: {
+    //   width: 300,
+    //   height: 300,
+    // },
   });
   $container.add(dc);
 
@@ -69,9 +73,24 @@ export const dragComponent: ContainerComponent<Props, Mutable> = () => {
   modalContainer2.add(drag3);
   dc.add(modalContainer2, modalContainer);
 
-  setTimeout(() => {
-    dc.setSize({ width: 250, height: 250 });
-  }, 3_000);
+  // setTimeout(() => {
+  //   dc.setSize({ width: 250, height: 250 });
+  // }, 3_000);
+
+  const aaa = text({
+    text: `${global.envs.get(Env.SAFE_AREA_INSET_BOTTOM)} bottom`,
+    font: "Pixel",
+    color: 0xeb34a8,
+    size: 20,
+    position: {
+      x: 50,
+      y: 50,
+    },
+  });
+  global.events.on(Event.SAFE_AREA_INSET_BOTTOM, ({ value }) => {
+    aaa.setText(`${value} bottom`);
+  });
+  $container.add(aaa);
 
   return $container.getComponent(dragComponent);
 };
