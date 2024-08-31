@@ -72,6 +72,7 @@ export type GlobalWindowType = {
   getBounds: () => Size;
   getScale: () => number;
   isPixelPerfect: () => boolean;
+  isSafeArea: () => boolean;
 };
 
 export type GlobalCursorType = {
@@ -83,7 +84,7 @@ export type GlobalCursorType = {
 
 export type GlobalEnvsType = {
   load: (props: EnvsLoadProps) => void;
-  get: (env: Env) => number;
+  get: (env: Env, scale?: boolean) => number;
 };
 
 export type GlobalType = {

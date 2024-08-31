@@ -10,10 +10,10 @@ export const window = (): WindowMutable => {
     const safeArea = $application.isSafeArea();
 
     return {
-      left: safeArea ? global.envs.get(Env.SAFE_AREA_INSET_LEFT) : 0,
-      top: safeArea ? global.envs.get(Env.SAFE_AREA_INSET_TOP) : 0,
-      right: safeArea ? global.envs.get(Env.SAFE_AREA_INSET_RIGHT) : 0,
-      bottom: safeArea ? global.envs.get(Env.SAFE_AREA_INSET_BOTTOM) : 0,
+      left: safeArea ? global.envs.get(Env.SAFE_AREA_INSET_LEFT, false) : 0,
+      top: safeArea ? global.envs.get(Env.SAFE_AREA_INSET_TOP, false) : 0,
+      right: safeArea ? global.envs.get(Env.SAFE_AREA_INSET_RIGHT, false) : 0,
+      bottom: safeArea ? global.envs.get(Env.SAFE_AREA_INSET_BOTTOM, false) : 0,
     };
   };
 

@@ -14,6 +14,7 @@ export const window = (): GlobalWindowType => {
   const getBounds = () => $getApplication().window.getBounds();
   const getScale = () => $getApplication().getScale();
   const isPixelPerfect = () => $getApplication().isPixelPerfect();
+  const isSafeArea = () => $getApplication().isSafeArea();
 
   return {
     load,
@@ -21,5 +22,6 @@ export const window = (): GlobalWindowType => {
     getBounds,
     getScale,
     isPixelPerfect,
+    isSafeArea,
   };
 };
