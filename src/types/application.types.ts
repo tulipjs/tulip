@@ -32,6 +32,7 @@ export type ApplicationMutable = {
   getScale: () => number;
   getScaleMode: () => ScaleMode;
   getFPS: () => number;
+  isSafeArea: () => boolean;
 
   $getApplication: () => PIXI.Application;
 
