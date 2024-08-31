@@ -204,6 +204,7 @@ export const application = ({
   const getScale = () => scale;
   const getScaleMode = () => scaleMode;
   const getFPS = () => $lastFPS;
+  const isSafeArea = () => safeArea;
 
   //### MUTABLES #####################################################################################################//
   const mutable: ApplicationMutable = {
@@ -219,6 +220,7 @@ export const application = ({
     getScale,
     getScaleMode,
     getFPS,
+    isSafeArea,
 
     $getApplication: () => application,
 
