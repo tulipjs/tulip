@@ -85,11 +85,14 @@ export const displayObject = <
     }) as Point;
 
   const setVisible = (data) => {
-    $displayObject.visible = getValueMutableFunction<boolean>(
+    const targetVisibility = getValueMutableFunction<boolean>(
       data,
       $displayObject.visible,
     );
-    $emit(DisplayObjectEvent.VISIBILITY_CHANGE, { visible: getVisible() });
+    if (targetVisibility === getVisible()) return;
+
+    $displayObject.visible = targetVisibility;
+    $emit(DisplayObjectEvent.VISIBILITY_CHANGE, { visible: targetVisibility });
   };
   const getVisible = () => $displayObject.visible;
 
