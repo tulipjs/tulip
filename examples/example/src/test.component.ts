@@ -8,15 +8,13 @@ export const testComponent: ContainerComponent = () => {
   const $container = container();
 
   const conA = container();
-  conA.on(DisplayObjectEvent.ADDED, () => {
-    console.log("ADDED");
+  conA.on(DisplayObjectEvent.VISIBILITY_CHANGE, ({ visible }) => {
+    console.log("visible", visible);
   });
-  conA.on(DisplayObjectEvent.REMOVED, () => {
-    console.log("REMOVED");
-  });
-  $container.add(conA);
-  $container.remove(conA);
-  $container.add(conA);
+  conA.setVisible(false);
+  conA.setVisible(true);
+  conA.setVisible(false);
+  conA.setVisible(true);
 
   return $container.getComponent(testComponent);
 };
