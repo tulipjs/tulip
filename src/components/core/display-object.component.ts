@@ -84,11 +84,13 @@ export const displayObject = <
       y: $displayObject?.pivot?.y || 0,
     }) as Point;
 
-  const setVisible = (data) =>
-    ($displayObject.visible = getValueMutableFunction<boolean>(
+  const setVisible = (data) => {
+    $displayObject.visible = getValueMutableFunction<boolean>(
       data,
       $displayObject.visible,
-    ));
+    );
+    $emit(DisplayObjectEvent.VISIBILITY_CHANGE, { visible: getVisible() });
+  };
   const getVisible = () => $displayObject.visible;
 
   //zIndex
@@ -253,8 +255,8 @@ export const displayObject = <
     };
   };
 
-  const $emit = (event: DisplayObjectMutable<any>, data: any) =>
-    $displayObject.emit(event as any, data);
+  const $emit = (event: DisplayObjectEvent, data: any) =>
+    $displayObject.emit(event, data);
 
   const $getContextBaseMutable = () =>
     ({

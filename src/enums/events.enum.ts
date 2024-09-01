@@ -71,6 +71,7 @@ export enum DisplayObjectEvent {
   CONTEXT_UP = "@custom/context_up",
   ADD_CHILD = "@custom/add_child",
   REMOVE_CHILD = "@custom/remove_child",
+  VISIBILITY_CHANGE = "@custom/visibility_change",
 }
 
 // CLICK = "click",
