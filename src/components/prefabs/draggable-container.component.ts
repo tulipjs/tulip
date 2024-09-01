@@ -188,7 +188,7 @@ export const draggableContainer: ContainerComponent<
         loadDraggable(...displayObjectsMutable);
       };
 
-      const $$remove = container.add;
+      const $$remove = container.remove;
       container.remove = (
         ...displayObjectsMutable: DisplayObjectMutable<DisplayObject>[]
       ) => {
