@@ -10,7 +10,10 @@ export const loadTexture = async (texture: string): Promise<PIXI.Texture> => {
   return PIXI.Texture.from(imageBitmap);
 };
 
-export const getTexture = (texture?: string, spriteSheet?: string) => {
+export const getTexture = (
+  texture?: string,
+  spriteSheet?: string,
+): PIXI.Texture => {
   let $texture = texture;
   let $spriteSheet = spriteSheet;
   let $spriteSheetTexture: Spritesheet;
