@@ -1,9 +1,7 @@
 import * as PIXI from "pixi.js";
-import { Spritesheet } from "pixi.js";
 import { Sprite, SpriteMutable, SpriteProps } from "../../types";
 import { displayObject } from "./display-object.component";
-import { isNotNullish } from "../../utils";
-import { global } from "../../global";
+import { getTexture } from "../../utils";
 
 export const sprite = <Props = {}, Mutable = {}, Data = {}>(
   originalProps: SpriteProps<Props, Data> = {} as SpriteProps<Props, Data>,
@@ -19,43 +17,14 @@ export const sprite = <Props = {}, Mutable = {}, Data = {}>(
 
   let $texture = texture;
   let $spriteSheet = spriteSheet;
-  let $spriteSheetTexture: Spritesheet;
 
-  const $setSpriteSheet = (spriteSheet: string | null) => {
-    if (!isNotNullish(spriteSheet)) {
-      $spriteSheet = undefined;
-      $spriteSheetTexture = undefined;
-      return;
-    }
-    $spriteSheet = spriteSheet + "";
-    $spriteSheetTexture = global.spriteSheets.get(spriteSheet);
-    $spriteSheetTexture.textureSource.scaleMode = global
-      .getApplication()
-      .getScaleMode();
-  };
   const getSpriteSheet = () => $spriteSheet;
 
-  const setTexture = (texture?: string, spriteSheet?: string): PIXI.Texture => {
+  const setTexture = (texture?: string, spriteSheet?: string) => {
     $texture = texture;
+    $spriteSheet = spriteSheet;
 
-    $setSpriteSheet(spriteSheet);
-    if (isNotNullish(spriteSheet)) {
-      const $targetTexture = $spriteSheetTexture.textures[$texture];
-
-      if (!isNotNullish($targetTexture))
-        console.error(
-          `SpriteSheet ${$spriteSheet} doesn't contain ${$texture} texture!`,
-        );
-
-      $sprite.texture = $targetTexture;
-      return;
-    }
-    const targetTexture = texture
-      ? global.textures.get(texture)
-      : PIXI.Texture.EMPTY;
-    targetTexture.source.scaleMode = global.getApplication().getScaleMode();
-
-    $sprite.texture = targetTexture;
+    $sprite.texture = getTexture(texture, spriteSheet);
   };
 
   const $$getRaw = $displayObject.$getRaw;
@@ -64,6 +33,7 @@ export const sprite = <Props = {}, Mutable = {}, Data = {}>(
   const $getRaw = (): SpriteProps => ({
     ...$$getRaw(),
     texture: $texture,
+    spriteSheet: $spriteSheet,
   });
 
   const $destroy = () => {

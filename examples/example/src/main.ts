@@ -30,12 +30,19 @@ app.load(async () => {
       "fonts/default-font.json",
       "fonts/default-font-bold.json",
       "fighter/fighter.json",
+      "chat.json",
     ],
+
     onLoad: async (spriteSheet) => {
       console.log(`${performance.now()} Loading... ${spriteSheet}`);
     },
   });
-  // await global.textures.load("duck.png");
+  await global.textures.load({
+    textures: ["chat.png"],
+    onLoad: async (spriteSheet) => {
+      console.log(`${performance.now()} Loading... ${spriteSheet}`);
+    },
+  });
 
   app.add(appComponent());
 });
