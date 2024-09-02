@@ -84,6 +84,7 @@ describe("components", () => {
             sortableChildren: false,
             tint: 0xffffff,
             metadata: undefined,
+            spriteSheet: undefined,
 
             scale: { x: 1, y: 1 },
           });

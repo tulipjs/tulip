@@ -1,9 +1,9 @@
-import { ContainerMutable, SliceSpriteMutable } from "../../../types";
+import { ContainerMutable, NineSliceSpriteMutable } from "../../../types";
 import { expect } from "@jest/globals";
 import * as PIXI from "pixi.js";
 import { container } from "../container.component";
 import { Cursor, EventMode } from "../../../enums";
-import { sliceSprite } from "../slice-sprite.component";
+import { nineSliceSprite } from "../nine-slice-sprite.component";
 
 const mockEmptyTexture = PIXI.Texture.EMPTY;
 
@@ -36,14 +36,14 @@ jest.mock("../../../global/global.ts", () => {
 
 describe("components", () => {
   describe("core", () => {
-    describe("slice-sprite", () => {
+    describe("nine-slice-sprite", () => {
       let $container: ContainerMutable;
-      let $sprite: SliceSpriteMutable;
+      let $sprite: NineSliceSpriteMutable;
       describe("single texture", () => {
         test("Check if texture is being load", () => {
           $container = container();
-          $sprite = sliceSprite({
-            label: "slice-sprite-label",
+          $sprite = nineSliceSprite({
+            label: "nine-slice-sprite-label",
             texture: "picture.png",
             leftWidth: 4,
             topHeight: 4,
@@ -55,10 +55,12 @@ describe("components", () => {
           $container.add($sprite);
         });
         test("getId() check that empty is being called", () => {
-          expect($sprite.getId()).toMatch(/slice-sprite-label@@([0-9]{0,5})/);
+          expect($sprite.getId()).toMatch(
+            /nine-slice-sprite-label@@([0-9]{0,5})/,
+          );
         });
         test("getLabel() check that initDisplayObjectMutable is being called", () => {
-          expect($sprite.getLabel()).toMatch("slice-sprite-label");
+          expect($sprite.getLabel()).toMatch("nine-slice-sprite-label");
         });
         test("$getRaw(...) To return the basic properties", () => {
           expect($sprite.$getRaw()).toStrictEqual({
@@ -67,7 +69,7 @@ describe("components", () => {
             eventMode: EventMode.PASSIVE,
             id: $sprite.getId(),
             initialData: {},
-            label: "slice-sprite-label",
+            label: "nine-slice-sprite-label",
             pivot: { x: 0, y: 0 },
             position: { x: 0, y: 0 },
             texture: "picture.png",
@@ -84,6 +86,7 @@ describe("components", () => {
             bottomHeight: 4,
             width: 20,
             height: 10,
+            spriteSheet: undefined,
             metadata: undefined,
 
             scale: { x: 1, y: 1 },
@@ -91,7 +94,7 @@ describe("components", () => {
         });
         test("getProps(...) To return the original properties", () => {
           expect($sprite.getProps()).toEqual({
-            label: "slice-sprite-label",
+            label: "nine-slice-sprite-label",
             texture: "picture.png",
             leftWidth: 4,
             topHeight: 4,

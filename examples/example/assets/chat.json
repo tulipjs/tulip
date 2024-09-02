@@ -1,0 +1,18 @@
+{
+  "frames": {
+    "bubble": {
+      "frame": { "x": 0, "y": 0, "w": 16, "h": 9 },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 9 },
+      "sourceSize": { "w": 16, "h": 9 }
+    }
+  },
+  "meta": {
+    "version": "1.0",
+    "image": "chat.png",
+    "format": "RGBA8888",
+    "size": { "w": 16, "h": 9 },
+    "scale": "1"
+  }
+}
