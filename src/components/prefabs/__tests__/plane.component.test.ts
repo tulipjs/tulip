@@ -40,6 +40,7 @@ describe("components", () => {
           cursor: Cursor.AUTO,
           scale: { x: 1, y: 1 },
           metadata: undefined,
+          tooltip: undefined,
         });
       });
 

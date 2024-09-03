@@ -18,6 +18,7 @@ export type PartialDisplayObjectProps = {
   sortableChildren?: boolean;
   scale?: Point;
   metadata?: string;
+  tooltip?: string;
 
   withContext?: boolean;
 };
@@ -78,6 +79,9 @@ export type PartialDisplayObjectMutable<DisplayObject, Mutable = {}> = {
   setScaleX: (x: MutableFunction<number>) => void;
   setScaleY: (y: MutableFunction<number>) => void;
   getScale: () => Point;
+  //tooltip
+  setTooltip: (tooltip?: string) => void;
+  getTooltip: () => string;
   //global position
   getGlobalPosition: () => Point;
 

@@ -88,6 +88,7 @@ describe("components", () => {
             height: 10,
             spriteSheet: undefined,
             metadata: undefined,
+            tooltip: undefined,
 
             scale: { x: 1, y: 1 },
           });

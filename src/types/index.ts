@@ -14,6 +14,7 @@ export * from "./sprite-sheets.types";
 export * from "./textures.types";
 export * from "./cursor.types";
 export * from "./envs.types";
+export * from "./tooltip.types";
 
 export * from "./components";
 export * from "./shapes";

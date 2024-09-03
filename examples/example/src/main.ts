@@ -1,6 +1,7 @@
 import { application, global } from "@tulib/tulip";
 import { appComponent } from "app.component";
 import { GlobalData } from "types";
+import { tooltipComponent } from "tooltip.component";
 
 const app = application({
   backgroundColor: 0x030303,
@@ -43,6 +44,7 @@ app.load(async () => {
       console.log(`${performance.now()} Loading... ${spriteSheet}`);
     },
   });
+  global.tooltip.setComponent((tooltip) => tooltipComponent({ tooltip }));
 
   app.add(appComponent());
 });

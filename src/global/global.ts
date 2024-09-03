@@ -16,6 +16,7 @@ import { textures } from "./textures";
 import { window } from "./window";
 import { cursor } from "./cursor";
 import { envs } from "./envs";
+import { tooltip } from "./tooltip";
 
 export const global: GlobalType = (() => {
   let $application: ApplicationMutable;
@@ -31,6 +32,7 @@ export const global: GlobalType = (() => {
   const $window = window();
   const $cursor = cursor();
   const $envs = envs();
+  const $tooltip = tooltip();
 
   const $load = () => {
     $events.load();
@@ -44,6 +46,7 @@ export const global: GlobalType = (() => {
     });
     $sounds.$load();
     $context.$load();
+    $tooltip.load({ events: $events, getApplication });
   };
 
   const getFPS = (): number => $application.getFPS();
@@ -134,5 +137,6 @@ export const global: GlobalType = (() => {
     window: $window,
     cursor: $cursor,
     envs: $envs,
+    tooltip: $tooltip,
   };
 })();
