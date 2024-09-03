@@ -41,6 +41,7 @@ describe("components", () => {
             y: 1,
           },
           metadata: "draggable",
+          tooltip: "tooltip",
         });
       });
 
@@ -286,6 +287,11 @@ describe("components", () => {
           }),
         );
       });
+      test("setTooltip(...) of the display object", () => {
+        expect(displayObjectMutable.getTooltip()).toStrictEqual("tooltip");
+        displayObjectMutable.setTooltip("test");
+        expect(displayObjectMutable.getTooltip()).toStrictEqual("test");
+      });
       test("getMetadata(...)", () => {
         expect(displayObjectMutable.getMetadata()).toEqual("draggable");
       });
@@ -311,6 +317,7 @@ describe("components", () => {
             y: 2,
           },
           metadata: "draggable",
+          tooltip: "test",
         });
       });
 

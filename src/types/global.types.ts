@@ -16,6 +16,7 @@ import { WindowLoadProps } from "./window.types";
 import { CursorLoadProps } from "./cursor.types";
 import { Size } from "./size.types";
 import { EnvsLoadProps } from "./envs.types";
+import { TooltipLoadProps } from "./tooltip.types";
 
 export type GlobalFilterType = {
   componentName?: string;
@@ -87,6 +88,14 @@ export type GlobalEnvsType = {
   get: (env: Env, scale?: boolean) => number;
 };
 
+export type GlobalTooltipType = {
+  load: (props: TooltipLoadProps) => void;
+  setTooltip: (tooltip?: string) => void;
+  setComponent: (
+    onLoadComponent?: (tooltip: string) => DisplayObjectMutable<DisplayObject>,
+  ) => void;
+};
+
 export type GlobalType = {
   $load: () => void;
 
@@ -119,4 +128,5 @@ export type GlobalType = {
   window: GlobalWindowType;
   cursor: GlobalCursorType;
   envs: GlobalEnvsType;
+  tooltip: GlobalTooltipType;
 };

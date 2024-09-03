@@ -26,10 +26,11 @@ export const displayObject = <
     originalProps as DisplayObjectProps<Props, Data>,
   );
 
-  const { withContext, metadata } = $component.getProps();
+  const { withContext, metadata, tooltip } = $component.getProps();
 
   let $isRemoved = false;
   let $isPointerInside = false;
+  let $tooltip = tooltip;
 
   const $$setLabel = $component.setLabel;
   const $$setPosition = $component.setPosition;
@@ -200,6 +201,10 @@ export const displayObject = <
       y: $displayObject?.scale?.y || 0,
     }) as Point;
   const getMetadata = () => metadata;
+  const setTooltip = (tooltip?: string) => {
+    $tooltip = tooltip;
+  };
+  const getTooltip = () => $tooltip;
 
   const $destroy = () => {
     $component.getFather = () => null;
@@ -220,6 +225,7 @@ export const displayObject = <
     tint: getTint(),
     scale: getScale(),
     metadata: getMetadata(),
+    tooltip: getTooltip(),
   });
   let $removeOnTickEvent: () => void;
 
@@ -335,6 +341,7 @@ export const displayObject = <
       zIndex,
       sortableChildren,
       scale,
+      tooltip,
     } = $component.getProps();
 
     if (isNotNullish(label)) setLabel(label);
@@ -354,6 +361,7 @@ export const displayObject = <
     setCursor(cursor || Cursor.AUTO);
     setSortableChildren(Boolean(sortableChildren));
     setScale(scale ?? { x: 1, y: 1 });
+    setTooltip(tooltip);
 
     on(DisplayObjectEvent.TICK, () => {
       // If not body present, it doesn't make sense to iterate
@@ -364,9 +372,14 @@ export const displayObject = <
     });
     on(DisplayObjectEvent.POINTER_ENTER, () => {
       $isPointerInside = true;
+      if (tooltip) global.tooltip.setTooltip(tooltip);
     });
     on(DisplayObjectEvent.POINTER_LEAVE, () => {
       $isPointerInside = false;
+      if (tooltip) global.tooltip.setTooltip(null);
+    });
+    on(DisplayObjectEvent.DESTROYED, () => {
+      if ($isPointerInside) global.tooltip.setTooltip(null);
     });
   }
 
@@ -432,6 +445,9 @@ export const displayObject = <
     getGlobalPosition,
 
     getMetadata,
+    //tooltip,
+    setTooltip,
+    getTooltip,
 
     //events
     on,

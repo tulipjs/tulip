@@ -7,3 +7,4 @@ export * from "./keyboard.utils";
 export * from "./os.utils";
 export * from "./textures.utils";
 export * from "./accents.utils";
+export * from "./tooltip.utils";
