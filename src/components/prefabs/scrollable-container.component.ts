@@ -51,14 +51,17 @@ export const scrollableContainer: ContainerComponent<
   let moveScrollX: (increment: number) => void | null;
   let moveScrollY: (increment: number) => void | null;
 
-  let actionInterval;
-  const setActionInterval = (
-    callback: () => any,
-    time: number = scrollInterval,
+  let actionCallback: (delta: number) => void;
+
+  const setInternalSelectorAction = (
+    displayObject: DisplayObjectMutable<DisplayObject>,
+    jump: number,
+    moveScroll: (num: number) => void,
   ) => {
-    clearInterval(actionInterval);
-    callback();
-    actionInterval = setInterval(callback, time);
+    actionCallback = (delta) => {
+      if (!displayObject.isCursorInside()) return (actionCallback = null);
+      moveScroll(jump * delta * 2);
+    };
   };
 
   if (scrollX) {
@@ -136,9 +139,10 @@ export const scrollableContainer: ContainerComponent<
       tint: 0xff00ff,
       alpha: 0,
     });
-    scrollSelectorLeft.on(DisplayObjectEvent.POINTER_DOWN, () =>
-      setActionInterval(() => moveScrollX(-jump)),
-    );
+
+    scrollSelectorLeft.on(DisplayObjectEvent.POINTER_DOWN, () => {
+      setInternalSelectorAction(scrollSelectorLeft, -jump, moveScrollX);
+    });
 
     const scrollSelectorRight = graphics({
       type: GraphicType.RECTANGLE,
@@ -149,9 +153,9 @@ export const scrollableContainer: ContainerComponent<
       tint: 0xff0000,
       alpha: 0,
     });
-    scrollSelectorRight.on(DisplayObjectEvent.POINTER_DOWN, () =>
-      setActionInterval(() => moveScrollX(jump)),
-    );
+    scrollSelectorRight.on(DisplayObjectEvent.POINTER_DOWN, () => {
+      setInternalSelectorAction(scrollSelectorRight, jump, moveScrollX);
+    });
     moveScrollX = (increment: number = 1) => {
       const width = $content.getBounds().width - size.width;
       $content.setPivotX((x) => {
@@ -188,11 +192,13 @@ export const scrollableContainer: ContainerComponent<
       );
     };
     moveScrollX(0);
-    scrollButtonLeft.on(DisplayObjectEvent.POINTER_DOWN, () =>
-      setActionInterval(() => moveScrollX(-jump)),
+    scrollButtonLeft.on(
+      DisplayObjectEvent.POINTER_DOWN,
+      () => (actionCallback = (delta) => moveScrollX(-jump * delta)),
     );
-    scrollButtonRight.on(DisplayObjectEvent.POINTER_DOWN, () =>
-      setActionInterval(() => moveScrollX(jump)),
+    scrollButtonRight.on(
+      DisplayObjectEvent.POINTER_DOWN,
+      () => (actionCallback = (delta) => moveScrollX(jump * delta)),
     );
     scrollXContainer.add(
       scrollSelectorRight,
@@ -277,9 +283,9 @@ export const scrollableContainer: ContainerComponent<
       tint: 0xff00ff,
       alpha: 0,
     });
-    scrollSelectorTop.on(DisplayObjectEvent.POINTER_DOWN, () =>
-      setActionInterval(() => moveScrollY(-jump)),
-    );
+    scrollSelectorTop.on(DisplayObjectEvent.POINTER_DOWN, () => {
+      setInternalSelectorAction(scrollSelectorTop, -jump, moveScrollY);
+    });
 
     const scrollSelectorBottom = graphics({
       type: GraphicType.RECTANGLE,
@@ -290,9 +296,9 @@ export const scrollableContainer: ContainerComponent<
       tint: 0xff0000,
       alpha: 0,
     });
-    scrollSelectorBottom.on(DisplayObjectEvent.POINTER_DOWN, () =>
-      setActionInterval(() => moveScrollY(jump)),
-    );
+    scrollSelectorBottom.on(DisplayObjectEvent.POINTER_DOWN, () => {
+      setInternalSelectorAction(scrollSelectorBottom, jump, moveScrollY);
+    });
 
     moveScrollY = (increment: number = 1) => {
       const height = $content.getBounds().height - size.height;
@@ -329,12 +335,12 @@ export const scrollableContainer: ContainerComponent<
       );
     };
     moveScrollY(0);
-    scrollButtonTop.on(DisplayObjectEvent.POINTER_DOWN, () =>
-      setActionInterval(() => moveScrollY(-jump)),
-    );
-    scrollButtonBottom.on(DisplayObjectEvent.POINTER_DOWN, () =>
-      setActionInterval(() => moveScrollY(jump)),
-    );
+    scrollButtonTop.on(DisplayObjectEvent.POINTER_DOWN, () => {
+      actionCallback = (delta) => moveScrollY(-jump * delta);
+    });
+    scrollButtonBottom.on(DisplayObjectEvent.POINTER_DOWN, () => {
+      actionCallback = (delta) => moveScrollY(jump * delta);
+    });
 
     scrollYContainer.add(
       scrollSelectorTop,
@@ -354,6 +360,7 @@ export const scrollableContainer: ContainerComponent<
 
   let removeOnWheel;
   let removeOnPointerUp;
+  let removeOnTick;
   $container.on(DisplayObjectEvent.ADDED, () => {
     removeOnWheel = global.events.on(Event.WHEEL, (event: WheelEvent) => {
       const deltaX = (event.shiftKey ? event.deltaY : event.deltaX) / jump;
@@ -363,12 +370,18 @@ export const scrollableContainer: ContainerComponent<
       moveScrollY?.(deltaY);
     });
     removeOnPointerUp = global.events.on(Event.POINTER_UP, () => {
-      clearInterval(actionInterval);
+      // clearInterval(actionInterval);
+      actionCallback = null;
+    });
+    removeOnTick = global.events.on(Event.TICK, ({ deltaTime }) => {
+      // console.log(deltaTime);
+      actionCallback?.(deltaTime);
     });
   });
 
   $container.on(DisplayObjectEvent.REMOVED, () => {
-    clearInterval(actionInterval);
+    removeOnTick();
+    // clearInterval(actionInterval);
     removeOnWheel();
     removeOnPointerUp();
   });

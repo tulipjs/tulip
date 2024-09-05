@@ -87,6 +87,8 @@ export type PartialDisplayObjectMutable<DisplayObject, Mutable = {}> = {
 
   getMetadata: () => string;
 
+  isCursorInside: () => boolean;
+
   //context
   focus: () => void;
   blur: () => void;

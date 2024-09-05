@@ -206,6 +206,13 @@ export const displayObject = <
   };
   const getTooltip = () => $tooltip;
 
+  const isCursorInside = () => {
+    const cursorPoint = global.cursor.getPosition();
+    return $displayObject
+      .getBounds()
+      .containsPoint(cursorPoint.x, cursorPoint.y);
+  };
+
   const $destroy = () => {
     $component.getFather = () => null;
 
@@ -448,6 +455,9 @@ export const displayObject = <
     //tooltip,
     setTooltip,
     getTooltip,
+
+    //cursor inside
+    isCursorInside,
 
     //events
     on,
