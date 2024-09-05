@@ -7,6 +7,7 @@ export type PartialScrollableProps = {
   scrollX?: boolean;
   scrollY?: boolean;
   components?: ContainerMutable[];
+  scrollInterval?: number;
 };
 
 export type ScrollableProps<Data = {}> = PartialScrollableProps &

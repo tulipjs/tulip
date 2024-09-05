@@ -19,7 +19,15 @@ import { global } from "../../global";
 export const scrollableContainer: ContainerComponent<
   ScrollableProps,
   ScrollableMutable
-> = ({ size, scrollY, scrollX, jump, components = [], ...$props }) => {
+> = ({
+  size,
+  scrollY,
+  scrollX,
+  jump,
+  scrollInterval = 250,
+  components = [],
+  ...$props
+}) => {
   const $container = container<PartialContainerProps, ScrollableMutable>(
     $props,
   );
@@ -42,6 +50,16 @@ export const scrollableContainer: ContainerComponent<
 
   let moveScrollX: (increment: number) => void | null;
   let moveScrollY: (increment: number) => void | null;
+
+  let actionInterval;
+  const setActionInterval = (
+    callback: () => any,
+    time: number = scrollInterval,
+  ) => {
+    clearInterval(actionInterval);
+    callback();
+    actionInterval = setInterval(callback, time);
+  };
 
   if (scrollX) {
     const scrollXContainer = container({
@@ -119,7 +137,7 @@ export const scrollableContainer: ContainerComponent<
       alpha: 0,
     });
     scrollSelectorLeft.on(DisplayObjectEvent.POINTER_DOWN, () =>
-      moveScrollX(-jump),
+      setActionInterval(() => moveScrollX(-jump)),
     );
 
     const scrollSelectorRight = graphics({
@@ -132,7 +150,7 @@ export const scrollableContainer: ContainerComponent<
       alpha: 0,
     });
     scrollSelectorRight.on(DisplayObjectEvent.POINTER_DOWN, () =>
-      moveScrollX(jump),
+      setActionInterval(() => moveScrollX(jump)),
     );
     moveScrollX = (increment: number = 1) => {
       const width = $content.getBounds().width - size.width;
@@ -171,10 +189,10 @@ export const scrollableContainer: ContainerComponent<
     };
     moveScrollX(0);
     scrollButtonLeft.on(DisplayObjectEvent.POINTER_DOWN, () =>
-      moveScrollX(-jump),
+      setActionInterval(() => moveScrollX(-jump)),
     );
     scrollButtonRight.on(DisplayObjectEvent.POINTER_DOWN, () =>
-      moveScrollX(jump),
+      setActionInterval(() => moveScrollX(jump)),
     );
     scrollXContainer.add(
       scrollSelectorRight,
@@ -260,7 +278,7 @@ export const scrollableContainer: ContainerComponent<
       alpha: 0,
     });
     scrollSelectorTop.on(DisplayObjectEvent.POINTER_DOWN, () =>
-      moveScrollY(-jump),
+      setActionInterval(() => moveScrollY(-jump)),
     );
 
     const scrollSelectorBottom = graphics({
@@ -273,7 +291,7 @@ export const scrollableContainer: ContainerComponent<
       alpha: 0,
     });
     scrollSelectorBottom.on(DisplayObjectEvent.POINTER_DOWN, () =>
-      moveScrollY(jump),
+      setActionInterval(() => moveScrollY(jump)),
     );
 
     moveScrollY = (increment: number = 1) => {
@@ -312,10 +330,10 @@ export const scrollableContainer: ContainerComponent<
     };
     moveScrollY(0);
     scrollButtonTop.on(DisplayObjectEvent.POINTER_DOWN, () =>
-      moveScrollY(-jump),
+      setActionInterval(() => moveScrollY(-jump)),
     );
     scrollButtonBottom.on(DisplayObjectEvent.POINTER_DOWN, () =>
-      moveScrollY(jump),
+      setActionInterval(() => moveScrollY(jump)),
     );
 
     scrollYContainer.add(
@@ -334,17 +352,26 @@ export const scrollableContainer: ContainerComponent<
     $content.remove(...displayObjects);
   };
 
+  let removeOnWheel;
+  let removeOnPointerUp;
   $container.on(DisplayObjectEvent.ADDED, () => {
-    global.events.on(Event.WHEEL, (event: WheelEvent) => {
+    removeOnWheel = global.events.on(Event.WHEEL, (event: WheelEvent) => {
       const deltaX = (event.shiftKey ? event.deltaY : event.deltaX) / jump;
       const deltaY = (event.shiftKey ? 0 : event.deltaY) / jump;
 
       moveScrollX?.(deltaX);
       moveScrollY?.(deltaY);
     });
+    removeOnPointerUp = global.events.on(Event.POINTER_UP, () => {
+      clearInterval(actionInterval);
+    });
   });
 
-  $container.on(DisplayObjectEvent.REMOVED, () => {});
+  $container.on(DisplayObjectEvent.REMOVED, () => {
+    clearInterval(actionInterval);
+    removeOnWheel();
+    removeOnPointerUp();
+  });
 
   return $container.getComponent(scrollableContainer, {
     add,
