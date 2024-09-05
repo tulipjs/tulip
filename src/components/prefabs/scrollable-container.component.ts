@@ -10,9 +10,11 @@ import { container, graphics } from "../core";
 import {
   Cursor,
   DisplayObjectEvent,
+  Event,
   EventMode,
   GraphicType,
 } from "../../enums";
+import { global } from "../../global";
 
 export const scrollableContainer: ContainerComponent<
   ScrollableProps,
@@ -37,6 +39,9 @@ export const scrollableContainer: ContainerComponent<
 
   const $content = container();
   $maskContainer.add($content);
+
+  let moveScrollX: (increment: number) => void | null;
+  let moveScrollY: (increment: number) => void | null;
 
   if (scrollX) {
     const scrollXContainer = container({
@@ -103,8 +108,17 @@ export const scrollableContainer: ContainerComponent<
           tint: 0x00ff00,
         }),
     );
-    const moveScrollX = () => {
-      const percentage = $content.getPivot().x / getContentWidth();
+    moveScrollX = (increment: number = 1) => {
+      const width = $content.getBounds().width - size.width;
+      $content.setPivotX((x) => {
+        if (increment === 0) return x;
+        const targetX = x + increment;
+        if (targetX >= width) return width;
+        if (0 >= targetX) return 0;
+        return targetX;
+      });
+
+      const percentage = $content.getPivot().x / width;
       scrollSelectorX.setPivotX(
         -(
           size.width -
@@ -114,22 +128,12 @@ export const scrollableContainer: ContainerComponent<
         ) * percentage,
       );
     };
-    const getContentWidth = () => $content.getBounds().width - size.width;
-    scrollButtonLeft.on(DisplayObjectEvent.POINTER_DOWN, () => {
-      $content.setPivotX((x) => {
-        const targetX = x - jump;
-        return 0 >= targetX ? 0 : targetX;
-      });
-      moveScrollX();
-    });
-    scrollButtonRight.on(DisplayObjectEvent.POINTER_DOWN, () => {
-      $content.setPivotX((x) => {
-        const targetX = x + jump;
-        const width = getContentWidth();
-        return targetX >= width ? width : targetX;
-      });
-      moveScrollX();
-    });
+    scrollButtonLeft.on(DisplayObjectEvent.POINTER_DOWN, () =>
+      moveScrollX(-jump),
+    );
+    scrollButtonRight.on(DisplayObjectEvent.POINTER_DOWN, () =>
+      moveScrollX(jump),
+    );
     scrollXContainer.add(scrollButtonLeft, scrollSelectorX, scrollButtonRight);
   }
   if (scrollY) {
@@ -197,8 +201,17 @@ export const scrollableContainer: ContainerComponent<
           tint: 0x00ff00,
         }),
     );
-    const moveScrollY = () => {
-      const percentage = $content.getPivot().y / getContentHeight();
+    moveScrollY = (increment: number = 1) => {
+      const height = $content.getBounds().height - size.height;
+      $content.setPivotY((y) => {
+        if (increment === 0) return y;
+        const targetY = y + increment;
+        if (targetY >= height) return height;
+        if (0 >= targetY) return 0;
+        return targetY;
+      });
+
+      const percentage = $content.getPivot().y / height;
       scrollSelectorY.setPivotY(
         -(
           size.height -
@@ -208,22 +221,13 @@ export const scrollableContainer: ContainerComponent<
         ) * percentage,
       );
     };
-    const getContentHeight = () => $content.getBounds().height - size.height;
-    scrollButtonTop.on(DisplayObjectEvent.POINTER_DOWN, () => {
-      $content.setPivotY((y) => {
-        const targetY = y - jump;
-        return 0 >= targetY ? 0 : targetY;
-      });
-      moveScrollY();
-    });
-    scrollButtonBottom.on(DisplayObjectEvent.POINTER_DOWN, () => {
-      $content.setPivotY((y) => {
-        const targetY = y + jump;
-        const height = getContentHeight();
-        return targetY >= height ? height : targetY;
-      });
-      moveScrollY();
-    });
+    scrollButtonTop.on(DisplayObjectEvent.POINTER_DOWN, () =>
+      moveScrollY(-jump),
+    );
+    scrollButtonBottom.on(DisplayObjectEvent.POINTER_DOWN, () =>
+      moveScrollY(jump),
+    );
+
     scrollYContainer.add(scrollButtonTop, scrollSelectorY, scrollButtonBottom);
   }
 
@@ -233,6 +237,17 @@ export const scrollableContainer: ContainerComponent<
   const remove = (...displayObjects: DisplayObjectMutable<DisplayObject>[]) => {
     $content.remove(...displayObjects);
   };
+
+  $container.on(DisplayObjectEvent.ADDED, () => {
+    console.log("????");
+    global.events.on(Event.WHEEL, (event: WheelEvent) => {
+      // $content.setPivotY((y) => y + event.deltaY / jump);
+      moveScrollX?.(event.deltaX / jump);
+      moveScrollY?.(event.deltaY / jump);
+    });
+  });
+
+  $container.on(DisplayObjectEvent.REMOVED, () => {});
 
   return $container.getComponent(scrollableContainer, {
     add,
