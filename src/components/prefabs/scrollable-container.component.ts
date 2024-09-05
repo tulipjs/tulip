@@ -13,10 +13,8 @@ import {
   Event,
   EventMode,
   GraphicType,
-  OS,
 } from "../../enums";
 import { global } from "../../global";
-import { getOS } from "../../utils";
 
 export const scrollableContainer: ContainerComponent<
   ScrollableProps,
