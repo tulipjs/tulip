@@ -10,4 +10,5 @@ export const EVENT_MAP: [string, Event][] = [
   ["touchmove", Event.POINTER_MOVE],
   ["touchstart", Event.POINTER_DOWN],
   ["touchend", Event.POINTER_UP],
+  ["wheel", Event.WHEEL],
 ];
