@@ -1,38 +1,50 @@
 import {
   container,
   ContainerComponent,
+  DisplayObjectEvent,
   EventMode,
-  graphics,
-  GraphicType,
-  textSprite,
+  nineSliceSprite,
 } from "@tulib/tulip";
 
-type Props = {
-  tooltip: string;
-};
+export const tooltipComponent: ContainerComponent = () => {
+  const $container = container();
 
-export const tooltipComponent: ContainerComponent<Props> = ({
-  tooltip,
-}: Props) => {
-  const $container = container({
-    eventMode: EventMode.NONE,
-    pivot: {
-      x: -10,
-      y: -10,
+  const conA = container();
+  conA.on(DisplayObjectEvent.VISIBILITY_CHANGE, ({ visible }) => {
+    console.log("visible", visible);
+  });
+
+  const nineslice = nineSliceSprite({
+    spriteSheet: "chat.json",
+    texture: "bubble",
+    // texture: "chat.png",
+    leftWidth: 4,
+    topHeight: 4,
+    rightWidth: 3,
+    bottomHeight: 3,
+    width: 200,
+    height: 200,
+    tooltip: "test",
+    eventMode: EventMode.STATIC,
+  });
+  const nineslice1 = nineSliceSprite({
+    spriteSheet: "chat.json",
+    texture: "bubble",
+    // texture: "chat.png",
+    leftWidth: 4,
+    topHeight: 4,
+    rightWidth: 3,
+    bottomHeight: 3,
+    width: 200,
+    height: 200,
+    tooltip: "123abc",
+    eventMode: EventMode.STATIC,
+    position: {
+      x: 220,
+      y: 0,
     },
   });
-  const bg = graphics({
-    type: GraphicType.RECTANGLE,
-    width: 60,
-    height: 7,
-    tint: 0xff00ff,
-  });
-
-  const $defaultMinus = textSprite({
-    spriteSheet: "fonts/default-font.json",
-    text: tooltip,
-  });
-  $container.add(bg, $defaultMinus);
+  $container.add(nineslice, nineslice1);
 
   return $container.getComponent(tooltipComponent);
 };

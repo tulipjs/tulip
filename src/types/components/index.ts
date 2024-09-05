@@ -11,3 +11,4 @@ export * from "./text-sprite.types";
 export * from "./input-text-sprite.types";
 export * from "./nine-slice-sprite.types";
 export * from "./draggable.types";
+export * from "./scrollable.types";

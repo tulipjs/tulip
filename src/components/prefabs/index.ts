@@ -5,3 +5,4 @@ export * from "./player-2d.component";
 export * from "./text-sprite.component";
 export * from "./input-text-sprite.component";
 export * from "./draggable-container.component";
+export * from "./scrollable-container.component";
