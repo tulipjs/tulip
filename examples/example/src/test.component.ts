@@ -1,50 +1,175 @@
 import {
   container,
-  ContainerComponent,
-  DisplayObjectEvent,
-  EventMode,
-  nineSliceSprite,
+  graphics,
+  GraphicType,
+  scrollableContainer,
+  sprite,
 } from "@tulib/tulip";
 
-export const testComponent: ContainerComponent = () => {
-  const $container = container();
-
-  const conA = container();
-  conA.on(DisplayObjectEvent.VISIBILITY_CHANGE, ({ visible }) => {
-    console.log("visible", visible);
+export const testComponent = () => {
+  const $container = container({
+    sortableChildren: true,
   });
 
-  const nineslice = nineSliceSprite({
-    spriteSheet: "chat.json",
-    texture: "bubble",
-    // texture: "chat.png",
-    leftWidth: 4,
-    topHeight: 4,
-    rightWidth: 3,
-    bottomHeight: 3,
-    width: 200,
-    height: 200,
-    tooltip: "test",
-    eventMode: EventMode.STATIC,
+  const scrollable = scrollableContainer({
+    size: { width: 90, height: 120 },
+    scrollY: true,
+    scrollX: true,
+    jump: 5,
+    components: [
+      sprite({
+        spriteSheet: "fonts/default-font-bold.json",
+        texture: "A",
+        metadata: "scroll-button-top",
+      }),
+      sprite({
+        spriteSheet: "fonts/default-font-bold.json",
+        texture: "B",
+        metadata: "scroll-button-bottom",
+      }),
+      sprite({
+        spriteSheet: "fonts/default-font-bold.json",
+        texture: "X",
+        metadata: "scroll-selector-y",
+      }),
+      sprite({
+        spriteSheet: "fonts/default-font-bold.json",
+        texture: "A",
+        metadata: "scroll-button-left",
+      }),
+      sprite({
+        spriteSheet: "fonts/default-font-bold.json",
+        texture: "B",
+        metadata: "scroll-button-right",
+      }),
+      sprite({
+        spriteSheet: "fonts/default-font-bold.json",
+        texture: "X",
+        metadata: "scroll-selector-x",
+      }),
+    ],
   });
-  const nineslice1 = nineSliceSprite({
-    spriteSheet: "chat.json",
-    texture: "bubble",
-    // texture: "chat.png",
-    leftWidth: 4,
-    topHeight: 4,
-    rightWidth: 3,
-    bottomHeight: 3,
-    width: 200,
-    height: 200,
-    tooltip: "123abc",
-    eventMode: EventMode.STATIC,
-    position: {
-      x: 220,
-      y: 0,
-    },
-  });
-  $container.add(nineslice, nineslice1);
+  $container.add(scrollable);
+
+  scrollable.add(
+    graphics({
+      type: GraphicType.POLYGON,
+      polygon: [0, 0, 100, 200, 200, 200],
+      tint: 0xff00ff,
+    }),
+    sprite({
+      spriteSheet: "fonts/default-font-bold.json",
+      texture: "X",
+      metadata: "scroll-selector-x",
+      position: {
+        x: 40,
+        y: 60,
+      },
+    }),
+  );
 
   return $container.getComponent(testComponent);
+
+  // const maskWidth = 100;
+  // const maskHeight = 130;
+  // const jump = 10;
+  // const scrollHeight = 70;
+  //
+  // const $maskContainer = container({
+  //   zIndex: 10,
+  // });
+  // $container.add($maskContainer);
+  //
+  // const mask = graphics({
+  //   type: GraphicType.RECTANGLE,
+  //   width: maskWidth,
+  //   height: maskHeight,
+  // });
+  // $maskContainer.setMask(mask);
+  //
+  // const $contentContainer = container();
+  // $maskContainer.add($contentContainer);
+  //
+  // const item1 = graphics({
+  //   type: GraphicType.POLYGON,
+  //   tint: 0xff0000,
+  //   polygon: [0, 0, 100, 50, 100, 200, 100, 200],
+  // });
+  // $contentContainer.add(item1);
+  //
+  // const bg = graphics({
+  //   type: GraphicType.RECTANGLE,
+  //   width: maskWidth,
+  //   height: maskHeight,
+  //   tint: 0xff00ff,
+  // });
+  // $container.add(bg);
+  //
+  // const arrowBottom = graphics({
+  //   type: GraphicType.CIRCLE,
+  //   tint: 0x00ff00,
+  //   radius: 10,
+  //   position: {
+  //     x: 120,
+  //     y: 100,
+  //   },
+  //   cursor: Cursor.POINTER,
+  //   eventMode: EventMode.STATIC,
+  // });
+  // const arrowSelectorContainer = container({
+  //   position: {
+  //     x: 110,
+  //     y: 20,
+  //   },
+  // });
+  // const arrowSelectorBg = graphics({
+  //   type: GraphicType.RECTANGLE,
+  //   tint: 0x0000ff,
+  //   height: scrollHeight,
+  //   width: 20,
+  // });
+  // const arrowSelector = graphics({
+  //   type: GraphicType.RECTANGLE,
+  //   tint: 0xffffff,
+  //   height: 10,
+  //   width: 20,
+  // });
+  // arrowSelectorContainer.add(arrowSelectorBg, arrowSelector);
+  //
+  // const arrowTop = graphics({
+  //   type: GraphicType.CIRCLE,
+  //   tint: 0x00ff00,
+  //   radius: 10,
+  //   position: {
+  //     x: 120,
+  //     y: 10,
+  //   },
+  //   cursor: Cursor.POINTER,
+  //   eventMode: EventMode.STATIC,
+  // });
+  // const heightCorrection = $contentContainer.getBounds().height - maskHeight;
+  // const moveScroll = () => {
+  //   const percentageScroll = $contentContainer.getPivot().y / heightCorrection;
+  //   arrowSelector.setPositionY(
+  //     percentageScroll * (scrollHeight - arrowSelector.getBounds().height),
+  //   );
+  // };
+  // arrowBottom.on(DisplayObjectEvent.POINTER_DOWN, () => {
+  //   $contentContainer.setPivotY((y) => {
+  //     const targetY = y + jump;
+  //     const height = heightCorrection;
+  //     return targetY >= height ? height : targetY;
+  //   });
+  //   moveScroll();
+  // });
+  // arrowTop.on(DisplayObjectEvent.POINTER_DOWN, () => {
+  //   $contentContainer.setPivotY((y) => {
+  //     const targetY = y - jump;
+  //     return 0 >= targetY ? 0 : targetY;
+  //   });
+  //   moveScroll();
+  // });
+  // $container.add(arrowTop, arrowSelectorContainer, arrowBottom);
+  //
+  // return $container.getComponent(testComponent);
 };
