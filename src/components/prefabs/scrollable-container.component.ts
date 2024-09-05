@@ -108,6 +108,32 @@ export const scrollableContainer: ContainerComponent<
           tint: 0x00ff00,
         }),
     );
+
+    const scrollSelectorLeft = graphics({
+      type: GraphicType.RECTANGLE,
+      width: 0,
+      height: 0,
+      eventMode: EventMode.STATIC,
+      cursor: Cursor.POINTER,
+      tint: 0xff00ff,
+      alpha: 0,
+    });
+    scrollSelectorLeft.on(DisplayObjectEvent.POINTER_DOWN, () =>
+      moveScrollX(-jump),
+    );
+
+    const scrollSelectorRight = graphics({
+      type: GraphicType.RECTANGLE,
+      width: 0,
+      height: 0,
+      eventMode: EventMode.STATIC,
+      cursor: Cursor.POINTER,
+      tint: 0xff0000,
+      alpha: 0,
+    });
+    scrollSelectorRight.on(DisplayObjectEvent.POINTER_DOWN, () =>
+      moveScrollX(jump),
+    );
     moveScrollX = (increment: number = 1) => {
       const width = $content.getBounds().width - size.width;
       $content.setPivotX((x) => {
@@ -127,14 +153,36 @@ export const scrollableContainer: ContainerComponent<
           scrollButtonRight.getBounds().width
         ) * percentage,
       );
+
+      const maxHeight = Math.max(
+        scrollButtonLeft.getBounds().height,
+        scrollSelectorX.getBounds().height,
+        scrollButtonRight.getBounds().height,
+      );
+
+      const middleScrollSelectorPosition =
+        scrollButtonLeft.getBounds().height - scrollSelectorX.getPivot().x;
+      scrollSelectorLeft.setRectangle(middleScrollSelectorPosition, maxHeight);
+      scrollSelectorRight.setPositionX(middleScrollSelectorPosition);
+      scrollSelectorRight.setRectangle(
+        size.width - middleScrollSelectorPosition,
+        maxHeight,
+      );
     };
+    moveScrollX(0);
     scrollButtonLeft.on(DisplayObjectEvent.POINTER_DOWN, () =>
       moveScrollX(-jump),
     );
     scrollButtonRight.on(DisplayObjectEvent.POINTER_DOWN, () =>
       moveScrollX(jump),
     );
-    scrollXContainer.add(scrollButtonLeft, scrollSelectorX, scrollButtonRight);
+    scrollXContainer.add(
+      scrollSelectorRight,
+      scrollSelectorLeft,
+      scrollButtonLeft,
+      scrollSelectorX,
+      scrollButtonRight,
+    );
   }
   if (scrollY) {
     const scrollYContainer = container({
@@ -201,6 +249,33 @@ export const scrollableContainer: ContainerComponent<
           tint: 0x00ff00,
         }),
     );
+
+    const scrollSelectorTop = graphics({
+      type: GraphicType.RECTANGLE,
+      width: 0,
+      height: 0,
+      eventMode: EventMode.STATIC,
+      cursor: Cursor.POINTER,
+      tint: 0xff00ff,
+      alpha: 0,
+    });
+    scrollSelectorTop.on(DisplayObjectEvent.POINTER_DOWN, () =>
+      moveScrollY(-jump),
+    );
+
+    const scrollSelectorBottom = graphics({
+      type: GraphicType.RECTANGLE,
+      width: 0,
+      height: 0,
+      eventMode: EventMode.STATIC,
+      cursor: Cursor.POINTER,
+      tint: 0xff0000,
+      alpha: 0,
+    });
+    scrollSelectorBottom.on(DisplayObjectEvent.POINTER_DOWN, () =>
+      moveScrollY(jump),
+    );
+
     moveScrollY = (increment: number = 1) => {
       const height = $content.getBounds().height - size.height;
       $content.setPivotY((y) => {
@@ -220,7 +295,22 @@ export const scrollableContainer: ContainerComponent<
           scrollButtonBottom.getBounds().height
         ) * percentage,
       );
+      const maxWidth = Math.max(
+        scrollButtonTop.getBounds().width,
+        scrollSelectorY.getBounds().width,
+        scrollButtonBottom.getBounds().width,
+      );
+
+      const middleScrollSelectorPosition =
+        scrollButtonTop.getBounds().height - scrollSelectorY.getPivot().y;
+      scrollSelectorTop.setRectangle(maxWidth, middleScrollSelectorPosition);
+      scrollSelectorBottom.setPositionY(middleScrollSelectorPosition);
+      scrollSelectorBottom.setRectangle(
+        maxWidth,
+        size.height - middleScrollSelectorPosition,
+      );
     };
+    moveScrollY(0);
     scrollButtonTop.on(DisplayObjectEvent.POINTER_DOWN, () =>
       moveScrollY(-jump),
     );
@@ -228,7 +318,13 @@ export const scrollableContainer: ContainerComponent<
       moveScrollY(jump),
     );
 
-    scrollYContainer.add(scrollButtonTop, scrollSelectorY, scrollButtonBottom);
+    scrollYContainer.add(
+      scrollSelectorTop,
+      scrollSelectorBottom,
+      scrollButtonTop,
+      scrollSelectorY,
+      scrollButtonBottom,
+    );
   }
 
   const add = (...displayObjects: DisplayObjectMutable<DisplayObject>[]) => {
@@ -239,11 +335,12 @@ export const scrollableContainer: ContainerComponent<
   };
 
   $container.on(DisplayObjectEvent.ADDED, () => {
-    console.log("????");
     global.events.on(Event.WHEEL, (event: WheelEvent) => {
-      // $content.setPivotY((y) => y + event.deltaY / jump);
-      moveScrollX?.(event.deltaX / jump);
-      moveScrollY?.(event.deltaY / jump);
+      const deltaX = (event.shiftKey ? event.deltaY : event.deltaX) / jump;
+      const deltaY = (event.shiftKey ? 0 : event.deltaY) / jump;
+
+      moveScrollX?.(deltaX);
+      moveScrollY?.(deltaY);
     });
   });
 
