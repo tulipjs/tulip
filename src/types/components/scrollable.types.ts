@@ -4,10 +4,9 @@ import { Size } from "../size.types";
 export type PartialScrollableProps = {
   size: Size;
   jump: number;
-  scrollX?: boolean;
-  scrollY?: boolean;
+  horizontalScroll?: boolean;
+  verticalScroll?: boolean;
   components?: ContainerMutable[];
-  scrollInterval?: number;
 };
 
 export type ScrollableProps<Data = {}> = PartialScrollableProps &
