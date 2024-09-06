@@ -98,6 +98,8 @@ export const graphics = <Props = {}, Mutable = {}, Data = {}>(
     $graphics
       .poly([0, 0, width, 0, width, height, 0, height])
       .fill({ color: 0xffffff });
+    $graphics.getBounds();
+    $graphics.updateLocalTransform();
   };
 
   const getPolygon = () => $polygon;
