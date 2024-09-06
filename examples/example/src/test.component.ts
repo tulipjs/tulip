@@ -12,9 +12,9 @@ export const testComponent = () => {
   });
 
   const scrollable = scrollableContainer({
-    size: { width: 90, height: 120 },
-    scrollY: true,
-    scrollX: true,
+    size: { width: 200, height: 90 },
+    verticalScroll: true,
+    horizontalScroll: true,
     jump: 5,
     components: [
       sprite({

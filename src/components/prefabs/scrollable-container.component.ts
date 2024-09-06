@@ -1,5 +1,6 @@
 import {
   ContainerComponent,
+  ContainerMutable,
   DisplayObject,
   DisplayObjectMutable,
   PartialContainerProps,
@@ -21,10 +22,9 @@ export const scrollableContainer: ContainerComponent<
   ScrollableMutable
 > = ({
   size,
-  scrollY,
-  scrollX,
+  verticalScroll,
+  horizontalScroll,
   jump,
-  scrollInterval = 250,
   components = [],
   ...$props
 }) => {
@@ -64,63 +64,85 @@ export const scrollableContainer: ContainerComponent<
     };
   };
 
-  if (scrollX) {
-    const scrollXContainer = container({
-      position: {
-        x: 0,
-        y: size.height,
-      },
-    });
-    $container.add(scrollXContainer);
-    const scrollButtonLeft = container({
-      eventMode: EventMode.STATIC,
-      cursor: Cursor.POINTER,
-    });
-    scrollButtonLeft.add(
-      components.find(
-        (component) => component.getMetadata() === "scroll-button-left",
-      ) ??
-        graphics({
-          type: GraphicType.RECTANGLE,
-          width: 5,
-          height: 10,
-          tint: 0xffff00,
-        }),
-    );
-    const scrollButtonRight = container({
-      eventMode: EventMode.STATIC,
-      cursor: Cursor.POINTER,
-      position: {
-        x: size.width,
-        y: 0,
-      },
-    });
-    scrollButtonRight.add(
-      components.find(
-        (component) => component.getMetadata() === "scroll-button-right",
-      ) ??
-        graphics({
-          type: GraphicType.RECTANGLE,
-          width: 5,
-          height: 10,
-          tint: 0xffff00,
-        }),
-    );
-    scrollButtonRight.setPositionX(
-      size.width - scrollButtonRight.getBounds().width,
-    );
+  let xScrollContainer: ContainerMutable;
+  let yScrollContainer: ContainerMutable;
 
-    const scrollSelectorX = container({
+  const renderScroll = (axis: "x" | "y") => {
+    const isX = axis === "x";
+    const pivotFuncStr = isX ? "setPivotX" : "setPivotY";
+    const positionFuncStr = isX ? "setPositionX" : "setPositionY";
+    const sizeStr = isX ? "width" : "height";
+    const reversedSizeStr = !isX ? "width" : "height";
+    const posStr = isX ? "x" : "y";
+
+    const scrollContainer = container({
+      position: {
+        x: isX ? 0 : size.width,
+        y: isX ? size.height : 0,
+      },
+      visible: false,
+    });
+    $container.add(scrollContainer);
+
+    isX
+      ? (xScrollContainer = scrollContainer)
+      : (yScrollContainer = scrollContainer);
+
+    const initialScrollButton = container({
+      eventMode: EventMode.STATIC,
+      cursor: Cursor.POINTER,
+    });
+    initialScrollButton.add(
+      components.find(
+        (component) =>
+          component.getMetadata() === `scroll-button-${isX ? "left" : "top"}`,
+      ) ??
+        graphics({
+          type: GraphicType.RECTANGLE,
+          width: 10,
+          height: 10,
+          tint: 0xffff00,
+        }),
+    );
+    const finalScrollButton = container({
+      eventMode: EventMode.STATIC,
+      cursor: Cursor.POINTER,
+      position: {
+        x: isX ? size.width : 0,
+        y: isX ? 0 : size.height,
+      },
+    });
+    finalScrollButton.add(
+      components.find(
+        (component) =>
+          component.getMetadata() ===
+          `scroll-button-${isX ? "right" : "bottom"}`,
+      ) ??
+        graphics({
+          type: GraphicType.RECTANGLE,
+          width: 10,
+          height: 10,
+          tint: 0xffff00,
+        }),
+    );
+    const initialScrollButtonBounds = initialScrollButton.getBounds();
+    const finalScrollButtonBounds = finalScrollButton.getBounds();
+    finalScrollButton.setPosition({
+      x: isX ? size.width - finalScrollButtonBounds.width : 0,
+      y: isX ? 0 : size.height - finalScrollButtonBounds.height,
+    });
+    const scrollSelector = container({
       eventMode: EventMode.STATIC,
       cursor: Cursor.GRAB,
       position: {
-        x: scrollButtonLeft.getBounds().width,
-        y: 0,
+        x: isX ? initialScrollButtonBounds.width : 0,
+        y: isX ? 0 : initialScrollButtonBounds.height,
       },
     });
-    scrollSelectorX.add(
+    scrollSelector.add(
       components.find(
-        (component) => component.getMetadata() === "scroll-selector-x",
+        (component) =>
+          component.getMetadata() === `scroll-selector-${isX ? "x" : "y"}`,
       ) ??
         graphics({
           type: GraphicType.RECTANGLE,
@@ -129,8 +151,88 @@ export const scrollableContainer: ContainerComponent<
           tint: 0x00ff00,
         }),
     );
+    let isScrollSelectorSelected = false;
+    let previous = 0;
 
-    const scrollSelectorLeft = graphics({
+    scrollSelector.on(DisplayObjectEvent.POINTER_DOWN, () => {
+      isScrollSelectorSelected = true;
+      previous = global.cursor.getPosition()[isX ? "x" : "y"];
+      global.cursor.setCursor(Cursor.GRABBING);
+    });
+    scrollSelector.on(DisplayObjectEvent.POINTER_UP, () => {
+      isScrollSelectorSelected = false;
+      global.cursor.setCursor(Cursor.DEFAULT);
+    });
+    scrollSelector.on(DisplayObjectEvent.POINTER_UP_OUTSIDE, () => {
+      isScrollSelectorSelected = false;
+      global.cursor.setCursor(Cursor.DEFAULT);
+    });
+    scrollSelector.on(DisplayObjectEvent.GLOBAL_POINTER_MOVE, () => {
+      if (!isScrollSelectorSelected) return;
+      global.cursor.setCursor(Cursor.GRABBING);
+      const current = global.cursor.getPosition()[isX ? "x" : "y"];
+      const increment = previous - current;
+      previous = current;
+      moveScrollSelector(increment);
+    });
+    const calculateScrollBounds = () => {
+      const maxSize = Math.max(
+        initialScrollButton.getBounds()[reversedSizeStr],
+        scrollSelector.getBounds()[reversedSizeStr],
+        finalScrollButton.getBounds()[reversedSizeStr],
+      );
+
+      const middleScrollSelectorPosition =
+        initialScrollButton.getBounds()[sizeStr] -
+        scrollSelector.getPivot()[posStr] +
+        scrollSelector.getBounds()[reversedSizeStr];
+
+      initialScrollSelector.setRectangle(
+        isX
+          ? middleScrollSelectorPosition -
+              scrollSelector.getBounds()[reversedSizeStr]
+          : maxSize,
+        isX
+          ? maxSize
+          : middleScrollSelectorPosition -
+              scrollSelector.getBounds()[reversedSizeStr],
+      );
+      finalScrollSelector[positionFuncStr](middleScrollSelectorPosition);
+      finalScrollSelector.setRectangle(
+        isX ? size[sizeStr] - middleScrollSelectorPosition : maxSize,
+        isX ? maxSize : size[sizeStr] - middleScrollSelectorPosition,
+      );
+    };
+    const moveScrollSelector = (increment: number = 1) => {
+      const scrollAreaSize =
+        size[sizeStr] -
+        initialScrollButton.getBounds()[sizeStr] -
+        finalScrollButton.getBounds()[sizeStr];
+      const selectorValue = scrollSelector.getBounds()[sizeStr];
+
+      scrollSelector[pivotFuncStr]((value) => {
+        if (increment === 0) return value;
+        const targetValue = value + increment;
+
+        if (targetValue >= 0) return 0;
+        if (-targetValue >= scrollAreaSize - selectorValue)
+          return -scrollAreaSize + selectorValue;
+
+        return targetValue;
+      });
+
+      // Calculate percentage of selector's position to adjust content scrolling
+      const percentage =
+        scrollSelector.getPivot()[posStr] / (scrollAreaSize - selectorValue);
+
+      // Move content based on the position of the scroll selector
+      const contentHeight = $content.getBounds()[sizeStr] - size[sizeStr];
+      $content[pivotFuncStr](-contentHeight * percentage);
+
+      calculateScrollBounds();
+    };
+
+    const initialScrollSelector = graphics({
       type: GraphicType.RECTANGLE,
       width: 0,
       height: 0,
@@ -139,12 +241,10 @@ export const scrollableContainer: ContainerComponent<
       tint: 0xff00ff,
       alpha: 0,
     });
-
-    scrollSelectorLeft.on(DisplayObjectEvent.POINTER_DOWN, () => {
-      setInternalSelectorAction(scrollSelectorLeft, -jump, moveScrollX);
+    initialScrollSelector.on(DisplayObjectEvent.POINTER_DOWN, () => {
+      setInternalSelectorAction(initialScrollSelector, -jump, moveScroll);
     });
-
-    const scrollSelectorRight = graphics({
+    const finalScrollSelector = graphics({
       type: GraphicType.RECTANGLE,
       width: 0,
       height: 0,
@@ -153,206 +253,66 @@ export const scrollableContainer: ContainerComponent<
       tint: 0xff0000,
       alpha: 0,
     });
-    scrollSelectorRight.on(DisplayObjectEvent.POINTER_DOWN, () => {
-      setInternalSelectorAction(scrollSelectorRight, jump, moveScrollX);
+    finalScrollSelector.on(DisplayObjectEvent.POINTER_DOWN, () => {
+      setInternalSelectorAction(finalScrollSelector, jump, moveScroll);
     });
-    moveScrollX = (increment: number = 1) => {
-      const width = $content.getBounds().width - size.width;
-      $content.setPivotX((x) => {
-        if (increment === 0) return x;
-        const targetX = x + increment;
-        if (targetX >= width) return width;
-        if (0 >= targetX) return 0;
-        return targetX;
+
+    const moveScrollFunction = (increment: number = 1) => {
+      if (!scrollContainer.getVisible()) return;
+
+      const $size = $content.getBounds()[sizeStr] - size[sizeStr];
+      $content[pivotFuncStr]((value) => {
+        if (increment === 0) return value;
+        const targetValue = value + increment;
+        if (targetValue >= $size) return $size;
+        if (0 >= targetValue) return 0;
+        return targetValue;
       });
 
-      const percentage = $content.getPivot().x / width;
-      scrollSelectorX.setPivotX(
+      const percentage = $content.getPivot()[posStr] / $size;
+      scrollSelector[pivotFuncStr](
         -(
-          size.width -
-          scrollButtonLeft.getBounds().width -
-          scrollSelectorX.getBounds().width -
-          scrollButtonRight.getBounds().width
+          size[sizeStr] -
+          initialScrollButton.getBounds()[sizeStr] -
+          scrollSelector.getBounds()[sizeStr] -
+          finalScrollButton.getBounds()[sizeStr]
         ) * percentage,
       );
-
-      const maxHeight = Math.max(
-        scrollButtonLeft.getBounds().height,
-        scrollSelectorX.getBounds().height,
-        scrollButtonRight.getBounds().height,
-      );
-
-      const middleScrollSelectorPosition =
-        scrollButtonLeft.getBounds().height - scrollSelectorX.getPivot().x;
-      scrollSelectorLeft.setRectangle(middleScrollSelectorPosition, maxHeight);
-      scrollSelectorRight.setPositionX(middleScrollSelectorPosition);
-      scrollSelectorRight.setRectangle(
-        size.width - middleScrollSelectorPosition,
-        maxHeight,
-      );
+      calculateScrollBounds();
     };
-    moveScrollX(0);
-    scrollButtonLeft.on(
-      DisplayObjectEvent.POINTER_DOWN,
-      () => (actionCallback = (delta) => moveScrollX(-jump * delta)),
-    );
-    scrollButtonRight.on(
-      DisplayObjectEvent.POINTER_DOWN,
-      () => (actionCallback = (delta) => moveScrollX(jump * delta)),
-    );
-    scrollXContainer.add(
-      scrollSelectorRight,
-      scrollSelectorLeft,
-      scrollButtonLeft,
-      scrollSelectorX,
-      scrollButtonRight,
-    );
-  }
-  if (scrollY) {
-    const scrollYContainer = container({
-      position: {
-        x: size.width,
-        y: 0,
-      },
-    });
-    $container.add(scrollYContainer);
-    const scrollButtonTop = container({
-      eventMode: EventMode.STATIC,
-      cursor: Cursor.POINTER,
-    });
-    scrollButtonTop.add(
-      components.find(
-        (component) => component.getMetadata() === "scroll-button-top",
-      ) ??
-        graphics({
-          type: GraphicType.RECTANGLE,
-          width: 10,
-          height: 5,
-          tint: 0xffff00,
-        }),
-    );
-    const scrollButtonBottom = container({
-      eventMode: EventMode.STATIC,
-      cursor: Cursor.POINTER,
-      position: {
-        x: 0,
-        y: size.height,
-      },
-    });
-    scrollButtonBottom.add(
-      components.find(
-        (component) => component.getMetadata() === "scroll-button-bottom",
-      ) ??
-        graphics({
-          type: GraphicType.RECTANGLE,
-          width: 10,
-          height: 5,
-          tint: 0xffff00,
-        }),
-    );
-    scrollButtonBottom.setPositionY(
-      size.height - scrollButtonBottom.getBounds().height,
-    );
+    isX
+      ? (moveScrollX = moveScrollFunction)
+      : (moveScrollY = moveScrollFunction);
 
-    const scrollSelectorY = container({
-      eventMode: EventMode.STATIC,
-      cursor: Cursor.GRAB,
-      position: {
-        x: 0,
-        y: scrollButtonTop.getBounds().height,
-      },
-    });
-    scrollSelectorY.add(
-      components.find(
-        (component) => component.getMetadata() === "scroll-selector-y",
-      ) ??
-        graphics({
-          type: GraphicType.RECTANGLE,
-          width: 10,
-          height: 10,
-          tint: 0x00ff00,
-        }),
-    );
+    const moveScroll = isX ? moveScrollX : moveScrollY;
 
-    const scrollSelectorTop = graphics({
-      type: GraphicType.RECTANGLE,
-      width: 0,
-      height: 0,
-      eventMode: EventMode.STATIC,
-      cursor: Cursor.POINTER,
-      tint: 0xff00ff,
-      alpha: 0,
+    moveScroll(0);
+    initialScrollButton.on(DisplayObjectEvent.POINTER_DOWN, () => {
+      actionCallback = (delta) => moveScroll(-jump * delta);
     });
-    scrollSelectorTop.on(DisplayObjectEvent.POINTER_DOWN, () => {
-      setInternalSelectorAction(scrollSelectorTop, -jump, moveScrollY);
+    finalScrollButton.on(DisplayObjectEvent.POINTER_DOWN, () => {
+      actionCallback = (delta) => moveScroll(jump * delta);
     });
 
-    const scrollSelectorBottom = graphics({
-      type: GraphicType.RECTANGLE,
-      width: 0,
-      height: 0,
-      eventMode: EventMode.STATIC,
-      cursor: Cursor.POINTER,
-      tint: 0xff0000,
-      alpha: 0,
-    });
-    scrollSelectorBottom.on(DisplayObjectEvent.POINTER_DOWN, () => {
-      setInternalSelectorAction(scrollSelectorBottom, jump, moveScrollY);
-    });
-
-    moveScrollY = (increment: number = 1) => {
-      const height = $content.getBounds().height - size.height;
-      $content.setPivotY((y) => {
-        if (increment === 0) return y;
-        const targetY = y + increment;
-        if (targetY >= height) return height;
-        if (0 >= targetY) return 0;
-        return targetY;
-      });
-
-      const percentage = $content.getPivot().y / height;
-      scrollSelectorY.setPivotY(
-        -(
-          size.height -
-          scrollButtonTop.getBounds().height -
-          scrollSelectorY.getBounds().height -
-          scrollButtonBottom.getBounds().height
-        ) * percentage,
-      );
-      const maxWidth = Math.max(
-        scrollButtonTop.getBounds().width,
-        scrollSelectorY.getBounds().width,
-        scrollButtonBottom.getBounds().width,
-      );
-
-      const middleScrollSelectorPosition =
-        scrollButtonTop.getBounds().height - scrollSelectorY.getPivot().y;
-      scrollSelectorTop.setRectangle(maxWidth, middleScrollSelectorPosition);
-      scrollSelectorBottom.setPositionY(middleScrollSelectorPosition);
-      scrollSelectorBottom.setRectangle(
-        maxWidth,
-        size.height - middleScrollSelectorPosition,
-      );
-    };
-    moveScrollY(0);
-    scrollButtonTop.on(DisplayObjectEvent.POINTER_DOWN, () => {
-      actionCallback = (delta) => moveScrollY(-jump * delta);
-    });
-    scrollButtonBottom.on(DisplayObjectEvent.POINTER_DOWN, () => {
-      actionCallback = (delta) => moveScrollY(jump * delta);
-    });
-
-    scrollYContainer.add(
-      scrollSelectorTop,
-      scrollSelectorBottom,
-      scrollButtonTop,
-      scrollSelectorY,
-      scrollButtonBottom,
+    scrollContainer.add(
+      initialScrollSelector,
+      finalScrollSelector,
+      initialScrollButton,
+      scrollSelector,
+      finalScrollButton,
     );
-  }
+  };
+
+  verticalScroll && renderScroll("y");
+  horizontalScroll && renderScroll("x");
 
   const add = (...displayObjects: DisplayObjectMutable<DisplayObject>[]) => {
     $content.add(...displayObjects);
+
+    const contentBounds = $content.getBounds();
+
+    xScrollContainer?.setVisible(contentBounds.width > size.width);
+    yScrollContainer?.setVisible(contentBounds.height > size.height);
   };
   const remove = (...displayObjects: DisplayObjectMutable<DisplayObject>[]) => {
     $content.remove(...displayObjects);
@@ -370,18 +330,15 @@ export const scrollableContainer: ContainerComponent<
       moveScrollY?.(deltaY);
     });
     removeOnPointerUp = global.events.on(Event.POINTER_UP, () => {
-      // clearInterval(actionInterval);
       actionCallback = null;
     });
     removeOnTick = global.events.on(Event.TICK, ({ deltaTime }) => {
-      // console.log(deltaTime);
       actionCallback?.(deltaTime);
     });
   });
 
   $container.on(DisplayObjectEvent.REMOVED, () => {
     removeOnTick();
-    // clearInterval(actionInterval);
     removeOnWheel();
     removeOnPointerUp();
   });
