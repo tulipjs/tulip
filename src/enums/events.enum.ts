@@ -72,6 +72,8 @@ export enum DisplayObjectEvent {
   ADD_CHILD = "@custom/add_child",
   REMOVE_CHILD = "@custom/remove_child",
   VISIBILITY_CHANGE = "@custom/visibility_change",
+  MOUNT = "@custom/mount",
+  UNMOUNT = "@custom/unmount",
 }
 
 // CLICK = "click",

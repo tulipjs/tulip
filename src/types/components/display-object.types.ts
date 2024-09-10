@@ -94,6 +94,9 @@ export type PartialDisplayObjectMutable<DisplayObject, Mutable = {}> = {
   blur: () => void;
   isFocused: () => boolean;
   getWithContext: () => boolean;
+
+  //mount
+  isMounted: () => boolean;
 } & Mutable;
 
 ////////////////////////////

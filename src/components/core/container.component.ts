@@ -2,9 +2,9 @@ import * as PIXI from "pixi.js";
 import {
   BodyMutable,
   Container,
-  DisplayObject,
-  ContainerProps,
   ContainerMutable,
+  ContainerProps,
+  DisplayObject,
   DisplayObjectMutable,
 } from "../../types";
 import { getVisualShape } from "../../utils";
@@ -89,6 +89,19 @@ export const container = <Props = {}, Mutable = {}, Data = {}>(
       add(...shapes.map(({ props }) => getVisualShape(props)));
     }
   };
+
+  $displayObject.on(DisplayObjectEvent.MOUNT, () => {
+    for (const child of childList) {
+      if (child.isMounted()) continue;
+      child.$emit(DisplayObjectEvent.MOUNT, {});
+    }
+  });
+  $displayObject.on(DisplayObjectEvent.UNMOUNT, () => {
+    for (const child of childList) {
+      if (!child.isMounted()) continue;
+      child.$emit(DisplayObjectEvent.UNMOUNT, {});
+    }
+  });
 
   const $mutable = {
     add,
