@@ -28,6 +28,7 @@ export const displayObject = <
 
   const { withContext, metadata, tooltip } = $component.getProps();
 
+  let $isMounted = false;
   let $isRemoved = false;
   let $isPointerInside = false;
   let $tooltip = tooltip;
@@ -94,6 +95,12 @@ export const displayObject = <
 
     $displayObject.visible = targetVisibility;
     $emit(DisplayObjectEvent.VISIBILITY_CHANGE, { visible: targetVisibility });
+
+    const canMount = targetVisibility && !$isMounted;
+    const canUnmount = !targetVisibility && $isMounted;
+
+    if (canMount) $emit(DisplayObjectEvent.MOUNT, {});
+    if (canUnmount) $emit(DisplayObjectEvent.UNMOUNT, {});
   };
   const getVisible = () => $displayObject.visible;
 
@@ -237,12 +244,17 @@ export const displayObject = <
   let $removeOnTickEvent: () => void;
 
   $displayObject.on(DisplayObjectEvent.ADDED, () => {
+    if (!$isMounted) $emit(DisplayObjectEvent.MOUNT, {});
     $isRemoved = false;
   });
   $displayObject.on(DisplayObjectEvent.REMOVED, () => {
+    if ($isMounted) $emit(DisplayObjectEvent.UNMOUNT, {});
     $isRemoved = true;
     $removeOnTickEvent !== undefined && $removeOnTickEvent();
     global.context.$removeComponent($getContextBaseMutable());
+  });
+  $displayObject.on(DisplayObjectEvent.DESTROYED, () => {
+    if ($isMounted) $emit(DisplayObjectEvent.UNMOUNT, {});
   });
 
   const on = (
@@ -252,9 +264,12 @@ export const displayObject = <
     const $callback = (data: any) => {
       if (
         $isRemoved &&
-        ![DisplayObjectEvent.REMOVED, DisplayObjectEvent.DESTROYED].includes(
-          event,
-        )
+        ![
+          DisplayObjectEvent.REMOVED,
+          DisplayObjectEvent.DESTROYED,
+          DisplayObjectEvent.MOUNT,
+          DisplayObjectEvent.UNMOUNT,
+        ].includes(event)
       )
         return;
       callback(data);
@@ -295,6 +310,8 @@ export const displayObject = <
   const isFocused = () => global.context.getFocus() === $component.getId();
 
   const getWithContext = () => Boolean(withContext);
+
+  const isMounted = () => $isMounted;
 
   const setSortableChildren = (data) => {
     $displayObject.sortableChildren = getValueMutableFunction<boolean>(
@@ -388,6 +405,12 @@ export const displayObject = <
     on(DisplayObjectEvent.DESTROYED, () => {
       if ($isPointerInside) global.tooltip.setTooltip(null);
     });
+    on(DisplayObjectEvent.MOUNT, () => {
+      $isMounted = true;
+    });
+    on(DisplayObjectEvent.UNMOUNT, () => {
+      $isMounted = false;
+    });
   }
 
   const $mutable = {
@@ -468,6 +491,9 @@ export const displayObject = <
     blur,
     isFocused,
     getWithContext,
+
+    //mount
+    isMounted,
 
     $destroy,
     $getRaw,

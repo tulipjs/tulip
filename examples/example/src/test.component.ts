@@ -1,5 +1,6 @@
 import {
   container,
+  DisplayObjectEvent,
   graphics,
   GraphicType,
   scrollableContainer,
@@ -9,6 +10,14 @@ import {
 export const testComponent = () => {
   const $container = container({
     sortableChildren: true,
+  });
+
+  $container.on(DisplayObjectEvent.MOUNT, () => {
+    console.log("> mount container");
+  });
+
+  $container.on(DisplayObjectEvent.UNMOUNT, () => {
+    console.log("< unmount container");
   });
 
   const scrollable = scrollableContainer({
@@ -50,6 +59,27 @@ export const testComponent = () => {
     ],
   });
   $container.add(scrollable);
+
+  scrollable.on(DisplayObjectEvent.MOUNT, () => {
+    console.log("> mount scrollable");
+  });
+
+  scrollable.on(DisplayObjectEvent.UNMOUNT, () => {
+    console.log("< unmount scrollable");
+  });
+
+  setTimeout(() => {
+    $container.setVisible(false);
+    setTimeout(() => {
+      $container.setVisible(true);
+      setTimeout(() => {
+        $container.remove(scrollable);
+        setTimeout(() => {
+          $container.add(scrollable);
+        }, 2000);
+      }, 2000);
+    }, 2000);
+  }, 5000);
 
   scrollable.add(
     graphics({
