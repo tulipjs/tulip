@@ -16,6 +16,11 @@ export const testComponent = () => {
 
   $container.on(DisplayObjectEvent.MOUNT, () => {
     console.log("> mount container");
+    console.log(
+      // $container.getFather(),
+      $container.isInStage(),
+    );
+    console.log(scrollable.isInStage());
   });
 
   $container.on(DisplayObjectEvent.UNMOUNT, () => {
@@ -64,6 +69,7 @@ export const testComponent = () => {
 
   scrollable.on(DisplayObjectEvent.MOUNT, () => {
     console.log("> mount scrollable");
+    console.log(scrollable.isInStage());
   });
 
   scrollable.on(DisplayObjectEvent.UNMOUNT, () => {

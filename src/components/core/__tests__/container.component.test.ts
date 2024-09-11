@@ -7,6 +7,7 @@ import { EventMode } from "../../../enums";
 describe("components", () => {
   describe("core", () => {
     describe("container", () => {
+      let $stage = container();
       let $container: ContainerMutable;
 
       test("getId() return the original id to check that empty is being called", () => {
@@ -20,6 +21,7 @@ describe("components", () => {
           zIndex: 1,
           visible: false,
         });
+        $stage.add($container);
 
         expect($container.getId()).toMatch(/container@@([0-9]{0,5})/);
       });
@@ -32,7 +34,7 @@ describe("components", () => {
       test("getFather() check father to be null", () => {
         $childContainer = container();
 
-        expect($childContainer.getFather).toBe(null);
+        expect($childContainer.getFather()).toBe(null);
       });
       test("add(...) add a display object to the container as a child", () => {
         $container.add($childContainer);

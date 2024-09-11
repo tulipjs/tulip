@@ -20,6 +20,7 @@ import { TooltipLoadProps } from "./tooltip.types";
 
 export type GlobalFilterType = {
   componentName?: string;
+  id?: string;
 };
 
 export type GlobalEventsType = {

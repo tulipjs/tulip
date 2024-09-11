@@ -129,7 +129,7 @@ export const graphics = <Props = {}, Mutable = {}, Data = {}>(
     $$destroy();
     //destroy pixi graphics
     $graphics.destroy();
-    $displayObject.getFather = () => null;
+    $displayObject.$setFatherId(null);
   };
   {
     switch (type) {

@@ -7,6 +7,7 @@ import { container } from "../container.component";
 describe("components", () => {
   describe("core", () => {
     describe("graphics", () => {
+      let $stage = container();
       let $container: ContainerMutable;
 
       let $polygon: GraphicsMutable;
@@ -17,6 +18,7 @@ describe("components", () => {
 
       beforeAll(() => {
         $container = container();
+        $stage.add($container);
         $polygon = graphics({
           label: "polygon",
           tint: 0xff00ff,

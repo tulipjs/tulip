@@ -37,7 +37,7 @@ export const container = <Props = {}, Mutable = {}, Data = {}>(
     $$destroy();
     //destroy pixi container
     $container.destroy();
-    $displayObject.getFather = () => null;
+    $displayObject.$setFatherId(null);
 
     for (const childComponent of childList) childComponent.$destroy();
   };
@@ -46,8 +46,7 @@ export const container = <Props = {}, Mutable = {}, Data = {}>(
     ...displayObjectsMutable: DisplayObjectMutable<DisplayObject>[]
   ) => {
     for (const currentDisplayObjectMutable of displayObjectsMutable) {
-      currentDisplayObjectMutable.getFather = () =>
-        $displayObject as DisplayObjectMutable<DisplayObject, unknown, any>;
+      currentDisplayObjectMutable.$setFatherId($displayObject.getId());
 
       $container.addChild(
         currentDisplayObjectMutable.getDisplayObject({
@@ -69,7 +68,7 @@ export const container = <Props = {}, Mutable = {}, Data = {}>(
     displayObjectsMutable.forEach((displayObjectMutable) => {
       $container.emit(DisplayObjectEvent.REMOVE_CHILD, displayObjectMutable);
 
-      displayObjectMutable.getFather = () => null;
+      displayObjectMutable.$setFatherId(null);
 
       $container.removeChild(
         displayObjectMutable.getDisplayObject({ __preventWarning: true }),

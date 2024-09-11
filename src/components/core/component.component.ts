@@ -5,6 +5,7 @@ import {
   SoundMutable,
   ComponentProps,
   ComponentMutable,
+  ApplicationMutable,
 } from "../../types";
 import { getRandomNumber, getValueMutableFunction } from "../../utils";
 import { sound } from "../sub/sound.sub-component";
@@ -29,6 +30,7 @@ export const component = <Props = {}, Mutable = {}, Data = {}>(
   let $body: BodyMutable;
   let $data = (initialData ?? {}) as Data;
   let $soundList: SoundMutable[] = [];
+  let $fatherId = null;
 
   let $componentName;
 
@@ -71,6 +73,15 @@ export const component = <Props = {}, Mutable = {}, Data = {}>(
   const setAngle = (data) => {
     $angle = getValueMutableFunction<number>(data, getAngle());
     $body?.setAngle($angle);
+  };
+
+  const getFather = (): ComponentMutable | ApplicationMutable | null => {
+    if (!$fatherId) return null;
+    if ($fatherId === "stage") return global.getApplication();
+    return global.$getComponentList({ id: $fatherId })[0] ?? null;
+  };
+  const $setFatherId = (fatherId: string) => {
+    $fatherId = fatherId;
   };
 
   const getData = <R = Data>(selector?: (data: Data) => R): R => {
@@ -134,7 +145,8 @@ export const component = <Props = {}, Mutable = {}, Data = {}>(
     getAngle,
     setAngle,
 
-    getFather: null,
+    getFather,
+    $setFatherId,
 
     getData,
     setData,

@@ -37,11 +37,13 @@ jest.mock("../../../global/global.ts", () => {
 describe("components", () => {
   describe("core", () => {
     describe("sprite", () => {
+      let $stage = container();
       let $container: ContainerMutable;
       let $sprite: SpriteMutable;
       describe("texture with sprite sheet", () => {
         test("Check if spriteSheet texture is being load", () => {
           $container = container();
+          $stage.add($container);
           $sprite = sprite({
             label: "sprite-label",
             spriteSheet: "spriteSheet.json",
@@ -53,6 +55,7 @@ describe("components", () => {
       describe("single texture", () => {
         test("Check if texture is being load", () => {
           $container = container();
+          $stage.add($container);
           $sprite = sprite({
             label: "sprite-label",
             texture: "texture.png",

@@ -100,7 +100,7 @@ export const nineSliceSprite = <Props = {}, Mutable = {}, Data = {}>(
     $$destroy();
     //destroy pixi graphics
     $sprite.destroy();
-    $displayObject.getFather = () => null;
+    $displayObject.$setFatherId(null);
   };
 
   {
