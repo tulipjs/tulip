@@ -1,5 +1,7 @@
 import {
+  ApplicationMutable,
   Container,
+  ContainerMutable,
   DisplayObject as DO,
   DisplayObjectMutable,
   DisplayObjectProps,
@@ -28,6 +30,8 @@ export const displayObject = <
 
   const { withContext, metadata, tooltip } = $component.getProps();
 
+  $displayObject.includeInBuild;
+
   let $isMounted = false;
   let $isRemoved = false;
   let $isPointerInside = false;
@@ -40,10 +44,19 @@ export const displayObject = <
   const $$setPositionY = $component.setPositionY;
   const $$setAngle = $component.setAngle;
   const $$getAngle = $component.getAngle;
+  const $$getFather = $component.getFather;
 
   const $$destroy = $component.$destroy;
   const $$getRaw = $component.$getRaw;
 
+  const $mount = () => {
+    if (!getVisible() || $isMounted || !$$getFather()) return;
+    $emit(DisplayObjectEvent.MOUNT, {});
+  };
+  const $unmount = () => {
+    if (!$isMounted) return;
+    $emit(DisplayObjectEvent.UNMOUNT, {});
+  };
   //label
   const setLabel = (label: string) => {
     $$setLabel(label);
@@ -96,11 +109,7 @@ export const displayObject = <
     $displayObject.visible = targetVisibility;
     $emit(DisplayObjectEvent.VISIBILITY_CHANGE, { visible: targetVisibility });
 
-    const canMount = targetVisibility && !$isMounted;
-    const canUnmount = !targetVisibility && $isMounted;
-
-    if (canMount) $emit(DisplayObjectEvent.MOUNT, {});
-    if (canUnmount) $emit(DisplayObjectEvent.UNMOUNT, {});
+    targetVisibility ? $mount() : $unmount();
   };
   const getVisible = () => {
     //This needs to check if the visible value is false explicitly, do not change!
@@ -225,9 +234,16 @@ export const displayObject = <
       .getBounds()
       .containsPoint(cursorPoint.x, cursorPoint.y);
   };
+  const isInStage = () => {
+    const application = global.getApplication();
+    const father = $component.getFather?.() as ContainerMutable;
+    if (!father) return false;
+    if ((father as unknown as ApplicationMutable) === application) return true;
+    return father?.isInStage?.();
+  };
 
   const $destroy = () => {
-    $component.getFather = () => null;
+    $component.$setFatherId(null);
 
     $$destroy();
   };
@@ -250,17 +266,17 @@ export const displayObject = <
   let $removeOnTickEvent: () => void;
 
   $displayObject.on(DisplayObjectEvent.ADDED, () => {
-    if (!$isMounted && getVisible()) $emit(DisplayObjectEvent.MOUNT, {});
+    $mount();
     $isRemoved = false;
   });
   $displayObject.on(DisplayObjectEvent.REMOVED, () => {
-    if ($isMounted) $emit(DisplayObjectEvent.UNMOUNT, {});
+    $unmount();
     $isRemoved = true;
     $removeOnTickEvent !== undefined && $removeOnTickEvent();
     global.context.$removeComponent($getContextBaseMutable());
   });
   $displayObject.on(DisplayObjectEvent.DESTROYED, () => {
-    if ($isMounted) $emit(DisplayObjectEvent.UNMOUNT, {});
+    $unmount();
   });
 
   const on = (
@@ -487,6 +503,8 @@ export const displayObject = <
 
     //cursor inside
     isCursorInside,
+    //stage
+    isInStage,
 
     //events
     on,

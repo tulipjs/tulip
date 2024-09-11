@@ -2,6 +2,7 @@ import { MutableFunction } from "../mutables.types";
 import { Point } from "../point.types";
 import { BodyMutable } from "../body.types";
 import { SoundMutable, SoundProps } from "../sound.types";
+import { ApplicationMutable } from "../application.types";
 
 export type ComponentProps<Props = {}, Data = {}> = {
   id?: string;
@@ -41,11 +42,8 @@ export type ComponentMutable<Props = {}, Mutable = {}, Data = {}> = {
     mutable?: Partial<ComponentMutable<Props, Mutable, Data>>,
   ) => ComponentMutable<Props, any & { $expose: true }, Data>;
 
-  getFather: <FProps, FMutable, FData>() => ComponentMutable<
-    FProps,
-    FMutable,
-    FData
-  >;
+  getFather: () => ComponentMutable | ApplicationMutable | null;
+  $setFatherId: (id?: string) => void;
 
   /**
    * Return the original props

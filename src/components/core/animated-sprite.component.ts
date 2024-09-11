@@ -113,7 +113,7 @@ export const animatedSprite = <Props = {}, Mutable = {}, Data = {}>(
     //destroy pixi graphics
     $animatedSprite.destroy();
 
-    $displayObject.getFather = () => null;
+    $displayObject.$setFatherId(null);
   };
   {
     setSpriteSheet($spriteSheet);

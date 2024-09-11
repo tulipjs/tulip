@@ -121,7 +121,7 @@ describe("components", () => {
 
       //getFather
       test("getFather() to be null", () => {
-        expect(emptyPropsMutable.getFather).toStrictEqual(null);
+        expect(emptyPropsMutable.getFather()).toStrictEqual(null);
       });
 
       //mutable

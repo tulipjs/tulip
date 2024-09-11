@@ -75,10 +75,11 @@ export const global: GlobalType = (() => {
     );
   };
 
-  const $getComponentList = ({ componentName }: GlobalFilterType = {}) =>
+  const $getComponentList = ({ componentName, id }: GlobalFilterType = {}) =>
     $componentList.filter(
-      ({ $getComponentName }) =>
-        !componentName || componentName === $getComponentName(),
+      ({ $getComponentName, getId }) =>
+        (!componentName || componentName === $getComponentName()) &&
+        (!id || id === getId()),
     );
 
   const $isVisualHitBoxes = () => $visualHitBoxes;

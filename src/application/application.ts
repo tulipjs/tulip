@@ -183,7 +183,7 @@ export const application = ({
   };
 
   const add = (displayObjectMutable: DisplayObjectMutable<any>) => {
-    displayObjectMutable.getFather = () => mutable as any;
+    displayObjectMutable.$setFatherId("stage");
 
     global.$addComponent(displayObjectMutable);
     application.stage.addChild(
@@ -192,7 +192,7 @@ export const application = ({
   };
 
   const remove = (displayObjectMutable: DisplayObjectMutable<any>) => {
-    displayObjectMutable.getFather = null;
+    displayObjectMutable.$setFatherId(null);
 
     global.$removeComponent(displayObjectMutable);
     application.stage.removeChild(

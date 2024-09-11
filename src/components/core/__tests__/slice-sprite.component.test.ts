@@ -37,11 +37,13 @@ jest.mock("../../../global/global.ts", () => {
 describe("components", () => {
   describe("core", () => {
     describe("nine-slice-sprite", () => {
+      let $stage = container();
       let $container: ContainerMutable;
       let $sprite: NineSliceSpriteMutable;
       describe("single texture", () => {
         test("Check if texture is being load", () => {
           $container = container();
+          $stage.add($container);
           $sprite = nineSliceSprite({
             label: "nine-slice-sprite-label",
             texture: "picture.png",
