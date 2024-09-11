@@ -10,6 +10,8 @@ import {
 export const testComponent = () => {
   const $container = container({
     sortableChildren: true,
+    visible: true,
+    label: "aha",
   });
 
   $container.on(DisplayObjectEvent.MOUNT, () => {
@@ -58,7 +60,7 @@ export const testComponent = () => {
       }),
     ],
   });
-  $container.add(scrollable);
+  // $container.add(scrollable);
 
   scrollable.on(DisplayObjectEvent.MOUNT, () => {
     console.log("> mount scrollable");
@@ -69,15 +71,15 @@ export const testComponent = () => {
   });
 
   setTimeout(() => {
-    $container.setVisible(false);
+    $container.add(scrollable);
     setTimeout(() => {
       $container.setVisible(true);
-      setTimeout(() => {
-        $container.remove(scrollable);
-        setTimeout(() => {
-          $container.add(scrollable);
-        }, 2000);
-      }, 2000);
+      //   setTimeout(() => {
+      //     $container.remove(scrollable);
+      //     setTimeout(() => {
+      //       $container.add(scrollable);
+      //     }, 2000);
+      //   }, 2000);
     }, 2000);
   }, 5000);
 
