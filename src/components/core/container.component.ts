@@ -92,7 +92,7 @@ export const container = <Props = {}, Mutable = {}, Data = {}>(
 
   $displayObject.on(DisplayObjectEvent.MOUNT, () => {
     for (const child of childList) {
-      if (child.isMounted()) continue;
+      if (child.isMounted() || !child.getVisible()) continue;
       child.$emit(DisplayObjectEvent.MOUNT, {});
     }
   });

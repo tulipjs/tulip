@@ -102,7 +102,13 @@ export const displayObject = <
     if (canMount) $emit(DisplayObjectEvent.MOUNT, {});
     if (canUnmount) $emit(DisplayObjectEvent.UNMOUNT, {});
   };
-  const getVisible = () => $displayObject.visible;
+  const getVisible = () => {
+    //This needs to check if the visible value is false explicitly, do not change!
+    if ($displayObject.visible === false) return false;
+
+    const father = $component.getFather?.();
+    return (father as DisplayObjectMutable<any>)?.getVisible?.() ?? true;
+  };
 
   //zIndex
   const setZIndex = (data) =>
@@ -244,7 +250,7 @@ export const displayObject = <
   let $removeOnTickEvent: () => void;
 
   $displayObject.on(DisplayObjectEvent.ADDED, () => {
-    if (!$isMounted) $emit(DisplayObjectEvent.MOUNT, {});
+    if (!$isMounted && getVisible()) $emit(DisplayObjectEvent.MOUNT, {});
     $isRemoved = false;
   });
   $displayObject.on(DisplayObjectEvent.REMOVED, () => {

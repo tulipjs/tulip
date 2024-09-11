@@ -178,7 +178,7 @@ describe("components", () => {
           playStatus: 2,
           position: { x: 0, y: 0 },
           spriteSheet: "testing.json",
-          visible: undefined,
+          visible: true,
           zIndex: undefined,
           hitArea: [],
           withContext: false,
