@@ -53,19 +53,11 @@ export const scrollableContainer: ContainerComponent<
 
   let actionCallback: (delta: number) => void;
 
-  const setInternalSelectorAction = (
-    displayObject: DisplayObjectMutable<DisplayObject>,
-    jump: number,
-    moveScroll: (num: number) => void,
-  ) => {
-    actionCallback = (delta) => {
-      if (!displayObject.isCursorInside()) return (actionCallback = null);
-      moveScroll(jump * delta * 2);
-    };
-  };
+  let xScrollSelector: ContainerMutable;
+  let yScrollSelector: ContainerMutable;
 
-  let xScrollContainer: ContainerMutable;
-  let yScrollContainer: ContainerMutable;
+  let isXScrollable = false;
+  let isYScrollable = false;
 
   const renderScroll = (axis: "x" | "y") => {
     const isX = axis === "x";
@@ -75,18 +67,26 @@ export const scrollableContainer: ContainerComponent<
     const reversedSizeStr = !isX ? "width" : "height";
     const posStr = isX ? "x" : "y";
 
+    const setInternalSelectorAction = (
+      displayObject: DisplayObjectMutable<DisplayObject>,
+      jump: number,
+      moveScroll: (num: number) => void,
+    ) => {
+      if (!isScrollable()) return;
+      actionCallback = (delta) => {
+        if (!displayObject.isCursorInside()) return (actionCallback = null);
+        moveScroll(jump * delta * 2);
+      };
+    };
     const scrollContainer = container({
       position: {
         x: isX ? 0 : size.width,
         y: isX ? size.height : 0,
       },
-      visible: false,
     });
     $container.add(scrollContainer);
 
-    isX
-      ? (xScrollContainer = scrollContainer)
-      : (yScrollContainer = scrollContainer);
+    const isScrollable = () => (isX ? isXScrollable : isYScrollable);
 
     const initialScrollButton = container({
       eventMode: EventMode.STATIC,
@@ -139,6 +139,11 @@ export const scrollableContainer: ContainerComponent<
         y: isX ? 0 : initialScrollButtonBounds.height,
       },
     });
+
+    isX
+      ? (xScrollSelector = scrollSelector)
+      : (yScrollSelector = scrollSelector);
+
     scrollSelector.add(
       components.find(
         (component) =>
@@ -155,15 +160,18 @@ export const scrollableContainer: ContainerComponent<
     let previous = 0;
 
     scrollSelector.on(DisplayObjectEvent.POINTER_DOWN, () => {
+      if (!isScrollable()) return;
       isScrollSelectorSelected = true;
       previous = global.cursor.getPosition()[isX ? "x" : "y"];
       global.cursor.setCursor(Cursor.GRABBING);
     });
     scrollSelector.on(DisplayObjectEvent.POINTER_UP, () => {
+      if (!isScrollable()) return;
       isScrollSelectorSelected = false;
       global.cursor.setCursor(Cursor.DEFAULT);
     });
     scrollSelector.on(DisplayObjectEvent.POINTER_UP_OUTSIDE, () => {
+      if (!isScrollable()) return;
       isScrollSelectorSelected = false;
       global.cursor.setCursor(Cursor.DEFAULT);
     });
@@ -204,6 +212,7 @@ export const scrollableContainer: ContainerComponent<
       );
     };
     const moveScrollSelector = (increment: number = 1) => {
+      if (!isScrollable()) return;
       const scrollAreaSize =
         size[sizeStr] -
         initialScrollButton.getBounds()[sizeStr] -
@@ -288,9 +297,11 @@ export const scrollableContainer: ContainerComponent<
 
     moveScroll(0);
     initialScrollButton.on(DisplayObjectEvent.POINTER_DOWN, () => {
+      if (!isScrollable()) return;
       actionCallback = (delta) => moveScroll(-jump * delta);
     });
     finalScrollButton.on(DisplayObjectEvent.POINTER_DOWN, () => {
+      if (!isScrollable()) return;
       actionCallback = (delta) => moveScroll(jump * delta);
     });
 
@@ -311,8 +322,11 @@ export const scrollableContainer: ContainerComponent<
 
     const contentBounds = $content.getBounds();
 
-    xScrollContainer?.setVisible(contentBounds.width > size.width);
-    yScrollContainer?.setVisible(contentBounds.height > size.height);
+    isXScrollable = contentBounds.width > size.width;
+    isYScrollable = contentBounds.height > size.height;
+
+    xScrollSelector?.setVisible(isXScrollable);
+    yScrollSelector?.setVisible(isYScrollable);
   };
   const remove = (...displayObjects: DisplayObjectMutable<DisplayObject>[]) => {
     $content.remove(...displayObjects);

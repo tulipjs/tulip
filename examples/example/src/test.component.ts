@@ -28,7 +28,7 @@ export const testComponent = () => {
   });
 
   const scrollable = scrollableContainer({
-    size: { width: 200, height: 90 },
+    size: { width: 200, height: 150 },
     verticalScroll: true,
     horizontalScroll: true,
     jump: 5,
@@ -76,25 +76,9 @@ export const testComponent = () => {
     console.log("< unmount scrollable");
   });
 
-  setTimeout(() => {
-    $container.add(scrollable);
-    setTimeout(() => {
-      $container.setVisible(true);
-      //   setTimeout(() => {
-      //     $container.remove(scrollable);
-      //     setTimeout(() => {
-      //       $container.add(scrollable);
-      //     }, 2000);
-      //   }, 2000);
-    }, 2000);
-  }, 5000);
+  $container.add(scrollable);
 
   scrollable.add(
-    graphics({
-      type: GraphicType.POLYGON,
-      polygon: [0, 0, 100, 200, 200, 200],
-      tint: 0xff00ff,
-    }),
     sprite({
       spriteSheet: "fonts/default-font-bold.json",
       texture: "X",
@@ -105,6 +89,16 @@ export const testComponent = () => {
       },
     }),
   );
+
+  setTimeout(() => {
+    scrollable.add(
+      graphics({
+        type: GraphicType.POLYGON,
+        polygon: [0, 0, 100, 200, 200, 200],
+        tint: 0xff00ff,
+      }),
+    );
+  }, 4_000);
 
   return $container.getComponent(testComponent);
 
