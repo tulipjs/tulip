@@ -36,8 +36,8 @@ export const textSprite: ContainerComponent<
     cursor,
     verticalAlign,
     horizontalAlign,
-    withMask = false,
     accentYCorrection = 0,
+    lineHeight = 0,
   } = $containerComponent.getProps();
 
   let $currentText = text;
@@ -46,7 +46,7 @@ export const textSprite: ContainerComponent<
     width: size?.width,
     height: size?.height,
   };
-  let $backgroundAlpha = backgroundAlpha || 0;
+  let $backgroundAlpha = backgroundAlpha ?? (backgroundColor ? 1 : 0);
   let $backgroundColor = backgroundColor ?? 0xffffff;
   let $backgroundPadding = backgroundPadding || {
     top: 0,
@@ -79,22 +79,24 @@ export const textSprite: ContainerComponent<
     cursor,
   });
 
-  const $mask = graphics({
-    type: GraphicType.RECTANGLE,
-    width: $boxSize.width,
-    height: $boxSize.height,
-    color: 0,
-    pivot: {
-      x: $backgroundPadding.left,
-      y: $backgroundPadding.top,
-    },
-  });
-
   const $textContainerComponent = container({
     eventMode: EventMode.NONE,
   });
   $containerComponent.add($background, $textContainerComponent);
-  withMask && $containerComponent.setMask($mask);
+
+  if ($size?.width && $size?.height) {
+    const $mask = graphics({
+      type: GraphicType.RECTANGLE,
+      width: $boxSize.width,
+      height: $boxSize.height,
+      color: 0,
+      pivot: {
+        x: $backgroundPadding.left,
+        y: $backgroundPadding.top,
+      },
+    });
+    $containerComponent.setMask($mask);
+  }
 
   const $textContainer = $textContainerComponent.getDisplayObject({
     __preventWarning: true,
@@ -127,27 +129,75 @@ export const textSprite: ContainerComponent<
     $textContainer.removeChildren();
     $textContainer.tint = $currentColor;
 
-    const processedText = processAccents($currentText);
+    const wordList = $currentText.split(" ");
 
-    let nextPositionX = 0;
-    for (const { character, accent } of processedText) {
+    const $getWord = (word: string): [any[], number] => {
+      let width = 0;
+      const list = [];
+      const processedWord = processAccents(word);
+      for (const { character, accent } of processedWord) {
+        const char = $getChar(character, accent);
+        const [charSprite] = char;
+        width += charSprite.width + 1;
+        list.push(char);
+      }
+      return [list, width - 1];
+    };
+
+    const $getChar = (character: string, accent?: string) => {
+      const list = [];
       const $charTexture = $textures[character];
       const $accentTexture = $textures[accent];
-      if (!$charTexture) continue;
+      if (!$charTexture) return;
 
       const characterSprite = new PIXI.Sprite($charTexture);
-      characterSprite.position.x = nextPositionX;
-      $textContainer.addChild(characterSprite);
+      // characterSprite.position.x = nextPositionX;
+      // $textContainer.addChild(characterSprite);
+      list.push(characterSprite);
 
       if ($accentTexture) {
         const accentSprite = new PIXI.Sprite($accentTexture);
         accentSprite.position.x =
-          nextPositionX + $charTexture.width / 2 - $accentTexture.width / 2;
+          $charTexture.width / 2 - $accentTexture.width / 2;
         accentSprite.position.y = accentYCorrection;
-        $textContainer.addChild(accentSprite);
+        // $textContainer.addChild(accentSprite);
+        list.push(accentSprite);
       }
 
-      nextPositionX = $textContainer.width + 1;
+      // nextPositionX = $textContainer.width + 1;
+      return list;
+    };
+
+    let nextPositionX = 0;
+    let nextPositionY = 0;
+    const hasSize = isNotNullish($size?.width) && isNotNullish($size?.height);
+
+    for (const word of wordList) {
+      const [charList, width] = $getWord(word);
+
+      if (hasSize && nextPositionX + width > $size.width) {
+        nextPositionY += charList[0][0].height + lineHeight;
+        nextPositionX = 0;
+      }
+      for (const [char, accent] of charList) {
+        $textContainer.addChild(char);
+        char.position.x += nextPositionX;
+        char.position.y = nextPositionY;
+
+        if (accent) {
+          $textContainer.addChild(accent);
+          accent.position.x = char.position.x;
+          accent.pivot.x = accent.width / 2 - char.width / 2;
+          accent.position.y = nextPositionY + accentYCorrection;
+        }
+
+        nextPositionX += char.width + 1;
+      }
+      //add spaces
+      const [spaceChar] = $getChar(" ");
+      $textContainer.addChild(spaceChar);
+      spaceChar.position.x += nextPositionX;
+      nextPositionX += spaceChar.width;
     }
 
     if (isNotNullish($size.width)) {
