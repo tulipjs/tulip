@@ -45,7 +45,6 @@ export const inputTextSprite: ContainerComponent<
     selectionColor,
     selectionGap,
     selectionPadding,
-    withMask = false,
     autoFocus = true,
     withContext = false,
     ...textSpriteProps
@@ -72,8 +71,9 @@ export const inputTextSprite: ContainerComponent<
 
   const $textSprite = textSprite({
     ...textSpriteProps,
-    text: $text,
     withMask: false,
+    lineJump: false,
+    text: $text,
   });
 
   const $passwordCharText = passwordChar?.length
@@ -99,6 +99,7 @@ export const inputTextSprite: ContainerComponent<
     alpha: $placeHolderAlpha,
     visible: $text.length === 0,
     eventMode: EventMode.NONE,
+    withMask: false,
   });
 
   const $cursorTextSprite = textSprite({
@@ -228,7 +229,7 @@ export const inputTextSprite: ContainerComponent<
         y: backgroundPadding.top,
       },
     });
-    withMask && $contentContainer.setMask($mask);
+    $contentContainer.setMask($mask);
 
     $selectionComponent.setTint($selectionColor);
     $selectionComponent.setPolygon([

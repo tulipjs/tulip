@@ -72,7 +72,7 @@ export const textsComponent: ContainerComponent<Props, Mutable> = () => {
     text: "helló there, how are you and the other one?",
     position: {
       x: 10,
-      y: 10,
+      y: 50,
     },
     size: {
       width: 86,

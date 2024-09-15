@@ -52,7 +52,6 @@ export const inputsComponent: ContainerComponent<Props, Mutable> = () => {
     selectionColor: 0xffffff,
     selectionGap: 4,
     selectionPadding: 2,
-    withMask: true,
     accentYCorrection: -2,
   });
   global.events.on(Event.KEY_DOWN, ({ key }) => {
@@ -98,7 +97,6 @@ export const inputsComponent: ContainerComponent<Props, Mutable> = () => {
     selectionColor: 0xffffff,
     selectionGap: 4,
     selectionPadding: 2,
-    withMask: true,
     accentYCorrection: -2,
   });
   $input2.on(DisplayObjectEvent.CONTEXT_BACKWARD, () => {
@@ -140,7 +138,6 @@ export const inputsComponent: ContainerComponent<Props, Mutable> = () => {
     selectionColor: 0xffffff,
     selectionGap: 4,
     selectionPadding: 2,
-    withMask: true,
     accentYCorrection: -2,
   });
   $input3.on(DisplayObjectEvent.CONTEXT_BACKWARD, () => {
@@ -155,10 +152,6 @@ export const inputsComponent: ContainerComponent<Props, Mutable> = () => {
   }, 1_000);
 
   $container.add($input, $input2, $input3);
-
-  global.events.on(Event.CURSOR_MOVE, (position) => {
-    console.log(position);
-  });
 
   return $container.getComponent(inputsComponent);
 };

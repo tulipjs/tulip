@@ -36,6 +36,8 @@ export const textSprite: ContainerComponent<
     cursor,
     verticalAlign,
     horizontalAlign,
+    withMask = true,
+    lineJump = true,
     accentYCorrection = 0,
     lineHeight = 0,
   } = $containerComponent.getProps();
@@ -84,7 +86,7 @@ export const textSprite: ContainerComponent<
   });
   $containerComponent.add($background, $textContainerComponent);
 
-  if ($size?.width && $size?.height) {
+  if (withMask && $size?.width && $size?.height) {
     const $mask = graphics({
       type: GraphicType.RECTANGLE,
       width: $boxSize.width,
@@ -137,6 +139,7 @@ export const textSprite: ContainerComponent<
       const processedWord = processAccents(word);
       for (const { character, accent } of processedWord) {
         const char = $getChar(character, accent);
+        if (!char) continue;
         const [charSprite] = char;
         width += charSprite.width + 1;
         list.push(char);
@@ -151,8 +154,6 @@ export const textSprite: ContainerComponent<
       if (!$charTexture) return;
 
       const characterSprite = new PIXI.Sprite($charTexture);
-      // characterSprite.position.x = nextPositionX;
-      // $textContainer.addChild(characterSprite);
       list.push(characterSprite);
 
       if ($accentTexture) {
@@ -160,11 +161,9 @@ export const textSprite: ContainerComponent<
         accentSprite.position.x =
           $charTexture.width / 2 - $accentTexture.width / 2;
         accentSprite.position.y = accentYCorrection;
-        // $textContainer.addChild(accentSprite);
         list.push(accentSprite);
       }
 
-      // nextPositionX = $textContainer.width + 1;
       return list;
     };
 
@@ -172,10 +171,10 @@ export const textSprite: ContainerComponent<
     let nextPositionY = 0;
     const hasSize = isNotNullish($size?.width) && isNotNullish($size?.height);
 
-    for (const word of wordList) {
-      const [charList, width] = $getWord(word);
+    for (let wordIndex = 0; wordIndex < wordList.length; wordIndex++) {
+      const [charList, width] = $getWord(wordList[wordIndex]);
 
-      if (hasSize && nextPositionX + width > $size.width) {
+      if (lineJump && hasSize && nextPositionX + width > $size.width) {
         nextPositionY += charList[0][0].height + lineHeight;
         nextPositionX = 0;
       }
@@ -193,8 +192,11 @@ export const textSprite: ContainerComponent<
 
         nextPositionX += char.width + 1;
       }
+      if (wordList.length - 1 === wordIndex) break;
       //add spaces
-      const [spaceChar] = $getChar(" ");
+      const char = $getChar(" ");
+      if (!char) continue;
+      const [spaceChar] = char;
       $textContainer.addChild(spaceChar);
       spaceChar.position.x += nextPositionX;
       nextPositionX += spaceChar.width;

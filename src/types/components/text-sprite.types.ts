@@ -23,6 +23,8 @@ export type PartialTextSpriteProps<Props = {}> = {
   backgroundPadding?: IndividualSides;
 
   accentYCorrection?: number;
+  withMask?: boolean;
+  lineJump?: boolean;
   lineHeight?: number;
 } & Props;
 
