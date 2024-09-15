@@ -5,7 +5,7 @@ import { tooltipComponent } from "tooltip.component";
 
 const app = application({
   backgroundColor: 0x030303,
-  scale: 2,
+  scale: 4,
   pixelPerfect: true,
   showFPS: false,
   //@ts-ignore
@@ -14,6 +14,9 @@ const app = application({
   importMetaHot: import.meta.hot,
   // pointerLock: true,
   safeArea: false,
+  resize: false,
+  width: 200,
+  height: 100,
 });
 
 app.load(async () => {

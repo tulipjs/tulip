@@ -23,7 +23,13 @@ export const window = (): WindowMutable => {
     const safePadding = safe
       ? getSafePadding()
       : { left: 0, top: 0, right: 0, bottom: 0 };
-    const { innerWidth, innerHeight } = $window;
+    let { innerWidth, innerHeight } = $window;
+
+    if (!$application.itResizes()) {
+      let size = $application.getSize();
+      innerWidth = size.width * scale;
+      innerHeight = size.height * scale;
+    }
 
     const _getOddExtra = (value: number): number =>
       isPixelPerfect ? (value % 2 === 1 ? 1 : 0) + value : value;

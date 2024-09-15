@@ -24,6 +24,9 @@ export const application = ({
   scaleMode = APPLICATION_DEFAULT_PROPS.scaleMode,
   enableWebGPU = APPLICATION_DEFAULT_PROPS.enableWebGPU,
   safeArea = APPLICATION_DEFAULT_PROPS.safeArea,
+  resize = APPLICATION_DEFAULT_PROPS.resize,
+  width,
+  height,
 }: ApplicationProps = APPLICATION_DEFAULT_PROPS): ApplicationMutable => {
   const application = new PIXI.Application();
   const $window = window();
@@ -34,6 +37,8 @@ export const application = ({
       antialias: true,
       sharedTicker: false,
       preference: enableWebGPU ? "webgpu" : "webgl",
+      width,
+      height,
     });
 
     //### APPLICATION ##################################################################################################//
@@ -205,6 +210,8 @@ export const application = ({
   const getScaleMode = () => scaleMode;
   const getFPS = () => $lastFPS;
   const isSafeArea = () => safeArea;
+  const itResizes = () => resize;
+  const getSize = () => ({ width, height });
 
   //### MUTABLES #####################################################################################################//
   const mutable: ApplicationMutable = {
@@ -221,6 +228,8 @@ export const application = ({
     getScaleMode,
     getFPS,
     isSafeArea,
+    itResizes,
+    getSize,
 
     $getApplication: () => application,
 

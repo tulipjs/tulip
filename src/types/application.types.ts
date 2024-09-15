@@ -2,6 +2,7 @@ import * as PIXI from "pixi.js";
 import { DisplayObjectMutable } from "./components";
 import { WindowMutable } from "./window.types";
 import { ScaleMode } from "../enums";
+import { Size } from "./size.types";
 
 export type ApplicationProps = {
   // Development
@@ -17,6 +18,10 @@ export type ApplicationProps = {
   safeArea?: boolean;
 
   enableWebGPU?: boolean;
+
+  resize?: boolean;
+  width?: number;
+  height?: number;
 };
 
 export type ApplicationMutable = {
@@ -33,6 +38,9 @@ export type ApplicationMutable = {
   getScaleMode: () => ScaleMode;
   getFPS: () => number;
   isSafeArea: () => boolean;
+  itResizes: () => boolean;
+
+  getSize: () => Size;
 
   $getApplication: () => PIXI.Application;
 

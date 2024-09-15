@@ -10,4 +10,5 @@ export const APPLICATION_DEFAULT_PROPS: ApplicationProps = {
   scaleMode: ScaleMode.NEAREST,
   enableWebGPU: false,
   safeArea: false,
+  resize: true,
 };
