@@ -10,7 +10,7 @@ import {
   graphics,
   GraphicType,
   text,
-} from "@tulib/tulip";
+} from "@tu/tulip";
 
 type Props = {};
 type Mutable = {};

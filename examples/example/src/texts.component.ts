@@ -1,4 +1,4 @@
-import { container, ContainerComponent, textSprite } from "@tulib/tulip";
+import { container, ContainerComponent, textSprite } from "@tu/tulip";
 
 type Props = {};
 type Mutable = {};

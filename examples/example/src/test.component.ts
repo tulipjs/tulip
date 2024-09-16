@@ -5,7 +5,7 @@ import {
   GraphicType,
   scrollableContainer,
   sprite,
-} from "@tulib/tulip";
+} from "@tu/tulip";
 
 export const testComponent = () => {
   const $container = container({
