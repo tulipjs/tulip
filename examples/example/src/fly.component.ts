@@ -6,7 +6,7 @@ import {
   global,
   graphics,
   GraphicType,
-} from "@tulib/tulip";
+} from "@tu/tulip";
 import { GlobalData } from "types";
 
 type Props = {

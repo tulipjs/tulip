@@ -11,7 +11,7 @@ import {
   inputTextSprite,
   OS,
   VerticalAlign,
-} from "@tulib/tulip";
+} from "@tu/tulip";
 
 type Props = {};
 type Mutable = {};

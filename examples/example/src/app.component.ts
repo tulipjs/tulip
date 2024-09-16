@@ -1,4 +1,4 @@
-import { container, ContainerComponent } from "@tulib/tulip";
+import { container, ContainerComponent } from "@tu/tulip";
 // import { testComponent } from "test.component";
 import { textsComponent } from "texts.component";
 import { inputsComponent } from "inputs.component";
@@ -15,6 +15,5 @@ export const appComponent: ContainerComponent<Props, Mutable> = () => {
   // $container.add(playerComponent());
   $container.add(inputsComponent());
   // $container.add(dragComponent());
-
   return $container.getComponent(appComponent);
 };

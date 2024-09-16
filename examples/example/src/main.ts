@@ -1,4 +1,4 @@
-import { application, global } from "@tulib/tulip";
+import { application, global } from "@tu/tulip";
 import { appComponent } from "app.component";
 import { GlobalData } from "types";
 import { tooltipComponent } from "tooltip.component";

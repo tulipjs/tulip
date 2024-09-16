@@ -12,7 +12,7 @@ import {
   Shape,
   text,
   textSprite,
-} from "@tulib/tulip";
+} from "@tu/tulip";
 
 type Props = {};
 
