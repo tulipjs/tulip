@@ -67,6 +67,8 @@ export const global: GlobalType = (() => {
   const getApplication = () => $application;
 
   const $addComponent = (component: ComponentMutable) => {
+    if ($getComponentList({ id: component.getId() }).length) return;
+
     $componentList.push(component);
   };
   const $removeComponent = (component: ComponentMutable) => {

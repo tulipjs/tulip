@@ -274,9 +274,11 @@ export const displayObject = <
     $isRemoved = true;
     $removeOnTickEvent !== undefined && $removeOnTickEvent();
     global.context.$removeComponent($getContextBaseMutable());
+    global.$removeComponent($getContextBaseMutable());
   });
   $displayObject.on(DisplayObjectEvent.DESTROYED, () => {
     $unmount();
+    global.$removeComponent($getContextBaseMutable());
   });
 
   const on = (
