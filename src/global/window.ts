@@ -16,6 +16,8 @@ export const window = (): GlobalWindowType => {
   const isPixelPerfect = () => $getApplication().isPixelPerfect();
   const isSafeArea = () => $getApplication().isSafeArea();
 
+  const isVisible = () => !document.hidden;
+
   return {
     load,
 
@@ -23,5 +25,7 @@ export const window = (): GlobalWindowType => {
     getScale,
     isPixelPerfect,
     isSafeArea,
+
+    isVisible,
   };
 };
