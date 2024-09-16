@@ -91,12 +91,14 @@ export const container = <Props = {}, Mutable = {}, Data = {}>(
 
   $displayObject.on(DisplayObjectEvent.MOUNT, () => {
     for (const child of childList) {
+      global.$addComponent(child);
       if (child.isMounted() || !child.getVisible()) continue;
       child.$emit(DisplayObjectEvent.MOUNT, {});
     }
   });
   $displayObject.on(DisplayObjectEvent.UNMOUNT, () => {
     for (const child of childList) {
+      global.$removeComponent(child);
       if (!child.isMounted()) continue;
       child.$emit(DisplayObjectEvent.UNMOUNT, {});
     }
