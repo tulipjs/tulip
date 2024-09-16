@@ -434,7 +434,7 @@
   version "0.0.0"
   dependencies:
     "@babel/helper-hoist-variables" "^7.24.7"
-    "@tulib/vite-tulip-plugin" "1.0.8"
+    "@tu/vite-tulip-plugin" "npm:@jsr/tu__vite-tulip-plugin@1.0.15"
     howler "2.2.4"
     p2 "0.7.1"
     pixi.js "8.3.4"
@@ -446,13 +446,6 @@
   dependencies:
     picocolors "1.0.1"
     vite "5.4.6"
-
-"@tulib/vite-tulip-plugin@1.0.8":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@tulib/vite-tulip-plugin/-/vite-tulip-plugin-1.0.8.tgz#b4db3ac95fb8c4912d9da637cbad06409edc78fd"
-  integrity sha512-bNAk4LbOMHhypYNM3S1BIvBJhBLztYYK+sZtfO+zm4U0DCpACHUQtMLGXdFXfQ67p/pDUvJ9QQuFKjUxtOTlQg==
-  dependencies:
-    picocolors "1.0.1"
 
 "@types/css-font-loading-module@^0.0.12":
   version "0.0.12"

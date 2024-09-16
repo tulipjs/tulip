@@ -11,7 +11,6 @@
     "vite-tsconfig-paths": "4.3.2"
   },
   "dependencies": {
-    "@tu/tulip": "../../",
-    "@tu/vite-tulip-plugin": "npm:@jsr/tu__vite-tulip-plugin@1.0.15"
+    "@tu/tulip": "../../"
   }
 }
