@@ -115,8 +115,13 @@ export const displayObject = <
     //This needs to check if the visible value is false explicitly, do not change!
     if ($displayObject.visible === false) return false;
 
-    const father = $component.getFather?.();
-    return (father as DisplayObjectMutable<any>)?.getVisible?.() ?? true;
+    //Prevents recursion
+    try {
+      const father = $component.getFather?.();
+      return (father as DisplayObjectMutable<any>)?.getVisible?.() ?? true;
+    } catch {
+      return true;
+    }
   };
 
   //zIndex
