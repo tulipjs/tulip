@@ -24,6 +24,7 @@ export type PartialContainerMutable<Mutable = {}> = {
       unknown
     >[]
   ) => void;
+  removeAll: () => void;
   getChildren: () => DisplayObjectMutable<DisplayObject>[];
 } & Mutable;
 

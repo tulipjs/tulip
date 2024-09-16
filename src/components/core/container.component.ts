@@ -78,6 +78,8 @@ export const container = <Props = {}, Mutable = {}, Data = {}>(
     });
   };
 
+  const removeAll = () => remove(...childList);
+
   const getChildren = () => childList;
 
   const setBody = (body: BodyMutable) => {
@@ -107,6 +109,7 @@ export const container = <Props = {}, Mutable = {}, Data = {}>(
   const $mutable = {
     add,
     remove,
+    removeAll,
     getChildren,
 
     setBody,
