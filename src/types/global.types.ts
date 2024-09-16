@@ -75,6 +75,8 @@ export type GlobalWindowType = {
   getScale: () => number;
   isPixelPerfect: () => boolean;
   isSafeArea: () => boolean;
+
+  isVisible: () => boolean;
 };
 
 export type GlobalCursorType = {

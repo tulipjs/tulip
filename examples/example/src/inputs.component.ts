@@ -151,6 +151,16 @@ export const inputsComponent: ContainerComponent<Props, Mutable> = () => {
     $input3.setSize({ width: 200, height: 20 });
   }, 1_000);
 
+  $container.on(DisplayObjectEvent.MOUNT, () => {
+    global.events.on(Event.VISIBILITY_CHANGE, () => {
+      console.log(
+        $container,
+        global.window.isVisible(),
+        document.visibilityState,
+      );
+    });
+  });
+
   $container.add($input, $input2, $input3);
 
   return $container.getComponent(inputsComponent);

@@ -9,6 +9,7 @@ export enum Event {
   POINTER_MOVE,
   POINTER_DOWN,
   POINTER_UP,
+  VISIBILITY_CHANGE,
   //
   CURSOR_MOVE,
   FPS,
