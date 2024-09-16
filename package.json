@@ -19,7 +19,7 @@
     "@babel/helper-hoist-variables": "^7.24.7",
     "howler": "2.2.4",
     "p2": "0.7.1",
-    "pixi.js": "8.3.4"
+    "pixi.js": "8.4.0"
   },
   "devDependencies": {
     "@babel/core": "7.25.2",
