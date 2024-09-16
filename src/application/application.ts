@@ -11,7 +11,7 @@ import { global } from "../global";
 import { initViteTulipPlugin } from "@tulib/vite-tulip-plugin";
 import { Event } from "../enums";
 import { text } from "../components";
-import { window } from "./window";
+import { window as appWindow } from "./window";
 
 export const application = ({
   backgroundColor = APPLICATION_DEFAULT_PROPS.backgroundColor,
@@ -29,7 +29,7 @@ export const application = ({
   height,
 }: ApplicationProps = APPLICATION_DEFAULT_PROPS): ApplicationMutable => {
   const application = new PIXI.Application();
-  const $window = window();
+  const $window = appWindow();
 
   const load = async (onLoad: () => Promise<void> | void) => {
     await application.init({
@@ -67,9 +67,7 @@ export const application = ({
     document.body.appendChild(application.canvas);
 
     for (const [nativeEvent, customEvent] of EVENT_MAP)
-      document.addEventListener(nativeEvent, (event: KeyboardEvent) => {
-        event.preventDefault();
-        event.stopPropagation();
+      window.addEventListener(nativeEvent, (event: KeyboardEvent) => {
         global.events.$emit(customEvent, event);
       });
 
