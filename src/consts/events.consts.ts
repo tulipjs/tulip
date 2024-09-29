@@ -1,15 +1,16 @@
 import { Event } from "../enums";
 
-export const EVENT_MAP: [string, Event][] = [
-  ["keydown", Event.KEY_DOWN],
-  ["keyup", Event.KEY_UP],
-  ["contextmenu", Event.RIGHT_CLICK],
-  ["mousemove", Event.POINTER_MOVE],
-  ["mousedown", Event.POINTER_DOWN],
-  ["mouseup", Event.POINTER_UP],
-  ["touchmove", Event.POINTER_MOVE],
-  ["touchstart", Event.POINTER_DOWN],
-  ["touchend", Event.POINTER_UP],
-  ["wheel", Event.WHEEL],
-  ["visibilitychange", Event.VISIBILITY_CHANGE],
+//eventName, Event, preventDefault
+export const EVENT_MAP: [string, Event, boolean][] = [
+  ["keydown", Event.KEY_DOWN, true],
+  ["keyup", Event.KEY_UP, true],
+  ["contextmenu", Event.RIGHT_CLICK, true],
+  ["mousemove", Event.POINTER_MOVE, true],
+  ["mousedown", Event.POINTER_DOWN, true],
+  ["mouseup", Event.POINTER_UP, true],
+  ["touchmove", Event.POINTER_MOVE, true],
+  ["touchstart", Event.POINTER_DOWN, true],
+  ["touchend", Event.POINTER_UP, true],
+  ["wheel", Event.WHEEL, false],
+  ["visibilitychange", Event.VISIBILITY_CHANGE, false],
 ];

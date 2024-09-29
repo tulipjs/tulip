@@ -66,8 +66,9 @@ export const application = ({
 
     document.body.appendChild(application.canvas);
 
-    for (const [nativeEvent, customEvent] of EVENT_MAP)
+    for (const [nativeEvent, customEvent, preventDefault] of EVENT_MAP)
       window.addEventListener(nativeEvent, (event: KeyboardEvent) => {
+        if (preventDefault) event.preventDefault();
         global.events.$emit(customEvent, event);
       });
 
