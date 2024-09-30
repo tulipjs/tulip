@@ -8,7 +8,7 @@ import {
 } from "../types";
 import { APPLICATION_DEFAULT_PROPS, EVENT_MAP } from "../consts";
 import { global } from "../global";
-import { initViteTulipPlugin } from "@tu/vite-tulip-plugin";
+import { initViteTulipPlugin } from "@tulib/vite-tulip-plugin";
 import { Event } from "../enums";
 import { text } from "../components";
 import { window as appWindow } from "./window";

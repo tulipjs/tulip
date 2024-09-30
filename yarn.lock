@@ -1578,10 +1578,10 @@
   resolved "https://registry.yarnpkg.com/@tsd/typescript/-/typescript-5.6.2.tgz#748d037c73a280acb81b5cd6b72781511bb1b324"
   integrity sha512-sk87KQtOkhxXHN8I3VQM8sZQBNO++T0dP5FVZ5dPKeHaCeA0lbis1673RsTpCeuE2wkdwDbkYocSjcKrpqBUrA==
 
-"@tu/vite-tulip-plugin@npm:@jsr/tu__vite-tulip-plugin@1.0.15":
+"@tulib/vite-tulip-plugin@1.0.15":
   version "1.0.15"
-  resolved "https://npm.jsr.io/~/11/@jsr/tu__vite-tulip-plugin/1.0.15.tgz#7EC71614D8CE6BCE41B07F97AD15352AE1F2D5CA"
-  integrity sha512-aQQWPfppyhhS/fX0KEcyYTPfUBhLuXCVPTbe59DqgMC8rjlAPZ6DqVIEbMEyXmuaEBBpxDIub8h7lx1Z92xWrg==
+  resolved "https://registry.yarnpkg.com/@tulib/vite-tulip-plugin/-/vite-tulip-plugin-1.0.15.tgz#26ce0a93d63c19d43be163040347e450f7879c8b"
+  integrity sha512-nL6fSpfdczLpCFRev7vWx8OQHYNjbmfDV+DLhkeyla5sYxVp5v3d6rsNhXA5qWKXRvzXD+jIpOHp5GWWl/26gg==
   dependencies:
     picocolors "1.0.1"
     vite "5.4.6"
