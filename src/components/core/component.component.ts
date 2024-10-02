@@ -8,7 +8,7 @@ import {
   ApplicationMutable,
 } from "../../types";
 import { getRandomNumber, getValueMutableFunction } from "../../utils";
-import { sound } from "../sub/sound.sub-component";
+import { sound } from "../sub";
 import { global } from "../../global";
 
 export const component = <Props = {}, Mutable = {}, Data = {}>(
