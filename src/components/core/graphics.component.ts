@@ -94,7 +94,7 @@ export const graphics = <Props = {}, Mutable = {}, Data = {}>(
     $width = width;
     $height = height;
 
-    $graphics.clear();
+    if (!$graphics.destroyed) $graphics.clear();
     $graphics
       .poly([0, 0, width, 0, width, height, 0, height])
       .fill({ color: 0xffffff });
