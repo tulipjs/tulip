@@ -1421,10 +1421,10 @@
   dependencies:
     "@sinonjs/commons" "^3.0.0"
 
-"@tsd/typescript@5.6.2":
-  version "5.6.2"
-  resolved "https://registry.yarnpkg.com/@tsd/typescript/-/typescript-5.6.2.tgz#748d037c73a280acb81b5cd6b72781511bb1b324"
-  integrity sha512-sk87KQtOkhxXHN8I3VQM8sZQBNO++T0dP5FVZ5dPKeHaCeA0lbis1673RsTpCeuE2wkdwDbkYocSjcKrpqBUrA==
+"@tsd/typescript@5.6.3":
+  version "5.6.3"
+  resolved "https://registry.yarnpkg.com/@tsd/typescript/-/typescript-5.6.3.tgz#995c054ff99d1b5e22f8e7d07d6087a56c58702d"
+  integrity sha512-Jm9tsyjxuyDxGvIlifCQMiTjL20Zv/9mfxLLuJBrlEq5v9Z5qtMB0qXp6BSbq9B2YYP9IBbaMnZ+GYSgDYh5Vw==
 
 "@tulib/vite-tulip-plugin@1.0.15":
   version "1.0.15"
