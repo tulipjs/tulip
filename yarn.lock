@@ -2840,10 +2840,10 @@ pirates@^4.0.4:
   resolved "https://registry.yarnpkg.com/pirates/-/pirates-4.0.6.tgz#3018ae32ecfcff6c29ba2267cbf21166ac1f36b9"
   integrity sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==
 
-pixi.js@8.5.2:
-  version "8.5.2"
-  resolved "https://registry.yarnpkg.com/pixi.js/-/pixi.js-8.5.2.tgz#ee85016b4530c8dd3264dd9fe1440f6987ef73f9"
-  integrity sha512-TOt9g8ifOj4R9DN9ST1M8t2nvnuhr5oWL5YW9ywFLbnOVgFMDcEz+Xek5Mo8Xr64D+QU3qre3IFgreBlsHxTNw==
+pixi.js@8.6.3:
+  version "8.6.3"
+  resolved "https://registry.yarnpkg.com/pixi.js/-/pixi.js-8.6.3.tgz#56c4fb263a0e6a4f4f8c77de70ff8fdbdd547f34"
+  integrity sha512-yQcDd8UYdeUsk6TnzY2PFFtDeRMqQQX+MEUNX7iqshIRLW2BmpT9E4nw/y2MXWMZozQs/FfRNkaBPE6SsO1HBw==
   dependencies:
     "@pixi/colord" "^2.9.6"
     "@types/css-font-loading-module" "^0.0.12"
