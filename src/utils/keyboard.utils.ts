@@ -1,11 +1,7 @@
-import { isMobile } from "./os.utils";
-
-const getInputElement = (): HTMLInputElement =>
+export const getInputElement = (): HTMLInputElement =>
   document.getElementsByTagName("input")[0] || document.createElement("input");
 
 export const openKeyboard = () => {
-  if (!isMobile()) return;
-
   const target = getInputElement();
   target.style.position = "absolute";
   target.style.left = "-20px";
@@ -18,8 +14,6 @@ export const openKeyboard = () => {
 };
 
 export const closeKeyboard = () => {
-  if (!isMobile()) return;
-
   const target = getInputElement();
   target.blur();
   target.value = "";
