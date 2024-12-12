@@ -19,6 +19,7 @@ import {
   closeKeyboard,
   combineAccentAndChar,
   getAccentCode,
+  getInputElement,
   isNotNullish,
   openKeyboard,
 } from "../../utils";
@@ -285,13 +286,7 @@ export const inputTextSprite: ContainerComponent<
     shiftKey,
   }: KeyboardEvent) => {
     if (key === "Tab") return;
-    if ((metaKey || ctrlKey) && key.toLowerCase() === "v") {
-      // @ts-ignore
-      await navigator.permissions.query({ name: "clipboard-read" });
-      const text = await navigator.clipboard.readText();
-      setText(`${$text}${text}`);
-      return;
-    }
+    if ((metaKey || ctrlKey) && key.toLowerCase() === "v") return;
 
     const accentCode = getAccentCode(code, shiftKey);
     if (accentCode) {
@@ -368,12 +363,21 @@ export const inputTextSprite: ContainerComponent<
     $startCursorBlink();
   };
 
+  const onPaste = (event: ClipboardEvent) => {
+    const clipboardData = event.clipboardData;
+    const pastedText = clipboardData.getData("text");
+
+    setText(`${$text}${pastedText}`);
+  };
+
   let removeOnKeyDown: () => void;
   let removeOnKeyUp: () => void;
 
   $container.on(DisplayObjectEvent.CONTEXT_ENTER, () => {
     removeOnKeyDown = global.events.on(Event.KEY_DOWN, onKeyDown, $textSprite);
     removeOnKeyUp = global.events.on(Event.KEY_UP, onKeyUp, $textSprite);
+
+    getInputElement().addEventListener("paste", onPaste);
 
     //Move cursor to end
     $cursorIndex = $text.length;
@@ -393,6 +397,8 @@ export const inputTextSprite: ContainerComponent<
 
     removeOnKeyDown();
     removeOnKeyUp();
+
+    getInputElement().removeEventListener("paste", onPaste);
 
     $placeHolderTextSprite.setVisible($text.length === 0);
 
