@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js";
 import { global } from "./global";
 import { GlobalSpriteSheetsType, SpriteSheetsLoadProps } from "../types";
+import { SHEET_FILE_NAME_REGEX } from "../consts";
 
 export const spriteSheets = (): GlobalSpriteSheetsType => {
   let spriteSheetMap: Record<string, PIXI.Spritesheet> = {};
@@ -10,7 +11,10 @@ export const spriteSheets = (): GlobalSpriteSheetsType => {
       fetch(spriteSheet)
         .then((data) => data.json())
         .then(async (data) => {
-          const imagePath = `${spriteSheet.split("/").reverse().slice(1).reverse().join("/")}/${data.meta.image}`;
+          const imagePath = spriteSheet.replace(
+            SHEET_FILE_NAME_REGEX,
+            data.meta.image,
+          );
 
           await global.textures.load({ textures: [imagePath] });
           const $spriteSheet = new PIXI.Spritesheet(
