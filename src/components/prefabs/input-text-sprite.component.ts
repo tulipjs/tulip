@@ -367,7 +367,8 @@ export const inputTextSprite: ContainerComponent<
     const clipboardData = event.clipboardData;
     const pastedText = clipboardData.getData("text");
 
-    const text = $text.slice(0, $cursorIndex) + pastedText + $text.slice($cursorIndex);
+    const text =
+      $text.slice(0, $cursorIndex) + pastedText + $text.slice($cursorIndex);
     setText(text);
     $cursorIndex += pastedText.length;
   };
