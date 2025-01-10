@@ -367,7 +367,9 @@ export const inputTextSprite: ContainerComponent<
     const clipboardData = event.clipboardData;
     const pastedText = clipboardData.getData("text");
 
-    setText(`${$text}${pastedText}`);
+    const text = $text.slice(0, $cursorIndex) + pastedText + $text.slice($cursorIndex);
+    setText(text);
+    $cursorIndex += pastedText.length;
   };
 
   let removeOnKeyDown: () => void;
