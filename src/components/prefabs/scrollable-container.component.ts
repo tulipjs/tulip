@@ -267,7 +267,8 @@ export const scrollableContainer: ContainerComponent<
     });
 
     const moveScrollFunction = (increment: number = 1) => {
-      if (!scrollContainer.getVisible()) return;
+      if (!scrollContainer.getVisible() || !scrollSelector?.getVisible())
+        return;
 
       const $size = $content.getBounds()[sizeStr] - size[sizeStr];
       $content[pivotFuncStr]((value) => {
