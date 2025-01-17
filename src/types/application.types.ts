@@ -22,6 +22,8 @@ export type ApplicationProps = {
   resize?: boolean;
   width?: number;
   height?: number;
+
+  appendCanvasFunc?: (canvas: HTMLCanvasElement) => void;
 };
 
 export type ApplicationMutable = {
@@ -41,6 +43,8 @@ export type ApplicationMutable = {
   itResizes: () => boolean;
 
   getSize: () => Size;
+
+  getCanvas: () => HTMLCanvasElement;
 
   $getApplication: () => PIXI.Application;
 

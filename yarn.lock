@@ -2840,10 +2840,10 @@ pirates@^4.0.4:
   resolved "https://registry.yarnpkg.com/pirates/-/pirates-4.0.6.tgz#3018ae32ecfcff6c29ba2267cbf21166ac1f36b9"
   integrity sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==
 
-pixi.js@8.5.2:
-  version "8.5.2"
-  resolved "https://registry.yarnpkg.com/pixi.js/-/pixi.js-8.5.2.tgz#ee85016b4530c8dd3264dd9fe1440f6987ef73f9"
-  integrity sha512-TOt9g8ifOj4R9DN9ST1M8t2nvnuhr5oWL5YW9ywFLbnOVgFMDcEz+Xek5Mo8Xr64D+QU3qre3IFgreBlsHxTNw==
+pixi.js@8.6.4:
+  version "8.6.4"
+  resolved "https://registry.yarnpkg.com/pixi.js/-/pixi.js-8.6.4.tgz#a8b305c9dfc64fde03601381ccf7e44b067f1a8e"
+  integrity sha512-hPJpxh3GRjU/wnDPlGZ9WqndJpDpQuaGnRpbAci3r7loX9Zw0zKFm1fph278YFNPfywPA15vjd512OQqYKq5dA==
   dependencies:
     "@pixi/colord" "^2.9.6"
     "@types/css-font-loading-module" "^0.0.12"
@@ -2876,10 +2876,10 @@ postcss@^8.4.43:
     picocolors "^1.1.0"
     source-map-js "^1.2.1"
 
-prettier@3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.4.1.tgz#e211d451d6452db0a291672ca9154bc8c2579f7b"
-  integrity sha512-G+YdqtITVZmOJje6QkXQWzl3fSfMxFwm1tjTyo9exhkmWSqC4Yhd1+lug++IlR2mvRVAxEDDWYkQdeSztajqgg==
+prettier@3.4.2:
+  version "3.4.2"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.4.2.tgz#a5ce1fb522a588bf2b78ca44c6e6fe5aa5a2b13f"
+  integrity sha512-e9MewbtFo+Fevyuxn/4rrcDAaq0IYxPGLvObpQjiZBMAzB9IGmzlnG9RZy3FFas+eBMu2vA0CszMeduow5dIuQ==
 
 pretty-format@^29.0.0, pretty-format@^29.7.0:
   version "29.7.0"
