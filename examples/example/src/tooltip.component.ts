@@ -4,7 +4,7 @@ import {
   DisplayObjectEvent,
   EventMode,
   nineSliceSprite,
-} from "@tu/tulip";
+} from "@tulib/tulip";
 
 export const tooltipComponent: ContainerComponent = () => {
   const $container = container();
