@@ -2,7 +2,7 @@ import { container, ContainerComponent } from "@tu/tulip";
 import { dataComponent } from "data.component";
 // import { testComponent } from "test.component";
 // import { textsComponent } from "texts.component";
-// import { inputsComponent } from "inputs.component";
+import { inputsComponent } from "inputs.component";
 // import { playerComponent } from "player.component";
 // import { dragComponent } from "drag.component";
 
@@ -14,7 +14,7 @@ export const appComponent: ContainerComponent<Props, Mutable> = () => {
 
   // $container.add(textsComponent());
   // $container.add(playerComponent());
-  // $container.add(inputsComponent());
+  $container.add(inputsComponent());
   // $container.add(dragComponent());
 
   const a = dataComponent({ test: "Abc12312311333" });

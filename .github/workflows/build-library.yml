@@ -22,3 +22,6 @@ jobs:
 
       - name: run tests
         run: yarn test
+
+      - name: Publish package
+        run: npx jsr publish --allow-dirty --dry-run

@@ -1,7 +1,7 @@
-import { application, global } from "@tu/tulip";
-import { appComponent } from "app.component";
+import { application, global } from "@tulib/tulip";
 import { GlobalData } from "types";
 import { tooltipComponent } from "tooltip.component";
+import { testComponent } from "test.component";
 
 const app = application({
   backgroundColor: 0x030303,
@@ -49,5 +49,5 @@ app.load(async () => {
   });
   global.tooltip.setComponent((tooltip) => tooltipComponent({ tooltip }));
 
-  app.add(appComponent());
+  app.add(testComponent());
 });

@@ -11,7 +11,7 @@ import { events } from "./events";
 import { sounds } from "./sounds";
 import { Assets } from "pixi.js";
 import { context } from "./context";
-import { spriteSheets } from "./spriteSheets";
+import { spriteSheets } from "./sprite-sheets";
 import { textures } from "./textures";
 import { window } from "./window";
 import { cursor } from "./cursor";

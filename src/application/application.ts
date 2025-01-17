@@ -27,6 +27,7 @@ export const application = ({
   resize = APPLICATION_DEFAULT_PROPS.resize,
   width,
   height,
+  appendCanvasFunc = (canvas) => document.body.appendChild(canvas),
 }: ApplicationProps = APPLICATION_DEFAULT_PROPS): ApplicationMutable => {
   const application = new PIXI.Application();
   const $window = appWindow();
@@ -64,7 +65,7 @@ export const application = ({
 
     //### DOCUMENT #####################################################################################################//
 
-    document.body.appendChild(application.canvas);
+    appendCanvasFunc(application.canvas);
 
     for (const [nativeEvent, customEvent, preventDefault] of EVENT_MAP)
       window.addEventListener(nativeEvent, (event: KeyboardEvent) => {
@@ -229,6 +230,8 @@ export const application = ({
     isSafeArea,
     itResizes,
     getSize,
+
+    getCanvas: () => application.canvas,
 
     $getApplication: () => application,
 
