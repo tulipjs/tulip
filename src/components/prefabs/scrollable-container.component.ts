@@ -7,15 +7,9 @@ import {
   ScrollableMutable,
   ScrollableProps,
 } from "../../types";
-import { container, graphics } from "../core";
-import {
-  Cursor,
-  DisplayObjectEvent,
-  Event,
-  EventMode,
-  GraphicType,
-} from "../../enums";
-import { global } from "../../global";
+import {container, graphics} from "../core";
+import {Cursor, DisplayObjectEvent, Event, EventMode, GraphicType,} from "../../enums";
+import {global} from "../../global";
 
 export const scrollableContainer: ContainerComponent<
   ScrollableProps,
@@ -45,7 +39,11 @@ export const scrollableContainer: ContainerComponent<
   });
   $maskContainer.setMask(mask);
 
-  const $content = container();
+  const $content = container(
+      {
+        eventMode: EventMode.STATIC,
+      }
+  );
   $maskContainer.add($content);
 
   let moveScrollX: (increment: number) => void | null;
@@ -156,33 +154,53 @@ export const scrollableContainer: ContainerComponent<
           tint: 0x00ff00,
         }),
     );
-    let isScrollSelectorSelected = false;
+
+    let isDragging = false;
+    let draggingSource = null; // Tracks the origin of the drag ("scrollSelector" or "content")
     let previous = 0;
 
-    scrollSelector.on(DisplayObjectEvent.POINTER_DOWN, () => {
+    function scrollPointerDown(source) {
       if (!isScrollable()) return;
-      isScrollSelectorSelected = true;
+      isDragging = true;
+      draggingSource = source;
       previous = global.cursor.getPosition()[isX ? "x" : "y"];
       global.cursor.setCursor(Cursor.GRABBING);
-    });
-    scrollSelector.on(DisplayObjectEvent.POINTER_UP, () => {
-      if (!isScrollable()) return;
-      isScrollSelectorSelected = false;
+    }
+
+    function scrollPointerUp(source) {
+      if (!isScrollable() || draggingSource !== source) return;
+      isDragging = false;
+      draggingSource = null;
       global.cursor.setCursor(Cursor.DEFAULT);
-    });
-    scrollSelector.on(DisplayObjectEvent.POINTER_UP_OUTSIDE, () => {
-      if (!isScrollable()) return;
-      isScrollSelectorSelected = false;
+    }
+
+    function scrollPointerUpOutside(source) {
+      if (!isScrollable() || draggingSource !== source) return;
+      isDragging = false;
+      draggingSource = null;
       global.cursor.setCursor(Cursor.DEFAULT);
-    });
-    scrollSelector.on(DisplayObjectEvent.GLOBAL_POINTER_MOVE, () => {
-      if (!isScrollSelectorSelected) return;
+    }
+
+    function scrollGlobalPointerMove(source, reversed = false) {
+      if (!isDragging || draggingSource !== source) return; 
       global.cursor.setCursor(Cursor.GRABBING);
       const current = global.cursor.getPosition()[isX ? "x" : "y"];
-      const increment = previous - current;
+      const increment = reversed ? current - previous : previous - current;
       previous = current;
       moveScrollSelector(increment);
-    });
+    }
+
+
+    scrollSelector.on(DisplayObjectEvent.POINTER_DOWN, () => scrollPointerDown("scrollSelector"));
+    scrollSelector.on(DisplayObjectEvent.POINTER_UP, () => scrollPointerUp("scrollSelector"));
+    scrollSelector.on(DisplayObjectEvent.POINTER_UP_OUTSIDE, () => scrollPointerUpOutside("scrollSelector"));
+    scrollSelector.on(DisplayObjectEvent.GLOBAL_POINTER_MOVE, () => scrollGlobalPointerMove("scrollSelector"));
+
+    $content.on(DisplayObjectEvent.POINTER_DOWN, () => scrollPointerDown("content"));
+    $content.on(DisplayObjectEvent.POINTER_UP, () => scrollPointerUp("content"));
+    $content.on(DisplayObjectEvent.POINTER_UP_OUTSIDE, () => scrollPointerUpOutside("content"));
+    $content.on(DisplayObjectEvent.GLOBAL_POINTER_MOVE, () => scrollGlobalPointerMove("content", true));
+
     const calculateScrollBounds = () => {
       const maxSize = Math.max(
         initialScrollButton.getBounds()[reversedSizeStr],
@@ -319,9 +337,24 @@ export const scrollableContainer: ContainerComponent<
   horizontalScroll && renderScroll("x");
 
   const add = (...displayObjects: DisplayObjectMutable<DisplayObject>[]) => {
-    $content.add(...displayObjects);
+    const children = $content.getChildren()
+    const childrenLength = children.length
+    if (childrenLength > 0) {
+        const bg = children[childrenLength - 1]
+        $content.remove(bg)
+    }
 
     const contentBounds = $content.getBounds();
+
+    const newBg = graphics({
+        type: GraphicType.RECTANGLE,
+        width: $container.getBounds().width,
+        height: contentBounds.height,
+        tint: 0x000000,
+        zIndex: -1
+    });
+
+    $content.add(...displayObjects, newBg);
 
     isXScrollable = contentBounds.width > size.width;
     isYScrollable = contentBounds.height > size.height;
