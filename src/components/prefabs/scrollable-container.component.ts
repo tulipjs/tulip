@@ -211,12 +211,12 @@ export const scrollableContainer: ContainerComponent<
       }
     }
 
-    const components = [
+    const dragComponents = [
       { target: scrollSelector, name: "scrollSelector" },
       ...(draggableContent ? [{ target: $content, name: "content" }] : []),
     ];
 
-    components.forEach(({ target, name }) => {
+    dragComponents.forEach(({ target, name }) => {
       target.on(DisplayObjectEvent.POINTER_DOWN, () => scrollPointerDown(name));
       target.on(DisplayObjectEvent.POINTER_UP, () => scrollPointerUp(name));
       target.on(DisplayObjectEvent.POINTER_UP_OUTSIDE, () =>
