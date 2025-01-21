@@ -5,7 +5,7 @@ import { dataComponent } from "data.component";
 // import {inputsComponent} from "inputs.component";
 // import { playerComponent } from "player.component";
 // import { dragComponent } from "drag.component";
-import {scrollablesComponent} from "./scrollables.component";
+import { scrollablesComponent } from "./scrollables.component";
 
 type Props = {};
 type Mutable = {};

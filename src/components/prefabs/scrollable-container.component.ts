@@ -7,9 +7,15 @@ import {
   ScrollableMutable,
   ScrollableProps,
 } from "../../types";
-import {container, graphics} from "../core";
-import {Cursor, DisplayObjectEvent, Event, EventMode, GraphicType,} from "../../enums";
-import {global} from "../../global";
+import { container, graphics } from "../core";
+import {
+  Cursor,
+  DisplayObjectEvent,
+  Event,
+  EventMode,
+  GraphicType,
+} from "../../enums";
+import { global } from "../../global";
 
 export const scrollableContainer: ContainerComponent<
   ScrollableProps,
@@ -19,6 +25,7 @@ export const scrollableContainer: ContainerComponent<
   verticalScroll,
   horizontalScroll,
   jump,
+  draggableContent,
   components = [],
   ...$props
 }) => {
@@ -39,11 +46,9 @@ export const scrollableContainer: ContainerComponent<
   });
   $maskContainer.setMask(mask);
 
-  const $content = container(
-      {
-        eventMode: EventMode.STATIC,
-      }
-  );
+  const $content = container({
+    eventMode: EventMode.STATIC,
+  });
   $maskContainer.add($content);
 
   let moveScrollX: (increment: number) => void | null;
@@ -181,25 +186,47 @@ export const scrollableContainer: ContainerComponent<
       global.cursor.setCursor(Cursor.DEFAULT);
     }
 
-    function scrollGlobalPointerMove(source, reversed = false) {
-      if (!isDragging || draggingSource !== source) return; 
+    function scrollGlobalPointerMove(source: "content" | "scrollSelector") {
+      if (!isDragging || draggingSource !== source) return;
       global.cursor.setCursor(Cursor.GRABBING);
       const current = global.cursor.getPosition()[isX ? "x" : "y"];
-      const increment = reversed ? current - previous : previous - current;
+      const delta = previous - current;
       previous = current;
-      moveScrollSelector(increment);
+
+      if (source === "content") {
+        moveFromDraggingContent(delta);
+      } else if (source === "scrollSelector") {
+        moveFromScrollSelector(delta);
+      }
     }
 
+    scrollSelector.on(DisplayObjectEvent.POINTER_DOWN, () =>
+      scrollPointerDown("scrollSelector"),
+    );
+    scrollSelector.on(DisplayObjectEvent.POINTER_UP, () =>
+      scrollPointerUp("scrollSelector"),
+    );
+    scrollSelector.on(DisplayObjectEvent.POINTER_UP_OUTSIDE, () =>
+      scrollPointerUpOutside("scrollSelector"),
+    );
+    scrollSelector.on(DisplayObjectEvent.GLOBAL_POINTER_MOVE, () =>
+      scrollGlobalPointerMove("scrollSelector"),
+    );
 
-    scrollSelector.on(DisplayObjectEvent.POINTER_DOWN, () => scrollPointerDown("scrollSelector"));
-    scrollSelector.on(DisplayObjectEvent.POINTER_UP, () => scrollPointerUp("scrollSelector"));
-    scrollSelector.on(DisplayObjectEvent.POINTER_UP_OUTSIDE, () => scrollPointerUpOutside("scrollSelector"));
-    scrollSelector.on(DisplayObjectEvent.GLOBAL_POINTER_MOVE, () => scrollGlobalPointerMove("scrollSelector"));
-
-    $content.on(DisplayObjectEvent.POINTER_DOWN, () => scrollPointerDown("content"));
-    $content.on(DisplayObjectEvent.POINTER_UP, () => scrollPointerUp("content"));
-    $content.on(DisplayObjectEvent.POINTER_UP_OUTSIDE, () => scrollPointerUpOutside("content"));
-    $content.on(DisplayObjectEvent.GLOBAL_POINTER_MOVE, () => scrollGlobalPointerMove("content", true));
+    if (draggableContent) {
+      $content.on(DisplayObjectEvent.POINTER_DOWN, () =>
+        scrollPointerDown("content"),
+      );
+      $content.on(DisplayObjectEvent.POINTER_UP, () =>
+        scrollPointerUp("content"),
+      );
+      $content.on(DisplayObjectEvent.POINTER_UP_OUTSIDE, () =>
+        scrollPointerUpOutside("content"),
+      );
+      $content.on(DisplayObjectEvent.GLOBAL_POINTER_MOVE, () =>
+        scrollGlobalPointerMove("content"),
+      );
+    }
 
     const calculateScrollBounds = () => {
       const maxSize = Math.max(
@@ -229,7 +256,8 @@ export const scrollableContainer: ContainerComponent<
         isX ? maxSize : size[sizeStr] - middleScrollSelectorPosition,
       );
     };
-    const moveScrollSelector = (increment: number = 1) => {
+
+    const moveFromScrollSelector = (increment: number = 1) => {
       if (!isScrollable()) return;
       const scrollAreaSize =
         size[sizeStr] -
@@ -258,6 +286,28 @@ export const scrollableContainer: ContainerComponent<
 
       calculateScrollBounds();
     };
+
+    function moveFromDraggingContent(delta: number) {
+      const contentHeight = $content.getBounds()[sizeStr] - size[sizeStr];
+      const scrollAreaSize =
+        size[sizeStr] -
+        initialScrollButton.getBounds()[sizeStr] -
+        finalScrollButton.getBounds()[sizeStr];
+      const selectorValue = scrollSelector.getBounds()[sizeStr];
+
+      const maxContentOffset = contentHeight;
+      const currentOffset = $content.getPivot()[posStr];
+      const newOffset = Math.max(
+        0,
+        Math.min(maxContentOffset, currentOffset + delta),
+      );
+
+      $content[pivotFuncStr](newOffset);
+
+      const percentage = -newOffset / contentHeight;
+      const newSelectorOffset = percentage * (scrollAreaSize - selectorValue);
+      scrollSelector[pivotFuncStr](newSelectorOffset);
+    }
 
     const initialScrollSelector = graphics({
       type: GraphicType.RECTANGLE,
@@ -337,21 +387,21 @@ export const scrollableContainer: ContainerComponent<
   horizontalScroll && renderScroll("x");
 
   const add = (...displayObjects: DisplayObjectMutable<DisplayObject>[]) => {
-    const children = $content.getChildren()
-    const childrenLength = children.length
+    const children = $content.getChildren();
+    const childrenLength = children.length;
     if (childrenLength > 0) {
-        const bg = children[childrenLength - 1]
-        $content.remove(bg)
+      const bg = children[childrenLength - 1];
+      $content.remove(bg);
     }
 
     const contentBounds = $content.getBounds();
 
     const newBg = graphics({
-        type: GraphicType.RECTANGLE,
-        width: $container.getBounds().width,
-        height: contentBounds.height,
-        tint: 0x000000,
-        zIndex: -1
+      type: GraphicType.RECTANGLE,
+      width: $container.getBounds().width,
+      height: contentBounds.height,
+      tint: 0x000000,
+      zIndex: -1,
     });
 
     $content.add(...displayObjects, newBg);
