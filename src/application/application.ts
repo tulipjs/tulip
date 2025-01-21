@@ -25,6 +25,7 @@ export const application = ({
   enableWebGPU = APPLICATION_DEFAULT_PROPS.enableWebGPU,
   safeArea = APPLICATION_DEFAULT_PROPS.safeArea,
   resize = APPLICATION_DEFAULT_PROPS.resize,
+  contextMenuDisabled = APPLICATION_DEFAULT_PROPS.contextMenuDisabled,
   width,
   height,
   appendCanvasFunc = (canvas) => document.body.appendChild(canvas),
@@ -69,7 +70,10 @@ export const application = ({
 
     for (const [nativeEvent, customEvent, preventDefault] of EVENT_MAP)
       window.addEventListener(nativeEvent, (event: KeyboardEvent) => {
-        if (preventDefault) event.preventDefault();
+        if (
+          nativeEvent === "contextmenu" ? contextMenuDisabled : preventDefault
+        )
+          event.preventDefault();
         global.events.$emit(customEvent, event);
       });
 

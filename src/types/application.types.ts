@@ -23,6 +23,8 @@ export type ApplicationProps = {
   width?: number;
   height?: number;
 
+  contextMenuDisabled?: boolean;
+
   appendCanvasFunc?: (canvas: HTMLCanvasElement) => void;
 };
 
