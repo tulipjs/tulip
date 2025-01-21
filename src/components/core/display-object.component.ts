@@ -35,6 +35,7 @@ export const displayObject = <
   let $isMounted = false;
   let $isRemoved = false;
   let $isPointerInside = false;
+  let $isHoverInside = false;
   let $tooltip = tooltip;
 
   const $$setLabel = $component.setLabel;
@@ -233,12 +234,6 @@ export const displayObject = <
   };
   const getTooltip = () => $tooltip;
 
-  const isCursorInside = () => {
-    const cursorPoint = global.cursor.getPosition();
-    return $displayObject
-      .getBounds()
-      .containsPoint(cursorPoint.x, cursorPoint.y);
-  };
   const isInStage = () => {
     const application = global.getApplication();
     const father = $component.getFather?.() as ContainerMutable;
@@ -340,6 +335,15 @@ export const displayObject = <
 
   const getWithContext = () => Boolean(withContext);
 
+  const isCursorInside = () => {
+    const cursorPoint = global.cursor.getPosition();
+    return $displayObject
+      .getBounds()
+      .containsPoint(cursorPoint.x, cursorPoint.y);
+  };
+  const isPointerInside = () => $isPointerInside;
+  const isHoverInside = () => $isHoverInside;
+
   const isMounted = () => $isMounted;
 
   const setSortableChildren = (data) => {
@@ -440,6 +444,12 @@ export const displayObject = <
     on(DisplayObjectEvent.UNMOUNT, () => {
       $isMounted = false;
     });
+    on(DisplayObjectEvent.POINTER_OVER, () => {
+      $isHoverInside = true;
+    });
+    on(DisplayObjectEvent.POINTER_OUT, () => {
+      $isHoverInside = false;
+    });
   }
 
   const $mutable = {
@@ -508,8 +518,6 @@ export const displayObject = <
     setTooltip,
     getTooltip,
 
-    //cursor inside
-    isCursorInside,
     //stage
     isInStage,
 
@@ -522,6 +530,10 @@ export const displayObject = <
     blur,
     isFocused,
     getWithContext,
+    //cursor inside
+    isCursorInside,
+    isPointerInside,
+    isHoverInside,
 
     //mount
     isMounted,

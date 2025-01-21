@@ -29,10 +29,21 @@ export const scrollableContainer: ContainerComponent<
   components = [],
   ...$props
 }) => {
-  const $container = container<PartialContainerProps, ScrollableMutable>(
-    $props,
-  );
-  $container.setSortableChildren(true);
+  const $container = container<PartialContainerProps, ScrollableMutable>({
+    ...$props,
+    sortableChildren: true,
+    eventMode: EventMode.STATIC,
+  });
+
+  const $belowDisplay = graphics({
+    type: GraphicType.RECTANGLE,
+    width: size.width,
+    height: size.height,
+    alpha: 0,
+    zIndex: Number.MIN_SAFE_INTEGER,
+    eventMode: EventMode.STATIC,
+  });
+  $container.add($belowDisplay);
 
   const $maskContainer = container({
     zIndex: 10,
@@ -264,11 +275,11 @@ export const scrollableContainer: ContainerComponent<
         return targetValue;
       });
 
-      // Calculate percentage of selector's position to adjust content scrolling
+      // Calculate percentage of selector's position to adjust scrolling
       const percentage =
         scrollSelector.getPivot()[posStr] / (scrollAreaSize - selectorValue);
 
-      // Move content based on the position of the scroll selector
+      // Move $content based on the position of the scroll selector
       const contentHeight = $content.getBounds()[sizeStr] - size[sizeStr];
       $content[pivotFuncStr](-contentHeight * percentage);
 
@@ -407,8 +418,11 @@ export const scrollableContainer: ContainerComponent<
   let removeOnWheel;
   let removeOnPointerUp;
   let removeOnTick;
+
   $container.on(DisplayObjectEvent.ADDED, () => {
     removeOnWheel = global.events.on(Event.WHEEL, (event: WheelEvent) => {
+      if (!$container.isHoverInside()) return;
+
       const deltaX = (event.shiftKey ? event.deltaY : event.deltaX) / jump;
       const deltaY = (event.shiftKey ? 0 : event.deltaY) / jump;
 

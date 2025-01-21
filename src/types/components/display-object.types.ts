@@ -87,7 +87,6 @@ export type PartialDisplayObjectMutable<DisplayObject, Mutable = {}> = {
 
   getMetadata: () => string;
 
-  isCursorInside: () => boolean;
   isInStage: () => boolean;
 
   //context
@@ -95,6 +94,10 @@ export type PartialDisplayObjectMutable<DisplayObject, Mutable = {}> = {
   blur: () => void;
   isFocused: () => boolean;
   getWithContext: () => boolean;
+  //
+  isCursorInside: () => boolean;
+  isPointerInside: () => boolean;
+  isHoverInside: () => boolean;
 
   //mount
   isMounted: () => boolean;
