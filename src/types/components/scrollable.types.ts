@@ -6,6 +6,7 @@ export type PartialScrollableProps = {
   jump: number;
   horizontalScroll?: boolean;
   verticalScroll?: boolean;
+  draggableContent?: boolean;
   components?: ContainerMutable[];
 };
 
