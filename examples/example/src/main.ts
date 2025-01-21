@@ -17,6 +17,7 @@ const app = application({
   resize: false,
   width: 200,
   height: 100,
+  contextMenuDisabled: false,
 });
 
 app.load(async () => {

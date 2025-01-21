@@ -11,4 +11,5 @@ export const APPLICATION_DEFAULT_PROPS: ApplicationProps = {
   enableWebGPU: false,
   safeArea: false,
   resize: true,
+  contextMenuDisabled: true,
 };
