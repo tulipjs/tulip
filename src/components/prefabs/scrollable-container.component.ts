@@ -186,7 +186,7 @@ export const scrollableContainer: ContainerComponent<
       global.cursor.setCursor(Cursor.DEFAULT);
     }
 
-    function scrollGlobalPointerMove(source: "content" | "scrollSelector") {
+    function scrollGlobalPointerMove(source) {
       if (!isDragging || draggingSource !== source) return;
       global.cursor.setCursor(Cursor.GRABBING);
       const current = global.cursor.getPosition()[isX ? "x" : "y"];
@@ -200,33 +200,21 @@ export const scrollableContainer: ContainerComponent<
       }
     }
 
-    scrollSelector.on(DisplayObjectEvent.POINTER_DOWN, () =>
-      scrollPointerDown("scrollSelector"),
-    );
-    scrollSelector.on(DisplayObjectEvent.POINTER_UP, () =>
-      scrollPointerUp("scrollSelector"),
-    );
-    scrollSelector.on(DisplayObjectEvent.POINTER_UP_OUTSIDE, () =>
-      scrollPointerUpOutside("scrollSelector"),
-    );
-    scrollSelector.on(DisplayObjectEvent.GLOBAL_POINTER_MOVE, () =>
-      scrollGlobalPointerMove("scrollSelector"),
-    );
+    const components = [
+      { target: scrollSelector, name: "scrollSelector" },
+      ...(draggableContent ? [{ target: $content, name: "content" }] : []),
+    ];
 
-    if (draggableContent) {
-      $content.on(DisplayObjectEvent.POINTER_DOWN, () =>
-        scrollPointerDown("content"),
+    components.forEach(({ target, name }) => {
+      target.on(DisplayObjectEvent.POINTER_DOWN, () => scrollPointerDown(name));
+      target.on(DisplayObjectEvent.POINTER_UP, () => scrollPointerUp(name));
+      target.on(DisplayObjectEvent.POINTER_UP_OUTSIDE, () =>
+        scrollPointerUpOutside(name),
       );
-      $content.on(DisplayObjectEvent.POINTER_UP, () =>
-        scrollPointerUp("content"),
+      target.on(DisplayObjectEvent.GLOBAL_POINTER_MOVE, () =>
+        scrollGlobalPointerMove(name),
       );
-      $content.on(DisplayObjectEvent.POINTER_UP_OUTSIDE, () =>
-        scrollPointerUpOutside("content"),
-      );
-      $content.on(DisplayObjectEvent.GLOBAL_POINTER_MOVE, () =>
-        scrollGlobalPointerMove("content"),
-      );
-    }
+    });
 
     const calculateScrollBounds = () => {
       const maxSize = Math.max(
