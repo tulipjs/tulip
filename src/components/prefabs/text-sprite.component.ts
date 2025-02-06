@@ -44,7 +44,7 @@ export const textSprite: ContainerComponent<
     lineHeight = 0,
     allowLinks = false,
     parseMarkdown = false,
-    linkColor = 0x0000ff,
+    linkColor = 0x0000ee,
   } = $containerComponent.getProps();
 
   let $currentText = text;
