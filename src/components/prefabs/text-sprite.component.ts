@@ -9,6 +9,8 @@ import * as PIXI from "pixi.js";
 import { Size, Texture } from "pixi.js";
 import { isNotNullish, normalizeAccents, processAccents } from "../../utils";
 import {
+  Cursor,
+  DisplayObjectEvent,
   EventMode,
   GraphicType,
   HorizontalAlign,
@@ -40,6 +42,9 @@ export const textSprite: ContainerComponent<
     lineJump = true,
     accentYCorrection = 0,
     lineHeight = 0,
+    allowLinks = false,
+    parseMarkdown = false,
+    linkColor = 0x0000ff,
   } = $containerComponent.getProps();
 
   let $currentText = text;
@@ -82,7 +87,7 @@ export const textSprite: ContainerComponent<
   });
 
   const $textContainerComponent = container({
-    eventMode: EventMode.NONE,
+    eventMode: EventMode.AUTO,
   });
   $containerComponent.add($background, $textContainerComponent);
 
@@ -127,25 +132,47 @@ export const textSprite: ContainerComponent<
     $background.setAlpha($backgroundAlpha);
   };
 
+  const processLinks = (text: string) => {
+    const segments: Array<{ text: string; url?: string }> = [];
+    let remainingText = text;
+
+    const linkRegex = parseMarkdown
+      ? /\[([^\]]+)\]\(([^)]+)\)/g
+      : /(https?:\/\/[^\s]+)/g;
+
+    let match;
+    let lastIndex = 0;
+    while ((match = linkRegex.exec(remainingText)) !== null) {
+      if (match.index > lastIndex) {
+        segments.push({
+          text: remainingText.slice(lastIndex, match.index),
+        });
+      }
+
+      const [fullMatch, linkText, linkUrl] = match;
+      const url = parseMarkdown ? linkUrl : fullMatch;
+      const text = parseMarkdown ? linkText : fullMatch;
+
+      segments.push({
+        text,
+        url,
+      });
+
+      lastIndex = match.index + fullMatch.length;
+    }
+
+    if (lastIndex < remainingText.length) {
+      segments.push({
+        text: remainingText.slice(lastIndex),
+      });
+    }
+
+    return segments;
+  };
+
   const renderText = () => {
     $textContainer.removeChildren();
     $textContainer.tint = $currentColor;
-
-    const wordList = $currentText.split(" ");
-
-    const $getWord = (word: string): [any[], number] => {
-      let width = 0;
-      const list = [];
-      const processedWord = processAccents(word);
-      for (const { character, accent } of processedWord) {
-        const char = $getChar(character, accent);
-        if (!char) continue;
-        const [charSprite] = char;
-        width += charSprite.width + 1;
-        list.push(char);
-      }
-      return [list, width - 1];
-    };
 
     const $getChar = (character: string, accent?: string) => {
       const list = [];
@@ -167,40 +194,91 @@ export const textSprite: ContainerComponent<
       return list;
     };
 
+    const $getWord = (word: string): [any[], number] => {
+      let width = 0;
+      const list = [];
+      const processedWord = processAccents(word);
+      for (const { character, accent } of processedWord) {
+        const char = $getChar(character, accent);
+        if (!char) continue;
+        const [charSprite] = char;
+        width += charSprite.width + 1;
+        list.push(char);
+      }
+      return [list, width - 1];
+    };
+
     let nextPositionX = 0;
     let nextPositionY = 0;
     const hasSize = isNotNullish($size?.width) && isNotNullish($size?.height);
 
-    for (let wordIndex = 0; wordIndex < wordList.length; wordIndex++) {
-      const [charList, width] = $getWord(wordList[wordIndex]);
+    const $render = ({ text, url }: { text: string; url?: string }) => {
+      const wordList = text.split(" ");
 
-      if (lineJump && hasSize && nextPositionX + width > $size.width) {
-        nextPositionY += charList[0][0].height + lineHeight;
-        nextPositionX = 0;
-      }
-      for (const [char, accent] of charList) {
-        $textContainer.addChild(char);
-        char.position.x += nextPositionX;
-        char.position.y = nextPositionY;
+      let initialX = nextPositionX;
+      let initialY = nextPositionY;
 
-        if (accent) {
-          $textContainer.addChild(accent);
-          accent.position.x = char.position.x;
-          accent.pivot.x = accent.width / 2 - char.width / 2;
-          accent.position.y = nextPositionY + accentYCorrection;
+      for (let wordIndex = 0; wordIndex < wordList.length; wordIndex++) {
+        const [charList, width] = $getWord(wordList[wordIndex]);
+
+        if (lineJump && hasSize && nextPositionX + width > $size.width) {
+          nextPositionY += charList[0][0].height + lineHeight;
+          nextPositionX = 0;
         }
+        for (const [char, accent] of charList) {
+          $textContainer.addChild(char);
+          char.position.x += nextPositionX;
+          char.position.y = nextPositionY;
 
-        nextPositionX += char.width + 1;
+          if (allowLinks && url) {
+            char.tint = linkColor;
+          }
+
+          if (accent) {
+            $textContainer.addChild(accent);
+            accent.position.x = char.position.x;
+            accent.pivot.x = accent.width / 2 - char.width / 2;
+            accent.position.y = nextPositionY + accentYCorrection;
+          }
+
+          nextPositionX += char.width + 1;
+        }
+        if (wordList.length - 1 === wordIndex) break;
+        //add spaces
+        const char = $getChar(" ");
+        if (!char) continue;
+        const [spaceChar] = char;
+        $textContainer.addChild(spaceChar);
+        spaceChar.position.x += nextPositionX;
+        nextPositionX += spaceChar.width;
       }
-      if (wordList.length - 1 === wordIndex) break;
-      //add spaces
-      const char = $getChar(" ");
-      if (!char) continue;
-      const [spaceChar] = char;
-      $textContainer.addChild(spaceChar);
-      spaceChar.position.x += nextPositionX;
-      nextPositionX += spaceChar.width;
-    }
+
+      if (allowLinks && url) {
+        const $rectangle = graphics({
+          type: GraphicType.RECTANGLE,
+          width: nextPositionX - initialX,
+          height: initialCharHeight,
+          tint: 0x00ff00,
+          alpha: 0,
+          eventMode: EventMode.STATIC,
+          cursor: Cursor.POINTER,
+          position: {
+            x: initialX,
+            y: initialY,
+          },
+        });
+        $rectangle.on(DisplayObjectEvent.POINTER_DOWN, () =>
+          window.open(url, "_blank"),
+        );
+
+        $textContainer.addChild(
+          $rectangle.getDisplayObject({ __preventWarning: true }),
+        );
+      }
+    };
+
+    const segments = processLinks($currentText);
+    segments.forEach((segment) => $render(segment));
 
     if (isNotNullish($size.width)) {
       let targetXPosition = 0;
