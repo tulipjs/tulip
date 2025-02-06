@@ -39,6 +39,9 @@ export type PartialTextSpriteMutable<Mutable = {}> = {
   setColor: (color: number) => void;
   getColor: () => number;
 
+  setLinkColor: (color: number) => void;
+  getLinkColor: () => number;
+
   setSize: (size: Size) => void;
   getSize: () => Size;
 
