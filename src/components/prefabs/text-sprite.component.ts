@@ -49,6 +49,7 @@ export const textSprite: ContainerComponent<
 
   let $currentText = text;
   let $currentColor = color;
+  let $currentLinkColor = linkColor;
   let $size = {
     width: size?.width,
     height: size?.height,
@@ -172,7 +173,6 @@ export const textSprite: ContainerComponent<
 
   const renderText = () => {
     $textContainer.removeChildren();
-    $textContainer.tint = $currentColor;
 
     const $getChar = (character: string, accent?: string) => {
       const list = [];
@@ -230,9 +230,7 @@ export const textSprite: ContainerComponent<
           char.position.x += nextPositionX;
           char.position.y = nextPositionY;
 
-          if (allowLinks && url) {
-            char.tint = linkColor;
-          }
+          char.tint = allowLinks && url ? $currentLinkColor : $currentColor;
 
           if (accent) {
             $textContainer.addChild(accent);
@@ -258,7 +256,6 @@ export const textSprite: ContainerComponent<
           type: GraphicType.RECTANGLE,
           width: nextPositionX - initialX,
           height: initialCharHeight,
-          tint: 0x00ff00,
           alpha: 0,
           eventMode: EventMode.STATIC,
           cursor: Cursor.POINTER,
@@ -320,6 +317,12 @@ export const textSprite: ContainerComponent<
     renderText();
   };
   const getColor = () => $currentColor;
+
+  const setLinkColor = (color: number) => {
+    if (isNotNullish(color)) $currentLinkColor = color;
+    renderText();
+  };
+  const getLinkColor = () => $currentLinkColor;
 
   const setSize = (size: Size) => {
     $size = size;
@@ -386,6 +389,9 @@ export const textSprite: ContainerComponent<
 
     setColor,
     getColor,
+
+    setLinkColor,
+    getLinkColor,
 
     setSize,
     getSize,
