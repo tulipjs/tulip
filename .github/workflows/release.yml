@@ -29,7 +29,11 @@ jobs:
         with:
           node-version: "20.x"
           registry-url: "https://registry.npmjs.org"
-      - run: yarn install --frozen-lockfile
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - run: yarn install --immutable
 
       - name: run prettier checker
         run: yarn prettier:check
