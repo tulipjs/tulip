@@ -26,6 +26,10 @@ export type PartialTextSpriteProps<Props = {}> = {
   withMask?: boolean;
   lineJump?: boolean;
   lineHeight?: number;
+
+  allowLinks?: boolean;
+  parseMarkdown?: boolean;
+  linkColor?: number;
 } & Props;
 
 export type PartialTextSpriteMutable<Mutable = {}> = {
@@ -34,6 +38,9 @@ export type PartialTextSpriteMutable<Mutable = {}> = {
 
   setColor: (color: number) => void;
   getColor: () => number;
+
+  setLinkColor: (color: number) => void;
+  getLinkColor: () => number;
 
   setSize: (size: Size) => void;
   getSize: () => Size;

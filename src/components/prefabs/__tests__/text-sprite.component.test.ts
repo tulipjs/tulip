@@ -65,14 +65,14 @@ describe("components", () => {
         expect($textSprite.getColor()).toEqual(0xff00ff);
         expect(
           $textSprite.getDisplayObject({ __preventWarning: true }).children[1]
-            .tint,
+            .children[0].tint,
         ).toEqual(0xff00ff);
 
         $textSprite.setColor(0x00ff00);
         expect($textSprite.getColor()).toEqual(0x00ff00);
         expect(
           $textSprite.getDisplayObject({ __preventWarning: true }).children[1]
-            .tint,
+            .children[0].tint,
         ).toEqual(0x00ff00);
       });
 
