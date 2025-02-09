@@ -2148,10 +2148,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tsd/typescript@npm:5.6.3":
-  version: 5.6.3
-  resolution: "@tsd/typescript@npm:5.6.3"
-  checksum: 10c0/8ac3b83f9266b5b1f444c2da8decf7c7d9be073680f5244fb1bb4b65b67a135edd97acc3b05043a83d223113823607041ddb891beedf67681ed347c8ae264b70
+"@tsd/typescript@npm:5.7.3":
+  version: 5.7.3
+  resolution: "@tsd/typescript@npm:5.7.3"
+  checksum: 10c0/8ef3be52f30c6af53e2a239b3d04b92200f55ad654017547855db7943fb17ab1dab3efa7ed1060586b1ce4e4a4d23cec63863d8293b0c1c9c9f9bb2ac707d1b9
   languageName: node
   linkType: hard
 
@@ -2163,7 +2163,7 @@ __metadata:
     "@babel/helper-hoist-variables": "npm:^7.24.7"
     "@babel/preset-env": "npm:7.26.8"
     "@babel/preset-typescript": "npm:7.26.0"
-    "@tsd/typescript": "npm:5.6.3"
+    "@tsd/typescript": "npm:5.7.3"
     "@tulib/vite-tulip-plugin": "npm:1.0.15"
     "@types/howler": "npm:2.2.12"
     "@types/jest": "npm:29.5.14"
