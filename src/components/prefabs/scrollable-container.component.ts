@@ -25,6 +25,7 @@ export const scrollableContainer: ContainerComponent<
   verticalScroll,
   horizontalScroll,
   jump,
+  draggableContent,
   components = [],
   ...$props
 }) => {
@@ -57,7 +58,7 @@ export const scrollableContainer: ContainerComponent<
   $maskContainer.setMask(mask);
 
   const $content = container({
-    // eventMode: EventMode.NONE,
+    eventMode: EventMode.STATIC,
   });
   $maskContainer.add($content);
 
@@ -169,33 +170,63 @@ export const scrollableContainer: ContainerComponent<
           tint: 0x00ff00,
         }),
     );
-    let isScrollSelectorSelected = false;
+
+    let isDragging = false;
+    let draggingSource = null; // Tracks the origin of the drag ("scrollSelector" or "content")
     let previous = 0;
 
-    scrollSelector.on(DisplayObjectEvent.POINTER_DOWN, () => {
+    function scrollPointerDown(source) {
       if (!isScrollable()) return;
-      isScrollSelectorSelected = true;
+      isDragging = true;
+      draggingSource = source;
       previous = global.cursor.getPosition()[isX ? "x" : "y"];
       global.cursor.setCursor(Cursor.GRABBING);
-    });
-    scrollSelector.on(DisplayObjectEvent.POINTER_UP, () => {
-      if (!isScrollable()) return;
-      isScrollSelectorSelected = false;
+    }
+
+    function scrollPointerUp(source) {
+      if (!isScrollable() || draggingSource !== source) return;
+      isDragging = false;
+      draggingSource = null;
       global.cursor.setCursor(Cursor.DEFAULT);
-    });
-    scrollSelector.on(DisplayObjectEvent.POINTER_UP_OUTSIDE, () => {
-      if (!isScrollable()) return;
-      isScrollSelectorSelected = false;
+    }
+
+    function scrollPointerUpOutside(source) {
+      if (!isScrollable() || draggingSource !== source) return;
+      isDragging = false;
+      draggingSource = null;
       global.cursor.setCursor(Cursor.DEFAULT);
-    });
-    scrollSelector.on(DisplayObjectEvent.GLOBAL_POINTER_MOVE, () => {
-      if (!isScrollSelectorSelected) return;
+    }
+
+    function scrollGlobalPointerMove(source) {
+      if (!isDragging || draggingSource !== source) return;
       global.cursor.setCursor(Cursor.GRABBING);
       const current = global.cursor.getPosition()[isX ? "x" : "y"];
-      const increment = previous - current;
+      const delta = previous - current;
       previous = current;
-      moveScrollSelector(increment);
+
+      if (source === "content") {
+        moveFromDraggingContent(delta);
+      } else if (source === "scrollSelector") {
+        moveFromScrollSelector(delta);
+      }
+    }
+
+    const dragComponents = [
+      { target: scrollSelector, name: "scrollSelector" },
+      ...(draggableContent ? [{ target: $content, name: "content" }] : []),
+    ];
+
+    dragComponents.forEach(({ target, name }) => {
+      target.on(DisplayObjectEvent.POINTER_DOWN, () => scrollPointerDown(name));
+      target.on(DisplayObjectEvent.POINTER_UP, () => scrollPointerUp(name));
+      target.on(DisplayObjectEvent.POINTER_UP_OUTSIDE, () =>
+        scrollPointerUpOutside(name),
+      );
+      target.on(DisplayObjectEvent.GLOBAL_POINTER_MOVE, () =>
+        scrollGlobalPointerMove(name),
+      );
     });
+
     const calculateScrollBounds = () => {
       const maxSize = Math.max(
         initialScrollButton.getBounds()[reversedSizeStr],
@@ -224,7 +255,8 @@ export const scrollableContainer: ContainerComponent<
         isX ? maxSize : size[sizeStr] - middleScrollSelectorPosition,
       );
     };
-    const moveScrollSelector = (increment: number = 1) => {
+
+    const moveFromScrollSelector = (increment: number = 1) => {
       if (!isScrollable()) return;
       const scrollAreaSize =
         size[sizeStr] -
@@ -253,6 +285,28 @@ export const scrollableContainer: ContainerComponent<
 
       calculateScrollBounds();
     };
+
+    function moveFromDraggingContent(delta: number) {
+      const contentHeight = $content.getBounds()[sizeStr] - size[sizeStr];
+      const scrollAreaSize =
+        size[sizeStr] -
+        initialScrollButton.getBounds()[sizeStr] -
+        finalScrollButton.getBounds()[sizeStr];
+      const selectorValue = scrollSelector.getBounds()[sizeStr];
+
+      const maxContentOffset = contentHeight;
+      const currentOffset = $content.getPivot()[posStr];
+      const newOffset = Math.max(
+        0,
+        Math.min(maxContentOffset, currentOffset + delta),
+      );
+
+      $content[pivotFuncStr](newOffset);
+
+      const percentage = -newOffset / contentHeight;
+      const newSelectorOffset = percentage * (scrollAreaSize - selectorValue);
+      scrollSelector[pivotFuncStr](newSelectorOffset);
+    }
 
     const initialScrollSelector = graphics({
       type: GraphicType.RECTANGLE,
@@ -332,9 +386,24 @@ export const scrollableContainer: ContainerComponent<
   horizontalScroll && renderScroll("x");
 
   const add = (...displayObjects: DisplayObjectMutable<DisplayObject>[]) => {
-    $content.add(...displayObjects);
+    const children = $content.getChildren();
+    const childrenLength = children.length;
+    if (childrenLength > 0) {
+      const bg = children[childrenLength - 1];
+      $content.remove(bg);
+    }
 
     const contentBounds = $content.getBounds();
+
+    const newBg = graphics({
+      type: GraphicType.RECTANGLE,
+      width: $container.getBounds().width,
+      height: contentBounds.height,
+      tint: 0x000000,
+      zIndex: -1,
+    });
+
+    $content.add(...displayObjects, newBg);
 
     isXScrollable = contentBounds.width > size.width;
     isYScrollable = contentBounds.height > size.height;
