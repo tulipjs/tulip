@@ -217,20 +217,47 @@ export const textSprite: ContainerComponent<
 
       let initialX = nextPositionX;
       let initialY = nextPositionY;
+      let lines: Array<{
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+      }> = [];
+      let currentLineStartX = initialX;
+      let currentLineStartY = initialY;
+      let currentLineHeight = 0;
 
       for (let wordIndex = 0; wordIndex < wordList.length; wordIndex++) {
         const [charList, width] = $getWord(wordList[wordIndex]);
 
         if (lineJump && hasSize && nextPositionX + width > $size.width) {
+          if (nextPositionX > currentLineStartX) {
+            lines.push({
+              x: currentLineStartX,
+              y: currentLineStartY,
+              width: nextPositionX - currentLineStartX,
+              height: currentLineHeight,
+            });
+          }
+
           nextPositionY += charList[0][0].height + lineHeight;
           nextPositionX = 0;
+
+          currentLineStartX = 0;
+          currentLineStartY = nextPositionY;
+          currentLineHeight = charList[0][0].height;
         }
+
         for (const [char, accent] of charList) {
           $textContainer.addChild(char);
           char.position.x += nextPositionX;
           char.position.y = nextPositionY;
 
           char.tint = allowLinks && url ? $currentLinkColor : $currentColor;
+
+          if (char.height > currentLineHeight) {
+            currentLineHeight = char.height;
+          }
 
           if (accent) {
             $textContainer.addChild(accent);
@@ -241,8 +268,9 @@ export const textSprite: ContainerComponent<
 
           nextPositionX += char.width + 1;
         }
+
         if (wordList.length - 1 === wordIndex) break;
-        //add spaces
+        // add spaces
         const char = $getChar(" ");
         if (!char) continue;
         const [spaceChar] = char;
@@ -251,26 +279,36 @@ export const textSprite: ContainerComponent<
         nextPositionX += spaceChar.width;
       }
 
-      if (allowLinks && url) {
-        const $rectangle = graphics({
-          type: GraphicType.RECTANGLE,
-          width: nextPositionX - initialX,
-          height: initialCharHeight,
-          alpha: 0,
-          eventMode: EventMode.STATIC,
-          cursor: Cursor.POINTER,
-          position: {
-            x: initialX,
-            y: initialY,
-          },
+      if (nextPositionX > currentLineStartX) {
+        lines.push({
+          x: currentLineStartX,
+          y: currentLineStartY,
+          width: nextPositionX - currentLineStartX,
+          height: currentLineHeight,
         });
-        $rectangle.on(DisplayObjectEvent.POINTER_DOWN, () =>
-          window.open(url, "_blank"),
-        );
+      }
 
-        $textContainer.addChild(
-          $rectangle.getDisplayObject({ __preventWarning: true }),
-        );
+      if (allowLinks && url) {
+        lines.forEach((line) => {
+          const $rectangle = graphics({
+            type: GraphicType.RECTANGLE,
+            width: line.width,
+            height: line.height,
+            alpha: 0,
+            eventMode: EventMode.STATIC,
+            cursor: Cursor.POINTER,
+            position: {
+              x: line.x,
+              y: line.y,
+            },
+          });
+          $rectangle.on(DisplayObjectEvent.POINTER_DOWN, () =>
+            window.open(url, "_blank"),
+          );
+          $textContainer.addChild(
+            $rectangle.getDisplayObject({ __preventWarning: true }),
+          );
+        });
       }
     };
 
