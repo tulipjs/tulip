@@ -2,9 +2,12 @@ import {
   container,
   ContainerComponent,
   EventMode,
+  graphics,
+  GraphicType,
   scrollableContainer,
   sprite,
   text,
+  textSprite,
 } from "@tu/tulip";
 
 type Props = {
@@ -31,7 +34,7 @@ export const scrollablesComponent: ContainerComponent<Props> = (props) => {
   }
 
   const $tulips2 = [];
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 15; i++) {
     $tulips2.push(
       text({
         text: `🌷 tulip ${i} 🌷 `,
@@ -45,6 +48,22 @@ export const scrollablesComponent: ContainerComponent<Props> = (props) => {
       }),
     );
   }
+
+  $tulips2.push(
+    textSprite({
+      text: "Github [link](https://github.com/tulipjs)",
+      color: 0xffffff,
+      spriteSheet: "fonts/default-font.json",
+      position: {
+        x: 0,
+        y: $tulips2.length * 20,
+      },
+      zIndex: 20,
+      parseMarkdown: true,
+      allowLinks: true,
+      linkColor: 0xeb34a8,
+    }),
+  );
 
   const $scrollable1 = scrollableContainer({
     position: {

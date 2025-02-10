@@ -6,6 +6,7 @@ import { dataComponent } from "data.component";
 // import { playerComponent } from "player.component";
 // import { dragComponent } from "drag.component";
 import { scrollablesComponent } from "./scrollables.component";
+// import { testComponent } from "./test.component";
 
 type Props = {};
 type Mutable = {};
@@ -18,6 +19,7 @@ export const appComponent: ContainerComponent<Props, Mutable> = () => {
   // $container.add(inputsComponent());
   // $container.add(dragComponent());
   $container.add(scrollablesComponent());
+  // $container.add(testComponent());
 
   const a = dataComponent({ test: "Abc12312311333" });
 

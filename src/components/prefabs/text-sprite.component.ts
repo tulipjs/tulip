@@ -302,8 +302,12 @@ export const textSprite: ContainerComponent<
               y: line.y,
             },
           });
-          $rectangle.on(DisplayObjectEvent.POINTER_DOWN, () =>
-            window.open(url, "_blank"),
+          $rectangle.on(
+            DisplayObjectEvent.POINTER_DOWN,
+            (event: PIXI.FederatedPointerEvent) => {
+              event.stopPropagation();
+              window.open(url, "_blank");
+            },
           );
           $textContainer.addChild(
             $rectangle.getDisplayObject({ __preventWarning: true }),
