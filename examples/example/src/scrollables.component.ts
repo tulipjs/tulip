@@ -2,8 +2,6 @@ import {
   container,
   ContainerComponent,
   EventMode,
-  graphics,
-  GraphicType,
   scrollableContainer,
   sprite,
   text,
