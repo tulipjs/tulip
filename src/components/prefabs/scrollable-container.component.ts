@@ -401,6 +401,7 @@ export const scrollableContainer: ContainerComponent<
       height: contentBounds.height,
       tint: 0x000000,
       zIndex: -1,
+      alpha: 0,
     });
 
     $content.add(...displayObjects, newBg);
