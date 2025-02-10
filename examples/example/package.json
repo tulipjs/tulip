@@ -7,10 +7,8 @@
   "type": "module",
   "devDependencies": {
     "@rollup/plugin-alias": "5.1.0",
+    "@tu/tulip": "portal:../../",
     "vite": "5.2.14",
     "vite-tsconfig-paths": "4.3.2"
-  },
-  "dependencies": {
-    "@tulib/tulip": "../../"
   }
 }
