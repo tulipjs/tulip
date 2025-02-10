@@ -353,6 +353,10 @@ export const textSprite: ContainerComponent<
     renderText();
   };
   const getText = () => $currentText;
+  const getParsedText = () =>
+    processLinks($currentText)
+      .map((segment) => segment.text)
+      .join("");
 
   const setColor = (color: number) => {
     if (isNotNullish(color)) $currentColor = color;
@@ -428,6 +432,7 @@ export const textSprite: ContainerComponent<
   return $containerComponent.getComponent(textSprite, {
     setText,
     getText,
+    getParsedText,
 
     setColor,
     getColor,

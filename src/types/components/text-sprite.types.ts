@@ -35,6 +35,7 @@ export type PartialTextSpriteProps<Props = {}> = {
 export type PartialTextSpriteMutable<Mutable = {}> = {
   setText: (text: string) => void;
   getText: () => string;
+  getParsedText: () => string;
 
   setColor: (color: number) => void;
   getColor: () => number;
