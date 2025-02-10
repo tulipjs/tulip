@@ -373,6 +373,7 @@ export const textSprite: ContainerComponent<
   const setSize = (size: Size) => {
     $size = size;
     renderBackground();
+    renderText();
   };
   const getSize = () => $size;
 
