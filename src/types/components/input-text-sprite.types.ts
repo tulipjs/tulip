@@ -44,6 +44,9 @@ export type PartialInputTextSpriteMutable = {
 
   setSelectionPadding: (padding: number) => void;
   getSelectionPadding: () => number;
+
+  setCursorPosition: (pos: number) => void;
+  getCursorPosition: () => number;
 } & Omit<
   PartialTextSpriteMutable,
   "setText" | "getText" | "$getTextBounds" | "$getCharacter"

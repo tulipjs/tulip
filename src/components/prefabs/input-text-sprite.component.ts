@@ -307,32 +307,39 @@ export const inputTextSprite: ContainerComponent<
   const makeActions = (key: string) => {
     if (!$editable || $text.length === 0) return;
 
-    if (key === "Backspace" && $cursorIndex > 0) {
-      $text = $text.slice(0, $cursorIndex - 1) + $text.slice($cursorIndex);
+    const currentPos = getCursorPosition();
+
+    if (key === "Backspace" && currentPos > 0) {
+      $text = $text.slice(0, currentPos - 1) + $text.slice(currentPos);
       $textSprite.setText($getCurrentText());
-
-      $cursorIndex--;
-      calcCursorPosition();
+      setCursorPosition(currentPos - 1);
       return;
     }
 
-    if (key === "Delete" && $cursorIndex < $text.length) {
-      $text = $text.slice(0, $cursorIndex) + $text.slice($cursorIndex + 1);
+    if (key === "Delete" && currentPos < $text.length) {
+      $text = $text.slice(0, currentPos) + $text.slice(currentPos + 1);
       $textSprite.setText($getCurrentText());
-
-      calcCursorPosition();
+      setCursorPosition(currentPos);
       return;
     }
 
-    if (key === "ArrowLeft" && $cursorIndex > 0) {
-      $cursorIndex--;
-      calcCursorPosition();
+    if (key === "ArrowLeft" && currentPos > 0) {
+      setCursorPosition(currentPos - 1);
       return;
     }
 
-    if (key === "ArrowRight" && $cursorIndex < $text.length) {
-      $cursorIndex++;
-      calcCursorPosition();
+    if (key === "ArrowRight" && currentPos < $text.length) {
+      setCursorPosition(currentPos + 1);
+      return;
+    }
+
+    if (key === "Home") {
+      setCursorPosition(0);
+      return;
+    }
+
+    if (key === "End") {
+      setCursorPosition($text.length);
       return;
     }
   };
@@ -371,6 +378,16 @@ export const inputTextSprite: ContainerComponent<
       $text.slice(0, $cursorIndex) + pastedText + $text.slice($cursorIndex);
     setText(text);
     $cursorIndex += pastedText.length;
+  };
+
+  const setCursorPosition = (pos: number) => {
+    pos = Math.max(0, Math.min(pos, $text.length));
+    $cursorIndex = pos;
+    calcCursorPosition();
+  };
+
+  const getCursorPosition = () => {
+    return $cursorIndex;
   };
 
   let removeOnKeyDown: () => void;
@@ -472,6 +489,8 @@ export const inputTextSprite: ContainerComponent<
     getText,
     setText,
     clear,
+    setCursorPosition,
+    getCursorPosition,
 
     setColor: $textSprite.setTint,
     getColor: $textSprite.getColor,
