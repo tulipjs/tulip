@@ -2,6 +2,7 @@ import {
   ContainerComponent,
   InputTextSpriteMutable,
   InputTextSpriteProps,
+  KeyComboEvent,
   PartialInputTextSpriteProps,
 } from "../../types";
 import { container, graphics } from "../core";
@@ -278,15 +279,111 @@ export const inputTextSprite: ContainerComponent<
   };
 
   let currentAccentCode;
+  const getKeyCombination = ({
+    key,
+    altKey,
+    ctrlKey,
+    shiftKey,
+    metaKey,
+  }: KeyComboEvent): string => {
+    const keys: string[] = [];
+    if (altKey) keys.push("Alt");
+    if (ctrlKey) keys.push("Ctrl");
+    if (shiftKey) keys.push("Shift");
+    if (metaKey) keys.push("Meta");
+    keys.push(key);
+    return keys.join("+");
+  };
+
+  const keyCombinationHandlers: Record<string, () => void> = {
+    "Alt+ArrowLeft": () => {
+      if (!$editable || $text.length === 0) return;
+      const currentPos = getCursorPosition();
+      if (currentPos === 0) return;
+
+      let newPos = currentPos - 1;
+      while (newPos > 0 && $text[newPos] === " ") {
+        newPos--;
+      }
+      while (newPos > 0 && $text[newPos - 1] !== " ") {
+        newPos--;
+      }
+      setCursorPosition(newPos);
+    },
+
+    "Alt+ArrowRight": () => {
+      if (!$editable || $text.length === 0) return;
+      const currentPos = getCursorPosition();
+      if (currentPos === $text.length) return;
+
+      let newPos = currentPos;
+      while (newPos < $text.length && $text[newPos] === " ") {
+        newPos++;
+      }
+      while (newPos < $text.length && $text[newPos] !== " ") {
+        newPos++;
+      }
+      setCursorPosition(newPos);
+    },
+    "Alt+Backspace": () => {
+      if (!$editable || $text.length === 0) return;
+      const currentPos = getCursorPosition();
+      if (currentPos === 0) return;
+
+      let start = currentPos - 1;
+      while (start > 0 && $text[start] === " ") {
+        start--;
+      }
+      while (start > 0 && $text[start - 1] !== " ") {
+        start--;
+      }
+      $text = $text.slice(0, start) + $text.slice(currentPos);
+      $textSprite.setText($getCurrentText());
+      setCursorPosition(start);
+    },
+
+    "Alt+Delete": () => {
+      if (!$editable || $text.length === 0) return;
+      const currentPos = getCursorPosition();
+      if (currentPos === $text.length) return;
+
+      let end = currentPos;
+      while (end < $text.length && $text[end] === " ") {
+        end++;
+      }
+      while (end < $text.length && $text[end] !== " ") {
+        end++;
+      }
+      $text = $text.slice(0, currentPos) + $text.slice(end);
+      $textSprite.setText($getCurrentText());
+      setCursorPosition(currentPos);
+    },
+  };
+
   const onKeyDown = async ({
     key,
     metaKey,
     ctrlKey,
     code,
+    altKey,
     shiftKey,
   }: KeyboardEvent) => {
-    if (key === "Tab") return;
-    if ((metaKey || ctrlKey) && key.toLowerCase() === "v") return;
+    let mutableKey = key;
+
+    const combination = getKeyCombination({
+      key,
+      altKey,
+      ctrlKey,
+      shiftKey,
+      metaKey,
+    });
+    if (keyCombinationHandlers[combination]) {
+      keyCombinationHandlers[combination]();
+      return;
+    }
+
+    if (mutableKey === "Tab") return;
+    if ((metaKey || ctrlKey) && mutableKey.toLowerCase() === "v") return;
 
     const accentCode = getAccentCode(code, shiftKey);
     if (accentCode) {
@@ -294,14 +391,14 @@ export const inputTextSprite: ContainerComponent<
       return;
     }
     if (currentAccentCode) {
-      const combinedChar = combineAccentAndChar(currentAccentCode, key);
-      if (combinedChar) key = combinedChar;
+      const combinedChar = combineAccentAndChar(currentAccentCode, mutableKey);
+      if (combinedChar) mutableKey = combinedChar;
       currentAccentCode = "";
     }
 
     $stopCursorBlink();
-    writeText(key);
-    makeActions(key);
+    writeText(mutableKey);
+    makeActions(mutableKey);
   };
 
   const makeActions = (key: string) => {
