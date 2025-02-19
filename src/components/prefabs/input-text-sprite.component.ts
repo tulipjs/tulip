@@ -14,6 +14,7 @@ import {
   EventMode,
   GraphicType,
   HorizontalAlign,
+  OS,
   VerticalAlign,
 } from "../../enums";
 import {
@@ -21,6 +22,7 @@ import {
   combineAccentAndChar,
   getAccentCode,
   getInputElement,
+  getOS,
   isNotNullish,
   openKeyboard,
 } from "../../utils";
@@ -279,6 +281,10 @@ export const inputTextSprite: ContainerComponent<
   };
 
   let currentAccentCode;
+
+  const isMacOS = getOS() === OS.DARWIN;
+  const osNavigationModifier = isMacOS ? "Alt" : "Ctrl";
+
   const getKeyCombination = ({
     key,
     altKey,
@@ -296,7 +302,7 @@ export const inputTextSprite: ContainerComponent<
   };
 
   const keyCombinationHandlers: Record<string, () => void> = {
-    "Alt+ArrowLeft": () => {
+    [`${osNavigationModifier}+ArrowLeft`]: () => {
       if (!$editable || $text.length === 0) return;
       const currentPos = getCursorPosition();
       if (currentPos === 0) return;
@@ -311,7 +317,7 @@ export const inputTextSprite: ContainerComponent<
       setCursorPosition(newPos);
     },
 
-    "Alt+ArrowRight": () => {
+    [`${osNavigationModifier}+ArrowRight`]: () => {
       if (!$editable || $text.length === 0) return;
       const currentPos = getCursorPosition();
       if (currentPos === $text.length) return;
@@ -325,7 +331,7 @@ export const inputTextSprite: ContainerComponent<
       }
       setCursorPosition(newPos);
     },
-    "Alt+Backspace": () => {
+    [`${osNavigationModifier}+Backspace`]: () => {
       if (!$editable || $text.length === 0) return;
       const currentPos = getCursorPosition();
       if (currentPos === 0) return;
@@ -342,7 +348,7 @@ export const inputTextSprite: ContainerComponent<
       setCursorPosition(start);
     },
 
-    "Alt+Delete": () => {
+    [`${osNavigationModifier}+Delete`]: () => {
       if (!$editable || $text.length === 0) return;
       const currentPos = getCursorPosition();
       if (currentPos === $text.length) return;
