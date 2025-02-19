@@ -15,6 +15,7 @@ export * from "./textures.types";
 export * from "./cursor.types";
 export * from "./envs.types";
 export * from "./tooltip.types";
+export * from "./keyboard.types";
 
 export * from "./components";
 export * from "./shapes";
